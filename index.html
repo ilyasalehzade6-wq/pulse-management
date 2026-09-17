@@ -4,865 +4,394 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="theme-color" content="#0D0D0F">
-<title>پرداخت امن — پالس مدیریت</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>خرید لایسنس — پالس مدیریت</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  
   :root {
-    --bg-dark: #0A0A0F;
-    --bg-card: #15151E;
-    --bg-card-2: #1C1C28;
-    --gold: #F1C40F;
-    --gold-dark: #D4AC0D;
-    --green: #2ECC71;
-    --green-dark: #27AE60;
-    --red: #E74C3C;
-    --blue: #3498DB;
-    --text: #FFFFFF;
-    --text-dim: #A0A0B0;
+    --bg-dark: #0A0A0F; --bg-card: #15151E; --bg-card-2: #1C1C28;
+    --gold: #F1C40F; --gold-dark: #D4AC0D;
+    --green: #2ECC71; --green-dark: #27AE60;
+    --red: #E74C3C; --blue: #3498DB;
+    --text: #FFFFFF; --text-dim: #A0A0B0;
     --border: rgba(241, 196, 15, 0.15);
   }
-  
   body {
     font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
     background: var(--bg-dark);
-    background-image: 
-      radial-gradient(circle at 20% 0%, rgba(241,196,15,0.08) 0%, transparent 40%),
-      radial-gradient(circle at 80% 100%, rgba(52,152,219,0.06) 0%, transparent 40%);
-    min-height: 100vh;
-    color: var(--text);
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow-x: hidden;
-    line-height: 1.6;
-  }
-  
-  /* ===== کانتینر اصلی ===== */
-  .container {
-    max-width: 480px;
-    width: 100%;
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  /* ===== هدر ===== */
-  .header {
-    text-align: center;
-    margin-bottom: 24px;
-  }
-  
-  .logo {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 12px;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-    box-shadow: 0 8px 24px rgba(241, 196, 15, 0.25);
-    animation: pulse 2s ease-in-out infinite;
-  }
-  
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-  }
-  
-  .brand-title {
-    font-size: 24px;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--gold) 0%, #FFD700 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 4px;
-  }
-  
-  .brand-subtitle {
-    font-size: 13px;
-    color: var(--text-dim);
-    letter-spacing: 0.5px;
-  }
-  
-  /* ===== کارت اصلی ===== */
-  .card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 24px 20px;
-    box-shadow: 
-      0 20px 60px rgba(0,0,0,0.4),
-      inset 0 1px 0 rgba(255,255,255,0.05);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(241,196,15,0.03) 0%, transparent 70%);
-    animation: rotate 20s linear infinite;
-    pointer-events: none;
-  }
-  
-  @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  
-  /* ===== بخش مبلغ ===== */
-  .amount-section {
-    background: linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(39, 174, 96, 0.08) 100%);
-    border: 1px solid rgba(46, 204, 113, 0.3);
-    border-radius: 16px;
-    padding: 18px;
-    margin-bottom: 20px;
-    text-align: center;
-    position: relative;
-    animation: glow 3s ease-in-out infinite;
-  }
-  
-  @keyframes glow {
-    0%, 100% { box-shadow: 0 0 0 rgba(46, 204, 113, 0); }
-    50% { box-shadow: 0 0 30px rgba(46, 204, 113, 0.15); }
-  }
-  
-  .amount-label {
-    font-size: 12px;
-    color: var(--text-dim);
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-  
-  .amount-value {
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--green);
-    font-family: 'Courier New', monospace;
-    letter-spacing: 1px;
-    direction: ltr;
-    text-shadow: 0 0 20px rgba(46, 204, 113, 0.4);
-  }
-  
-  .amount-toman {
-    font-size: 14px;
-    color: var(--text-dim);
-    margin-right: 6px;
-  }
-  
-  /* ===== تب‌ها ===== */
-  .tabs {
-    display: flex;
-    gap: 8px;
-    background: var(--bg-card-2);
-    padding: 6px;
-    border-radius: 14px;
-    margin-bottom: 18px;
-  }
-  
-  .tab {
-    flex: 1;
-    padding: 10px;
-    border-radius: 10px;
-    background: transparent;
-    border: none;
-    color: var(--text-dim);
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-  
-  .tab.active {
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-    color: #000;
-    box-shadow: 0 4px 12px rgba(241, 196, 15, 0.3);
-  }
-  
-  .tab-panel {
-    display: none;
-    animation: fadeIn 0.3s;
-  }
-  
-  .tab-panel.active {
-    display: block;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  /* ===== کارت بانکی ===== */
-  .bank-card {
-    background: linear-gradient(135deg, #B8930D 0%, #F1C40F 50%, #D4AC0D 100%);
-    border-radius: 20px;
-    padding: 22px;
-    margin-bottom: 16px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 
-      0 12px 32px rgba(241, 196, 15, 0.2),
-      inset 0 1px 0 rgba(255,255,255,0.3);
-    direction: ltr;
-  }
-  
-  .bank-card::before {
-    content: '';
-    position: absolute;
-    top: -60%;
-    left: -40%;
-    width: 180%;
-    height: 180%;
-    background: 
-      radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%),
-      repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.03) 20px, rgba(255,255,255,0.03) 40px);
-    animation: shine 4s linear infinite;
-  }
-  
-  @keyframes shine {
-    from { transform: translateX(-100%); }
-    to { transform: translateX(100%); }
-  }
-  
-  .bank-card-inner {
-    position: relative;
-    z-index: 1;
-  }
-  
-  .bank-chip {
-    width: 42px;
-    height: 32px;
-    background: linear-gradient(135deg, #C9A227 0%, #F5D547 50%, #C9A227 100%);
-    border-radius: 6px;
-    margin-bottom: 20px;
-    position: relative;
-  }
-  
-  .bank-chip::before,
-  .bank-chip::after {
-    content: '';
-    position: absolute;
-    background: rgba(0,0,0,0.15);
-    border-radius: 2px;
-  }
-  
-  .bank-chip::before {
-    top: 50%;
-    left: 10%;
-    right: 10%;
-    height: 2px;
-    transform: translateY(-50%);
-  }
-  
-  .bank-chip::after {
-    top: 30%;
-    bottom: 30%;
-    left: 50%;
-    width: 2px;
-    transform: translateX(-50%);
-  }
-  
-  .bank-number {
-    font-family: 'Courier New', monospace;
-    font-size: 20px;
-    font-weight: 700;
-    color: #1a1a1a;
-    letter-spacing: 2px;
-    margin-bottom: 16px;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.3);
-    user-select: all;
-    -webkit-user-select: all;
-  }
-  
-  .bank-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
-  
-  .bank-holder {
-    font-size: 13px;
-    color: #1a1a1a;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-  
-  .bank-holder-label {
-    font-size: 9px;
-    color: rgba(0,0,0,0.5);
-    margin-bottom: 2px;
-    letter-spacing: 1px;
-  }
-  
-  .bank-logo {
-    font-size: 18px;
-    font-weight: 900;
-    color: rgba(0,0,0,0.6);
-    letter-spacing: 2px;
-  }
-  
-  /* ===== دکمه‌ها ===== */
-  .btn {
-    width: 100%;
-    padding: 16px;
-    border: none;
-    border-radius: 14px;
-    font-family: inherit;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 10px;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .btn:active {
-    transform: scale(0.97);
-  }
-  
-  .btn-primary {
-    background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
-    color: #fff;
-    box-shadow: 0 8px 20px rgba(46, 204, 113, 0.3);
-  }
-  
-  .btn-primary.copied {
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-    color: #000;
-  }
-  
-  .btn-secondary {
-    background: linear-gradient(135deg, #0088CC 0%, #006699 100%);
-    color: #fff;
-    box-shadow: 0 8px 20px rgba(0, 136, 204, 0.3);
-  }
-  
-  .btn-outline {
-    background: transparent;
-    color: var(--text);
-    border: 1.5px solid var(--border);
-  }
-  
-  .btn-outline:hover {
-    border-color: var(--gold);
-    color: var(--gold);
-  }
-  
-  /* ===== شبا ===== */
-  .sheba-box {
-    background: var(--bg-card-2);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 14px;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  
-  .sheba-info {
-    flex: 1;
-    min-width: 0;
-  }
-  
-  .sheba-label {
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-bottom: 4px;
-  }
-  
-  .sheba-value {
-    font-family: 'Courier New', monospace;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--gold);
-    letter-spacing: 0.5px;
-    direction: ltr;
-    text-align: left;
-    word-break: break-all;
-    user-select: all;
-    -webkit-user-select: all;
-  }
-  
-  .copy-icon-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    border: none;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-    color: #000;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-    transition: all 0.2s;
-  }
-  
-  .copy-icon-btn:active {
-    transform: scale(0.9);
-  }
-  
-  .copy-icon-btn.copied {
-    background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
-    color: #fff;
-  }
-  
-  /* ===== مراحل ===== */
-  .steps {
-    background: linear-gradient(135deg, rgba(52, 152, 219, 0.12) 0%, rgba(41, 128, 185, 0.05) 100%);
-    border: 1px solid rgba(52, 152, 219, 0.2);
-    border-radius: 16px;
-    padding: 18px;
-    margin-top: 16px;
-  }
-  
-  .steps-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--blue);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .step {
-    display: flex;
-    gap: 12px;
-    padding: 8px 0;
-    align-items: flex-start;
-  }
-  
-  .step-num {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--blue) 0%, #2980B9 100%);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  
-  .step-text {
-    font-size: 12.5px;
-    color: #d0e4ff;
-    line-height: 1.7;
-  }
-  
-  /* ===== هشدار ===== */
-  .alert {
-    background: linear-gradient(135deg, rgba(231, 76, 60, 0.12) 0%, rgba(192, 57, 43, 0.05) 100%);
-    border: 1px solid rgba(231, 76, 60, 0.3);
-    border-radius: 14px;
-    padding: 14px;
-    margin-top: 16px;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-  }
-  
-  .alert-icon {
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-  
-  .alert-text {
-    font-size: 12px;
-    color: #ffb3a7;
-    line-height: 1.7;
-  }
-  
-  .alert-text strong {
-    color: var(--red);
-  }
-  
-  /* ===== فوتر ===== */
-  .footer {
-    text-align: center;
-    margin-top: 20px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-    font-size: 11px;
-    color: var(--text-dim);
-  }
-  
-  .footer-brand {
-    color: var(--gold);
-    font-weight: 700;
-  }
-  
-  /* ===== Toast ===== */
-  .toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
-    color: #fff;
-    padding: 14px 24px;
-    border-radius: 14px;
-    font-weight: 700;
-    font-size: 14px;
-    box-shadow: 0 12px 32px rgba(46, 204, 113, 0.4);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .toast.show {
-    transform: translateX(-50%) translateY(0);
-  }
-  
-  /* ===== حالت لودینگ ===== */
-  .loading-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--gold), var(--green));
-    width: 0;
-    animation: loading 1.5s ease-in-out;
-    z-index: 999;
-  }
-  
-  @keyframes loading {
-    0% { width: 0; }
-    50% { width: 70%; }
-    100% { width: 100%; opacity: 0; }
-  }
-  
-  /* ===== Responsive ===== */
+    background-image: radial-gradient(circle at 20% 0%, rgba(241,196,15,0.08) 0%, transparent 40%), radial-gradient(circle at 80% 100%, rgba(52,152,219,0.06) 0%, transparent 40%);
+    min-height: 100vh; color: var(--text); padding: 16px;
+    display: flex; align-items: flex-start; justify-content: center;
+    overflow-x: hidden; line-height: 1.6;
+  }
+  .container { max-width: 520px; width: 100%; animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); padding-bottom: 30px; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .header { text-align: center; margin-bottom: 20px; }
+  .logo { width: 56px; height: 56px; margin: 0 auto 10px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 8px 24px rgba(241, 196, 15, 0.25); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .brand-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, var(--gold) 0%, #FFD700 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 3px; }
+  .brand-subtitle { font-size: 12px; color: var(--text-dim); }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 20px 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); margin-bottom: 14px; }
+  .section-title { font-size: 14px; font-weight: 700; color: var(--gold); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+
+  /* HWID */
+  .hwid-box { background: var(--bg-card-2); border: 1px solid var(--border); border-radius: 14px; padding: 12px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .hwid-info { flex: 1; min-width: 0; }
+  .hwid-label { font-size: 11px; color: var(--text-dim); margin-bottom: 4px; }
+  .hwid-value { font-family: 'Courier New', monospace; font-size: 13px; font-weight: 700; color: var(--gold); direction: ltr; text-align: left; word-break: break-all; }
+  .copy-btn-small { width: 38px; height: 38px; border-radius: 10px; border: none; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: #000; cursor: pointer; font-size: 16px; flex-shrink: 0; transition: all 0.2s; }
+  .copy-btn-small:active { transform: scale(0.9); }
+
+  /* Plans */
+  .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .plan { background: var(--bg-card-2); border: 2px solid #2A2A35; border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.3s; position: relative; }
+  .plan.active { border-color: var(--gold); background: linear-gradient(135deg, rgba(241,196,15,0.12) 0%, rgba(241,196,15,0.05) 100%); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(241,196,15,0.15); }
+  .plan.recommended::before { content: '⭐'; position: absolute; top: -8px; right: 10px; font-size: 14px; }
+  .plan-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .plan-discount { font-size: 10px; color: var(--green); font-weight: 700; margin-bottom: 6px; }
+  .plan-price { font-size: 15px; font-weight: 800; color: var(--gold); margin-bottom: 2px; }
+  .plan-unit { font-size: 9px; color: var(--text-dim); }
+  .plan:last-child { grid-column: 1 / -1; }
+
+  /* Payment */
+  #payment-section { display: none; }
+  #payment-section.show { display: block; animation: fadeIn 0.4s; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .amount-section { background: linear-gradient(135deg, rgba(46,204,113,0.15) 0%, rgba(39,174,96,0.08) 100%); border: 1px solid rgba(46,204,113,0.3); border-radius: 16px; padding: 16px; margin-bottom: 14px; text-align: center; animation: glow 3s ease-in-out infinite; }
+  @keyframes glow { 0%, 100% { box-shadow: 0 0 0 rgba(46,204,113,0); } 50% { box-shadow: 0 0 25px rgba(46,204,113,0.15); } }
+  .amount-label { font-size: 11px; color: var(--text-dim); margin-bottom: 4px; }
+  .amount-value { font-size: 24px; font-weight: 800; color: var(--green); font-family: 'Courier New', monospace; direction: ltr; }
+  .tabs { display: flex; gap: 6px; background: var(--bg-card-2); padding: 5px; border-radius: 12px; margin-bottom: 14px; }
+  .tab { flex: 1; padding: 9px; border-radius: 8px; background: transparent; border: none; color: var(--text-dim); font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+  .tab.active { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: #000; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; animation: fadeIn 0.3s; }
+  .bank-card { background: linear-gradient(135deg, #B8930D 0%, #F1C40F 50%, #D4AC0D 100%); border-radius: 16px; padding: 18px; margin-bottom: 12px; position: relative; overflow: hidden; direction: ltr; }
+  .bank-card::before { content: ''; position: absolute; top: -60%; left: -40%; width: 180%; height: 180%; background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%); }
+  .bank-card-inner { position: relative; z-index: 1; }
+  .bank-chip { width: 36px; height: 28px; background: linear-gradient(135deg, #C9A227 0%, #F5D547 100%); border-radius: 5px; margin-bottom: 14px; }
+  .bank-number { font-family: 'Courier New', monospace; font-size: 17px; font-weight: 700; color: #1a1a1a; letter-spacing: 1.5px; margin-bottom: 12px; user-select: all; }
+  .bank-holder-label { font-size: 8px; color: rgba(0,0,0,0.5); letter-spacing: 1px; }
+  .bank-holder { font-size: 12px; color: #1a1a1a; font-weight: 700; }
+  .sheba-box { background: var(--bg-card-2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .sheba-value { font-family: 'Courier New', monospace; font-size: 11px; font-weight: 700; color: var(--gold); direction: ltr; word-break: break-all; }
+  .sheba-label { font-size: 10px; color: var(--text-dim); margin-bottom: 3px; }
+  .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 8px; }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%); color: #fff; box-shadow: 0 6px 16px rgba(46,204,113,0.3); }
+  .btn-primary.copied { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: #000; }
+  .btn-secondary { background: linear-gradient(135deg, #0088CC 0%, #006699 100%); color: #fff; box-shadow: 0 6px 16px rgba(0,136,204,0.3); }
+  .steps { background: linear-gradient(135deg, rgba(52,152,219,0.12) 0%, rgba(41,128,185,0.05) 100%); border: 1px solid rgba(52,152,219,0.2); border-radius: 14px; padding: 14px; margin-top: 12px; }
+  .steps-title { font-size: 13px; font-weight: 700; color: var(--blue); margin-bottom: 10px; }
+  .step { display: flex; gap: 10px; padding: 5px 0; align-items: flex-start; }
+  .step-num { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, var(--blue) 0%, #2980B9 100%); color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-text { font-size: 12px; color: #d0e4ff; line-height: 1.7; }
+  .alert { background: linear-gradient(135deg, rgba(231,76,60,0.12) 0%, rgba(192,57,43,0.05) 100%); border: 1px solid rgba(231,76,60,0.3); border-radius: 12px; padding: 12px; margin-top: 12px; display: flex; gap: 8px; }
+  .alert-icon { font-size: 18px; flex-shrink: 0; }
+  .alert-text { font-size: 11.5px; color: #ffb3a7; line-height: 1.7; }
+  .footer { text-align: center; margin-top: 20px; font-size: 11px; color: var(--text-dim); }
+  .footer-brand { color: var(--gold); font-weight: 700; }
+  .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%); color: #fff; padding: 12px 20px; border-radius: 12px; font-weight: 700; font-size: 13px; box-shadow: 0 12px 32px rgba(46,204,113,0.4); transition: transform 0.4s; z-index: 1000; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .no-hwid { background: rgba(241,196,15,0.1); border: 1px solid rgba(241,196,15,0.3); border-radius: 12px; padding: 12px; margin-bottom: 16px; font-size: 12px; color: #ffe9a3; text-align: center; }
   @media (max-width: 400px) {
-    .bank-number { font-size: 17px; letter-spacing: 1.5px; }
-    .amount-value { font-size: 24px; }
-    .card { padding: 20px 16px; }
-    .brand-title { font-size: 20px; }
-  }
-  
-  /* ===== Animate on copy ===== */
-  .flash {
-    animation: flash 0.5s;
-  }
-  
-  @keyframes flash {
-    0%, 100% { background-color: transparent; }
-    50% { background-color: rgba(46, 204, 113, 0.2); }
+    .bank-number { font-size: 14px; letter-spacing: 1px; }
+    .amount-value { font-size: 20px; }
+    .brand-title { font-size: 19px; }
+    .plan-price { font-size: 14px; }
   }
 </style>
 </head>
 <body>
-
-<div class="loading-bar"></div>
-
 <div class="container">
-  <!-- هدر -->
+
   <div class="header">
     <div class="logo">💎</div>
     <div class="brand-title">پالس مدیریت</div>
     <div class="brand-subtitle">سیستم جامع مدیریت باشگاه ورزشی</div>
   </div>
 
-  <!-- کارت اصلی -->
+  <!-- HWID -->
   <div class="card">
-    
-    <!-- مبلغ -->
+    <div class="section-title">🖥️ شناسه دستگاه شما</div>
+    <div class="hwid-box" id="hwidBox">
+      <div class="hwid-info">
+        <div class="hwid-label">HWID دستگاه</div>
+        <div class="hwid-value" id="hwidValue">—</div>
+      </div>
+      <button class="copy-btn-small" onclick="copyHwid()" id="hwidBtn">📋</button>
+    </div>
+    <div class="no-hwid" id="noHwid" style="display:none;">
+      ⚠️ HWID از برنامه دریافت نشد. لطفاً از دکمه‌ی «اسکن QR» در برنامه استفاده کنید.
+    </div>
+  </div>
+
+  <!-- Plans -->
+  <div class="card">
+    <div class="section-title">💎 انتخاب پلن اشتراک</div>
+    <div class="plans" id="plansContainer"></div>
+  </div>
+
+  <!-- Payment -->
+  <div class="card" id="payment-section">
+    <div class="section-title">💳 پرداخت</div>
+
     <div class="amount-section">
       <div class="amount-label">💰 مبلغ قابل پرداخت</div>
       <div class="amount-value">
-        <span id="amt">—</span>
-        <span class="amount-toman">تومان</span>
+        <span id="amountValue">—</span>
+        <span style="font-size:12px; color: var(--text-dim); margin-right:4px;">تومان</span>
       </div>
     </div>
 
-    <!-- تب‌ها -->
     <div class="tabs">
-      <button class="tab active" data-tab="card">
-        💳 کارت
-      </button>
-      <button class="tab" data-tab="sheba">
-        🏦 شبا
-      </button>
+      <button class="tab active" data-tab="card" onclick="switchTab('card')">💳 کارت</button>
+      <button class="tab" data-tab="sheba" onclick="switchTab('sheba')">🏦 شبا</button>
     </div>
 
-    <!-- پنل کارت -->
+    <!-- Card -->
     <div class="tab-panel active" id="panel-card">
-      <div class="bank-card" id="bankCard">
+      <div class="bank-card">
         <div class="bank-card-inner">
           <div class="bank-chip"></div>
           <div class="bank-number" id="cardNum">6037 - 9981 - 7644 - 7448</div>
-          <div class="bank-footer">
-            <div>
-              <div class="bank-holder-label">CARD HOLDER</div>
-              <div class="bank-holder">ILIA SALEHZADEH</div>
-            </div>
-            <div class="bank-logo">SHETAB</div>
+          <div>
+            <div class="bank-holder-label">CARD HOLDER</div>
+            <div class="bank-holder">ILIA SALEHZADEH</div>
           </div>
         </div>
       </div>
-
-      <button class="btn btn-primary" id="btnCopyCard" onclick="copyCard()">
-        📋 کپی شماره کارت
-      </button>
+      <button class="btn btn-primary" onclick="copyCard()" id="btnCopyCard">📋 کپی شماره کارت</button>
     </div>
 
-    <!-- پنل شبا -->
+    <!-- Sheba -->
     <div class="tab-panel" id="panel-sheba">
       <div class="sheba-box">
-        <div class="sheba-info">
+        <div style="flex:1; min-width:0;">
           <div class="sheba-label">شماره شبا (بدون IR)</div>
           <div class="sheba-value">800170000000227016007008</div>
         </div>
-        <button class="copy-icon-btn" onclick="copySheba()" id="shebaBtn">📋</button>
+        <button class="copy-btn-small" onclick="copySheba(false)" id="shebaBtn1">📋</button>
       </div>
-
       <div class="sheba-box">
-        <div class="sheba-info">
+        <div style="flex:1; min-width:0;">
           <div class="sheba-label">شماره شبا (با IR)</div>
           <div class="sheba-value">IR800170000000227016007008</div>
         </div>
-        <button class="copy-icon-btn" onclick="copyShebaFull()" id="shebaFullBtn">📋</button>
-      </div>
-
-      <div class="alert">
-        <div class="alert-icon">💡</div>
-        <div class="alert-text">
-          برای واریز با شبا، معمولاً از اپلیکیشن بانکی خودتون استفاده کنید و <strong>گزینه‌ی «واریز به شبا»</strong> رو انتخاب کنید.
-        </div>
+        <button class="copy-btn-small" onclick="copySheba(true)" id="shebaBtn2">📋</button>
       </div>
     </div>
 
-    <!-- ارسال فیش -->
-    <button class="btn btn-secondary" onclick="sendReceipt()" style="margin-top: 18px;">
+    <!-- Send receipt -->
+    <button class="btn btn-secondary" onclick="sendReceipt()" style="margin-top:14px;">
       📸 ارسال تصویر فیش در روبیکا
     </button>
 
-    <!-- مراحل -->
+    <!-- Steps -->
     <div class="steps">
-      <div class="steps-title">📋 مراحل پرداخت</div>
-      <div class="step">
-        <div class="step-num">۱</div>
-        <div class="step-text">مبلغ را به شماره کارت یا شبا واریز کنید</div>
-      </div>
-      <div class="step">
-        <div class="step-num">۲</div>
-        <div class="step-text">تصویر فیش واریزی را ذخیره کنید</div>
-      </div>
-      <div class="step">
-        <div class="step-num">۳</div>
-        <div class="step-text">روی دکمه‌ی «ارسال تصویر فیش» کلیک کنید</div>
-      </div>
-      <div class="step">
-        <div class="step-num">۴</div>
-        <div class="step-text">تصویر فیش را در روبیکا ارسال کنید</div>
-      </div>
-      <div class="step">
-        <div class="step-num">۵</div>
-        <div class="step-text">کلید لایسنس تا ۳۰ دقیقه برایتان ارسال می‌شود</div>
-      </div>
+      <div class="steps-title">📋 مراحل خرید</div>
+      <div class="step"><div class="step-num">۱</div><div class="step-text">مبلغ را به کارت یا شبا واریز کنید</div></div>
+      <div class="step"><div class="step-num">۲</div><div class="step-text">تصویر فیش را ذخیره کنید</div></div>
+      <div class="step"><div class="step-num">۳</div><div class="step-text">روی «ارسال تصویر فیش» کلیک کنید</div></div>
+      <div class="step"><div class="step-num">۴</div><div class="step-text">تصویر فیش را در روبیکا ارسال کنید</div></div>
+      <div class="step"><div class="step-num">۵</div><div class="step-text">کلید لایسنس تا ۳۰ دقیقه ارسال می‌شود</div></div>
     </div>
 
-    <!-- هشدار امنیتی -->
     <div class="alert">
       <div class="alert-icon">🔒</div>
-      <div class="alert-text">
-        <strong>هشدار:</strong> لطفاً فقط به شماره کارت اعلام‌شده واریز کنید. هیچ‌گاه اطلاعات کارت خود را در اختیار دیگران قرار ندهید.
-      </div>
-    </div>
-
-    <!-- فوتر -->
-    <div class="footer">
-      <span class="footer-brand">پالس مدیریت</span> — نسخه 3.3.0
-      <br>
-      <span style="opacity: 0.7;">پشتیبانی: 0913-398-4340</span>
+      <div class="alert-text"><strong>توجه:</strong> فقط به شماره کارت اعلام‌شده واریز کنید. از ارسال اطلاعات کارت خود به دیگران خودداری کنید.</div>
     </div>
   </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span class="footer-brand">پالس مدیریت</span> — نسخه 3.3.0<br>
+    پشتیبانی: 0913-398-4340
+  </div>
+
 </div>
 
-<!-- Toast -->
-<div class="toast" id="toast">
-  <span>✅</span>
-  <span id="toastMsg">کپی شد!</span>
-</div>
+<div class="toast" id="toast">✅ کپی شد!</div>
 
 <script>
-  // ============================================================
-  // ===== تنظیمات =====
-  // ============================================================
-  const CONFIG = {
-    cardNumber: '6037998176447448',
-    shebaNumber: 'IR800170000000227016007008',
-    shebaNumberShort: '800170000000227016007008',
-    rubikaUrl: 'https://web.rubika.ir/#c=u0I694z06ef3f234f2ae3275cf100ed3',
-  };
+// ============================================================
+// Config
+// ============================================================
+const CONFIG = {
+  card: '6037998176447448',
+  sheba: 'IR800170000000227016007008',
+  shebaShort: '800170000000227016007008',
+  rubika: 'https://web.rubika.ir/#c=u0I694z06ef3f234f2ae3275cf100ed3',
+  plans: [
+    { id: '1m', name: '۱ ماهه', days: 30, price: 1000000, discount: 0, recommended: false },
+    { id: '3m', name: '۳ ماهه', days: 90, price: 2700000, discount: 10, recommended: false },
+    { id: '6m', name: '۶ ماهه', days: 180, price: 4800000, discount: 20, recommended: false },
+    { id: '1y', name: '۱ ساله', days: 365, price: 8400000, discount: 30, recommended: true },
+  ],
+};
 
-  // ============================================================
-  // ===== خواندن مبلغ از URL =====
-  // ============================================================
-  const params = new URLSearchParams(window.location.search);
-  const amount = params.get('amount');
+let selectedPlan = null;
+let hwidFromUrl = null;
 
-  if (amount && !isNaN(amount)) {
-    const formatted = parseInt(amount).toLocaleString('fa-IR');
-    document.getElementById('amt').textContent = formatted;
-    // ذخیره برای ارسال در پیام
-    sessionStorage.setItem('pulse_amount', formatted);
+// ============================================================
+// Parse URL
+// ============================================================
+const params = new URLSearchParams(window.location.search);
+hwidFromUrl = params.get('hwid');
+
+// ============================================================
+// HWID
+// ============================================================
+function initHwid() {
+  const hwidBox = document.getElementById('hwidBox');
+  const hwidValue = document.getElementById('hwidValue');
+  const noHwid = document.getElementById('noHwid');
+
+  if (hwidFromUrl && hwidFromUrl.length > 5) {
+    hwidValue.textContent = hwidFromUrl.toUpperCase();
+    hwidBox.style.display = 'flex';
+    noHwid.style.display = 'none';
   } else {
-    document.getElementById('amt').textContent = 'طبق پلن انتخابی';
+    hwidBox.style.display = 'none';
+    noHwid.style.display = 'block';
+    noHwid.style.background = 'rgba(241,196,15,0.1)';
   }
+}
 
-  // ============================================================
-  // ===== Copy Helper =====
-  // ============================================================
-  function copyToClipboard(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-      return navigator.clipboard.writeText(text);
-    }
-    // Fallback
-    return new Promise((resolve) => {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      resolve();
-    });
-  }
+function copyHwid() {
+  if (!hwidFromUrl) return;
+  copyToClipboard(hwidFromUrl.toUpperCase()).then(() => {
+    const btn = document.getElementById('hwidBtn');
+    btn.textContent = '✅';
+    btn.style.background = 'linear-gradient(135deg, #2ECC71 0%, #27AE60 100%)';
+    btn.style.color = '#fff';
+    showToast('HWID کپی شد');
+    setTimeout(() => {
+      btn.textContent = '📋';
+      btn.style.background = '';
+      btn.style.color = '#000';
+    }, 2000);
+  });
+}
 
-  function showToast(msg) {
-    const toast = document.getElementById('toast');
-    document.getElementById('toastMsg').textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2200);
-  }
+// ============================================================
+// Plans
+// ============================================================
+function renderPlans() {
+  const container = document.getElementById('plansContainer');
+  container.innerHTML = '';
 
-  function flash(el) {
-    el.classList.add('flash');
-    setTimeout(() => el.classList.remove('flash'), 500);
-  }
+  CONFIG.plans.forEach(plan => {
+    const div = document.createElement('div');
+    div.className = 'plan' + (plan.recommended ? ' recommended' : '');
+    div.dataset.planId = plan.id;
+    div.innerHTML = `
+      <div class="plan-name">${plan.name}</div>
+      ${plan.discount > 0 ? `<div class="plan-discount">${plan.discount}٪ تخفیف</div>` : '<div class="plan-discount" style="opacity:0;">—</div>'}
+      <div class="plan-price">${plan.price.toLocaleString('fa-IR')}</div>
+      <div class="plan-unit">تومان</div>
+    `;
+    div.onclick = () => selectPlan(plan);
+    container.appendChild(div);
+  });
+}
 
-  // ============================================================
-  // ===== Copy Card =====
-  // ============================================================
-  function copyCard() {
-    copyToClipboard(CONFIG.cardNumber).then(() => {
-      const btn = document.getElementById('btnCopyCard');
-      btn.textContent = '✅ کپی شد!';
-      btn.classList.add('copied');
-      flash(document.getElementById('bankCard'));
-      showToast('شماره کارت کپی شد');
+function selectPlan(plan) {
+  selectedPlan = plan;
 
-      setTimeout(() => {
-        btn.textContent = '📋 کپی شماره کارت';
-        btn.classList.remove('copied');
-      }, 2500);
-    });
-  }
-
-  // ============================================================
-  // ===== Copy Sheba =====
-  // ============================================================
-  function copySheba() {
-    copyToClipboard(CONFIG.shebaNumberShort).then(() => {
-      const btn = document.getElementById('shebaBtn');
-      btn.textContent = '✅';
-      btn.classList.add('copied');
-      showToast('شبا کپی شد');
-      setTimeout(() => {
-        btn.textContent = '📋';
-        btn.classList.remove('copied');
-      }, 2500);
-    });
-  }
-
-  function copyShebaFull() {
-    copyToClipboard(CONFIG.shebaNumber).then(() => {
-      const btn = document.getElementById('shebaFullBtn');
-      btn.textContent = '✅';
-      btn.classList.add('copied');
-      showToast('شبا کامل کپی شد');
-      setTimeout(() => {
-        btn.textContent = '📋';
-        btn.classList.remove('copied');
-      }, 2500);
-    });
-  }
-
-  // ============================================================
-  // ===== ارسال فیش =====
-  // ============================================================
-  function sendReceipt() {
-    const msg = `سلام 👋\n\nفیش واریزی رو ارسال می‌کنم.\n\n💰 مبلغ: ${sessionStorage.getItem('pulse_amount') || '—'} تومان\n\n🖼️ تصویر فیش در پیام بعدی ارسال می‌شود.`;
-
-    copyToClipboard(msg).then(() => {
-      showToast('پیام آماده شد!');
-      setTimeout(() => {
-        window.location.href = CONFIG.rubikaUrl;
-      }, 800);
-    });
-  }
-
-  // ============================================================
-  // ===== تب‌ها =====
-  // ============================================================
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      const target = tab.dataset.tab;
-
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-
-      tab.classList.add('active');
-      document.getElementById('panel-' + target).classList.add('active');
-    });
+  document.querySelectorAll('.plan').forEach(el => {
+    el.classList.toggle('active', el.dataset.planId === plan.id);
   });
 
-  // ============================================================
-  // ===== Auto-detect mobile =====
-  // ============================================================
-  if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-    // انیمیشن اضافی برای موبایل
-    document.querySelector('.container').style.animationDuration = '0.8s';
+  // Show payment
+  document.getElementById('payment-section').classList.add('show');
+  document.getElementById('amountValue').textContent = plan.price.toLocaleString('fa-IR');
+
+  // Scroll
+  setTimeout(() => {
+    document.getElementById('payment-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 200);
+}
+
+// ============================================================
+// Tabs
+// ============================================================
+function switchTab(tabName) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabName));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + tabName).classList.add('active');
+}
+
+// ============================================================
+// Copy helpers
+// ============================================================
+function copyToClipboard(text) {
+  if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+  return new Promise((resolve) => {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta); resolve();
+  });
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = '✅ ' + msg;
+  toast.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+function copyCard() {
+  copyToClipboard(CONFIG.card).then(() => {
+    const btn = document.getElementById('btnCopyCard');
+    btn.textContent = '✅ کپی شد!';
+    btn.classList.add('copied');
+    showToast('شماره کارت کپی شد');
+    setTimeout(() => { btn.textContent = '📋 کپی شماره کارت'; btn.classList.remove('copied'); }, 2500);
+  });
+}
+
+function copySheba(withIR) {
+  const val = withIR ? CONFIG.sheba : CONFIG.shebaShort;
+  const btnId = withIR ? 'shebaBtn2' : 'shebaBtn1';
+  copyToClipboard(val).then(() => {
+    const btn = document.getElementById(btnId);
+    btn.textContent = '✅';
+    btn.style.background = 'linear-gradient(135deg, #2ECC71 0%, #27AE60 100%)';
+    btn.style.color = '#fff';
+    showToast('شبا کپی شد');
+    setTimeout(() => {
+      btn.textContent = '📋';
+      btn.style.background = '';
+      btn.style.color = '#000';
+    }, 2000);
+  });
+}
+
+// ============================================================
+// Send Receipt
+// ============================================================
+function sendReceipt() {
+  if (!selectedPlan) {
+    showToast('اول یه پلن انتخاب کن');
+    return;
   }
+
+  const hwidText = hwidFromUrl ? `\n🖥️ HWID: ${hwidFromUrl.toUpperCase()}` : '';
+  const msg = `سلام 👋\nمی‌خوام لایسنس پالس مدیریت رو تهیه کنم.\n\n━━━━━━━━━━━━\n📅 پلن: ${selectedPlan.name}\n💰 مبلغ: ${selectedPlan.price.toLocaleString('fa-IR')} تومان${hwidText}\n━━━━━━━━━━━━\n\n📸 تصویر فیش واریزی رو در پیام بعدی ارسال می‌کنم.`;
+
+  copyToClipboard(msg).then(() => {
+    showToast('پیام کپی شد! در حال باز کردن روبیکا...');
+    setTimeout(() => { window.location.href = CONFIG.rubika; }, 900);
+  });
+}
+
+// ============================================================
+// Init
+// ============================================================
+initHwid();
+renderPlans();
 </script>
 </body>
 </html>
