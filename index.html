@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پرداخت - پالس مدیریت</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #0D0D0F 0%, #1A1A22 50%, #0F1620 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #fff;
+  }
+  .card {
+    background: rgba(26, 26, 34, 0.95);
+    border: 1px solid rgba(241, 196, 15, 0.2);
+    border-radius: 24px;
+    padding: 40px 30px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 80px rgba(241,196,15,0.08);
+    animation: fadeIn 0.5s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .icon { font-size: 56px; margin-bottom: 10px; }
+  h1 { font-size: 22px; color: #F1C40F; margin-bottom: 8px; font-weight: 700; }
+  .subtitle { font-size: 13px; color: #A0A0A8; margin-bottom: 25px; }
+  .amount-box {
+    background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+    padding: 18px 15px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+  }
+  .amount-label { font-size: 12px; opacity: 0.9; margin-bottom: 4px; }
+  .amount { font-size: 24px; font-weight: 700; }
+  .card-box {
+    background: linear-gradient(135deg, #F1C40F 0%, #D4AC0D 100%);
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-box::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+  }
+  .card-label { font-size: 12px; color: #000; opacity: 0.75; margin-bottom: 8px; position: relative; }
+  .card-number {
+    font-family: 'Courier New', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: #000;
+    letter-spacing: 3px;
+    direction: ltr;
+    margin-bottom: 12px;
+    position: relative;
+    user-select: all;
+  }
+  .holder { font-size: 13px; color: #000; opacity: 0.8; position: relative; }
+  .copy-btn {
+    background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+    color: #fff;
+    border: none;
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 14px;
+    cursor: pointer;
+    width: 100%;
+    font-family: inherit;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+    margin-bottom: 12px;
+  }
+  .copy-btn:active { transform: scale(0.97); }
+  .copy-btn.copied {
+    background: linear-gradient(135deg, #F1C40F 0%, #D4AC0D 100%);
+    color: #000;
+  }
+  .steps {
+    background: rgba(15, 22, 32, 0.6);
+    border-radius: 14px;
+    padding: 18px;
+    margin-top: 15px;
+    text-align: right;
+  }
+  .steps h3 { color: #F1C40F; font-size: 14px; margin-bottom: 12px; }
+  .steps p { font-size: 12px; color: #d0e4ff; line-height: 1.9; }
+  .footer { font-size: 11px; color: #666; margin-top: 20px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="icon">💳</div>
+  <h1>پرداخت کارت به کارت</h1>
+  <p class="subtitle">پالس مدیریت — سیستم مدیریت باشگاه</p>
+
+  <div class="amount-box">
+    <div class="amount-label">مبلغ قابل پرداخت</div>
+    <div class="amount" id="amt">— تومان —</div>
+  </div>
+
+  <div class="card-box">
+    <div class="card-label">شماره کارت</div>
+    <div class="card-number" id="cardnum">6037-9981-7644-7448</div>
+    <div class="holder">به نام: ایلیا صالح زاده</div>
+  </div>
+
+  <button class="copy-btn" id="copyBtn" onclick="copyCard()">
+    📋 کپی شماره کارت
+  </button>
+
+  <div class="steps">
+    <h3>📱 مراحل پرداخت:</h3>
+    <p>
+      ۱. دکمه‌ی «کپی» را بزنید<br>
+      ۲. اپلیکیشن بانکی را باز کنید<br>
+      ۳. شماره کارت را Paste کنید<br>
+      ۴. مبلغ را وارد و تأیید کنید<br>
+      ۵. تصویر فیش را به ما ارسال کنید
+    </p>
+  </div>
+
+  <p class="footer">پالس مدیریت — نسخه 3.3.0</p>
+</div>
+
+<script>
+  // خواندن پارامتر مبلغ از URL (اگه وجود داشته باشه)
+  const params = new URLSearchParams(window.location.search);
+  const amount = params.get('amount');
+  if (amount) {
+    const formatted = parseInt(amount).toLocaleString('fa-IR');
+    document.getElementById('amt').textContent = formatted + ' تومان';
+  }
+
+  function copyCard() {
+    const card = '6037998176447448';
+    const btn = document.getElementById('copyBtn');
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(card).then(() => {
+        btn.textContent = '✅ کپی شد!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '📋 کپی شماره کارت';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    } else {
+      // Fallback برای مرورگرهای قدیمی
+      const ta = document.createElement('textarea');
+      ta.value = card;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = '✅ کپی شد!';
+      setTimeout(() => btn.textContent = '📋 کپی شماره کارت', 2000);
+    }
+  }
+</script>
+</body>
+</html>
