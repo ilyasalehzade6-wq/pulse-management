@@ -1,1070 +1,452 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl" data-theme="dark">
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<meta name="theme-color" content="#0D0D0F">
-<title>خرید لایسنس — پالس مدیریت</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>برنامه درسی — ایلیا صالح‌زاده</title>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-  /* ========== تم تیره ========== */
-  :root, [data-theme="dark"] {
-    --bg: #0A0A0F;
-    --bg-2: #0F0F18;
-    --card: #15151E;
-    --card-2: #1C1C28;
-    --card-3: #252535;
-    --gold: #F1C40F;
-    --gold-dark: #D4AC0D;
-    --green: #2ECC71;
-    --green-dark: #27AE60;
-    --red: #E74C3C;
-    --blue: #3498DB;
-    --text: #FFFFFF;
-    --text-2: #D0D0DD;
-    --text-dim: #808090;
-    --border: rgba(241, 196, 15, 0.15);
-    --border-2: rgba(255, 255, 255, 0.06);
-    --shadow: 0 20px 60px rgba(0,0,0,0.5);
-    --qr-bg: #FFFFFF;
-    --sheba-bg: #1C1C28;
-  }
-
-  /* ========== تم روشن ========== */
-  [data-theme="light"] {
-    --bg: #F5F5FA;
-    --bg-2: #EDEDF5;
-    --card: #FFFFFF;
-    --card-2: #F8F8FC;
-    --card-3: #EFEFF6;
-    --gold: #D4AC0D;
-    --gold-dark: #B8930D;
-    --green: #27AE60;
-    --green-dark: #219150;
-    --red: #E74C3C;
-    --blue: #2980B9;
-    --text: #1A1A2E;
-    --text-2: #404055;
-    --text-dim: #707085;
-    --border: rgba(212, 172, 13, 0.25);
-    --border-2: rgba(0, 0, 0, 0.08);
-    --shadow: 0 20px 60px rgba(0,0,0,0.08);
-    --qr-bg: #FFFFFF;
-    --sheba-bg: #F0F0F8;
-  }
-
-  body {
-    font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
-    background: var(--bg);
-    background-image:
-      radial-gradient(circle at 20% 0%, rgba(241,196,15,0.08) 0%, transparent 40%),
-      radial-gradient(circle at 80% 100%, rgba(52,152,219,0.06) 0%, transparent 40%);
-    min-height: 100vh;
-    color: var(--text);
-    padding: 16px;
-    display: flex;
-    justify-content: center;
-    overflow-x: hidden;
-    line-height: 1.6;
-    transition: background 0.4s ease, color 0.4s ease;
-  }
-
-  .container {
-    max-width: 540px;
-    width: 100%;
-    padding-bottom: 40px;
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ========== دکمه‌ی تم ========== */
-  .theme-toggle {
-    position: fixed;
-    top: 16px;
-    left: 16px;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--card);
-    color: var(--gold);
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow);
-    z-index: 999;
-    transition: all 0.3s;
-  }
-
-  .theme-toggle:hover {
-    transform: scale(1.1) rotate(15deg);
-    border-color: var(--gold);
-  }
-
-  .theme-toggle:active {
-    transform: scale(0.95);
-  }
-
-  /* ========== هدر ========== */
-  .header {
-    text-align: center;
-    margin-bottom: 22px;
-    padding-top: 40px;
-  }
-
-  .logo {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto 12px;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    box-shadow: 0 8px 24px rgba(241, 196, 15, 0.3);
-    animation: pulse 2.5s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 8px 24px rgba(241, 196, 15, 0.3); }
-    50% { transform: scale(1.06); box-shadow: 0 12px 32px rgba(241, 196, 15, 0.45); }
-  }
-
-  .brand-title {
-    font-size: 24px;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 4px;
-  }
-
-  .brand-subtitle {
-    font-size: 12.5px;
-    color: var(--text-dim);
-    letter-spacing: 0.3px;
-  }
-
-  /* ========== کارت ========== */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border-2);
-    border-radius: 20px;
-    padding: 20px 18px;
-    box-shadow: var(--shadow);
-    margin-bottom: 14px;
-    transition: all 0.4s ease;
-  }
-
-  .section-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--gold);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .section-title span:first-child {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .section-badge {
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 20px;
-    background: rgba(46, 204, 113, 0.15);
-    color: var(--green);
-    font-weight: 700;
-  }
-
-  /* ========== HWID ========== */
-  .hwid-box {
-    background: var(--card-2);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-
-  .hwid-info { flex: 1; min-width: 0; }
-
-  .hwid-label {
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-bottom: 4px;
-  }
-
-  .hwid-value {
-    font-family: 'Courier New', monospace;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--gold);
-    direction: ltr;
-    text-align: left;
-    word-break: break-all;
-    letter-spacing: 0.5px;
-  }
-
-  .copy-btn-sm {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    border: none;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-    color: #000;
-    cursor: pointer;
-    font-size: 17px;
-    flex-shrink: 0;
-    transition: all 0.2s;
-  }
-
-  .copy-btn-sm:active { transform: scale(0.9); }
-  .copy-btn-sm.copied {
-    background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
-    color: #fff;
-  }
-
-  /* ========== پلن‌ها (2x2 Grid) ========== */
-  .plans {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .plan {
-    background: var(--card-2);
-    border: 2px solid var(--border-2);
-    border-radius: 16px;
-    padding: 16px 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-    overflow: hidden;
-    min-height: 130px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .plan::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(241,196,15,0.15) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .plan:hover {
-    transform: translateY(-3px);
-    border-color: var(--border);
-    box-shadow: 0 10px 24px rgba(0,0,0,0.15);
-  }
-
-  .plan.active {
-    border-color: var(--gold);
-    background: linear-gradient(135deg, rgba(241,196,15,0.12) 0%, rgba(241,196,15,0.04) 100%);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 28px rgba(241,196,15,0.18);
-  }
-
-  .plan.active::before {
-    opacity: 1;
-  }
-
-  .plan-badge {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    font-size: 9px;
-    padding: 3px 7px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-    color: #000;
-    font-weight: 800;
-    letter-spacing: 0.3px;
-  }
-
-  .plan-badge.discount {
-    background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
-    color: #fff;
-  }
-
-  .plan-name {
-    font-size: 14px;
-    font-weight: 800;
-    margin-bottom: 6px;
-    color: var(--text);
-    position: relative;
-  }
-
-  .plan-price {
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--gold);
-    margin-bottom: 2px;
-    position: relative;
-    font-family: 'Courier New', monospace;
-    direction: ltr;
-  }
-
-  .plan-unit {
-    font-size: 10px;
-    color: var(--text-dim);
-    position: relative;
-  }
-
-  /* ========== پرداخت ========== */
-  #payment-section {
-    display: none;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.4s;
-  }
-
-  #payment-section.show {
-    display: block;
-    animation: fadeIn 0.4s forwards;
-  }
-
-  @keyframes fadeIn {
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .amount-section {
-    background: linear-gradient(135deg, rgba(46,204,113,0.15) 0%, rgba(39,174,96,0.06) 100%);
-    border: 1px solid rgba(46, 204, 113, 0.3);
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-
-  .amount-label {
-    font-size: 11.5px;
-    color: var(--text-dim);
-    margin-bottom: 5px;
-  }
-
-  .amount-value {
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--green);
-    font-family: 'Courier New', monospace;
-    direction: ltr;
-    text-shadow: 0 0 24px rgba(46, 204, 113, 0.3);
-  }
-
-  .amount-value .unit {
-    font-size: 13px;
-    color: var(--text-dim);
-    font-family: 'Vazirmatn', sans-serif;
-    margin-right: 6px;
-    text-shadow: none;
-  }
-
-  /* ========== تب‌ها ========== */
-  .tabs {
-    display: flex;
-    gap: 6px;
-    background: var(--card-2);
-    padding: 5px;
-    border-radius: 12px;
-    margin-bottom: 14px;
-  }
-
-  .tab {
-    flex: 1;
-    padding: 10px;
-    border-radius: 8px;
-    background: transparent;
-    border: none;
-    color: var(--text-dim);
-    font-family: inherit;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-
-  .tab.active {
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-    color: #000;
-    box-shadow: 0 4px 12px rgba(241, 196, 15, 0.3);
-  }
-
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; animation: fadeIn 0.3s; }
-
-  /* ========== کارت بانکی ========== */
-  .bank-card {
-    background: linear-gradient(135deg, #B8930D 0%, #F1C40F 50%, #D4AC0D 100%);
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 12px;
-    position: relative;
-    overflow: hidden;
-    direction: ltr;
-    box-shadow: 0 10px 24px rgba(241, 196, 15, 0.2);
-  }
-
-  .bank-card::before {
-    content: '';
-    position: absolute;
-    top: -60%;
-    left: -40%;
-    width: 180%;
-    height: 180%;
-    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
-    animation: shine 4s linear infinite;
-  }
-
-  @keyframes shine {
-    from { transform: translateX(-100%) rotate(0deg); }
-    to { transform: translateX(100%) rotate(0deg); }
-  }
-
-  .bank-card-inner { position: relative; z-index: 1; }
-
-  .bank-chip {
-    width: 38px;
-    height: 28px;
-    background: linear-gradient(135deg, #C9A227 0%, #F5D547 100%);
-    border-radius: 5px;
-    margin-bottom: 14px;
-    position: relative;
-  }
-
-  .bank-chip::before {
-    content: '';
-    position: absolute;
-    inset: 6px;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 3px;
-  }
-
-  .bank-number {
-    font-family: 'Courier New', monospace;
-    font-size: 19px;
-    font-weight: 800;
-    color: #1a1a1a;
-    letter-spacing: 2px;
-    margin-bottom: 14px;
-    user-select: all;
-    -webkit-user-select: all;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.3);
-  }
-
-  .bank-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
-
-  .bank-holder-label {
-    font-size: 8px;
-    color: rgba(0,0,0,0.5);
-    letter-spacing: 1px;
-    margin-bottom: 2px;
-  }
-
-  .bank-holder {
-    font-size: 12.5px;
-    color: #1a1a1a;
-    font-weight: 800;
-    text-transform: uppercase;
-  }
-
-  .bank-logo {
-    font-size: 15px;
-    font-weight: 900;
-    color: rgba(0,0,0,0.55);
-    letter-spacing: 2px;
-  }
-
-  /* ========== شبا ========== */
-  .sheba-box {
-    background: var(--sheba-bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  .sheba-value {
-    font-family: 'Courier New', monospace;
-    font-size: 11.5px;
-    font-weight: 700;
-    color: var(--gold);
-    direction: ltr;
-    word-break: break-all;
-    text-align: left;
-  }
-
-  .sheba-label {
-    font-size: 10px;
-    color: var(--text-dim);
-    margin-bottom: 3px;
-  }
-
-  /* ========== دکمه‌ها ========== */
-  .btn {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 12px;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-
-  .btn:active { transform: scale(0.97); }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
-    color: #fff;
-    box-shadow: 0 6px 18px rgba(46, 204, 113, 0.3);
-  }
-
-  .btn-primary.copied {
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-    color: #000;
-  }
-
-  .btn-secondary {
-    background: linear-gradient(135deg, #0088CC 0%, #006699 100%);
-    color: #fff;
-    box-shadow: 0 6px 18px rgba(0, 136, 204, 0.3);
-  }
-
-  /* ========== مراحل ========== */
-  .steps {
-    background: linear-gradient(135deg, rgba(52,152,219,0.12) 0%, rgba(41,128,185,0.04) 100%);
-    border: 1px solid rgba(52, 152, 219, 0.2);
-    border-radius: 14px;
-    padding: 14px;
-    margin-top: 12px;
-  }
-
-  .steps-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--blue);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .step {
-    display: flex;
-    gap: 10px;
-    padding: 5px 0;
-    align-items: flex-start;
-  }
-
-  .step-num {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--blue) 0%, #2980B9 100%);
-    color: #fff;
-    font-size: 10.5px;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .step-text {
-    font-size: 12px;
-    color: var(--text-2);
-    line-height: 1.75;
-  }
-
-  /* ========== هشدار ========== */
-  .alert {
-    background: linear-gradient(135deg, rgba(231,76,60,0.1) 0%, rgba(192,57,43,0.04) 100%);
-    border: 1px solid rgba(231, 76, 60, 0.25);
-    border-radius: 12px;
-    padding: 12px;
-    margin-top: 12px;
-    display: flex;
-    gap: 8px;
-  }
-
-  .alert-icon { font-size: 18px; flex-shrink: 0; }
-
-  .alert-text {
-    font-size: 11.5px;
-    color: var(--text-2);
-    line-height: 1.75;
-  }
-
-  .alert-text strong { color: var(--red); }
-
-  /* ========== فوتر ========== */
-  .footer {
-    text-align: center;
-    margin-top: 24px;
-    font-size: 11px;
-    color: var(--text-dim);
-    line-height: 1.8;
-  }
-
-  .footer-brand {
-    color: var(--gold);
-    font-weight: 800;
-  }
-
-  /* ========== Toast ========== */
-  .toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(120px);
-    background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
-    color: #fff;
-    padding: 13px 22px;
-    border-radius: 12px;
-    font-weight: 800;
-    font-size: 13px;
-    box-shadow: 0 12px 32px rgba(46, 204, 113, 0.4);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  /* ========== No HWID ========== */
-  .no-hwid {
-    background: rgba(241, 196, 15, 0.08);
-    border: 1px solid rgba(241, 196, 15, 0.3);
-    border-radius: 12px;
-    padding: 14px;
-    font-size: 12px;
-    color: var(--gold);
-    text-align: center;
-    line-height: 1.7;
-  }
-
-  /* ========== Responsive ========== */
-  @media (max-width: 420px) {
-    .bank-number { font-size: 16px; letter-spacing: 1.5px; }
-    .amount-value { font-size: 22px; }
-    .brand-title { font-size: 21px; }
-    .plan { min-height: 120px; padding: 12px 8px; }
-    .plan-name { font-size: 13px; }
-    .plan-price { font-size: 14px; }
-    .card { padding: 16px 14px; }
-  }
-
-  /* ========== Animations ========== */
-  @keyframes flash {
-    0%, 100% { background-color: transparent; }
-    50% { background-color: rgba(46, 204, 113, 0.15); }
-  }
-
-  .flash { animation: flash 0.5s; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: 'Vazirmatn', Tahoma, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #2c3e50;
+        line-height: 1.8;
+        padding: 20px;
+        min-height: 100vh;
+    }
+    .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        overflow: hidden;
+    }
+    header {
+        background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+        color: #fff;
+        padding: 40px 30px;
+        text-align: center;
+    }
+    header h1 { font-size: 2.2em; margin-bottom: 10px; }
+    header .goal {
+        background: rgba(255,255,255,0.15);
+        display: inline-block;
+        padding: 8px 20px;
+        border-radius: 30px;
+        margin-top: 10px;
+        font-size: 1.1em;
+    }
+    header .meta { opacity: 0.85; margin-top: 12px; font-size: 0.95em; }
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        background: #edf2f7;
+        padding: 10px;
+        gap: 8px;
+        justify-content: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    nav button {
+        background: #fff;
+        border: 2px solid #cbd5e0;
+        padding: 10px 18px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.95em;
+        transition: all 0.2s;
+    }
+    nav button:hover { background: #e2e8f0; }
+    nav button.active {
+        background: #4a5568;
+        color: #fff;
+        border-color: #4a5568;
+    }
+    .content { padding: 30px; }
+    section { display: none; animation: fadeIn 0.3s; }
+    section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    h2 {
+        font-size: 1.6em;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid #667eea;
+        color: #2d3748;
+    }
+    .card {
+        background: #f7fafc;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #e2e8f0;
+    }
+    .card h3 {
+        color: #2d3748;
+        margin-bottom: 12px;
+        font-size: 1.2em;
+    }
+    .schedule-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .schedule-table td {
+        padding: 8px 12px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    .schedule-table .time {
+        font-weight: bold;
+        color: #667eea;
+        width: 160px;
+        white-space: nowrap;
+    }
+    .phase ul, .subject ul { padding-right: 20px; }
+    .phase li, .subject li { margin: 6px 0; }
+    .level {
+        font-size: 0.75em;
+        background: #edf2f7;
+        padding: 3px 10px;
+        border-radius: 20px;
+        color: #4a5568;
+        font-weight: normal;
+    }
+    .check-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        margin: 6px 0;
+        background: #f7fafc;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 1px solid #e2e8f0;
+    }
+    .check-item:hover { background: #edf2f7; }
+    .check-item input {
+        width: 20px;
+        height: 20px;
+        margin-left: 12px;
+        cursor: pointer;
+        accent-color: #667eea;
+    }
+    .check-item input:checked + span {
+        text-decoration: line-through;
+        opacity: 0.5;
+    }
+    .rules-list { list-style: none; padding: 0; }
+    .rule {
+        padding: 12px 18px;
+        margin: 8px 0;
+        background: linear-gradient(90deg, #fff5f5, #fff);
+        border-right: 4px solid #e53e3e;
+        border-radius: 8px;
+    }
+    .btn-print {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background: #4a5568;
+        color: #fff;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 1em;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        z-index: 200;
+    }
+    .btn-print:hover { background: #2d3748; }
+    .btn-reset {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #e53e3e;
+        color: #fff;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 1em;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        z-index: 200;
+    }
+    @media print {
+        body { background: #fff; padding: 0; }
+        .container { box-shadow: none; }
+        nav, .btn-print, .btn-reset { display: none !important; }
+        section { display: block !important; page-break-after: always; }
+        section:last-child { page-break-after: auto; }
+    }
+    @media (max-width: 600px) {
+        header h1 { font-size: 1.5em; }
+        .content { padding: 15px; }
+        .schedule-table .time { width: 100px; font-size: 0.85em; }
+    }
 </style>
 </head>
 <body>
-
-<!-- Theme Toggle -->
-<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="تغییر تم">
-  🌙
-</button>
-
 <div class="container">
+    <header>
+        <h1>📚 برنامه درسی ایلیا صالح‌زاده</h1>
+        <div class="goal">🎯 هکر سایبری — دانشگاه تهران</div>
+        <div class="meta">دهم ریاضی — دبیرستان شاهد — سیرجان — شروع از مهر ۱۴۰۴</div>
+    </header>
 
-  <!-- هدر -->
-  <div class="header">
-    <div class="logo">💎</div>
-    <div class="brand-title">پالس مدیریت</div>
-    <div class="brand-subtitle">سیستم جامع مدیریت باشگاه ورزشی</div>
-  </div>
+    <nav>
+        <button class="active" onclick="showTab('weekly', this)">📅 برنامه هفتگی</button>
+        <button onclick="showTab('phases', this)">🗓 فازهای ماهانه</button>
+        <button onclick="showTab('subjects', this)">📖 استراتژی درس‌ها</button>
+        <button onclick="showTab('daily', this)">✅ چک‌لیست روزانه</button>
+        <button onclick="showTab('weekly-check', this)">📋 چک‌لیست هفتگی</button>
+        <button onclick="showTab('rules', this)">⭐ قوانین طلایی</button>
+    </nav>
 
-  <!-- HWID -->
-  <div class="card">
-    <div class="section-title">
-      <span>🖥️ شناسه دستگاه شما</span>
-      <span class="section-badge">HWID</span>
+    <div class="content">
+        <section id="weekly" class="active">
+            <h2>📅 برنامه هفتگی</h2>
+            <div class="card"><h3>شنبه (باشگاه)</h3><table class="schedule-table"><tr><td class="time">۶:۰۰</td><td>بیداری، صبحانه</td></tr><tr><td class="time">۶:۳۰</td><td>۱۰ دقیقه مرور عربی/انگلیسی</td></tr><tr><td class="time">۷:۰۰ تا ۱۴:۰۰</td><td>مدرسه</td></tr><tr><td class="time">۱۴:۰۰ تا ۱۵:۰۰</td><td>ناهار</td></tr><tr><td class="time">۱۵:۰۰ تا ۱۶:۰۰</td><td>استراحت واقعی (بدون صفحه)</td></tr><tr><td class="time">۱۶:۰۰ تا ۱۶:۳۰</td><td>آماده شدن برای باشگاه</td></tr><tr><td class="time">۱۶:۳۰ تا ۲۰:۰۰</td><td>باشگاه کیک‌بوکسینگ</td></tr><tr><td class="time">۲۰:۰۰ تا ۲۰:۴۵</td><td>دوش، شام</td></tr><tr><td class="time">۲۰:۴۵ تا ۲۱:۱۵</td><td>مرور سبک درس‌های فردا</td></tr><tr><td class="time">۲۱:۱۵ تا ۲۱:۳۰</td><td>دفتر اشتباهات</td></tr><tr><td class="time">۲۱:۳۰ تا ۲۲:۰۰</td><td>برنامه فردا + آماده خواب</td></tr><tr><td class="time">۲۲:۳۰</td><td>خواب</td></tr></table></div><div class="card"><h3>یکشنبه (بدون باشگاه — روز طلایی)</h3><table class="schedule-table"><tr><td class="time">۶:۰۰</td><td>بیداری، صبحانه</td></tr><tr><td class="time">۶:۳۰</td><td>۱۰ دقیقه مرور</td></tr><tr><td class="time">۷:۰۰ تا ۱۴:۰۰</td><td>مدرسه</td></tr><tr><td class="time">۱۴:۰۰ تا ۱۵:۰۰</td><td>ناهار</td></tr><tr><td class="time">۱۵:۰۰ تا ۱۵:۳۰</td><td>استراحت</td></tr><tr><td class="time">۱۵:۳۰ تا ۱۷:۰۰</td><td>ریاضی (ویدیو ۳۰ + تمرین ۶۰)</td></tr><tr><td class="time">۱۷:۰۰ تا ۱۷:۱۵</td><td>استراحت</td></tr><tr><td class="time">۱۷:۱۵ تا ۱۸:۱۵</td><td>عربی (ویدیو ۲۰ + تمرین ۴۰)</td></tr><tr><td class="time">۱۸:۱۵ تا ۱۸:۴۵</td><td>استراحت</td></tr><tr><td class="time">۱۸:۴۵ تا ۲۰:۰۰</td><td>تکالیف + شیمی</td></tr><tr><td class="time">۲۰:۰۰ تا ۲۰:۴۵</td><td>شام</td></tr><tr><td class="time">۲۰:۴۵ تا ۲۲:۰۰</td><td>هندسه</td></tr><tr><td class="time">۲۲:۰۰ تا ۲۲:۳۰</td><td>مرور + برنامه فردا</td></tr><tr><td class="time">۲۲:۳۰</td><td>خواب</td></tr></table></div><div class="card"><h3>دوشنبه (باشگاه)</h3><table class="schedule-table"><tr><td class="time">۶:۰۰ تا ۱۴:۰۰</td><td>مثل شنبه</td></tr><tr><td class="time">۱۴:۰۰ تا ۱۵:۰۰</td><td>ناهار</td></tr><tr><td class="time">۱۵:۰۰ تا ۱۶:۰۰</td><td>استراحت</td></tr><tr><td class="time">۱۶:۳۰ تا ۲۰:۰۰</td><td>باشگاه</td></tr><tr><td class="time">۲۰:۰۰ تا ۲۰:۴۵</td><td>دوش، شام</td></tr><tr><td class="time">۲۰:۴۵ تا ۲۲:۰۰</td><td>فیزیک (ویدیو ۳۰ + تمرین ۴۵)</td></tr><tr><td class="time">۲۲:۰۰ تا ۲۲:۳۰</td><td>مرور + برنامه فردا</td></tr><tr><td class="time">۲۲:۳۰</td><td>خواب</td></tr></table></div><div class="card"><h3>سه‌شنبه (بدون باشگاه — روز طلایی)</h3><table class="schedule-table"><tr><td class="time">۶:۰۰ تا ۱۴:۰۰</td><td>مدرسه</td></tr><tr><td class="time">۱۴:۰۰ تا ۱۵:۰۰</td><td>ناهار</td></tr><tr><td class="time">۱۵:۰۰ تا ۱۵:۳۰</td><td>استراحت</td></tr><tr><td class="time">۱۵:۳۰ تا ۱۷:۰۰</td><td>ریاضی</td></tr><tr><td class="time">۱۷:۰۰ تا ۱۷:۱۵</td><td>استراحت</td></tr><tr><td class="time">۱۷:۱۵ تا ۱۸:۱۵</td><td>انگلیسی</td></tr><tr><td class="time">۱۸:۱۵ تا ۱۸:۴۵</td><td>استراحت</td></tr><tr><td class="time">۱۸:۴۵ تا ۲۰:۰۰</td><td>تکالیف + فارسی</td></tr><tr><td class="time">۲۰:۰۰ تا ۲۰:۴۵</td><td>شام</td></tr><tr><td class="time">۲۰:۴۵ تا ۲۲:۰۰</td><td>فیزیک یا هندسه</td></tr><tr><td class="time">۲۲:۰۰ تا ۲۲:۳۰</td><td>مرور + دفتر اشتباهات</td></tr><tr><td class="time">۲۲:۳۰</td><td>خواب</td></tr></table></div><div class="card"><h3>چهارشنبه (باشگاه)</h3><table class="schedule-table"><tr><td class="time">۶:۰۰ تا ۱۴:۰۰</td><td>مدرسه</td></tr><tr><td class="time">۱۴:۰۰ تا ۱۵:۰۰</td><td>ناهار</td></tr><tr><td class="time">۱۵:۰۰ تا ۱۶:۰۰</td><td>استراحت</td></tr><tr><td class="time">۱۶:۳۰ تا ۲۰:۰۰</td><td>باشگاه</td></tr><tr><td class="time">۲۰:۰۰ تا ۲۰:۴۵</td><td>دوش، شام</td></tr><tr><td class="time">۲۰:۴۵ تا ۲۲:۰۰</td><td>ریاضی (ویدیو ۳۰ + تمرین ۴۵)</td></tr><tr><td class="time">۲۲:۰۰ تا ۲۲:۳۰</td><td>مرور + برنامه فردا</td></tr><tr><td class="time">۲۲:۳۰</td><td>خواب</td></tr></table></div><div class="card"><h3>پنجشنبه (تعطیل — روز بزرگ)</h3><table class="schedule-table"><tr><td class="time">۸:۰۰</td><td>بیداری، صبحانه</td></tr><tr><td class="time">۸:۳۰ تا ۱۰:۰۰</td><td>ریاضی یا فیزیک</td></tr><tr><td class="time">۱۰:۰۰ تا ۱۰:۳۰</td><td>استراحت</td></tr><tr><td class="time">۱۰:۳۰ تا ۱۲:۰۰</td><td>عربی + انگلیسی</td></tr><tr><td class="time">۱۲:۰۰ تا ۱۴:۰۰</td><td>ناهار، استراحت</td></tr><tr><td class="time">۱۴:۰۰ تا ۱۵:۳۰</td><td>شیمی</td></tr><tr><td class="time">۱۵:۳۰ تا ۱۶:۰۰</td><td>استراحت</td></tr><tr><td class="time">۱۶:۰۰ تا ۱۷:۳۰</td><td>هندسه</td></tr><tr><td class="time">۱۷:۳۰ به بعد</td><td>آزاد</td></tr></table></div><div class="card"><h3>جمعه (مرور)</h3><table class="schedule-table"><tr><td class="time">۹:۰۰ تا ۱۰:۳۰</td><td>مرور کل هفته (خلاصه‌ها)</td></tr><tr><td class="time">۱۰:۳۰ تا ۱۱:۰۰</td><td>دفتر اشتباهات</td></tr><tr><td class="time">۱۱:۰۰ تا ۱۱:۳۰</td><td>نوشتن برنامه هفته بعد</td></tr><tr><td class="time">بقیه روز</td><td>استراحت کامل — بدون درس</td></tr></table></div>
+        </section>
+
+        <section id="phases">
+            <h2>🗓 فازهای ماهانه</h2>
+            
+        <div class="card phase">
+            <h3>مهر — عادت‌سازی</h3>
+            <ul>
+        <li>هفته ۱: ۹۰ دقیقه مفید روزانه</li><li>هفته ۲: ۲ ساعت</li><li>هفته ۳: ۲.۵ ساعت</li><li>هفته ۴: ۳ ساعت</li><li>هدف: خواب منظم، دفترها آماده، عربی/انگلیسی روزانه</li></ul></div>
+        <div class="card phase">
+            <h3>آبان — ثبات</h3>
+            <ul>
+        <li>۳ ساعت مفید روزانه</li><li>مرور فاصله‌دار جدی (۳ روز، ۱ هفته، ۲ هفته)</li><li>هدف: بدون عقب‌افتادگی از مدرسه</li></ul></div>
+        <div class="card phase">
+            <h3>آذر — آماده امتحان میان‌ترم</h3>
+            <ul>
+        <li>۳ ساعت مفید</li><li>۲ هفته آخر: تمرکز روی امتحانات میان‌ترم</li><li>هدف: میان‌ترم عالی</li></ul></div>
+        <div class="card phase">
+            <h3>دی — آماده امتحان پایان‌ترم</h3>
+            <ul>
+        <li>۳ تا ۳.۵ ساعت مفید</li><li>هفته اول: مرور کل نیمسال</li><li>هفته آخر: نمونه سوال امتحانی</li></ul></div>
+        <div class="card phase">
+            <h3>بهمن — جمع‌بندی و استراحت</h3>
+            <ul>
+        <li>۲.۵ تا ۳ ساعت</li><li>مرور ضعف‌ها</li><li>شروع پیش‌خوانی نیمسال دوم (سبک)</li></ul></div>
+        <div class="card phase">
+            <h3>اسفند — پیش به سوی جلو</h3>
+            <ul>
+        <li>۳ تا ۳.۵ ساعت</li><li>همراه با مدرسه جلو برو، نه عقب</li></ul></div>
+        <div class="card phase">
+            <h3>فروردین — جلو افتادن</h3>
+            <ul>
+        <li>تعطیلات نوروز: ۳ تا ۴ ساعت مفید</li><li>پیش‌خوانی نیمسال دوم</li><li>هدف: از مدرسه جلوتری</li></ul></div>
+        <div class="card phase">
+            <h3>اردیبهشت — تثبیت</h3>
+            <ul>
+        <li>۳ تا ۴ ساعت</li><li>تست‌زنی جدی</li><li>هفته‌ای یک آزمون از خودت</li></ul></div>
+        <div class="card phase">
+            <h3>خرداد — امتحانات</h3>
+            <ul>
+        <li>مرور همه چیز با خلاصه‌ها</li><li>نمونه سوال سال‌های قبل</li><li>بدون استرس، با اعتماد به نفس</li></ul></div>
+        </section>
+
+        <section id="subjects">
+            <h2>📖 استراتژی هر درس</h2>
+            
+        <div class="card subject" style="border-right: 5px solid #e74c3c;">
+            <h3>ریاضی <span class="level">ضعیف → حیاتی</span></h3>
+            <ul>
+        <li>قبل کلاس ۱۰ دقیقه پیش‌خوانی</li><li>سر کلاس جزوه بنویس</li><li>بعد کلاس ۲۰ دقیقه مرور</li><li>شب تمرین حل کن</li><li>ویدیو فقط برای مباحث نفهمیده</li><li>برای هر ۳۰ دقیقه ویدیو، ۶۰ دقیقه تمرین</li><li>دفتر اشتباهات اجباری</li><li>هر فصل تموم شد: ۲۰ تست</li></ul></div>
+        <div class="card subject" style="border-right: 5px solid #3498db;">
+            <h3>فیزیک <span class="level">متوسط رو به بالا</span></h3>
+            <ul>
+        <li>مفهومی بخون، فرمول حفظ نکن</li><li>مسئله: شکل بکش، داده‌ها رو بنویس</li><li>یکاها رو بررسی کن</li><li>ویدیو برای مسائل سخت</li><li>بعد هر فصل ۱۵ تا ۲۰ تست</li></ul></div>
+        <div class="card subject" style="border-right: 5px solid #9b59b6;">
+            <h3>هندسه <span class="level">متوسط</span></h3>
+            <ul>
+        <li>هر قضیه رو با شکل یاد بگیر</li><li>هر اثبات رو ۲ بار بنویس (با کتاب و بدون کتاب)</li><li>ویدیو خیلی مفیده</li></ul></div>
+        <div class="card subject" style="border-right: 5px solid #16a085;">
+            <h3>شیمی <span class="level">ضعیف</span></h3>
+            <ul>
+        <li>اول مفهوم، بعد فرمول، بعد تمرین</li><li>واکنش‌ها رو در جدول دسته‌بندی کن</li><li>ویدیو حتماً ببین</li><li>هر ۳ روز واکنش‌ها رو مرور کن</li></ul></div>
+        <div class="card subject" style="border-right: 5px solid #f39c12;">
+            <h3>عربی <span class="level">خیلی ضعیف — اولویت بالا</span></h3>
+            <ul>
+        <li>روزانه ۳۰ دقیقه، بدون استثنا</li><li>هر قاعده با ۳ مثال</li><li>روزی ۱۰ لغت + یک جمله</li><li>روزی ۵ خط ترجمه</li><li>قواعد رو از بسته ببین</li><li>قانون طلایی: عربی فهمیدنیه، نه حفظی</li></ul></div>
+        <div class="card subject" style="border-right: 5px solid #27ae60;">
+            <h3>انگلیسی <span class="level">ضعیف</span></h3>
+            <ul>
+        <li>روزانه ۳۰ دقیقه</li><li>روزی ۱۰ لغت با Anki روی لپ‌تاپ</li><li>گرامر از بسته پرش</li><li>هر شب یک پاراگراف بخون و ترجمه کن</li><li>نکته ویژه هکر: انگلیسی زبان اصلی امنیت سایبریه</li></ul></div>
+        <div class="card subject" style="border-right: 5px solid #c0392b;">
+            <h3>فارسی <span class="level">متوسط</span></h3>
+            <ul>
+        <li>هفته‌ای ۱ بلوک</li><li>معنی + آرایه + دستور با هم</li><li>هر هفته ۱ شعر حفظی</li><li>نیازی به ویدیو نداری</li></ul></div>
+        <div class="card subject" style="border-right: 5px solid #7f8c8d;">
+            <h3>علوم <span class="level">—</span></h3>
+            <ul>
+        <li>هفته‌ای ۱ بلوک سبک</li><li>فعلاً بذار تا ببینیم مدرسه چی میگه</li></ul></div>
+        </section>
+
+        <section id="daily">
+            <h2>✅ چک‌لیست روزانه</h2>
+            <p style="margin-bottom: 15px; color: #718096;">هر روز تیک بزن — خودکار ذخیره میشه</p>
+            
+        <label class="check-item">
+            <input type="checkbox" data-id="daily-0">
+            <span>خواب ۲۲:۳۰ تا ۶:۰۰</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="daily-1">
+            <span>صبحانه خوردم</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="daily-2">
+            <span>۱۰ دقیقه مرور صبح</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="daily-3">
+            <span>سر کلاس جزوه نوشتم</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="daily-4">
+            <span>بعد مدرسه: مرور درس‌های امروز (۳۰ دقیقه)</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="daily-5">
+            <span>بلوک اصلی (۹۰ دقیقه)</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="daily-6">
+            <span>عربی یا انگلیسی (۳۰ دقیقه)</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="daily-7">
+            <span>تکالیف</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="daily-8">
+            <span>دفتر اشتباهات</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="daily-9">
+            <span>دفتر افکار مزاحم</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="daily-10">
+            <span>برنامه فردا</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="daily-11">
+            <span>۳۰ دقیقه بدون صفحه قبل خواب</span>
+        </label>
+        
+        </section>
+
+        <section id="weekly-check">
+            <h2>📋 چک‌لیست هفتگی</h2>
+            <p style="margin-bottom: 15px; color: #718096;">جمعه‌ها پر کن</p>
+            
+        <label class="check-item">
+            <input type="checkbox" data-id="weekly-0">
+            <span>۵۰ بلوک اصلی زدم؟</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="weekly-1">
+            <span>عربی ۵ روز خوندم؟</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="weekly-2">
+            <span>انگلیسی ۵ روز خوندم؟</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="weekly-3">
+            <span>دفتر اشتباهات آپدیت شد؟</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="weekly-4">
+            <span>دفتر افکار مزاحم مرور شد؟</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="weekly-5">
+            <span>خواب منظم بود؟</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="weekly-6">
+            <span>باشگاه رفتم؟</span>
+        </label>
+        
+        <label class="check-item">
+            <input type="checkbox" data-id="weekly-7">
+            <span>هک یاد گرفتم (وقت آزاد)؟</span>
+        </label>
+        
+        </section>
+
+        <section id="rules">
+            <h2>⭐ قوانین طلایی</h2>
+            <ul class="rules-list">
+                <li class="rule">هدف: هکر سایبری → ریاضی + انگلیسی + برنامه‌نویسی</li><li class="rule">خواب ۲۲:۳۰ تا ۶:۰۰ — قابل مذاکره نیست</li><li class="rule">گوشی/لپ‌تاپ فقط برای درس، نه تفریح</li><li class="rule">هر روز عربی یا انگلیسی، حتی ۲۰ دقیقه</li><li class="rule">هر روز یک بلوک اصلی</li><li class="rule">دفتر اشتباهات + دفتر افکار مزاحم</li><li class="rule">جمعه: مرور صبح، استراحت بقیه</li><li class="rule">اگه یه روز خراب شد، فقط برگرد به روال</li><li class="rule">مقایسه فقط با خودت هفته قبل</li><li class="rule">هک یاد بگیر، اما جای درس رو نگیر</li>
+            </ul>
+        </section>
     </div>
-    <div class="hwid-box" id="hwidBox">
-      <div class="hwid-info">
-        <div class="hwid-label">این شناسه برای ساخت لایسنس استفاده می‌شود</div>
-        <div class="hwid-value" id="hwidValue">—</div>
-      </div>
-      <button class="copy-btn-sm" onclick="copyHwid()" id="hwidBtn">📋</button>
-    </div>
-    <div class="no-hwid" id="noHwid" style="display:none;">
-      ⚠️ HWID از برنامه دریافت نشد.<br>
-      لطفاً از دکمه‌ی «اسکن QR» داخل برنامه استفاده کنید.
-    </div>
-  </div>
-
-  <!-- پلن‌ها -->
-  <div class="card">
-    <div class="section-title">
-      <span>💎 انتخاب پلن اشتراک</span>
-      <span class="section-badge" id="plansBadge">۴ پلن</span>
-    </div>
-    <div class="plans" id="plansContainer"></div>
-  </div>
-
-  <!-- پرداخت -->
-  <div class="card" id="payment-section">
-    <div class="section-title">
-      <span>💳 پرداخت</span>
-      <span class="section-badge" id="selectedPlanBadge">—</span>
-    </div>
-
-    <div class="amount-section">
-      <div class="amount-label">💰 مبلغ قابل پرداخت</div>
-      <div class="amount-value">
-        <span id="amountValue">—</span>
-        <span class="unit">تومان</span>
-      </div>
-    </div>
-
-    <div class="tabs">
-      <button class="tab active" data-tab="card" onclick="switchTab('card')">💳 کارت</button>
-      <button class="tab" data-tab="sheba" onclick="switchTab('sheba')">🏦 شبا</button>
-    </div>
-
-    <div class="tab-panel active" id="panel-card">
-      <div class="bank-card" id="bankCard">
-        <div class="bank-card-inner">
-          <div class="bank-chip"></div>
-          <div class="bank-number" id="cardNum">6037 - 9981 - 7644 - 7448</div>
-          <div class="bank-footer">
-            <div>
-              <div class="bank-holder-label">CARD HOLDER</div>
-              <div class="bank-holder">ILIA SALEHZADEH</div>
-            </div>
-            <div class="bank-logo">SHETAB</div>
-          </div>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="copyCard()" id="btnCopyCard">
-        📋 کپی شماره کارت
-      </button>
-    </div>
-
-    <div class="tab-panel" id="panel-sheba">
-      <div class="sheba-box">
-        <div style="flex:1; min-width:0;">
-          <div class="sheba-label">شماره شبا (بدون IR)</div>
-          <div class="sheba-value">800170000000227016007008</div>
-        </div>
-        <button class="copy-btn-sm" onclick="copySheba(false)" id="shebaBtn1">📋</button>
-      </div>
-      <div class="sheba-box">
-        <div style="flex:1; min-width:0;">
-          <div class="sheba-label">شماره شبا (با IR)</div>
-          <div class="sheba-value">IR800170000000227016007008</div>
-        </div>
-        <button class="copy-btn-sm" onclick="copySheba(true)" id="shebaBtn2">📋</button>
-      </div>
-    </div>
-
-    <button class="btn btn-secondary" onclick="sendReceipt()" style="margin-top:14px;">
-      📸 ارسال تصویر فیش در روبیکا
-    </button>
-
-    <div class="steps">
-      <div class="steps-title">📋 مراحل خرید</div>
-      <div class="step"><div class="step-num">۱</div><div class="step-text">مبلغ را به کارت یا شبا واریز کنید</div></div>
-      <div class="step"><div class="step-num">۲</div><div class="step-text">تصویر فیش را ذخیره کنید</div></div>
-      <div class="step"><div class="step-num">۳</div><div class="step-text">روی «ارسال تصویر فیش» کلیک کنید</div></div>
-      <div class="step"><div class="step-num">۴</div><div class="step-text">تصویر فیش را در روبیکا ارسال کنید</div></div>
-      <div class="step"><div class="step-num">۵</div><div class="step-text">کلید لایسنس تا ۳۰ دقیقه ارسال می‌شود</div></div>
-    </div>
-
-    <div class="alert">
-      <div class="alert-icon">🔒</div>
-      <div class="alert-text">
-        <strong>توجه:</strong> فقط به شماره کارت اعلام‌شده واریز کنید. از ارسال اطلاعات کارت خود به دیگران خودداری کنید.
-      </div>
-    </div>
-  </div>
-
-  <!-- فوتر -->
-  <div class="footer">
-    <span class="footer-brand">پالس مدیریت</span> — نسخه 3.3.0
-    <br>
-    پشتیبانی: 0913-398-4340
-  </div>
-
 </div>
 
-<div class="toast" id="toast">
-  <span>✅</span>
-  <span id="toastMsg">کپی شد!</span>
-</div>
+<button class="btn-print" onclick="window.print()">🖨 پرینت</button>
+<button class="btn-reset" onclick="resetAll()">♻️ پاک کردن تیک‌ها</button>
 
 <script>
-// ============================================================
-// Config
-// ============================================================
-const CONFIG = {
-  card: '6037998176447448',
-  sheba: 'IR800170000000227016007008',
-  shebaShort: '800170000000227016007008',
-  rubika: 'https://web.rubika.ir/#c=u0I694z06ef3f234f2ae3275cf100ed3',
-  plans: [
-    { id: '1m', name: '۱ ماهه', days: 30, price: 1000000, discount: 0, recommended: false },
-    { id: '3m', name: '۳ ماهه', days: 90, price: 2700000, discount: 10, recommended: false },
-    { id: '6m', name: '۶ ماهه', days: 180, price: 4800000, discount: 20, recommended: false },
-    { id: '1y', name: '۱ ساله', days: 365, price: 8400000, discount: 30, recommended: true },
-  ],
-};
-
-let selectedPlan = null;
-let hwidFromUrl = null;
-
-// ============================================================
-// Theme
-// ============================================================
-function initTheme() {
-  const saved = localStorage.getItem('pulse_theme') || 'dark';
-  document.documentElement.setAttribute('data-theme', saved);
-  updateThemeIcon(saved);
-}
-
-function toggleTheme() {
-  const current = document.documentElement.getAttribute('data-theme') || 'dark';
-  const next = current === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('pulse_theme', next);
-  updateThemeIcon(next);
-
-  // آپدیت meta theme-color
-  const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', next === 'dark' ? '#0D0D0F' : '#F5F5FA');
-}
-
-function updateThemeIcon(theme) {
-  document.getElementById('themeBtn').textContent = theme === 'dark' ? '☀️' : '🌙';
-}
-
-// ============================================================
-// Parse URL
-// ============================================================
-const params = new URLSearchParams(window.location.search);
-hwidFromUrl = params.get('hwid');
-
-// ============================================================
-// HWID
-// ============================================================
-function initHwid() {
-  const hwidBox = document.getElementById('hwidBox');
-  const hwidValue = document.getElementById('hwidValue');
-  const noHwid = document.getElementById('noHwid');
-
-  if (hwidFromUrl && hwidFromUrl.length > 5) {
-    hwidValue.textContent = hwidFromUrl.toUpperCase();
-    hwidBox.style.display = 'flex';
-    noHwid.style.display = 'none';
-  } else {
-    hwidBox.style.display = 'none';
-    noHwid.style.display = 'block';
-  }
-}
-
-function copyHwid() {
-  if (!hwidFromUrl) return;
-  copyToClipboard(hwidFromUrl.toUpperCase()).then(() => {
-    const btn = document.getElementById('hwidBtn');
-    btn.textContent = '✅';
-    btn.classList.add('copied');
-    showToast('HWID کپی شد');
-    setTimeout(() => {
-      btn.textContent = '📋';
-      btn.classList.remove('copied');
-    }, 2000);
-  });
-}
-
-// ============================================================
-// Plans (2x2 Grid)
-// ============================================================
-function renderPlans() {
-  const container = document.getElementById('plansContainer');
-  container.innerHTML = '';
-
-  CONFIG.plans.forEach(plan => {
-    const div = document.createElement('div');
-    div.className = 'plan';
-    div.dataset.planId = plan.id;
-
-    let badge = '';
-    if (plan.recommended) {
-      badge = '<div class="plan-badge">⭐ پیشنهاد</div>';
-    } else if (plan.discount > 0) {
-      badge = `<div class="plan-badge discount">${plan.discount}٪</div>`;
+    // تب‌ها
+    function showTab(id, btn) {
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        btn.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    div.innerHTML = `
-      ${badge}
-      <div class="plan-name">${plan.name}</div>
-      <div class="plan-price">${plan.price.toLocaleString('en-US')}</div>
-      <div class="plan-unit">تومان</div>
-    `;
+    // ذخیره چک‌باکس‌ها در localStorage
+    const STORAGE_KEY = 'ilia-study-checklist';
+    function loadChecks() {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+            const id = cb.dataset.id;
+            if (saved[id]) cb.checked = true;
+            cb.addEventListener('change', () => {
+                const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+                data[id] = cb.checked;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            });
+        });
+    }
 
-    div.onclick = () => selectPlan(plan);
-    container.appendChild(div);
-  });
-}
+    function resetAll() {
+        if (confirm('همه تیک‌ها پاک بشن؟')) {
+            localStorage.removeItem(STORAGE_KEY);
+            document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+        }
+    }
 
-function selectPlan(plan) {
-  selectedPlan = plan;
-
-  document.querySelectorAll('.plan').forEach(el => {
-    el.classList.toggle('active', el.dataset.planId === plan.id);
-  });
-
-  document.getElementById('payment-section').classList.add('show');
-  document.getElementById('amountValue').textContent = plan.price.toLocaleString('en-US');
-  document.getElementById('selectedPlanBadge').textContent = plan.name;
-
-  setTimeout(() => {
-    document.getElementById('payment-section').scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
-  }, 200);
-}
-
-// ============================================================
-// Tabs
-// ============================================================
-function switchTab(tabName) {
-  document.querySelectorAll('.tab').forEach(t => {
-    t.classList.toggle('active', t.dataset.tab === tabName);
-  });
-  document.querySelectorAll('.tab-panel').forEach(p => {
-    p.classList.remove('active');
-  });
-  document.getElementById('panel-' + tabName).classList.add('active');
-}
-
-// ============================================================
-// Clipboard
-// ============================================================
-function copyToClipboard(text) {
-  if (navigator.clipboard && window.isSecureContext) {
-    return navigator.clipboard.writeText(text);
-  }
-  return new Promise((resolve) => {
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    resolve();
-  });
-}
-
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  toast.classList.add('show');
-  clearTimeout(toast._t);
-  toast._t = setTimeout(() => toast.classList.remove('show'), 2200);
-}
-
-function copyCard() {
-  copyToClipboard(CONFIG.card).then(() => {
-    const btn = document.getElementById('btnCopyCard');
-    btn.textContent = '✅ کپی شد!';
-    btn.classList.add('copied');
-    document.getElementById('bankCard').classList.add('flash');
-    showToast('شماره کارت کپی شد');
-    setTimeout(() => {
-      btn.textContent = '📋 کپی شماره کارت';
-      btn.classList.remove('copied');
-      document.getElementById('bankCard').classList.remove('flash');
-    }, 2500);
-  });
-}
-
-function copySheba(withIR) {
-  const val = withIR ? CONFIG.sheba : CONFIG.shebaShort;
-  const btnId = withIR ? 'shebaBtn2' : 'shebaBtn1';
-  copyToClipboard(val).then(() => {
-    const btn = document.getElementById(btnId);
-    btn.textContent = '✅';
-    btn.classList.add('copied');
-    showToast('شبا کپی شد');
-    setTimeout(() => {
-      btn.textContent = '📋';
-      btn.classList.remove('copied');
-    }, 2000);
-  });
-}
-
-// ============================================================
-// Send Receipt
-// ============================================================
-function sendReceipt() {
-  if (!selectedPlan) {
-    showToast('اول یه پلن انتخاب کن');
-    return;
-  }
-
-  const hwidText = hwidFromUrl ? `\n🖥️ HWID: ${hwidFromUrl.toUpperCase()}` : '';
-  const msg = `سلام 👋\nمی‌خوام لایسنس پالس مدیریت رو تهیه کنم.\n\n━━━━━━━━━━━━━\n📅 پلن: ${selectedPlan.name}\n💰 مبلغ: ${selectedPlan.price.toLocaleString('en-US')} تومان${hwidText}\n━━━━━━━━━━━━━\n\n📸 تصویر فیش واریزی رو در پیام بعدی ارسال می‌کنم.`;
-
-  copyToClipboard(msg).then(() => {
-    showToast('پیام کپی شد! روبیکا باز می‌شود...');
-    setTimeout(() => {
-      window.location.href = CONFIG.rubika;
-    }, 900);
-  });
-}
-
-// ============================================================
-// Init
-// ============================================================
-initTheme();
-initHwid();
-renderPlans();
+    loadChecks();
 </script>
 </body>
 </html>
