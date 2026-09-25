@@ -6,425 +6,1223 @@
 <title>برنامه درسی — ایلیا صالح‌زاده</title>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
 <style>
+    :root {
+        --primary: #667eea;
+        --primary-dark: #5568d3;
+        --secondary: #764ba2;
+        --accent: #f39c12;
+        --success: #27ae60;
+        --danger: #e74c3c;
+        --bg: #f7fafc;
+        --bg-card: #ffffff;
+        --text: #2d3748;
+        --text-light: #718096;
+        --border: #e2e8f0;
+        --shadow: 0 4px 20px rgba(0,0,0,0.08);
+        --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    [data-theme="dark"] {
+        --primary: #7c8ff0;
+        --primary-dark: #667eea;
+        --secondary: #9b6bc4;
+        --accent: #f5b041;
+        --success: #2ecc71;
+        --danger: #ec7063;
+        --bg: #1a202c;
+        --bg-card: #2d3748;
+        --text: #e2e8f0;
+        --text-light: #a0aec0;
+        --border: #4a5568;
+        --shadow: 0 4px 20px rgba(0,0,0,0.3);
+        --shadow-lg: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
     body {
         font-family: 'Vazirmatn', Tahoma, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: #2c3e50;
+        background: var(--bg);
+        color: var(--text);
         line-height: 1.8;
-        padding: 20px;
         min-height: 100vh;
+        transition: background 0.3s, color 0.3s;
     }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(135deg, rgba(102,126,234,0.08) 0%, rgba(118,75,162,0.08) 100%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
     .container {
-        max-width: 1100px;
+        max-width: 1200px;
         margin: 0 auto;
-        background: #fff;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        position: relative;
+        z-index: 1;
+    }
+
+    header {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: #fff;
+        padding: 50px 30px 40px;
+        text-align: center;
+        position: relative;
         overflow: hidden;
     }
-    header {
-        background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
-        color: #fff;
-        padding: 40px 30px;
-        text-align: center;
+
+    header::before {
+        content: '';
+        position: absolute;
+        top: -50%; left: -50%;
+        width: 200%; height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        animation: rotate 20s linear infinite;
     }
-    header h1 { font-size: 2.2em; margin-bottom: 10px; }
+
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    header h1 {
+        font-size: 2.4em;
+        margin-bottom: 15px;
+        position: relative;
+        z-index: 1;
+        animation: fadeInDown 0.6s;
+    }
+
     header .goal {
-        background: rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.2);
         display: inline-block;
-        padding: 8px 20px;
+        padding: 10px 24px;
         border-radius: 30px;
         margin-top: 10px;
         font-size: 1.1em;
+        font-weight: 600;
+        position: relative;
+        z-index: 1;
+        backdrop-filter: blur(10px);
     }
-    header .meta { opacity: 0.85; margin-top: 12px; font-size: 0.95em; }
+
+    header .meta {
+        opacity: 0.9;
+        margin-top: 15px;
+        font-size: 0.95em;
+        position: relative;
+        z-index: 1;
+    }
+
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .theme-toggle {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--bg-card);
+        border: 2px solid var(--border);
+        cursor: pointer;
+        font-size: 1.5em;
+        z-index: 300;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .theme-toggle:hover { transform: scale(1.1) rotate(20deg); }
+
     nav {
         display: flex;
         flex-wrap: wrap;
-        background: #edf2f7;
-        padding: 10px;
+        background: var(--bg-card);
+        padding: 12px;
         gap: 8px;
         justify-content: center;
         position: sticky;
         top: 0;
         z-index: 100;
+        box-shadow: var(--shadow);
+        border-bottom: 1px solid var(--border);
     }
+
     nav button {
-        background: #fff;
-        border: 2px solid #cbd5e0;
+        background: transparent;
+        border: 2px solid var(--border);
         padding: 10px 18px;
         border-radius: 10px;
         cursor: pointer;
         font-family: inherit;
-        font-size: 0.95em;
+        font-size: 0.9em;
+        font-weight: 600;
+        color: var(--text);
         transition: all 0.2s;
     }
-    nav button:hover { background: #e2e8f0; }
+
+    nav button:hover {
+        background: var(--bg);
+        transform: translateY(-2px);
+    }
+
     nav button.active {
-        background: #4a5568;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
         color: #fff;
-        border-color: #4a5568;
+        border-color: transparent;
+        box-shadow: 0 4px 15px rgba(102,126,234,0.4);
     }
-    .content { padding: 30px; }
-    section { display: none; animation: fadeIn 0.3s; }
+
+    .content { padding: 30px 20px 100px; }
+
+    section {
+        display: none;
+        animation: fadeIn 0.4s;
+    }
+
     section.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
     h2 {
-        font-size: 1.6em;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 3px solid #667eea;
-        color: #2d3748;
+        font-size: 1.7em;
+        margin-bottom: 25px;
+        padding-bottom: 12px;
+        border-bottom: 3px solid;
+        border-image: linear-gradient(90deg, var(--primary), var(--secondary)) 1;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 12px;
     }
+
     .card {
-        background: #f7fafc;
-        border-radius: 12px;
-        padding: 20px;
+        background: var(--bg-card);
+        border-radius: 16px;
+        padding: 22px;
         margin-bottom: 20px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        transition: transform 0.2s, box-shadow 0.2s;
     }
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-lg);
+    }
+
     .card h3 {
-        color: #2d3748;
+        color: var(--text);
+        margin-bottom: 15px;
+        font-size: 1.15em;
+    }
+
+    .day-title {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 1.3em !important;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--border);
+    }
+
+    .timeline {
+        position: relative;
+        padding-right: 20px;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        right: 5px; top: 10px; bottom: 10px;
+        width: 2px;
+        background: var(--border);
+    }
+
+    .timeline-item {
+        display: flex;
+        align-items: flex-start;
+        padding: 8px 0 8px 0;
+        position: relative;
+        gap: 12px;
+    }
+
+    .timeline-dot {
+        position: absolute;
+        right: -20px;
+        top: 14px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--primary);
+        border: 2px solid var(--bg-card);
+        box-shadow: 0 0 0 2px var(--primary);
+    }
+
+    .kind-wake .timeline-dot { background: #f6ad55; box-shadow: 0 0 0 2px #f6ad55; }
+    .kind-study .timeline-dot { background: #4299e1; box-shadow: 0 0 0 2px #4299e1; }
+    .kind-school .timeline-dot { background: #805ad5; box-shadow: 0 0 0 2px #805ad5; }
+    .kind-rest .timeline-dot { background: #48bb78; box-shadow: 0 0 0 2px #48bb78; }
+    .kind-sport .timeline-dot { background: #ed8936; box-shadow: 0 0 0 2px #ed8936; }
+    .kind-sleep .timeline-dot { background: #718096; box-shadow: 0 0 0 2px #718096; }
+
+    .timeline-time {
+        font-weight: 700;
+        color: var(--primary);
+        font-size: 0.9em;
+        min-width: 110px;
+        padding-top: 2px;
+    }
+
+    .timeline-text {
+        color: var(--text);
+        font-size: 0.95em;
+    }
+
+    .phase-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
         margin-bottom: 12px;
-        font-size: 1.2em;
     }
-    .schedule-table {
-        width: 100%;
-        border-collapse: collapse;
+
+    .phase-icon { font-size: 1.8em; }
+
+    .progress-bar {
+        height: 8px;
+        background: var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 15px;
     }
-    .schedule-table td {
-        padding: 8px 12px;
-        border-bottom: 1px solid #e2e8f0;
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 10px;
+        transition: width 0.6s;
     }
-    .schedule-table .time {
-        font-weight: bold;
-        color: #667eea;
-        width: 160px;
-        white-space: nowrap;
+
+    .phase-card ul, .subject-card ul { padding-right: 22px; }
+    .phase-card li, .subject-card li { margin: 8px 0; font-size: 0.95em; }
+
+    .subject-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
     }
-    .phase ul, .subject ul { padding-right: 20px; }
-    .phase li, .subject li { margin: 6px 0; }
+
+    .subject-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4em;
+    }
+
     .level {
-        font-size: 0.75em;
-        background: #edf2f7;
-        padding: 3px 10px;
-        border-radius: 20px;
-        color: #4a5568;
-        font-weight: normal;
+        font-size: 0.8em;
+        font-weight: 600;
     }
+
     .check-item {
         display: flex;
         align-items: center;
-        padding: 12px 15px;
-        margin: 6px 0;
-        background: #f7fafc;
-        border-radius: 10px;
+        padding: 14px 18px;
+        margin: 8px 0;
+        background: var(--bg-card);
+        border-radius: 12px;
         cursor: pointer;
         transition: all 0.2s;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        user-select: none;
     }
-    .check-item:hover { background: #edf2f7; }
+
+    .check-item:hover {
+        transform: translateX(-5px);
+        border-color: var(--primary);
+    }
+
     .check-item input {
-        width: 20px;
-        height: 20px;
-        margin-left: 12px;
-        cursor: pointer;
-        accent-color: #667eea;
+        display: none;
     }
-    .check-item input:checked + span {
+
+    .checkmark {
+        width: 24px;
+        height: 24px;
+        border-radius: 8px;
+        border: 2px solid var(--border);
+        margin-left: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        flex-shrink: 0;
+        position: relative;
+    }
+
+    .checkmark::after {
+        content: '✓';
+        color: #fff;
+        font-weight: bold;
+        opacity: 0;
+        transform: scale(0);
+        transition: all 0.2s;
+    }
+
+    .check-item input:checked + .checkmark {
+        background: var(--success);
+        border-color: var(--success);
+    }
+
+    .check-item input:checked + .checkmark::after {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .check-item input:checked ~ .check-text {
         text-decoration: line-through;
         opacity: 0.5;
     }
+
+    .check-text { font-size: 0.95em; }
+
     .rules-list { list-style: none; padding: 0; }
+
     .rule {
-        padding: 12px 18px;
-        margin: 8px 0;
-        background: linear-gradient(90deg, #fff5f5, #fff);
-        border-right: 4px solid #e53e3e;
-        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        padding: 16px 20px;
+        margin: 10px 0;
+        background: var(--bg-card);
+        border-right: 4px solid var(--danger);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        transition: transform 0.2s;
+        font-size: 0.95em;
     }
-    .btn-print {
+
+    .rule:hover { transform: translateX(-5px); }
+
+    .rule-num {
+        background: var(--danger);
+        color: #fff;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 15px;
+        font-weight: bold;
+        font-size: 0.85em;
+        flex-shrink: 0;
+    }
+
+    .exam-card {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: #fff;
+        border-radius: 16px;
+        padding: 25px;
+        text-align: center;
+        margin: 10px 0;
+        box-shadow: 0 10px 30px rgba(102,126,234,0.3);
+    }
+
+    .exam-name { font-size: 1.2em; font-weight: 700; }
+    .exam-days { font-size: 3em; font-weight: 900; margin: 10px 0; }
+    .exam-label { font-size: 0.9em; opacity: 0.9; }
+    .exam-date { font-size: 0.85em; opacity: 0.8; margin-top: 10px; }
+
+    .pomodoro {
+        text-align: center;
+        padding: 30px;
+        background: var(--bg-card);
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        margin-bottom: 20px;
+    }
+
+    .pomodoro-timer {
+        font-size: 5em;
+        font-weight: 900;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 20px 0;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .pomodoro-modes {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .pomodoro-mode {
+        padding: 8px 18px;
+        border-radius: 20px;
+        background: var(--bg);
+        border: 2px solid var(--border);
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.9em;
+        color: var(--text);
+        transition: all 0.2s;
+    }
+
+    .pomodoro-mode.active {
+        background: var(--primary);
+        color: #fff;
+        border-color: var(--primary);
+    }
+
+    .pomodoro-btns {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 12px 28px;
+        border: none;
+        border-radius: 12px;
+        font-family: inherit;
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: #fff;
+    }
+
+    .btn-primary { background: var(--primary); }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    .btn-danger { background: var(--danger); }
+    .btn-danger:hover { transform: translateY(-2px); }
+    .btn-success { background: var(--success); }
+    .btn-success:hover { transform: translateY(-2px); }
+
+    .quote-box {
+        background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
+        border: 2px dashed var(--primary);
+        border-radius: 16px;
+        padding: 30px;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.1em;
+        font-style: italic;
+        color: var(--text);
+        line-height: 2;
+        transition: opacity 0.2s;
+    }
+
+    .notes-area {
+        width: 100%;
+        min-height: 200px;
+        padding: 20px;
+        border-radius: 12px;
+        border: 2px solid var(--border);
+        background: var(--bg-card);
+        color: var(--text);
+        font-family: inherit;
+        font-size: 1em;
+        line-height: 1.8;
+        resize: vertical;
+        transition: border-color 0.2s;
+    }
+
+    .notes-area:focus {
+        outline: none;
+        border-color: var(--primary);
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .stat-card {
+        background: var(--bg-card);
+        border-radius: 16px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+        transition: transform 0.2s;
+    }
+
+    .stat-card:hover { transform: translateY(-3px); }
+
+    .stat-value {
+        font-size: 2.2em;
+        font-weight: 900;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .stat-label {
+        font-size: 0.9em;
+        color: var(--text-light);
+        margin-top: 5px;
+    }
+
+    .study-input {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .study-input input {
+        flex: 1;
+        min-width: 100px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 2px solid var(--border);
+        background: var(--bg-card);
+        color: var(--text);
+        font-family: inherit;
+        font-size: 1em;
+    }
+
+    .study-input input:focus {
+        outline: none;
+        border-color: var(--primary);
+    }
+
+    .study-log {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .study-log-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 15px;
+        background: var(--bg);
+        border-radius: 10px;
+        margin: 6px 0;
+        font-size: 0.9em;
+    }
+
+    .bottom-btns {
         position: fixed;
         bottom: 20px;
         left: 20px;
-        background: #4a5568;
-        color: #fff;
-        border: none;
-        padding: 14px 24px;
-        border-radius: 50px;
-        cursor: pointer;
-        font-family: inherit;
-        font-size: 1em;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        display: flex;
+        gap: 10px;
         z-index: 200;
     }
-    .btn-print:hover { background: #2d3748; }
-    .btn-reset {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: #e53e3e;
-        color: #fff;
+
+    .fab {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
         border: none;
-        padding: 14px 24px;
-        border-radius: 50px;
         cursor: pointer;
-        font-family: inherit;
-        font-size: 1em;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        z-index: 200;
+        font-size: 1.4em;
+        color: #fff;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+        transition: transform 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
+
+    .fab:hover { transform: scale(1.1) rotate(10deg); }
+    .fab-print { background: var(--primary); }
+    .fab-reset { background: var(--danger); }
+    .fab-top { background: var(--success); }
+
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(var(--primary), var(--secondary));
+        border-radius: 10px;
+    }
+
+    @media (max-width: 600px) {
+        header h1 { font-size: 1.6em; }
+        .content { padding: 20px 12px 100px; }
+        h2 { font-size: 1.3em; }
+        .timeline-time { min-width: 90px; font-size: 0.8em; }
+        .timeline-text { font-size: 0.85em; }
+        .pomodoro-timer { font-size: 3.5em; }
+        nav button { font-size: 0.8em; padding: 8px 12px; }
+        .theme-toggle { width: 42px; height: 42px; font-size: 1.2em; }
+    }
+
     @media print {
-        body { background: #fff; padding: 0; }
-        .container { box-shadow: none; }
-        nav, .btn-print, .btn-reset { display: none !important; }
+        body { background: #fff; color: #000; }
+        body::before { display: none; }
+        header { background: #333 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        nav, .bottom-btns, .theme-toggle, .pomodoro, .study-input, .fab { display: none !important; }
         section { display: block !important; page-break-after: always; }
         section:last-child { page-break-after: auto; }
-    }
-    @media (max-width: 600px) {
-        header h1 { font-size: 1.5em; }
-        .content { padding: 15px; }
-        .schedule-table .time { width: 100px; font-size: 0.85em; }
+        .card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+        .exam-card { background: #333 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
 </style>
 </head>
 <body>
+
+<button class="theme-toggle" onclick="toggleTheme()" title="تغییر تم">🌙</button>
+
 <div class="container">
     <header>
         <h1>📚 برنامه درسی ایلیا صالح‌زاده</h1>
         <div class="goal">🎯 هکر سایبری — دانشگاه تهران</div>
-        <div class="meta">دهم ریاضی — دبیرستان شاهد — سیرجان — شروع از مهر ۱۴۰۴</div>
+        <div class="meta">دهم ریاضی — دبیرستان شاهد سیرجان — شروع از مهر ۱۴۰۴</div>
     </header>
 
     <nav>
-        <button class="active" onclick="showTab('weekly', this)">📅 برنامه هفتگی</button>
+        <button class="active" onclick="showTab('dashboard', this)">🏠 داشبورد</button>
+        <button onclick="showTab('weekly', this)">📅 برنامه هفتگی</button>
         <button onclick="showTab('phases', this)">🗓 فازهای ماهانه</button>
-        <button onclick="showTab('subjects', this)">📖 استراتژی درس‌ها</button>
+        <button onclick="showTab('subjects', this)">📖 درس‌ها</button>
+        <button onclick="showTab('pomodoro', this)">⏱ پومودورو</button>
         <button onclick="showTab('daily', this)">✅ چک‌لیست روزانه</button>
         <button onclick="showTab('weekly-check', this)">📋 چک‌لیست هفتگی</button>
-        <button onclick="showTab('rules', this)">⭐ قوانین طلایی</button>
+        <button onclick="showTab('stats', this)">📊 آمار</button>
+        <button onclick="showTab('notes', this)">📝 یادداشت</button>
+        <button onclick="showTab('rules', this)">⭐ قوانین</button>
     </nav>
 
     <div class="content">
-        <section id="weekly" class="active">
+
+        <section id="dashboard" class="active">
+            <h2>🏠 داشبورد</h2>
+
+            <div class="quote-box" id="quoteBox">
+                «بهترین زمان برای شروع، همین الان است.»
+            </div>
+            <button class="btn btn-primary" onclick="newQuote()" style="margin-bottom:20px;">🔄 جمله جدید</button>
+
+            <h3 style="margin: 25px 0 15px;">⏳ شمارش معکوس امتحانات</h3>
+            <div class="stats-grid">
+                <div class="exam-card">
+                    <div class="exam-name">میان‌ترم</div>
+                    <div class="exam-days">۸۰</div>
+                    <div class="exam-label">روز مانده</div>
+                    <div class="exam-date">۱۴۰۴/۰۹/۱۵</div>
+                </div>
+                <div class="exam-card">
+                    <div class="exam-name">پایان‌ترم</div>
+                    <div class="exam-days">۱۱۵</div>
+                    <div class="exam-label">روز مانده</div>
+                    <div class="exam-date">۱۴۰۴/۱۰/۲۰</div>
+                </div>
+            </div>
+
+            <h3 style="margin: 25px 0 15px;">⚡ میانبر</h3>
+            <div class="stats-grid">
+                <div class="stat-card" onclick="showTabById('pomodoro')" style="cursor:pointer;">
+                    <div class="stat-value">⏱</div>
+                    <div class="stat-label">شروع پومودورو</div>
+                </div>
+                <div class="stat-card" onclick="showTabById('stats')" style="cursor:pointer;">
+                    <div class="stat-value">📊</div>
+                    <div class="stat-label">آمار مطالعه</div>
+                </div>
+                <div class="stat-card" onclick="showTabById('notes')" style="cursor:pointer;">
+                    <div class="stat-value">📝</div>
+                    <div class="stat-label">یادداشت روز</div>
+                </div>
+                <div class="stat-card" onclick="window.print()" style="cursor:pointer;">
+                    <div class="stat-value">🖨</div>
+                    <div class="stat-label">پرینت برنامه</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="weekly">
             <h2>📅 برنامه هفتگی</h2>
-            <div class="card"><h3>شنبه (باشگاه)</h3><table class="schedule-table"><tr><td class="time">۶:۰۰</td><td>بیداری، صبحانه</td></tr><tr><td class="time">۶:۳۰</td><td>۱۰ دقیقه مرور عربی/انگلیسی</td></tr><tr><td class="time">۷:۰۰ تا ۱۴:۰۰</td><td>مدرسه</td></tr><tr><td class="time">۱۴:۰۰ تا ۱۵:۰۰</td><td>ناهار</td></tr><tr><td class="time">۱۵:۰۰ تا ۱۶:۰۰</td><td>استراحت واقعی (بدون صفحه)</td></tr><tr><td class="time">۱۶:۰۰ تا ۱۶:۳۰</td><td>آماده شدن برای باشگاه</td></tr><tr><td class="time">۱۶:۳۰ تا ۲۰:۰۰</td><td>باشگاه کیک‌بوکسینگ</td></tr><tr><td class="time">۲۰:۰۰ تا ۲۰:۴۵</td><td>دوش، شام</td></tr><tr><td class="time">۲۰:۴۵ تا ۲۱:۱۵</td><td>مرور سبک درس‌های فردا</td></tr><tr><td class="time">۲۱:۱۵ تا ۲۱:۳۰</td><td>دفتر اشتباهات</td></tr><tr><td class="time">۲۱:۳۰ تا ۲۲:۰۰</td><td>برنامه فردا + آماده خواب</td></tr><tr><td class="time">۲۲:۳۰</td><td>خواب</td></tr></table></div><div class="card"><h3>یکشنبه (بدون باشگاه — روز طلایی)</h3><table class="schedule-table"><tr><td class="time">۶:۰۰</td><td>بیداری، صبحانه</td></tr><tr><td class="time">۶:۳۰</td><td>۱۰ دقیقه مرور</td></tr><tr><td class="time">۷:۰۰ تا ۱۴:۰۰</td><td>مدرسه</td></tr><tr><td class="time">۱۴:۰۰ تا ۱۵:۰۰</td><td>ناهار</td></tr><tr><td class="time">۱۵:۰۰ تا ۱۵:۳۰</td><td>استراحت</td></tr><tr><td class="time">۱۵:۳۰ تا ۱۷:۰۰</td><td>ریاضی (ویدیو ۳۰ + تمرین ۶۰)</td></tr><tr><td class="time">۱۷:۰۰ تا ۱۷:۱۵</td><td>استراحت</td></tr><tr><td class="time">۱۷:۱۵ تا ۱۸:۱۵</td><td>عربی (ویدیو ۲۰ + تمرین ۴۰)</td></tr><tr><td class="time">۱۸:۱۵ تا ۱۸:۴۵</td><td>استراحت</td></tr><tr><td class="time">۱۸:۴۵ تا ۲۰:۰۰</td><td>تکالیف + شیمی</td></tr><tr><td class="time">۲۰:۰۰ تا ۲۰:۴۵</td><td>شام</td></tr><tr><td class="time">۲۰:۴۵ تا ۲۲:۰۰</td><td>هندسه</td></tr><tr><td class="time">۲۲:۰۰ تا ۲۲:۳۰</td><td>مرور + برنامه فردا</td></tr><tr><td class="time">۲۲:۳۰</td><td>خواب</td></tr></table></div><div class="card"><h3>دوشنبه (باشگاه)</h3><table class="schedule-table"><tr><td class="time">۶:۰۰ تا ۱۴:۰۰</td><td>مثل شنبه</td></tr><tr><td class="time">۱۴:۰۰ تا ۱۵:۰۰</td><td>ناهار</td></tr><tr><td class="time">۱۵:۰۰ تا ۱۶:۰۰</td><td>استراحت</td></tr><tr><td class="time">۱۶:۳۰ تا ۲۰:۰۰</td><td>باشگاه</td></tr><tr><td class="time">۲۰:۰۰ تا ۲۰:۴۵</td><td>دوش، شام</td></tr><tr><td class="time">۲۰:۴۵ تا ۲۲:۰۰</td><td>فیزیک (ویدیو ۳۰ + تمرین ۴۵)</td></tr><tr><td class="time">۲۲:۰۰ تا ۲۲:۳۰</td><td>مرور + برنامه فردا</td></tr><tr><td class="time">۲۲:۳۰</td><td>خواب</td></tr></table></div><div class="card"><h3>سه‌شنبه (بدون باشگاه — روز طلایی)</h3><table class="schedule-table"><tr><td class="time">۶:۰۰ تا ۱۴:۰۰</td><td>مدرسه</td></tr><tr><td class="time">۱۴:۰۰ تا ۱۵:۰۰</td><td>ناهار</td></tr><tr><td class="time">۱۵:۰۰ تا ۱۵:۳۰</td><td>استراحت</td></tr><tr><td class="time">۱۵:۳۰ تا ۱۷:۰۰</td><td>ریاضی</td></tr><tr><td class="time">۱۷:۰۰ تا ۱۷:۱۵</td><td>استراحت</td></tr><tr><td class="time">۱۷:۱۵ تا ۱۸:۱۵</td><td>انگلیسی</td></tr><tr><td class="time">۱۸:۱۵ تا ۱۸:۴۵</td><td>استراحت</td></tr><tr><td class="time">۱۸:۴۵ تا ۲۰:۰۰</td><td>تکالیف + فارسی</td></tr><tr><td class="time">۲۰:۰۰ تا ۲۰:۴۵</td><td>شام</td></tr><tr><td class="time">۲۰:۴۵ تا ۲۲:۰۰</td><td>فیزیک یا هندسه</td></tr><tr><td class="time">۲۲:۰۰ تا ۲۲:۳۰</td><td>مرور + دفتر اشتباهات</td></tr><tr><td class="time">۲۲:۳۰</td><td>خواب</td></tr></table></div><div class="card"><h3>چهارشنبه (باشگاه)</h3><table class="schedule-table"><tr><td class="time">۶:۰۰ تا ۱۴:۰۰</td><td>مدرسه</td></tr><tr><td class="time">۱۴:۰۰ تا ۱۵:۰۰</td><td>ناهار</td></tr><tr><td class="time">۱۵:۰۰ تا ۱۶:۰۰</td><td>استراحت</td></tr><tr><td class="time">۱۶:۳۰ تا ۲۰:۰۰</td><td>باشگاه</td></tr><tr><td class="time">۲۰:۰۰ تا ۲۰:۴۵</td><td>دوش، شام</td></tr><tr><td class="time">۲۰:۴۵ تا ۲۲:۰۰</td><td>ریاضی (ویدیو ۳۰ + تمرین ۴۵)</td></tr><tr><td class="time">۲۲:۰۰ تا ۲۲:۳۰</td><td>مرور + برنامه فردا</td></tr><tr><td class="time">۲۲:۳۰</td><td>خواب</td></tr></table></div><div class="card"><h3>پنجشنبه (تعطیل — روز بزرگ)</h3><table class="schedule-table"><tr><td class="time">۸:۰۰</td><td>بیداری، صبحانه</td></tr><tr><td class="time">۸:۳۰ تا ۱۰:۰۰</td><td>ریاضی یا فیزیک</td></tr><tr><td class="time">۱۰:۰۰ تا ۱۰:۳۰</td><td>استراحت</td></tr><tr><td class="time">۱۰:۳۰ تا ۱۲:۰۰</td><td>عربی + انگلیسی</td></tr><tr><td class="time">۱۲:۰۰ تا ۱۴:۰۰</td><td>ناهار، استراحت</td></tr><tr><td class="time">۱۴:۰۰ تا ۱۵:۳۰</td><td>شیمی</td></tr><tr><td class="time">۱۵:۳۰ تا ۱۶:۰۰</td><td>استراحت</td></tr><tr><td class="time">۱۶:۰۰ تا ۱۷:۳۰</td><td>هندسه</td></tr><tr><td class="time">۱۷:۳۰ به بعد</td><td>آزاد</td></tr></table></div><div class="card"><h3>جمعه (مرور)</h3><table class="schedule-table"><tr><td class="time">۹:۰۰ تا ۱۰:۳۰</td><td>مرور کل هفته (خلاصه‌ها)</td></tr><tr><td class="time">۱۰:۳۰ تا ۱۱:۰۰</td><td>دفتر اشتباهات</td></tr><tr><td class="time">۱۱:۰۰ تا ۱۱:۳۰</td><td>نوشتن برنامه هفته بعد</td></tr><tr><td class="time">بقیه روز</td><td>استراحت کامل — بدون درس</td></tr></table></div>
+
+            <div class="card day-card"><h3 class="day-title">شنبه (باشگاه)</h3><div class="timeline">
+                <div class="timeline-item kind-wake"><div class="timeline-dot"></div><div class="timeline-time">۶:۰۰</div><div class="timeline-text">بیداری، صبحانه</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۶:۳۰</div><div class="timeline-text">۱۰ دقیقه مرور عربی/انگلیسی</div></div>
+                <div class="timeline-item kind-school"><div class="timeline-dot"></div><div class="timeline-time">۷:۰۰ تا ۱۴:۰۰</div><div class="timeline-text">مدرسه</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۴:۰۰ تا ۱۵:۰۰</div><div class="timeline-text">ناهار</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۵:۰۰ تا ۱۶:۰۰</div><div class="timeline-text">استراحت واقعی (بدون صفحه)</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۶:۰۰ تا ۱۶:۳۰</div><div class="timeline-text">آماده شدن برای باشگاه</div></div>
+                <div class="timeline-item kind-sport"><div class="timeline-dot"></div><div class="timeline-time">۱۶:۳۰ تا ۲۰:۰۰</div><div class="timeline-text">باشگاه کیک‌بوکسینگ</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۲۰:۰۰ تا ۲۰:۴۵</div><div class="timeline-text">دوش، شام</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۲۰:۴۵ تا ۲۱:۱۵</div><div class="timeline-text">مرور سبک درس‌های فردا</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۲۱:۱۵ تا ۲۱:۳۰</div><div class="timeline-text">دفتر اشتباهات</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۲۱:۳۰ تا ۲۲:۰۰</div><div class="timeline-text">برنامه فردا + آماده خواب</div></div>
+                <div class="timeline-item kind-sleep"><div class="timeline-dot"></div><div class="timeline-time">۲۲:۳۰</div><div class="timeline-text">خواب</div></div>
+            </div></div>
+
+            <div class="card day-card"><h3 class="day-title">یکشنبه (بدون باشگاه)</h3><div class="timeline">
+                <div class="timeline-item kind-wake"><div class="timeline-dot"></div><div class="timeline-time">۶:۰۰</div><div class="timeline-text">بیداری، صبحانه</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۶:۳۰</div><div class="timeline-text">۱۰ دقیقه مرور</div></div>
+                <div class="timeline-item kind-school"><div class="timeline-dot"></div><div class="timeline-time">۷:۰۰ تا ۱۴:۰۰</div><div class="timeline-text">مدرسه</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۴:۰۰ تا ۱۵:۰۰</div><div class="timeline-text">ناهار</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۵:۰۰ تا ۱۵:۳۰</div><div class="timeline-text">استراحت</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۱۵:۳۰ تا ۱۷:۰۰</div><div class="timeline-text">ریاضی (ویدیو ۳۰ + تمرین ۶۰)</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۷:۰۰ تا ۱۷:۱۵</div><div class="timeline-text">استراحت</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۱۷:۱۵ تا ۱۸:۱۵</div><div class="timeline-text">عربی (ویدیو ۲۰ + تمرین ۴۰)</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۸:۱۵ تا ۱۸:۴۵</div><div class="timeline-text">استراحت</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۱۸:۴۵ تا ۲۰:۰۰</div><div class="timeline-text">تکالیف + شیمی</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۲۰:۰۰ تا ۲۰:۴۵</div><div class="timeline-text">شام</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۲۰:۴۵ تا ۲۲:۰۰</div><div class="timeline-text">هندسه</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۲۲:۰۰ تا ۲۲:۳۰</div><div class="timeline-text">مرور + برنامه فردا</div></div>
+                <div class="timeline-item kind-sleep"><div class="timeline-dot"></div><div class="timeline-time">۲۲:۳۰</div><div class="timeline-text">خواب</div></div>
+            </div></div>
+
+            <div class="card day-card"><h3 class="day-title">دوشنبه (باشگاه)</h3><div class="timeline">
+                <div class="timeline-item kind-school"><div class="timeline-dot"></div><div class="timeline-time">۶:۰۰ تا ۱۴:۰۰</div><div class="timeline-text">مثل شنبه</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۴:۰۰ تا ۱۵:۰۰</div><div class="timeline-text">ناهار</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۵:۰۰ تا ۱۶:۰۰</div><div class="timeline-text">استراحت</div></div>
+                <div class="timeline-item kind-sport"><div class="timeline-dot"></div><div class="timeline-time">۱۶:۳۰ تا ۲۰:۰۰</div><div class="timeline-text">باشگاه</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۲۰:۰۰ تا ۲۰:۴۵</div><div class="timeline-text">دوش، شام</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۲۰:۴۵ تا ۲۲:۰۰</div><div class="timeline-text">فیزیک (ویدیو ۳۰ + تمرین ۴۵)</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۲۲:۰۰ تا ۲۲:۳۰</div><div class="timeline-text">مرور + برنامه فردا</div></div>
+                <div class="timeline-item kind-sleep"><div class="timeline-dot"></div><div class="timeline-time">۲۲:۳۰</div><div class="timeline-text">خواب</div></div>
+            </div></div>
+
+            <div class="card day-card"><h3 class="day-title">سه‌شنبه (بدون باشگاه)</h3><div class="timeline">
+                <div class="timeline-item kind-school"><div class="timeline-dot"></div><div class="timeline-time">۶:۰۰ تا ۱۴:۰۰</div><div class="timeline-text">مدرسه</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۴:۰۰ تا ۱۵:۰۰</div><div class="timeline-text">ناهار</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۵:۰۰ تا ۱۵:۳۰</div><div class="timeline-text">استراحت</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۱۵:۳۰ تا ۱۷:۰۰</div><div class="timeline-text">ریاضی</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۷:۰۰ تا ۱۷:۱۵</div><div class="timeline-text">استراحت</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۱۷:۱۵ تا ۱۸:۱۵</div><div class="timeline-text">انگلیسی</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۸:۱۵ تا ۱۸:۴۵</div><div class="timeline-text">استراحت</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۱۸:۴۵ تا ۲۰:۰۰</div><div class="timeline-text">تکالیف + فارسی</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۲۰:۰۰ تا ۲۰:۴۵</div><div class="timeline-text">شام</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۲۰:۴۵ تا ۲۲:۰۰</div><div class="timeline-text">فیزیک یا هندسه</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۲۲:۰۰ تا ۲۲:۳۰</div><div class="timeline-text">مرور + دفتر اشتباهات</div></div>
+                <div class="timeline-item kind-sleep"><div class="timeline-dot"></div><div class="timeline-time">۲۲:۳۰</div><div class="timeline-text">خواب</div></div>
+            </div></div>
+
+            <div class="card day-card"><h3 class="day-title">چهارشنبه (باشگاه)</h3><div class="timeline">
+                <div class="timeline-item kind-school"><div class="timeline-dot"></div><div class="timeline-time">۶:۰۰ تا ۱۴:۰۰</div><div class="timeline-text">مدرسه</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۴:۰۰ تا ۱۵:۰۰</div><div class="timeline-text">ناهار</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۵:۰۰ تا ۱۶:۰۰</div><div class="timeline-text">استراحت</div></div>
+                <div class="timeline-item kind-sport"><div class="timeline-dot"></div><div class="timeline-time">۱۶:۳۰ تا ۲۰:۰۰</div><div class="timeline-text">باشگاه</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۲۰:۰۰ تا ۲۰:۴۵</div><div class="timeline-text">دوش، شام</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۲۰:۴۵ تا ۲۲:۰۰</div><div class="timeline-text">ریاضی (ویدیو ۳۰ + تمرین ۴۵)</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۲۲:۰۰ تا ۲۲:۳۰</div><div class="timeline-text">مرور + برنامه فردا</div></div>
+                <div class="timeline-item kind-sleep"><div class="timeline-dot"></div><div class="timeline-time">۲۲:۳۰</div><div class="timeline-text">خواب</div></div>
+            </div></div>
+
+            <div class="card day-card"><h3 class="day-title">پنجشنبه (تعطیل)</h3><div class="timeline">
+                <div class="timeline-item kind-wake"><div class="timeline-dot"></div><div class="timeline-time">۸:۰۰</div><div class="timeline-text">بیداری، صبحانه</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۸:۳۰ تا ۱۰:۰۰</div><div class="timeline-text">ریاضی یا فیزیک</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۰:۰۰ تا ۱۰:۳۰</div><div class="timeline-text">استراحت</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۱۰:۳۰ تا ۱۲:۰۰</div><div class="timeline-text">عربی + انگلیسی</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۲:۰۰ تا ۱۴:۰۰</div><div class="timeline-text">ناهار، استراحت</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۱۴:۰۰ تا ۱۵:۳۰</div><div class="timeline-text">شیمی</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۵:۳۰ تا ۱۶:۰۰</div><div class="timeline-text">استراحت</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۱۶:۰۰ تا ۱۷:۳۰</div><div class="timeline-text">هندسه</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">۱۷:۳۰ به بعد</div><div class="timeline-text">آزاد</div></div>
+            </div></div>
+
+            <div class="card day-card"><h3 class="day-title">جمعه (مرور)</h3><div class="timeline">
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۹:۰۰ تا ۱۰:۳۰</div><div class="timeline-text">مرور کل هفته (خلاصه‌ها)</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۱۰:۳۰ تا ۱۱:۰۰</div><div class="timeline-text">دفتر اشتباهات</div></div>
+                <div class="timeline-item kind-study"><div class="timeline-dot"></div><div class="timeline-time">۱۱:۰۰ تا ۱۱:۳۰</div><div class="timeline-text">نوشتن برنامه هفته بعد</div></div>
+                <div class="timeline-item kind-rest"><div class="timeline-dot"></div><div class="timeline-time">بقیه روز</div><div class="timeline-text">استراحت کامل — بدون درس</div></div>
+            </div></div>
+
         </section>
 
         <section id="phases">
             <h2>🗓 فازهای ماهانه</h2>
-            
-        <div class="card phase">
-            <h3>مهر — عادت‌سازی</h3>
-            <ul>
-        <li>هفته ۱: ۹۰ دقیقه مفید روزانه</li><li>هفته ۲: ۲ ساعت</li><li>هفته ۳: ۲.۵ ساعت</li><li>هفته ۴: ۳ ساعت</li><li>هدف: خواب منظم، دفترها آماده، عربی/انگلیسی روزانه</li></ul></div>
-        <div class="card phase">
-            <h3>آبان — ثبات</h3>
-            <ul>
-        <li>۳ ساعت مفید روزانه</li><li>مرور فاصله‌دار جدی (۳ روز، ۱ هفته، ۲ هفته)</li><li>هدف: بدون عقب‌افتادگی از مدرسه</li></ul></div>
-        <div class="card phase">
-            <h3>آذر — آماده امتحان میان‌ترم</h3>
-            <ul>
-        <li>۳ ساعت مفید</li><li>۲ هفته آخر: تمرکز روی امتحانات میان‌ترم</li><li>هدف: میان‌ترم عالی</li></ul></div>
-        <div class="card phase">
-            <h3>دی — آماده امتحان پایان‌ترم</h3>
-            <ul>
-        <li>۳ تا ۳.۵ ساعت مفید</li><li>هفته اول: مرور کل نیمسال</li><li>هفته آخر: نمونه سوال امتحانی</li></ul></div>
-        <div class="card phase">
-            <h3>بهمن — جمع‌بندی و استراحت</h3>
-            <ul>
-        <li>۲.۵ تا ۳ ساعت</li><li>مرور ضعف‌ها</li><li>شروع پیش‌خوانی نیمسال دوم (سبک)</li></ul></div>
-        <div class="card phase">
-            <h3>اسفند — پیش به سوی جلو</h3>
-            <ul>
-        <li>۳ تا ۳.۵ ساعت</li><li>همراه با مدرسه جلو برو، نه عقب</li></ul></div>
-        <div class="card phase">
-            <h3>فروردین — جلو افتادن</h3>
-            <ul>
-        <li>تعطیلات نوروز: ۳ تا ۴ ساعت مفید</li><li>پیش‌خوانی نیمسال دوم</li><li>هدف: از مدرسه جلوتری</li></ul></div>
-        <div class="card phase">
-            <h3>اردیبهشت — تثبیت</h3>
-            <ul>
-        <li>۳ تا ۴ ساعت</li><li>تست‌زنی جدی</li><li>هفته‌ای یک آزمون از خودت</li></ul></div>
-        <div class="card phase">
-            <h3>خرداد — امتحانات</h3>
-            <ul>
-        <li>مرور همه چیز با خلاصه‌ها</li><li>نمونه سوال سال‌های قبل</li><li>بدون استرس، با اعتماد به نفس</li></ul></div>
+
+            <div class="card phase-card">
+                <div class="phase-header"><span class="phase-icon">🌱</span><h3>مهر — عادت‌سازی</h3></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+                <ul>
+                    <li>هفته ۱: ۹۰ دقیقه مفید روزانه</li>
+                    <li>هفته ۲: ۲ ساعت</li>
+                    <li>هفته ۳: ۲.۵ ساعت</li>
+                    <li>هفته ۴: ۳ ساعت</li>
+                    <li>هدف: خواب منظم، دفترها آماده، عربی/انگلیسی روزانه</li>
+                </ul>
+            </div>
+
+            <div class="card phase-card">
+                <div class="phase-header"><span class="phase-icon">🌿</span><h3>آبان — ثبات</h3></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+                <ul>
+                    <li>۳ ساعت مفید روزانه</li>
+                    <li>مرور فاصله‌دار جدی</li>
+                    <li>هدف: بدون عقب‌افتادگی از مدرسه</li>
+                </ul>
+            </div>
+
+            <div class="card phase-card">
+                <div class="phase-header"><span class="phase-icon">📝</span><h3>آذر — آماده امتحان میان‌ترم</h3></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+                <ul>
+                    <li>۳ ساعت مفید</li>
+                    <li>۲ هفته آخر: تمرکز روی امتحانات</li>
+                    <li>هدف: میان‌ترم عالی</li>
+                </ul>
+            </div>
+
+            <div class="card phase-card">
+                <div class="phase-header"><span class="phase-icon">🎯</span><h3>دی — آماده امتحان پایان‌ترم</h3></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+                <ul>
+                    <li>۳ تا ۳.۵ ساعت مفید</li>
+                    <li>هفته اول: مرور کل نیمسال</li>
+                    <li>هفته آخر: نمونه سوال امتحانی</li>
+                </ul>
+            </div>
+
+            <div class="card phase-card">
+                <div class="phase-header"><span class="phase-icon">📊</span><h3>بهمن — جمع‌بندی</h3></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+                <ul>
+                    <li>۲.۵ تا ۳ ساعت</li>
+                    <li>مرور ضعف‌ها</li>
+                    <li>شروع پیش‌خوانی نیمسال دوم</li>
+                </ul>
+            </div>
+
+            <div class="card phase-card">
+                <div class="phase-header"><span class="phase-icon">🚀</span><h3>اسفند — پیش به سوی جلو</h3></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+                <ul>
+                    <li>۳ تا ۳.۵ ساعت</li>
+                    <li>همراه با مدرسه جلو برو</li>
+                </ul>
+            </div>
+
+            <div class="card phase-card">
+                <div class="phase-header"><span class="phase-icon">⚡</span><h3>فروردین — جلو افتادن</h3></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+                <ul>
+                    <li>تعطیلات: ۳ تا ۴ ساعت مفید</li>
+                    <li>پیش‌خوانی نیمسال دوم</li>
+                    <li>هدف: از مدرسه جلوتری</li>
+                </ul>
+            </div>
+
+            <div class="card phase-card">
+                <div class="phase-header"><span class="phase-icon">💪</span><h3>اردیبهشت — تثبیت</h3></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+                <ul>
+                    <li>۳ تا ۴ ساعت</li>
+                    <li>تست‌زنی جدی</li>
+                    <li>هفته‌ای یک آزمون از خودت</li>
+                </ul>
+            </div>
+
+            <div class="card phase-card">
+                <div class="phase-header"><span class="phase-icon">🏆</span><h3>خرداد — امتحانات</h3></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+                <ul>
+                    <li>مرور همه چیز با خلاصه‌ها</li>
+                    <li>نمونه سوال سال‌های قبل</li>
+                    <li>بدون استرس، با اعتماد به نفس</li>
+                </ul>
+            </div>
         </section>
 
         <section id="subjects">
             <h2>📖 استراتژی هر درس</h2>
-            
-        <div class="card subject" style="border-right: 5px solid #e74c3c;">
-            <h3>ریاضی <span class="level">ضعیف → حیاتی</span></h3>
-            <ul>
-        <li>قبل کلاس ۱۰ دقیقه پیش‌خوانی</li><li>سر کلاس جزوه بنویس</li><li>بعد کلاس ۲۰ دقیقه مرور</li><li>شب تمرین حل کن</li><li>ویدیو فقط برای مباحث نفهمیده</li><li>برای هر ۳۰ دقیقه ویدیو، ۶۰ دقیقه تمرین</li><li>دفتر اشتباهات اجباری</li><li>هر فصل تموم شد: ۲۰ تست</li></ul></div>
-        <div class="card subject" style="border-right: 5px solid #3498db;">
-            <h3>فیزیک <span class="level">متوسط رو به بالا</span></h3>
-            <ul>
-        <li>مفهومی بخون، فرمول حفظ نکن</li><li>مسئله: شکل بکش، داده‌ها رو بنویس</li><li>یکاها رو بررسی کن</li><li>ویدیو برای مسائل سخت</li><li>بعد هر فصل ۱۵ تا ۲۰ تست</li></ul></div>
-        <div class="card subject" style="border-right: 5px solid #9b59b6;">
-            <h3>هندسه <span class="level">متوسط</span></h3>
-            <ul>
-        <li>هر قضیه رو با شکل یاد بگیر</li><li>هر اثبات رو ۲ بار بنویس (با کتاب و بدون کتاب)</li><li>ویدیو خیلی مفیده</li></ul></div>
-        <div class="card subject" style="border-right: 5px solid #16a085;">
-            <h3>شیمی <span class="level">ضعیف</span></h3>
-            <ul>
-        <li>اول مفهوم، بعد فرمول، بعد تمرین</li><li>واکنش‌ها رو در جدول دسته‌بندی کن</li><li>ویدیو حتماً ببین</li><li>هر ۳ روز واکنش‌ها رو مرور کن</li></ul></div>
-        <div class="card subject" style="border-right: 5px solid #f39c12;">
-            <h3>عربی <span class="level">خیلی ضعیف — اولویت بالا</span></h3>
-            <ul>
-        <li>روزانه ۳۰ دقیقه، بدون استثنا</li><li>هر قاعده با ۳ مثال</li><li>روزی ۱۰ لغت + یک جمله</li><li>روزی ۵ خط ترجمه</li><li>قواعد رو از بسته ببین</li><li>قانون طلایی: عربی فهمیدنیه، نه حفظی</li></ul></div>
-        <div class="card subject" style="border-right: 5px solid #27ae60;">
-            <h3>انگلیسی <span class="level">ضعیف</span></h3>
-            <ul>
-        <li>روزانه ۳۰ دقیقه</li><li>روزی ۱۰ لغت با Anki روی لپ‌تاپ</li><li>گرامر از بسته پرش</li><li>هر شب یک پاراگراف بخون و ترجمه کن</li><li>نکته ویژه هکر: انگلیسی زبان اصلی امنیت سایبریه</li></ul></div>
-        <div class="card subject" style="border-right: 5px solid #c0392b;">
-            <h3>فارسی <span class="level">متوسط</span></h3>
-            <ul>
-        <li>هفته‌ای ۱ بلوک</li><li>معنی + آرایه + دستور با هم</li><li>هر هفته ۱ شعر حفظی</li><li>نیازی به ویدیو نداری</li></ul></div>
-        <div class="card subject" style="border-right: 5px solid #7f8c8d;">
-            <h3>علوم <span class="level">—</span></h3>
-            <ul>
-        <li>هفته‌ای ۱ بلوک سبک</li><li>فعلاً بذار تا ببینیم مدرسه چی میگه</li></ul></div>
+
+            <div class="card subject-card" style="border-right: 5px solid #e74c3c;">
+                <div class="subject-header">
+                    <span class="subject-icon" style="background:#e74c3c20; color:#e74c3c;">📐</span>
+                    <div><h3>ریاضی</h3><span class="level" style="color:#e74c3c;">ضعیف → حیاتی</span></div>
+                </div>
+                <ul>
+                    <li>قبل کلاس ۱۰ دقیقه پیش‌خوانی</li>
+                    <li>سر کلاس جزوه بنویس</li>
+                    <li>بعد کلاس ۲۰ دقیقه مرور</li>
+                    <li>شب تمرین حل کن</li>
+                    <li>ویدیو فقط برای مباحث نفهمیده</li>
+                    <li>برای هر ۳۰ دقیقه ویدیو، ۶۰ دقیقه تمرین</li>
+                    <li>دفتر اشتباهات اجباری</li>
+                    <li>هر فصل تموم شد: ۲۰ تست</li>
+                </ul>
+            </div>
+
+            <div class="card subject-card" style="border-right: 5px solid #3498db;">
+                <div class="subject-header">
+                    <span class="subject-icon" style="background:#3498db20; color:#3498db;">⚛️</span>
+                    <div><h3>فیزیک</h3><span class="level" style="color:#3498db;">متوسط رو به بالا</span></div>
+                </div>
+                <ul>
+                    <li>مفهومی بخون، فرمول حفظ نکن</li>
+                    <li>مسئله: شکل بکش، داده‌ها رو بنویس</li>
+                    <li>یکاها رو بررسی کن</li>
+                    <li>ویدیو برای مسائل سخت</li>
+                    <li>بعد هر فصل ۱۵ تا ۲۰ تست</li>
+                </ul>
+            </div>
+
+            <div class="card subject-card" style="border-right: 5px solid #9b59b6;">
+                <div class="subject-header">
+                    <span class="subject-icon" style="background:#9b59b620; color:#9b59b6;">📏</span>
+                    <div><h3>هندسه</h3><span class="level" style="color:#9b59b6;">متوسط</span></div>
+                </div>
+                <ul>
+                    <li>هر قضیه رو با شکل یاد بگیر</li>
+                    <li>هر اثبات رو ۲ بار بنویس</li>
+                    <li>ویدیو خیلی مفیده</li>
+                </ul>
+            </div>
+
+            <div class="card subject-card" style="border-right: 5px solid #16a085;">
+                <div class="subject-header">
+                    <span class="subject-icon" style="background:#16a08520; color:#16a085;">🧪</span>
+                    <div><h3>شیمی</h3><span class="level" style="color:#16a085;">ضعیف</span></div>
+                </div>
+                <ul>
+                    <li>اول مفهوم، بعد فرمول، بعد تمرین</li>
+                    <li>واکنش‌ها رو در جدول دسته‌بندی کن</li>
+                    <li>ویدیو حتماً ببین</li>
+                    <li>هر ۳ روز واکنش‌ها رو مرور کن</li>
+                </ul>
+            </div>
+
+            <div class="card subject-card" style="border-right: 5px solid #f39c12;">
+                <div class="subject-header">
+                    <span class="subject-icon" style="background:#f39c1220; color:#f39c12;">📖</span>
+                    <div><h3>عربی</h3><span class="level" style="color:#f39c12;">خیلی ضعیف — اولویت بالا</span></div>
+                </div>
+                <ul>
+                    <li>روزانه ۳۰ دقیقه، بدون استثنا</li>
+                    <li>هر قاعده با ۳ مثال</li>
+                    <li>روزی ۱۰ لغت + یک جمله</li>
+                    <li>روزی ۵ خط ترجمه</li>
+                    <li>قواعد رو از بسته ببین</li>
+                    <li>قانون طلایی: عربی فهمیدنیه</li>
+                </ul>
+            </div>
+
+            <div class="card subject-card" style="border-right: 5px solid #27ae60;">
+                <div class="subject-header">
+                    <span class="subject-icon" style="background:#27ae6020; color:#27ae60;">🌍</span>
+                    <div><h3>انگلیسی</h3><span class="level" style="color:#27ae60;">ضعیف</span></div>
+                </div>
+                <ul>
+                    <li>روزانه ۳۰ دقیقه</li>
+                    <li>روزی ۱۰ لغت با Anki</li>
+                    <li>گرامر از بسته پرش</li>
+                    <li>هر شب یک پاراگراف بخون</li>
+                    <li>نکته: انگلیسی زبان امنیت سایبریه</li>
+                </ul>
+            </div>
+
+            <div class="card subject-card" style="border-right: 5px solid #c0392b;">
+                <div class="subject-header">
+                    <span class="subject-icon" style="background:#c0392b20; color:#c0392b;">📜</span>
+                    <div><h3>فارسی</h3><span class="level" style="color:#c0392b;">متوسط</span></div>
+                </div>
+                <ul>
+                    <li>هفته‌ای ۱ بلوک</li>
+                    <li>معنی + آرایه + دستور</li>
+                    <li>هر هفته ۱ شعر حفظی</li>
+                    <li>نیازی به ویدیو نداری</li>
+                </ul>
+            </div>
+
+            <div class="card subject-card" style="border-right: 5px solid #7f8c8d;">
+                <div class="subject-header">
+                    <span class="subject-icon" style="background:#7f8c8d20; color:#7f8c8d;">🔬</span>
+                    <div><h3>علوم</h3><span class="level" style="color:#7f8c8d;">—</span></div>
+                </div>
+                <ul>
+                    <li>هفته‌ای ۱ بلوک سبک</li>
+                    <li>بذار تا ببینیم مدرسه چی میگه</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="pomodoro">
+            <h2>⏱ تایمر پومودورو</h2>
+            <div class="pomodoro">
+                <div class="pomodoro-modes">
+                    <button class="pomodoro-mode active" data-min="25" onclick="setPomodoro(25, this)">۲۵ دقیقه</button>
+                    <button class="pomodoro-mode" data-min="45" onclick="setPomodoro(45, this)">۴۵ دقیقه</button>
+                    <button class="pomodoro-mode" data-min="50" onclick="setPomodoro(50, this)">۵۰ دقیقه</button>
+                    <button class="pomodoro-mode" data-min="5" onclick="setPomodoro(5, this)">۵ دقیقه استراحت</button>
+                </div>
+                <div class="pomodoro-timer" id="pomodoroDisplay">۲۵:۰۰</div>
+                <div class="pomodoro-btns">
+                    <button class="btn btn-primary" onclick="startPomodoro()" id="startBtn">▶ شروع</button>
+                    <button class="btn btn-danger" onclick="resetPomodoro()">🔄 ریست</button>
+                </div>
+                <p style="margin-top:20px; color:var(--text-light); font-size:0.9em;">
+                    💡 بین جلسات ۵ دقیقه استراحت کن، آب بخور، کشش بده.
+                </p>
+            </div>
         </section>
 
         <section id="daily">
             <h2>✅ چک‌لیست روزانه</h2>
-            <p style="margin-bottom: 15px; color: #718096;">هر روز تیک بزن — خودکار ذخیره میشه</p>
-            
-        <label class="check-item">
-            <input type="checkbox" data-id="daily-0">
-            <span>خواب ۲۲:۳۰ تا ۶:۰۰</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="daily-1">
-            <span>صبحانه خوردم</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="daily-2">
-            <span>۱۰ دقیقه مرور صبح</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="daily-3">
-            <span>سر کلاس جزوه نوشتم</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="daily-4">
-            <span>بعد مدرسه: مرور درس‌های امروز (۳۰ دقیقه)</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="daily-5">
-            <span>بلوک اصلی (۹۰ دقیقه)</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="daily-6">
-            <span>عربی یا انگلیسی (۳۰ دقیقه)</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="daily-7">
-            <span>تکالیف</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="daily-8">
-            <span>دفتر اشتباهات</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="daily-9">
-            <span>دفتر افکار مزاحم</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="daily-10">
-            <span>برنامه فردا</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="daily-11">
-            <span>۳۰ دقیقه بدون صفحه قبل خواب</span>
-        </label>
-        
+            <p style="margin-bottom: 15px; color: var(--text-light);">هر روز تیک بزن — خودکار ذخیره میشه</p>
+            <label class="check-item"><input type="checkbox" data-id="daily-0"><span class="checkmark"></span><span class="check-text">خواب ۲۲:۳۰ تا ۶:۰۰</span></label>
+            <label class="check-item"><input type="checkbox" data-id="daily-1"><span class="checkmark"></span><span class="check-text">صبحانه خوردم</span></label>
+            <label class="check-item"><input type="checkbox" data-id="daily-2"><span class="checkmark"></span><span class="check-text">۱۰ دقیقه مرور صبح</span></label>
+            <label class="check-item"><input type="checkbox" data-id="daily-3"><span class="checkmark"></span><span class="check-text">سر کلاس جزوه نوشتم</span></label>
+            <label class="check-item"><input type="checkbox" data-id="daily-4"><span class="checkmark"></span><span class="check-text">مرور درس‌های امروز (۳۰ دقیقه)</span></label>
+            <label class="check-item"><input type="checkbox" data-id="daily-5"><span class="checkmark"></span><span class="check-text">بلوک اصلی (۹۰ دقیقه)</span></label>
+            <label class="check-item"><input type="checkbox" data-id="daily-6"><span class="checkmark"></span><span class="check-text">عربی یا انگلیسی (۳۰ دقیقه)</span></label>
+            <label class="check-item"><input type="checkbox" data-id="daily-7"><span class="checkmark"></span><span class="check-text">تکالیف</span></label>
+            <label class="check-item"><input type="checkbox" data-id="daily-8"><span class="checkmark"></span><span class="check-text">دفتر اشتباهات</span></label>
+            <label class="check-item"><input type="checkbox" data-id="daily-9"><span class="checkmark"></span><span class="check-text">دفتر افکار مزاحم</span></label>
+            <label class="check-item"><input type="checkbox" data-id="daily-10"><span class="checkmark"></span><span class="check-text">برنامه فردا</span></label>
+            <label class="check-item"><input type="checkbox" data-id="daily-11"><span class="checkmark"></span><span class="check-text">۳۰ دقیقه بدون صفحه قبل خواب</span></label>
         </section>
 
         <section id="weekly-check">
             <h2>📋 چک‌لیست هفتگی</h2>
-            <p style="margin-bottom: 15px; color: #718096;">جمعه‌ها پر کن</p>
-            
-        <label class="check-item">
-            <input type="checkbox" data-id="weekly-0">
-            <span>۵۰ بلوک اصلی زدم؟</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="weekly-1">
-            <span>عربی ۵ روز خوندم؟</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="weekly-2">
-            <span>انگلیسی ۵ روز خوندم؟</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="weekly-3">
-            <span>دفتر اشتباهات آپدیت شد؟</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="weekly-4">
-            <span>دفتر افکار مزاحم مرور شد؟</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="weekly-5">
-            <span>خواب منظم بود؟</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="weekly-6">
-            <span>باشگاه رفتم؟</span>
-        </label>
-        
-        <label class="check-item">
-            <input type="checkbox" data-id="weekly-7">
-            <span>هک یاد گرفتم (وقت آزاد)؟</span>
-        </label>
-        
+            <p style="margin-bottom: 15px; color: var(--text-light);">جمعه‌ها پر کن</p>
+            <label class="check-item"><input type="checkbox" data-id="weekly-0"><span class="checkmark"></span><span class="check-text">۵۰ بلوک اصلی زدم؟</span></label>
+            <label class="check-item"><input type="checkbox" data-id="weekly-1"><span class="checkmark"></span><span class="check-text">عربی ۵ روز خوندم؟</span></label>
+            <label class="check-item"><input type="checkbox" data-id="weekly-2"><span class="checkmark"></span><span class="check-text">انگلیسی ۵ روز خوندم؟</span></label>
+            <label class="check-item"><input type="checkbox" data-id="weekly-3"><span class="checkmark"></span><span class="check-text">دفتر اشتباهات آپدیت شد؟</span></label>
+            <label class="check-item"><input type="checkbox" data-id="weekly-4"><span class="checkmark"></span><span class="check-text">دفتر افکار مزاحم مرور شد؟</span></label>
+            <label class="check-item"><input type="checkbox" data-id="weekly-5"><span class="checkmark"></span><span class="check-text">خواب منظم بود؟</span></label>
+            <label class="check-item"><input type="checkbox" data-id="weekly-6"><span class="checkmark"></span><span class="check-text">باشگاه رفتم؟</span></label>
+            <label class="check-item"><input type="checkbox" data-id="weekly-7"><span class="checkmark"></span><span class="check-text">هک یاد گرفتم؟</span></label>
+        </section>
+
+        <section id="stats">
+            <h2>📊 آمار مطالعه</h2>
+
+            <div class="card">
+                <h3>ثبت ساعت مطالعه امروز</h3>
+                <div class="study-input">
+                    <input type="number" id="studyHours" placeholder="ساعت" min="0" max="24" step="0.5">
+                    <input type="text" id="studySubject" placeholder="درس (مثلاً ریاضی)">
+                    <button class="btn btn-success" onclick="addStudy()">➕ اضافه</button>
+                </div>
+            </div>
+
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-value" id="todayTotal">۰</div>
+                    <div class="stat-label">ساعت امروز</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="weekTotal">۰</div>
+                    <div class="stat-label">ساعت این هفته</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="allTotal">۰</div>
+                    <div class="stat-label">کل ساعت‌ها</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="streak">۰</div>
+                    <div class="stat-label">روز پیوسته</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📋 گزارش‌ها</h3>
+                <div class="study-log" id="studyLog">
+                    <p style="color:var(--text-light); text-align:center; padding:20px;">هنوز چیزی ثبت نشده</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="notes">
+            <h2>📝 یادداشت‌های من</h2>
+            <p style="margin-bottom: 15px; color: var(--text-light);">
+                افکار مزاحم، ایده‌ها، سوالات — همه رو اینجا بنویس. خودکار ذخیره میشه.
+            </p>
+            <textarea class="notes-area" id="notesArea" placeholder="امروز چی یاد گرفتم؟ چه فکری مزاحمم شد؟..."></textarea>
+            <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="btn btn-success" onclick="saveNotes()">💾 ذخیره</button>
+                <button class="btn btn-danger" onclick="clearNotes()">🗑 پاک کردن</button>
+                <span id="notesStatus" style="align-self:center; color:var(--success); font-size:0.9em;"></span>
+            </div>
         </section>
 
         <section id="rules">
             <h2>⭐ قوانین طلایی</h2>
             <ul class="rules-list">
-                <li class="rule">هدف: هکر سایبری → ریاضی + انگلیسی + برنامه‌نویسی</li><li class="rule">خواب ۲۲:۳۰ تا ۶:۰۰ — قابل مذاکره نیست</li><li class="rule">گوشی/لپ‌تاپ فقط برای درس، نه تفریح</li><li class="rule">هر روز عربی یا انگلیسی، حتی ۲۰ دقیقه</li><li class="rule">هر روز یک بلوک اصلی</li><li class="rule">دفتر اشتباهات + دفتر افکار مزاحم</li><li class="rule">جمعه: مرور صبح، استراحت بقیه</li><li class="rule">اگه یه روز خراب شد، فقط برگرد به روال</li><li class="rule">مقایسه فقط با خودت هفته قبل</li><li class="rule">هک یاد بگیر، اما جای درس رو نگیر</li>
+                <li class="rule"><span class="rule-num">1</span>هدف: هکر سایبری → ریاضی + انگلیسی + برنامه‌نویسی</li>
+                <li class="rule"><span class="rule-num">2</span>خواب ۲۲:۳۰ تا ۶:۰۰ — قابل مذاکره نیست</li>
+                <li class="rule"><span class="rule-num">3</span>گوشی/لپ‌تاپ فقط برای درس، نه تفریح</li>
+                <li class="rule"><span class="rule-num">4</span>هر روز عربی یا انگلیسی، حتی ۲۰ دقیقه</li>
+                <li class="rule"><span class="rule-num">5</span>هر روز یک بلوک اصلی</li>
+                <li class="rule"><span class="rule-num">6</span>دفتر اشتباهات + دفتر افکار مزاحم</li>
+                <li class="rule"><span class="rule-num">7</span>جمعه: مرور صبح، استراحت بقیه</li>
+                <li class="rule"><span class="rule-num">8</span>اگه یه روز خراب شد، فقط برگرد به روال</li>
+                <li class="rule"><span class="rule-num">9</span>مقایسه فقط با خودت هفته قبل</li>
+                <li class="rule"><span class="rule-num">10</span>هک یاد بگیر، اما جای درس رو نگیر</li>
             </ul>
         </section>
+
     </div>
 </div>
 
-<button class="btn-print" onclick="window.print()">🖨 پرینت</button>
-<button class="btn-reset" onclick="resetAll()">♻️ پاک کردن تیک‌ها</button>
+<div class="bottom-btns">
+    <button class="fab fab-print" onclick="window.print()" title="پرینت">🖨</button>
+    <button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="بالا">⬆</button>
+    <button class="fab fab-reset" onclick="resetAll()" title="پاک کردن">♻</button>
+</div>
 
 <script>
-    // تب‌ها
     function showTab(id, btn) {
         document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        btn.classList.add('active');
+        if (btn) btn.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ذخیره چک‌باکس‌ها در localStorage
+    function showTabById(id) {
+        const btns = document.querySelectorAll('nav button');
+        const map = {
+            'dashboard': 0, 'weekly': 1, 'phases': 2, 'subjects': 3,
+            'pomodoro': 4, 'daily': 5, 'weekly-check': 6, 'stats': 7,
+            'notes': 8, 'rules': 9
+        };
+        showTab(id, btns[map[id]]);
+    }
+
+    function toggleTheme() {
+        const cur = document.body.getAttribute('data-theme');
+        const next = cur === 'dark' ? 'light' : 'dark';
+        document.body.setAttribute('data-theme', next);
+        document.querySelector('.theme-toggle').textContent = next === 'dark' ? '☀️' : '🌙';
+        localStorage.setItem('theme', next);
+    }
+
+    (function() {
+        const saved = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', saved);
+        document.querySelector('.theme-toggle').textContent = saved === 'dark' ? '☀️' : '🌙';
+    })();
+
     const STORAGE_KEY = 'ilia-study-checklist';
     function loadChecks() {
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
@@ -440,13 +1238,226 @@
     }
 
     function resetAll() {
-        if (confirm('همه تیک‌ها پاک بشن؟')) {
+        if (confirm('همه تیک‌ها، آمار و یادداشت‌ها پاک بشن؟')) {
             localStorage.removeItem(STORAGE_KEY);
-            document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+            localStorage.removeItem('ilia-study-log');
+            localStorage.removeItem('ilia-notes');
+            location.reload();
         }
     }
 
+    let pomodoroTime = 25 * 60;
+    let pomodoroTotal = 25 * 60;
+    let pomodoroInterval = null;
+    let pomodoroRunning = false;
+
+    function setPomodoro(min, btn) {
+        document.querySelectorAll('.pomodoro-mode').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        pomodoroTotal = min * 60;
+        pomodoroTime = pomodoroTotal;
+        updatePomodoroDisplay();
+        if (pomodoroRunning) {
+            clearInterval(pomodoroInterval);
+            pomodoroRunning = false;
+            document.getElementById('startBtn').textContent = '▶ شروع';
+        }
+    }
+
+    function updatePomodoroDisplay() {
+        const m = Math.floor(pomodoroTime / 60);
+        const s = pomodoroTime % 60;
+        const fa = (n) => n.toString().replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+        document.getElementById('pomodoroDisplay').textContent = `${fa(m.toString().padStart(2,'0'))}:${fa(s.toString().padStart(2,'0'))}`;
+    }
+
+    function startPomodoro() {
+        const btn = document.getElementById('startBtn');
+        if (pomodoroRunning) {
+            clearInterval(pomodoroInterval);
+            pomodoroRunning = false;
+            btn.textContent = '▶ ادامه';
+        } else {
+            pomodoroRunning = true;
+            btn.textContent = '⏸ توقف';
+            pomodoroInterval = setInterval(() => {
+                pomodoroTime--;
+                if (pomodoroTime <= 0) {
+                    clearInterval(pomodoroInterval);
+                    pomodoroRunning = false;
+                    btn.textContent = '▶ شروع';
+                    notifyDone();
+                    pomodoroTime = pomodoroTotal;
+                }
+                updatePomodoroDisplay();
+            }, 1000);
+        }
+    }
+
+    function resetPomodoro() {
+        clearInterval(pomodoroInterval);
+        pomodoroRunning = false;
+        pomodoroTime = pomodoroTotal;
+        updatePomodoroDisplay();
+        document.getElementById('startBtn').textContent = '▶ شروع';
+    }
+
+    function notifyDone() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.frequency.value = 800;
+            gain.gain.value = 0.3;
+            osc.start();
+            osc.stop(ctx.currentTime + 0.5);
+            setTimeout(() => {
+                const o2 = ctx.createOscillator();
+                const g2 = ctx.createGain();
+                o2.connect(g2); g2.connect(ctx.destination);
+                o2.frequency.value = 600;
+                g2.gain.value = 0.3;
+                o2.start(); o2.stop(ctx.currentTime + 0.5);
+            }, 600);
+        } catch(e) {}
+        alert('⏰ وقت تموم شد!');
+    }
+
+    const LOG_KEY = 'ilia-study-log';
+
+    function getLog() {
+        return JSON.parse(localStorage.getItem(LOG_KEY) || '[]');
+    }
+
+    function saveLog(log) {
+        localStorage.setItem(LOG_KEY, JSON.stringify(log));
+    }
+
+    function addStudy() {
+        const h = parseFloat(document.getElementById('studyHours').value);
+        const subj = document.getElementById('studySubject').value || 'مطالعه';
+        if (!h || h <= 0) {
+            alert('ساعت رو درست وارد کن');
+            return;
+        }
+        const log = getLog();
+        log.push({
+            date: new Date().toISOString().split('T')[0],
+            hours: h,
+            subject: subj,
+            ts: Date.now()
+        });
+        saveLog(log);
+        document.getElementById('studyHours').value = '';
+        document.getElementById('studySubject').value = '';
+        renderStats();
+    }
+
+    function renderStats() {
+        const log = getLog();
+        const today = new Date().toISOString().split('T')[0];
+        const weekAgo = new Date(Date.now() - 7*24*60*60*1000).toISOString().split('T')[0];
+
+        const todayTotal = log.filter(e => e.date === today).reduce((s,e) => s+e.hours, 0);
+        const weekTotal = log.filter(e => e.date >= weekAgo).reduce((s,e) => s+e.hours, 0);
+        const allTotal = log.reduce((s,e) => s+e.hours, 0);
+
+        let streak = 0;
+        const dates = new Set(log.map(e => e.date));
+        let d = new Date();
+        while (dates.has(d.toISOString().split('T')[0])) {
+            streak++;
+            d.setDate(d.getDate() - 1);
+        }
+
+        const fa = (n) => n.toString().replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+        document.getElementById('todayTotal').textContent = fa(todayTotal.toFixed(1));
+        document.getElementById('weekTotal').textContent = fa(weekTotal.toFixed(1));
+        document.getElementById('allTotal').textContent = fa(allTotal.toFixed(1));
+        document.getElementById('streak').textContent = fa(streak);
+
+        const logEl = document.getElementById('studyLog');
+        if (log.length === 0) {
+            logEl.innerHTML = '<p style="color:var(--text-light); text-align:center; padding:20px;">هنوز چیزی ثبت نشده</p>';
+        } else {
+            logEl.innerHTML = log.slice().reverse().slice(0, 30).map(e =>
+                `<div class="study-log-item">
+                    <span>${e.subject}</span>
+                    <span>${fa(e.hours)} ساعت — ${e.date}</span>
+                </div>`
+            ).join('');
+        }
+    }
+
+    const NOTES_KEY = 'ilia-notes';
+    const notesArea = document.getElementById('notesArea');
+    if (notesArea) {
+        notesArea.value = localStorage.getItem(NOTES_KEY) || '';
+        let notesTimer;
+        notesArea.addEventListener('input', () => {
+            clearTimeout(notesTimer);
+            notesTimer = setTimeout(() => {
+                localStorage.setItem(NOTES_KEY, notesArea.value);
+                document.getElementById('notesStatus').textContent = '✅ خودکار ذخیره شد';
+                setTimeout(() => {
+                    document.getElementById('notesStatus').textContent = '';
+                }, 2000);
+            }, 800);
+        });
+    }
+
+    function saveNotes() {
+        localStorage.setItem(NOTES_KEY, notesArea.value);
+        document.getElementById('notesStatus').textContent = '✅ ذخیره شد';
+        setTimeout(() => {
+            document.getElementById('notesStatus').textContent = '';
+        }, 2000);
+    }
+
+    function clearNotes() {
+        if (confirm('یادداشت‌ها پاک بشن؟')) {
+            notesArea.value = '';
+            localStorage.removeItem(NOTES_KEY);
+        }
+    }
+
+    const QUOTES = [
+        "«موفقیت مجموعه‌ای از تلاش‌های کوچک است که هر روز تکرار می‌شوند.»",
+        "«تنها راه انجام کارهای بزرگ، عاشق بودن به کاری است که می‌کنی.» — استیو جابز",
+        "«امروز کاری کن که فردای تو تشکر کند.»",
+        "«موفقیت تصادفی نیست، انتخاب است.»",
+        "«مغزت مثل عضله‌ست، هرچی بیشتر تمرین بدی قوی‌تر می‌شه.»",
+        "«هر روز یک قدم کوچک، بهتر از یک قدم بزرگ هر چند وقت یکبار است.»",
+        "«شکست پلی است به سوی موفقیت.»",
+        "«بهترین زمان برای شروع، همین الان است.»",
+        "«تلاش کن، حتی اگر کسی نمی‌بیند.»",
+        "«رویاهایت را بزرگ ببین و برایشان تلاش کن.»",
+        "«دانش، قدرتی است که هیچ‌کس نمی‌تواند از تو بگیرد.»",
+        "«رمز موفقیت، شروع کردن است.» — مارک تواین"
+    ];
+
+    function newQuote() {
+        const q = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+        const box = document.getElementById('quoteBox');
+        box.style.opacity = 0;
+        setTimeout(() => {
+            box.textContent = q;
+            box.style.opacity = 1;
+        }, 200);
+    }
+
     loadChecks();
+    renderStats();
+    updatePomodoroDisplay();
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === ' ' && document.getElementById('pomodoro').classList.contains('active')) {
+            e.preventDefault();
+            startPomodoro();
+        }
+    });
 </script>
 </body>
 </html>
