@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="theme-color" content="#667eea">
-<title>مرکز مطالعه ایلیا — مشاور جامع</title>
+<title>مرکز مطالعه ایلیا — مشاور هوشمند</title>
 <link rel="manifest" href="./manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,6 +12,7 @@
 <meta name="apple-mobile-web-app-title" content="مطالعه">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
 <style>
 :root {
@@ -40,13 +41,16 @@ header h1{font-size:1.1em;font-weight:700;position:relative;z-index:1;margin-bot
 .live-clock{position:relative;z-index:1;display:flex;justify-content:center;align-items:baseline;gap:6px;margin-top:4px}
 .clock-time{font-size:2.2em;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:2px}
 .live-date{position:relative;z-index:1;margin-top:4px;font-size:.82em;opacity:.95}
-.theme-toggle,.install-btn,.asst-open-btn{position:absolute;top:10px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);border:none;cursor:pointer;font-size:1.1em;z-index:2;display:flex;align-items:center;justify-content:center;color:#fff;transition:transform .15s,background .2s}
-.theme-toggle{left:10px}
-.install-btn{left:54px;animation:installPulse 2.5s infinite}
-.asst-open-btn{right:10px;animation:installPulse 3s infinite}
-.theme-toggle:hover,.install-btn:hover,.asst-open-btn:hover{background:rgba(255,255,255,.3)}
-.theme-toggle:active,.install-btn:active,.asst-open-btn:active{transform:scale(.9)}
+.theme-toggle{position:absolute;top:10px;left:10px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);border:none;cursor:pointer;font-size:1.1em;z-index:2;display:flex;align-items:center;justify-content:center;color:#fff;transition:transform .15s,background .2s}
+.theme-toggle:hover{background:rgba(255,255,255,.3)}
+.theme-toggle:active{transform:scale(.9)}
+.install-btn{position:absolute;top:10px;left:54px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);color:#fff;border:none;cursor:pointer;font-size:1.1em;z-index:3;display:flex;align-items:center;justify-content:center;animation:installPulse 2.5s infinite;transition:transform .15s,background .2s}
+.install-btn:hover{background:rgba(255,255,255,.3)}
+.install-btn:active{transform:scale(.9)}
 @keyframes installPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.6)}50%{box-shadow:0 0 0 10px rgba(255,255,255,0)}}
+.asst-open-btn{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);border:none;cursor:pointer;font-size:1.1em;z-index:3;display:flex;align-items:center;justify-content:center;color:#fff;animation:installPulse 3s infinite;transition:transform .15s,background .2s}
+.asst-open-btn:hover{background:rgba(255,255,255,.3)}
+.asst-open-btn:active{transform:scale(.9)}
 
 .content{padding:16px 14px}
 section{display:none;animation:fi .25s}
@@ -56,6 +60,7 @@ h2{font-size:1.15em;margin-bottom:14px;padding-bottom:8px;border-image:linear-gr
 h3{font-size:1em;margin:10px 0 8px}
 
 .card{background:var(--bg-card);border-radius:14px;padding:14px;margin-bottom:12px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.card h3:first-child{margin-top:0}
 
 .now-card{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border-radius:18px;padding:20px 16px;margin-bottom:12px;box-shadow:0 10px 30px rgba(102,126,234,.4);position:relative;overflow:hidden}
 .now-card::before{content:'';position:absolute;top:-30%;left:-30%;width:160%;height:160%;background:radial-gradient(circle,rgba(255,255,255,.15),transparent 60%);animation:rot 20s linear infinite}
@@ -68,12 +73,11 @@ h3{font-size:1em;margin:10px 0 8px}
 .now-progress-fill{height:100%;background:#fff;border-radius:10px;transition:width 1s linear}
 .now-remaining{font-size:.78em;text-align:center;margin-top:8px;opacity:.9;position:relative;z-index:1}
 
-.next-card,.free-card{background:var(--bg-card);border-radius:14px;padding:14px;margin-bottom:12px;border:1px solid var(--border);box-shadow:var(--shadow)}
-.next-card{border-right:4px solid var(--accent)}
-.free-card{border-right:4px solid var(--success);text-align:center;color:var(--text-light);font-size:.9em}
+.next-card{background:var(--bg-card);border-radius:14px;padding:14px;margin-bottom:12px;border:1px solid var(--border);border-right:4px solid var(--accent);box-shadow:var(--shadow)}
 .next-label{font-size:.78em;color:var(--text-light);margin-bottom:4px}
 .next-task{font-weight:700;font-size:.95em}
 .next-time{font-size:.8em;color:var(--text-light);margin-top:4px}
+.free-card{background:var(--bg-card);border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid var(--border);border-right:4px solid var(--success);text-align:center;color:var(--text-light);font-size:.9em}
 
 .classes-card{background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;border-radius:16px;padding:14px 16px;margin-bottom:12px;box-shadow:0 6px 20px rgba(243,156,18,.35)}
 .classes-title{font-size:.82em;opacity:.95;margin-bottom:8px;font-weight:600}
@@ -110,18 +114,28 @@ h3{font-size:1em;margin:10px 0 8px}
 .stat-v{font-size:1.4em;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .stat-l{font-size:.72em;color:var(--text-light);margin-top:2px}
 
+/* BUTTON SYSTEM */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 18px;border-radius:12px;font-family:inherit;font-size:.86em;font-weight:700;letter-spacing:-0.01em;line-height:1;cursor:pointer;border:none;color:#fff;white-space:nowrap;transition:transform .12s ease, box-shadow .2s ease, background .2s ease, opacity .15s;box-shadow:0 2px 6px rgba(0,0,0,.10);user-select:none;text-decoration:none}
 .btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.14)}
 .btn:active{transform:translateY(0) scale(.97);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .btn-primary{background:linear-gradient(135deg,#667eea,#5568d3);box-shadow:0 3px 10px rgba(102,126,234,.35)}
+.btn-primary:hover{box-shadow:0 6px 18px rgba(102,126,234,.45)}
 .btn-danger{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 3px 10px rgba(239,68,68,.30)}
+.btn-danger:hover{box-shadow:0 6px 18px rgba(239,68,68,.42)}
 .btn-success{background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 3px 10px rgba(16,185,129,.30)}
+.btn-success:hover{box-shadow:0 6px 18px rgba(16,185,129,.42)}
 .btn-info{background:linear-gradient(135deg,#0ea5e9,#0284c7);box-shadow:0 3px 10px rgba(14,165,233,.30)}
+.btn-info:hover{box-shadow:0 6px 18px rgba(14,165,233,.42)}
 .btn-accent{background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 3px 10px rgba(245,158,11,.30)}
+.btn-accent:hover{box-shadow:0 6px 18px rgba(245,158,11,.42)}
 .btn-secondary{background:var(--bg);color:var(--text);border:1.5px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.btn-secondary:hover{background:var(--bg-card);border-color:var(--primary);color:var(--primary)}
+.btn-secondary:hover{background:var(--bg-card);border-color:var(--primary);color:var(--primary);box-shadow:0 4px 12px rgba(102,126,234,.15)}
+.btn-ghost{background:transparent;color:var(--text-light);border:1.5px solid var(--border);box-shadow:none}
+.btn-ghost:hover{background:var(--bg);color:var(--text);border-color:var(--primary);box-shadow:none;transform:none}
 .btn-block{width:100%;padding:14px;font-size:.88em}
-.btn-sm{padding:8px 14px;font-size:.76em;border-radius:10px;gap:5px}
+.btn-sm{padding:8px 14px;font-size:.76em;border-radius:10px;gap:5px;box-shadow:0 2px 5px rgba(0,0,0,.08)}
+.btn-sm:hover{box-shadow:0 3px 10px rgba(0,0,0,.12)}
 .btn-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 .btn-group-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
 .btn-group .btn,.btn-group-3 .btn{width:100%;padding:14px 8px;font-size:.82em}
@@ -158,16 +172,20 @@ h3{font-size:1em;margin:10px 0 8px}
 @keyframes slideMenu{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
 .more-menu.active{display:grid}
 .more-menu button{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px 6px;cursor:pointer;font-family:inherit;font-size:.75em;font-weight:600;color:var(--text);display:flex;flex-direction:column;align-items:center;gap:5px;transition:all .15s}
-.more-menu button:hover{border-color:var(--primary);transform:translateY(-1px)}
+.more-menu button:hover{border-color:var(--primary);transform:translateY(-1px);box-shadow:0 4px 12px rgba(102,126,234,.15)}
+.more-menu button:active{transform:scale(.96)}
 .more-menu .ico{font-size:1.4em}
 
 .pomodoro{text-align:center;padding:22px 14px;background:var(--bg-card);border-radius:16px;box-shadow:var(--shadow);margin-bottom:12px}
 .pomodoro-timer{font-size:3.6em;font-weight:900;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:10px 0;font-variant-numeric:tabular-nums;letter-spacing:2px}
 .pomo-modes{display:flex;justify-content:center;gap:6px;margin-bottom:12px;flex-wrap:wrap}
 .pomo-mode{padding:8px 16px;border-radius:20px;background:var(--bg);border:1.5px solid var(--border);cursor:pointer;font-family:inherit;font-size:.82em;font-weight:600;color:var(--text);transition:all .15s}
-.pomo-mode.active{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border-color:transparent}
+.pomo-mode:hover{border-color:var(--primary)}
+.pomo-mode.active{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border-color:transparent;box-shadow:0 3px 10px rgba(102,126,234,.35)}
+.pomo-btns{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
 
-.item{padding:12px 14px;background:var(--bg-card);border-radius:11px;margin:6px 0;border:1px solid var(--border);border-right:4px solid var(--info);display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.88em}
+.item{padding:12px 14px;background:var(--bg-card);border-radius:11px;margin:6px 0;border:1px solid var(--border);border-right:4px solid var(--info);display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.88em;transition:all .15s}
+.item:hover{border-color:var(--primary)}
 .item.p-high{border-right-color:var(--danger)}
 .item.p-med{border-right-color:var(--accent)}
 .item.p-low{border-right-color:var(--success)}
@@ -184,6 +202,7 @@ h3{font-size:1em;margin:10px 0 8px}
 .pf-bad{background:linear-gradient(90deg,var(--danger),#a93226)}
 
 .tech{background:var(--bg-card);border-radius:14px;padding:14px;margin-bottom:10px;border:1px solid var(--border);border-right:4px solid var(--primary);cursor:pointer;transition:all .15s}
+.tech:hover{box-shadow:0 6px 18px rgba(0,0,0,.06)}
 .tech-head{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.95em}
 .tech-head .ico{font-size:1.5em;flex-shrink:0}
 .tech-body{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);font-size:.85em;line-height:1.9;color:var(--text-light)}
@@ -203,7 +222,8 @@ h3{font-size:1em;margin:10px 0 8px}
 .focus-mode.active{display:flex}
 .focus-mode h2{color:#fff;border:none;font-size:1.1em;text-align:center;margin:0}
 .focus-timer{font-size:5em;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:3px}
-.focus-exit{position:absolute;top:20px;right:20px;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border:none;padding:11px 22px;border-radius:30px;cursor:pointer;font-family:inherit;font-size:.9em;font-weight:700;box-shadow:0 4px 14px rgba(239,68,68,.4)}
+.focus-exit{position:absolute;top:20px;right:20px;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border:none;padding:11px 22px;border-radius:30px;cursor:pointer;font-family:inherit;font-size:.9em;font-weight:700;box-shadow:0 4px 14px rgba(239,68,68,.4);transition:transform .15s}
+.focus-exit:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(239,68,68,.5)}
 
 .chart{display:flex;align-items:flex-end;gap:6px;height:140px;padding:12px 12px 26px;background:var(--bg);border-radius:12px;margin:10px 0}
 .bar{flex:1;background:linear-gradient(to top,var(--primary),var(--secondary));border-radius:5px 5px 0 0;min-height:4px;position:relative}
@@ -218,25 +238,33 @@ h3{font-size:1em;margin:10px 0 8px}
 
 .week-tabs{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:12px}
 .wd-tab{padding:8px 2px;background:var(--bg-card);border:1.5px solid var(--border);border-radius:8px;text-align:center;cursor:pointer;font-size:.68em;color:var(--text-light);transition:all .15s;user-select:none;font-weight:600}
-.wd-tab.active{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border-color:transparent;font-weight:700}
+.wd-tab:active{transform:scale(.95)}
+.wd-tab.active{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border-color:transparent;font-weight:700;box-shadow:0 4px 12px rgba(102,126,234,.3)}
 .wd-tab.today:not(.active){border-color:var(--primary);color:var(--primary);font-weight:700}
 .wd-tab .wd-name{font-weight:700;font-size:1.2em;margin-bottom:2px}
 
 .timeline{position:relative;padding-right:14px}
 .timeline::before{content:'';position:absolute;right:5px;top:8px;bottom:8px;width:2px;background:var(--border)}
-.ti{display:flex;align-items:flex-start;padding:6px 0;position:relative;gap:8px;border-radius:8px}
+.ti{display:flex;align-items:flex-start;padding:6px 0;position:relative;gap:8px;border-radius:8px;transition:all .2s}
 .td{position:absolute;right:-14px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--primary);border:2px solid var(--bg-card)}
-.t-wake .td{background:#f6ad55}.t-study .td{background:#4299e1}.t-school .td{background:#805ad5}.t-rest .td{background:#48bb78}.t-sport .td{background:#ed8936}.t-sleep .td{background:#718096}
+.t-wake .td{background:#f6ad55}
+.t-study .td{background:#4299e1}
+.t-school .td{background:#805ad5}
+.t-rest .td{background:#48bb78}
+.t-sport .td{background:#ed8936}
+.t-sleep .td{background:#718096}
 .tt{font-weight:700;color:var(--primary);font-size:.78em;min-width:88px;padding-top:2px}
 .tx{font-size:.85em;flex:1}
 .ti.current-item{background:linear-gradient(135deg,rgba(102,126,234,.15),rgba(118,75,162,.08));padding-right:8px;padding-left:8px}
 .ti.current-item .tx{font-weight:700;color:var(--primary)}
 .ti.past{opacity:.4}
+.ti.past .tx{text-decoration:line-through}
 
 .phase-hero{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border-radius:18px;padding:20px 16px;margin-bottom:12px;box-shadow:0 10px 30px rgba(102,126,234,.4);position:relative;overflow:hidden}
 .phase-hero::before{content:'';position:absolute;top:-40%;left:-30%;width:180%;height:180%;background:radial-gradient(circle,rgba(255,255,255,.13),transparent 60%);animation:rot 30s linear infinite}
 .phase-month{font-size:.82em;opacity:.95;position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .phase-title{font-size:1.5em;font-weight:900;position:relative;z-index:1;display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.phase-title .ph-ico{font-size:1.3em}
 .phase-goals{position:relative;z-index:1;list-style:none;padding:0}
 .phase-goals li{padding:5px 0 5px 14px;font-size:.86em;position:relative;opacity:.95}
 .phase-goals li::before{content:'◆';position:absolute;right:0;top:6px;font-size:.7em;opacity:.8}
@@ -245,14 +273,14 @@ h3{font-size:1em;margin:10px 0 8px}
 .phase-footer{font-size:.75em;opacity:.9;text-align:center;margin-top:8px;position:relative;z-index:1}
 
 .countdown-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.cd-card{background:var(--bg-card);border-radius:14px;padding:14px 12px;border:1px solid var(--border);box-shadow:var(--shadow);text-align:center}
+.cd-card{background:var(--bg-card);border-radius:14px;padding:14px 12px;border:1px solid var(--border);box-shadow:var(--shadow);text-align:center;position:relative;overflow:hidden}
 .cd-card.midterm{border-top:4px solid var(--accent)}
 .cd-card.final{border-top:4px solid var(--danger)}
-.cd-card.ended{opacity:.6}
+.cd-card.ended{border-top-color:var(--text-light);opacity:.6}
 .cd-title{font-size:.8em;color:var(--text-light);margin-bottom:8px;font-weight:600}
 .cd-date{font-size:.68em;color:var(--text-light);margin-top:8px}
 .cd-numbers{display:flex;justify-content:center;gap:6px;margin-bottom:6px}
-.cd-num{flex:1;background:var(--bg);border-radius:10px;padding:8px 4px}
+.cd-num{flex:1;background:var(--bg);border-radius:10px;padding:8px 4px;position:relative}
 .cd-num-v{font-size:1.5em;font-weight:900;color:var(--primary);font-variant-numeric:tabular-nums;line-height:1.1}
 .cd-num-l{font-size:.62em;color:var(--text-light);margin-top:2px}
 .cd-num.midterm .cd-num-v{color:var(--accent)}
@@ -261,38 +289,40 @@ h3{font-size:1em;margin:10px 0 8px}
 .cd-msg.warn{color:var(--danger);font-weight:700}
 .cd-msg.ok{color:var(--success);font-weight:700}
 
-/* مشاور */
-.assistant-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:9998;display:none;align-items:flex-end;justify-content:center}
+.assistant-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:9998;display:none;align-items:flex-end;justify-content:center;animation:fi .3s}
 .assistant-overlay.active{display:flex}
 .assistant-modal{background:var(--bg-card);width:100%;max-width:520px;border-radius:22px 22px 0 0;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 -10px 60px rgba(0,0,0,.35);animation:slideUp .4s cubic-bezier(.2,.8,.2,1)}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .assistant-header{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(102,126,234,.08),rgba(118,75,162,.05));border-radius:22px 22px 0 0}
-.assistant-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:1.4em;flex-shrink:0;color:#fff}
+.assistant-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:1.4em;flex-shrink:0;box-shadow:0 4px 12px rgba(102,126,234,.4);color:#fff}
 .assistant-name{font-weight:700;font-size:.95em;color:var(--text)}
 .assistant-status{font-size:.72em;color:var(--success);display:flex;align-items:center;gap:5px;margin-top:2px}
 .assistant-status::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--success);animation:pulse 1.5s infinite}
-.assistant-close{margin-right:auto;background:transparent;border:none;cursor:pointer;font-size:1.1em;color:var(--text-light);padding:6px 10px;border-radius:8px}
+.assistant-close{margin-right:auto;background:transparent;border:none;cursor:pointer;font-size:1.1em;color:var(--text-light);padding:6px 10px;border-radius:8px;transition:background .15s}
+.assistant-close:hover{background:var(--bg)}
 .assistant-body{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:10px}
 .msg{max-width:88%;padding:12px 16px;border-radius:18px;font-size:.9em;line-height:1.85;animation:fi .3s;word-wrap:break-word}
 .msg-bot{background:var(--bg);color:var(--text);align-self:flex-start;border-bottom-right-radius:6px}
 .msg-user{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;align-self:flex-end;border-bottom-left-radius:6px}
 .assistant-footer{padding:14px 18px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;min-height:64px;align-items:center}
 .asst-input{flex:1;min-width:100px;padding:11px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:.92em}
+.asst-input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(102,126,234,.15)}
 .opt-list{display:flex;flex-direction:column;gap:8px;margin-top:8px;width:100%}
 .opt{background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:11px 14px;cursor:pointer;font-family:inherit;font-size:.88em;text-align:right;color:var(--text);transition:all .15s;display:flex;align-items:center;gap:10px;font-weight:500}
+.opt:hover{border-color:var(--primary);transform:translateX(-3px)}
 .opt.selected{background:linear-gradient(135deg,rgba(102,126,234,.15),rgba(118,75,162,.08));border-color:var(--primary);font-weight:700}
-.opt-check{width:22px;height:22px;border-radius:7px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--bg-card)}
+.opt-check{width:22px;height:22px;border-radius:7px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;background:var(--bg-card)}
 .opt.selected .opt-check{background:var(--primary);border-color:var(--primary)}
 .opt.selected .opt-check::after{content:'✓';font-size:.85em;font-weight:bold;color:#fff}
 .stars{display:flex;gap:8px;justify-content:center;margin:14px 0}
 .star{font-size:2.2em;cursor:pointer;opacity:.3;transition:all .15s;filter:grayscale(1)}
 .star.active{opacity:1;transform:scale(1.15);filter:none}
+.star:hover{transform:scale(1.2)}
 .summary-box{background:var(--bg);border-radius:12px;padding:14px 16px;font-size:.88em;line-height:2;margin:6px 0}
 .summary-box b{color:var(--primary)}
 .analysis-box{background:linear-gradient(135deg,rgba(39,174,96,.12),rgba(39,174,96,.04));border:1.5px dashed var(--success);border-radius:12px;padding:14px 16px;font-size:.88em;line-height:1.95;margin:6px 0}
 .analysis-box.warn{background:linear-gradient(135deg,rgba(243,156,18,.12),rgba(243,156,18,.04));border-color:var(--accent)}
 .analysis-box.danger{background:linear-gradient(135deg,rgba(231,76,60,.12),rgba(231,76,60,.04));border-color:var(--danger)}
-.analysis-box.info{background:linear-gradient(135deg,rgba(102,126,234,.12),rgba(118,75,162,.05));border-color:var(--primary)}
 .analysis-box b{color:var(--text)}
 
 .today-reports{background:var(--bg-card);border-radius:14px;padding:14px;margin-bottom:12px;border:1px solid var(--border);box-shadow:var(--shadow)}
@@ -300,31 +330,7 @@ h3{font-size:1em;margin:10px 0 8px}
 .tr-line{font-size:.83em;color:var(--text-light);line-height:1.9}
 .tr-line b{color:var(--text)}
 
-.makeup-card{background:linear-gradient(135deg,#fff7ed,#fef3c7);border:2px solid #f59e0b;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 4px 14px rgba(245,158,11,.15)}
-[data-theme="dark"] .makeup-card{background:linear-gradient(135deg,#3d2e0c,#2d2205);border-color:#d97706}
-.makeup-title{font-size:.9em;font-weight:800;color:#b45309;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-[data-theme="dark"] .makeup-title{color:#fbbf24}
-.makeup-total{display:flex;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,.6);border-radius:10px;margin-bottom:12px;font-size:.85em}
-[data-theme="dark"] .makeup-total{background:rgba(0,0,0,.25)}
-.makeup-total .label{color:#92400e;font-weight:600}
-[data-theme="dark"] .makeup-total .label{color:#fbbf24}
-.makeup-total b{color:#78350f;font-weight:900}
-[data-theme="dark"] .makeup-total b{color:#fef3c7}
-.makeup-plan{background:rgba(255,255,255,.5);border-radius:10px;padding:10px 12px;margin-bottom:12px}
-[data-theme="dark"] .makeup-plan{background:rgba(0,0,0,.2)}
-.makeup-day{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:8px;margin:4px 0;font-size:.83em;background:rgba(255,255,255,.5)}
-[data-theme="dark"] .makeup-day{background:rgba(255,255,255,.05)}
-.makeup-day.today{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-weight:700}
-.makeup-day-name{font-weight:600;color:#78350f}
-[data-theme="dark"] .makeup-day-name{color:#fef3c7}
-.makeup-day.today .makeup-day-name{color:#fff}
-.makeup-day-amount{font-weight:900;color:#b45309;font-variant-numeric:tabular-nums}
-[data-theme="dark"] .makeup-day-amount{color:#fbbf24}
-.makeup-day.today .makeup-day-amount{color:#fff}
-.makeup-tip{font-size:.82em;color:#78350f;text-align:center;padding:8px;background:rgba(255,255,255,.4);border-radius:8px;font-weight:600}
-[data-theme="dark"] .makeup-tip{color:#fef3c7;background:rgba(0,0,0,.2)}
-
-.profile-header{background:linear-gradient(135deg,#27ae60,#16a085);color:#fff;border-radius:16px;padding:18px;margin-bottom:12px;text-align:center}
+.profile-header{background:linear-gradient(135deg,#27ae60,#16a085);color:#fff;border-radius:16px;padding:18px;margin-bottom:12px;text-align:center;box-shadow:0 6px 20px rgba(39,174,96,.3)}
 .profile-header h3{color:#fff;margin:0 0 6px;font-size:1.1em;justify-content:center}
 .profile-header p{font-size:.85em;opacity:.95}
 .info-row{display:flex;justify-content:space-between;padding:9px 12px;background:var(--bg);border-radius:10px;margin:5px 0;font-size:.88em;border-right:3px solid var(--info)}
@@ -336,12 +342,15 @@ h3{font-size:1em;margin:10px 0 8px}
 .level-head .val{color:var(--text-light);font-size:.82em}
 .level-select{display:flex;gap:4px;margin-top:6px}
 .lvl-btn{flex:1;padding:8px 4px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg-card);cursor:pointer;font-family:inherit;font-size:.72em;font-weight:600;color:var(--text);transition:all .15s}
-.lvl-btn.sel-1{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border-color:transparent}
-.lvl-btn.sel-2{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-color:transparent}
-.lvl-btn.sel-3{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;border-color:transparent}
-.lvl-btn.sel-4{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-color:transparent}
+.lvl-btn:hover{border-color:var(--primary)}
+.lvl-btn:active{transform:scale(.95)}
+.lvl-btn.sel-1{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border-color:transparent;box-shadow:0 2px 6px rgba(239,68,68,.3)}
+.lvl-btn.sel-2{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-color:transparent;box-shadow:0 2px 6px rgba(245,158,11,.3)}
+.lvl-btn.sel-3{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;border-color:transparent;box-shadow:0 2px 6px rgba(14,165,233,.3)}
+.lvl-btn.sel-4{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-color:transparent;box-shadow:0 2px 6px rgba(16,185,129,.3)}
 
-.exam-item{background:var(--bg-card);border-radius:12px;margin:8px 0;border:1px solid var(--border);border-right:4px solid var(--primary);overflow:hidden}
+.exam-item{background:var(--bg-card);border-radius:12px;margin:8px 0;border:1px solid var(--border);border-right:4px solid var(--primary);overflow:hidden;transition:all .15s}
+.exam-item:hover{box-shadow:0 4px 14px rgba(0,0,0,.06)}
 .exam-head{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
 .exam-head-info{flex:1}
 .exam-title{font-weight:700;font-size:.9em}
@@ -350,17 +359,20 @@ h3{font-size:1em;margin:10px 0 8px}
 .exam-body{padding:0 14px 14px;display:none;border-top:1px dashed var(--border);padding-top:12px;font-size:.85em;line-height:1.95}
 .exam-body.open{display:block}
 .err-badge{display:inline-block;padding:5px 12px;border-radius:14px;font-size:.78em;font-weight:600;margin:3px;cursor:pointer;border:1.5px solid var(--border);transition:all .15s}
+.err-badge:hover{transform:translateY(-1px)}
 .err-badge.sci{background:rgba(231,76,60,.15);color:var(--danger);border-color:var(--danger)}
 .err-badge.care{background:rgba(243,156,18,.15);color:var(--accent);border-color:var(--accent)}
 .err-badge.time{background:rgba(52,152,219,.15);color:var(--info);border-color:var(--info)}
 .err-badge.unk{background:rgba(149,165,166,.15);color:var(--text-light);border-color:var(--text-light)}
 
+.checklist-group{margin-bottom:14px}
 .checklist-title{font-size:.9em;font-weight:700;margin-bottom:8px;color:var(--primary);display:flex;align-items:center;gap:6px}
 .checklist-progress{font-size:.78em;color:var(--text-light);font-weight:600;margin-right:auto}
 
 .journal-q{background:var(--bg);border-radius:12px;padding:12px 14px;margin:10px 0}
 .journal-q label{font-size:.85em;font-weight:700;display:block;margin-bottom:6px;color:var(--text)}
-.journal-q textarea{width:100%;min-height:60px;padding:10px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg-card);color:var(--text);font-family:inherit;font-size:.88em;resize:vertical}
+.journal-q textarea{width:100%;min-height:60px;padding:10px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg-card);color:var(--text);font-family:inherit;font-size:.88em;resize:vertical;transition:border-color .15s,box-shadow .15s}
+.journal-q textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(102,126,234,.15)}
 
 .session-item{background:var(--bg-card);border-radius:11px;margin:6px 0;border:1px solid var(--border);border-right:4px solid var(--success);padding:11px 13px;font-size:.86em}
 .session-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
@@ -368,33 +380,10 @@ h3{font-size:1em;margin:10px 0 8px}
 .session-hrs{font-weight:900}
 .session-meta{font-size:.78em;color:var(--text-light);line-height:1.7}
 
-/* ردیاب خواب */
-.sleep-stars{display:flex;gap:5px;justify-content:center;margin:10px 0}
-.sleep-star{font-size:1.8em;cursor:pointer;opacity:.3;transition:all .15s;filter:grayscale(1)}
-.sleep-star.active{opacity:1;transform:scale(1.15);filter:none}
-
-/* ردیاب حواس‌پرتی */
-.distract-tag{display:inline-block;padding:6px 14px;border-radius:20px;font-size:.82em;font-weight:600;margin:4px;cursor:pointer;border:1.5px solid var(--border);background:var(--bg-card);transition:all .15s}
-.distract-tag.selected{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border-color:transparent}
-
-/* تحلیل ضعف */
-.weakness-item{background:var(--bg-card);border-radius:12px;padding:12px 14px;margin:8px 0;border:1px solid var(--border);border-right:4px solid var(--danger)}
-.weakness-item.ok{border-right-color:var(--success)}
-.weakness-title{font-weight:700;font-size:.9em;margin-bottom:6px}
-.weakness-desc{font-size:.82em;color:var(--text-light);line-height:1.85}
-
-/* هشدار افت */
-.alert-card{background:linear-gradient(135deg,#fef2f2,#fee2e2);border:2px solid #ef4444;border-radius:14px;padding:14px;margin-bottom:12px}
-[data-theme="dark"] .alert-card{background:linear-gradient(135deg,#450a0a,#3b0808);border-color:#dc2626}
-.alert-title{font-weight:800;color:#991b1b;font-size:.9em;margin-bottom:8px;display:flex;align-items:center;gap:8px}
-[data-theme="dark"] .alert-title{color:#fca5a5}
-.alert-text{font-size:.85em;color:#7f1d1d;line-height:1.85}
-[data-theme="dark"] .alert-text{color:#fecaca}
-
 @media print{
   body{background:#fff;color:#000;padding:0}
-  header{background:#333!important;-webkit-print-color-adjust:exact}
-  .bottom-nav,.more-menu,.theme-toggle,.pomodoro,.btn,.focus-mode,.toast,.chart,.now-card,.next-card,.install-btn,.assistant-overlay,.asst-open-btn,.makeup-card,.alert-card{display:none!important}
+  header{background:#333!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .bottom-nav,.more-menu,.theme-toggle,.pomodoro,.btn,.focus-mode,.toast,.chart,.now-card,.next-card,.install-btn,.assistant-overlay,.asst-open-btn{display:none!important}
   section{display:block!important;page-break-after:always}
   section:last-child{page-break-after:auto}
   .card,.tech,.item,.today-item{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
@@ -407,8 +396,8 @@ h3{font-size:1em;margin:10px 0 8px}
 
 <header>
   <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
-  <button class="install-btn" id="installBtn" onclick="installPWA()" title="نصب">📲</button>
-  <button class="asst-open-btn" onclick="openAssistantManual()" title="مشاور">🎓</button>
+  <button class="install-btn" id="installBtn" onclick="installPWA()" title="نصب اپ"><span class="ic">📲</span></button>
+  <button class="asst-open-btn" onclick="openAssistantManual()" title="مشاور تحصیلی">🎓</button>
   <h1>📚 مرکز مطالعه ایلیا</h1>
   <div class="live-clock"><span class="clock-time" id="liveTime">۰۰:۰۰:۰۰</span></div>
   <div class="live-date" id="liveDate">—</div>
@@ -424,13 +413,11 @@ h3{font-size:1em;margin:10px 0 8px}
 <div class="container">
 <div class="content">
 
-<!-- داشبورد -->
+<!-- ============ DASHBOARD ============ -->
 <section id="dashboard" class="active">
-  <div id="alertContainer"></div>
   <div id="phaseContainer"></div>
   <div id="classesContainer"></div>
   <div id="todayReportsContainer"></div>
-  <div id="makeupContainer"></div>
   <div id="nowContainer"></div>
 
   <h3 style="margin:16px 0 8px;font-size:.95em;color:var(--text-light)">⏳ شمارش معکوس امتحانات</h3>
@@ -454,10 +441,11 @@ h3{font-size:1em;margin:10px 0 8px}
   </div>
 </section>
 
-<!-- پرونده -->
+<!-- ============ PROFILE ============ -->
 <section id="profile">
   <h2>🪪 پرونده دانش‌آموز</h2>
   <div id="profileHeader"></div>
+
   <div class="card">
     <h3>👤 اطلاعات پایه</h3>
     <input class="inp" id="pfName" placeholder="نام کامل">
@@ -466,15 +454,18 @@ h3{font-size:1em;margin:10px 0 8px}
       <input class="inp" id="pfAvg9" type="number" step="0.25" min="0" max="20" placeholder="معدل نهم">
       <input class="inp" id="pfAvgTarget" type="number" step="0.25" min="0" max="20" placeholder="هدف معدل دهم">
     </div>
-    <button class="btn btn-primary btn-block" onclick="saveProfile()">💾 ذخیره</button>
+    <button class="btn btn-primary btn-block" onclick="saveProfile()">💾 ذخیره اطلاعات</button>
   </div>
+
   <div class="card">
     <h3>📊 سطح‌سنجی درس‌ها</h3>
+    <p style="color:var(--text-light);font-size:.82em;margin-bottom:12px">سطح خودت رو در هر درس انتخاب کن</p>
     <div id="levelAssess"></div>
   </div>
+
   <div class="card">
     <h3>🧠 سبک یادگیری</h3>
-    <div class="btn-group">
+    <div class="btn-group" style="gap:6px">
       <button class="btn btn-secondary btn-sm" onclick="setLearningStyle('visual')" id="ls-visual">👁 بصری</button>
       <button class="btn btn-secondary btn-sm" onclick="setLearningStyle('auditory')" id="ls-auditory">👂 شنیداری</button>
       <button class="btn btn-secondary btn-sm" onclick="setLearningStyle('kinesthetic')" id="ls-kinesthetic">✋ جنبشی</button>
@@ -482,77 +473,36 @@ h3{font-size:1em;margin:10px 0 8px}
     </div>
     <p style="font-size:.82em;color:var(--text-light);margin-top:10px" id="lsResult">—</p>
   </div>
+
+  <div class="card">
+    <h3>💭 وضعیت روانی و انگیزه</h3>
+    <textarea class="inp" id="pfPsych" placeholder="اضطراب، مقایسه، انگیزه..." style="min-height:100px"></textarea>
+    <button class="btn btn-primary btn-block" onclick="savePsych()">💾 ذخیره</button>
+  </div>
 </section>
 
-<!-- چک‌لیست -->
+<!-- ============ CHECKLIST ============ -->
 <section id="checklist">
-  <h2>✅ چک‌لیست روزانه</h2>
+  <h2>✅ چک‌لیست روزانه و هفتگی</h2>
+
   <div class="card">
     <div class="checklist-title">📅 امروز — <span id="clTodayDate"></span></div>
     <div id="clToday"></div>
     <div class="checklist-progress" id="clTodayProgress" style="text-align:center;margin-top:8px"></div>
   </div>
-</section>
-
-<!-- خواب و سلامت -->
-<section id="health">
-  <h2>🛌 خواب و سلامت</h2>
 
   <div class="card">
-    <h3>ثبت خواب دیشب</h3>
-    <div class="inp-row">
-      <input class="inp" id="slSleep" type="time" value="22:30">
-      <input class="inp" id="slWake" type="time" value="06:00">
-    </div>
-    <p style="font-size:.82em;color:var(--text-light);margin-bottom:10px">کیفیت خواب امشب:</p>
-    <div class="sleep-stars" id="slStars">
-      <span class="sleep-star" onclick="setSleepQuality(1)">⭐</span>
-      <span class="sleep-star" onclick="setSleepQuality(2)">⭐</span>
-      <span class="sleep-star" onclick="setSleepQuality(3)">⭐</span>
-      <span class="sleep-star" onclick="setSleepQuality(4)">⭐</span>
-      <span class="sleep-star" onclick="setSleepQuality(5)">⭐</span>
-    </div>
-    <button class="btn btn-primary btn-block" onclick="logSleep()">💾 ثبت خواب</button>
-  </div>
-
-  <div class="grid-2">
-    <div class="stat"><div class="stat-v" id="slToday">۰</div><div class="stat-l">ساعت خواب</div></div>
-    <div class="stat"><div class="stat-v" id="slWeek">۰</div><div class="stat-l">میانگین هفته</div></div>
-  </div>
-
-  <div class="card">
-    <h3>📊 نمودار خواب ۷ روز</h3>
-    <div class="chart" id="sleepChart"></div>
-  </div>
-
-  <div class="card">
-    <h3>🍎 تغذیه امروز</h3>
-    <div class="btn-group">
-      <button class="btn btn-secondary btn-sm" onclick="toggleNutrition('breakfast',this)" id="nt-breakfast">🥣 صبحانه</button>
-      <button class="btn btn-secondary btn-sm" onclick="toggleNutrition('lunch',this)" id="nt-lunch">🍽 ناهار</button>
-      <button class="btn btn-secondary btn-sm" onclick="toggleNutrition('dinner',this)" id="nt-dinner">🌙 شام</button>
-      <button class="btn btn-secondary btn-sm" onclick="toggleNutrition('water',this)" id="nt-water">💧 آب کافی</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3>🏃 ورزش امروز</h3>
-    <div class="inp-row">
-      <input class="inp" id="exMin" type="number" placeholder="دقیقه" min="0" max="300" step="5">
-      <input class="inp" id="exType" placeholder="نوع (پیاده‌روی، دوچرخه...)">
-    </div>
-    <button class="btn btn-success btn-block" onclick="logExercise()">➕ ثبت ورزش</button>
-  </div>
-
-  <div class="card">
-    <h3>📋 تاریخچه خواب</h3>
-    <div id="sleepHistory" style="max-height:300px;overflow-y:auto"></div>
+    <div class="checklist-title">📆 این هفته</div>
+    <div id="clWeek"></div>
+    <div class="checklist-progress" id="clWeekProgress" style="text-align:center;margin-top:8px"></div>
   </div>
 </section>
 
-<!-- جلسات مطالعه -->
+<!-- ============ SESSIONS ============ -->
 <section id="sessions">
   <h2>📝 ثبت جلسات مطالعه</h2>
+  <p style="color:var(--text-light);font-size:.85em;margin-bottom:12px">هر جلسه مطالعه رو دقیق ثبت کن</p>
+
   <div class="card">
     <h3>جلسه جدید</h3>
     <div class="inp-row">
@@ -582,46 +532,21 @@ h3{font-size:1em;margin:10px 0 8px}
     </div>
   </div>
 
-  <div class="card"><h3>📋 جلسات امروز</h3><div id="ssTodayList"></div></div>
-  <div class="card"><h3>📚 جلسات هفته</h3><div id="ssWeekList" style="max-height:400px;overflow-y:auto"></div></div>
-</section>
-
-<!-- حواس‌پرتی -->
-<section id="distraction">
-  <h2>🧠 ردیاب حواس‌پرتی</h2>
-  <p style="color:var(--text-light);font-size:.85em;margin-bottom:12px">وقتی وسط مطالعه پرت شدی، اینجا ثبت کن</p>
-
   <div class="card">
-    <h3>ثبت حواس‌پرتی جدید</h3>
-    <p style="font-size:.85em;color:var(--text-light);margin-bottom:10px">چی باعث شد پرت شی؟</p>
-    <div id="distractTags">
-      <span class="distract-tag" onclick="toggleDistractTag('گوشی',this)">📱 گوشی</span>
-      <span class="distract-tag" onclick="toggleDistractTag('فکر مزاحم',this)">💭 فکر مزاحم</span>
-      <span class="distract-tag" onclick="toggleDistractTag('خستگی',this)">😴 خستگی</span>
-      <span class="distract-tag" onclick="toggleDistractTag('گرسنگی',this)">🍽 گرسنگی</span>
-      <span class="distract-tag" onclick="toggleDistractTag('سر و صدا',this)">🔊 سر و صدا</span>
-      <span class="distract-tag" onclick="toggleDistractTag('بی‌انگیزگی',this)">😐 بی‌انگیزگی</span>
-      <span class="distract-tag" onclick="toggleDistractTag('فضای مجازی',this)">🌐 فضای مجازی</span>
-      <span class="distract-tag" onclick="toggleDistractTag('دوست',this)">👥 دوست</span>
-    </div>
-    <input class="inp" id="distractNote" placeholder="توضیح (اختیاری)" style="margin-top:10px">
-    <button class="btn btn-primary btn-block" onclick="logDistraction()">💾 ثبت</button>
+    <h3>📋 جلسات امروز</h3>
+    <div id="ssTodayList"></div>
   </div>
 
   <div class="card">
-    <h3>📊 تحلیل ۷ روز اخیر</h3>
-    <div id="distractAnalysis"></div>
-  </div>
-
-  <div class="card">
-    <h3>📋 تاریخچه</h3>
-    <div id="distractHistory" style="max-height:400px;overflow-y:auto"></div>
+    <h3>📚 جلسات این هفته</h3>
+    <div id="ssWeekList" style="max-height:400px;overflow-y:auto"></div>
   </div>
 </section>
 
-<!-- آزمون -->
+<!-- ============ EXAM ANALYSIS ============ -->
 <section id="exams">
   <h2>📝 تحلیل آزمون‌ها</h2>
+
   <div class="card">
     <h3>ثبت آزمون جدید</h3>
     <div class="inp-row">
@@ -651,10 +576,11 @@ h3{font-size:1em;margin:10px 0 8px}
   <div id="examsList"></div>
 </section>
 
-<!-- ژورنال -->
+<!-- ============ JOURNAL ============ -->
 <section id="journal">
   <h2>🌙 ژورنال شبانه</h2>
   <p style="color:var(--text-light);font-size:.85em;margin-bottom:12px">هر شب قبل خواب این ۳ سوال رو جواب بده</p>
+
   <div class="card">
     <div class="journal-q">
       <label>✅ امروز چی یاد گرفتم؟</label>
@@ -670,33 +596,20 @@ h3{font-size:1em;margin:10px 0 8px}
     </div>
     <button class="btn btn-success btn-block" onclick="saveJournal()">💾 ذخیره ژورنال</button>
   </div>
-  <div class="card"><h3>📖 ژورنال‌های قبلی</h3><div id="journalList" style="max-height:400px;overflow-y:auto"></div></div>
-</section>
 
-<!-- تحلیل ضعف -->
-<section id="weakness">
-  <h2>💡 تحلیل نقاط ضعف</h2>
   <div class="card">
-    <h3>🎯 خلاصه هوشمند</h3>
-    <div id="weaknessSummary"></div>
-  </div>
-  <div class="card">
-    <h3>📉 درس‌های نیازمند توجه</h3>
-    <div id="weakSubjectsList"></div>
-  </div>
-  <div class="card">
-    <h3>📈 روند نمرات</h3>
-    <div id="gradeTrend"></div>
+    <h3>📖 ژورنال‌های قبلی</h3>
+    <div id="journalList" style="max-height:400px;overflow-y:auto"></div>
   </div>
 </section>
 
-<!-- گزارش هفتگی -->
-<section id="weekly">
-  <h2>📊 گزارش هفتگی</h2>
-  <div id="weeklyContent"></div>
+<!-- ============ MONTHLY ============ -->
+<section id="monthly">
+  <h2>📊 گزارش ماهانه</h2>
+  <div id="monthlyContent"></div>
 </section>
 
-<!-- برنامه -->
+<!-- ============ SCHEDULE ============ -->
 <section id="schedule">
   <h2>📅 برنامه هفتگی</h2>
   <div class="card">
@@ -708,31 +621,103 @@ h3{font-size:1em;margin:10px 0 8px}
   <div id="fullSchedule"></div>
 </section>
 
-<!-- تکنیک‌ها -->
+<!-- ============ TECHNIQUES ============ -->
 <section id="techniques">
   <h2>🧠 تکنیک‌ها و مهارت‌ها</h2>
-  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">⏰</span>مدیریت زمان</div><div class="tech-body"><b>پومودورو:</b> ۲۵+۵<br><b>بلوک‌بندی:</b> «۱۵:۳۰ تا ۱۷:۰۰ فقط ریاضی»<br><b>اولویت‌بندی:</b> ماتریس آیزنهاور</div></div>
-  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">🎯</span>تمرکز عمیق</div><div class="tech-body"><ol><li>گوشی بیرون اتاق</li><li>اعلان‌ها خاموش</li><li>فقط یک تب باز</li><li>دفتر افکار مزاحم</li></ol></div></div>
-  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">📖</span>مطالعه فعال</div><div class="tech-body"><b>قبل:</b> پیش‌خوانی<br><b>در حین:</b> سوال‌سازی<br><b>بعد:</b> خودآزمایی بدون کتاب<br><b>پایان:</b> خلاصه‌نویسی</div></div>
-  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">📐</span>حل مسئله ریاضی</div><div class="tech-body"><ol><li>صورت مسئله</li><li>شکل بکش</li><li>داده‌ها</li><li>فرمول</li><li>حل</li><li>بازبینی</li></ol></div></div>
-  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">🧪</span>تست‌زنی حرفه‌ای</div><div class="tech-body"><b>قبل:</b> تایمر<br><b>در حین:</b> آسون اول<br><b>بعد:</b> تحلیل غلط‌ها</div></div>
-  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">📓</span>دفتر اشتباهات</div><div class="tech-body">سوال + چرا غلط + جواب درست. هفتگی مرور کن.</div></div>
-  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">🍅</span>پومودورو</div><div class="tech-body">۲۵ دقیقه تمرکز + ۵ استراحت. هر ۴ دور، ۱۵-۳۰ استراحت بلند.</div></div>
-  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">🧑‍🏫</span>فاینمن</div><div class="tech-body">مفهوم رو مثل بچه ۱۲ ساله توضیح بده.</div></div>
-  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">📖</span>مرور فاصله‌دار</div><div class="tech-body">۲۴ساعت → ۳روز → ۱هفته → ۲هفته → ۱ماه</div></div>
-  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">🔁</span>یادآوری فعال</div><div class="tech-body">کتاب رو ببند، از خودت سوال بپرس.</div></div>
-  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">😴</span>خواب و حافظه</div><div class="tech-body">۷-۸ ساعت خواب + مرور قبل خواب</div></div>
-  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">⚡</span>قانون ۲ دقیقه</div><div class="tech-body">فقط ۲ دقیقه شروع کن. ۹۰٪ ادامه میدی.</div></div>
+
+  <h3 style="margin-bottom:10px">🎓 مهارت‌های تحصیلی</h3>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">⏰</span>مدیریت زمان</div>
+    <div class="tech-body"><b>پومودورو:</b> ۲۵ دقیقه تمرکز + ۵ دقیقه استراحت<br><b>بلوک‌بندی:</b> «۱۵:۳۰ تا ۱۷:۰۰ فقط ریاضی»<br><b>اولویت‌بندی:</b> ماتریس آیزنهاور</div>
+  </div>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">🎯</span>تمرکز عمیق</div>
+    <div class="tech-body"><ol><li>گوشی بیرون اتاق</li><li>اعلان‌ها خاموش</li><li>فقط یک تب باز</li><li>دفتر افکار مزاحم کنار دست</li><li>۳ نفس عمیق</li></ol></div>
+  </div>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">📖</span>مطالعه فعال</div>
+    <div class="tech-body"><b>قبل:</b> پیش‌خوانی<br><b>در حین:</b> سوال‌سازی<br><b>بعد:</b> خودآزمایی بدون کتاب<br><b>پایان:</b> خلاصه‌نویسی</div>
+  </div>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">📝</span>خلاصه‌نویسی</div>
+    <div class="tech-body"><b>نقشه ذهنی:</b> موضوع وسط<br><b>جدول:</b> مقایسه‌ها<br><b>فلش‌کارت:</b> سوال/جواب<br><b>قانون:</b> با زبان خودت</div>
+  </div>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">📐</span>حل مسئله ریاضی</div>
+    <div class="tech-body"><ol><li>صورت مسئله رو دقیق بخون</li><li>شکل بکش</li><li>داده‌ها و خواسته‌ها</li><li>فرمول مناسب</li><li>حل کن و یکاها</li><li>بازبینی</li></ol></div>
+  </div>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">🧪</span>تست‌زنی حرفه‌ای</div>
+    <div class="tech-body"><b>قبل:</b> تایمر<br><b>در حین:</b> آسون اول<br><b>حذف گزینه:</b> غلط‌ها حذف کن<br><b>بعد:</b> تحلیل غلط‌ها</div>
+  </div>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">📓</span>دفتر اشتباهات</div>
+    <div class="tech-body"><b>ثبت:</b> سوال، چرا غلط، جواب درست<br><b>مرور:</b> هفتگی<br><b>قبل امتحان:</b> فقط همین دفتر</div>
+  </div>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">🔍</span>کاهش بی‌دقتی</div>
+    <div class="tech-body"><ol><li>چک‌لیست شخصی</li><li>علامت‌گذاری کلمات کلیدی</li><li>بازخوانی جواب</li><li>۵ دقیقه آخر بازبینی</li></ol></div>
+  </div>
+
+  <h3 style="margin:20px 0 10px">📚 تکنیک‌های مطالعه</h3>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">🍅</span>پومودورو</div>
+    <div class="tech-body">۲۵ دقیقه تمرکز + ۵ دقیقه استراحت. هر ۴ دور، ۱۵-۳۰ دقیقه استراحت بلند.</div>
+  </div>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">🧑‍🏫</span>فاینمن</div>
+    <div class="tech-body">مفهوم رو طوری توضیح بده که یه بچه ۱۲ ساله بفهمه.</div>
+  </div>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">📖</span>مرور فاصله‌دار</div>
+    <div class="tech-body">۲۴ ساعت → ۳ روز → ۱ هفته → ۲ هفته → ۱ ماه</div>
+  </div>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">🔁</span>یادآوری فعال</div>
+    <div class="tech-body">کتاب رو ببند و از خودت سوال بپرس.</div>
+  </div>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">📝</span>یادداشت کورنل</div>
+    <div class="tech-body">عنوان، کلیدواژه، یادداشت، خلاصه</div>
+  </div>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">🔀</span>Interleaving</div>
+    <div class="tech-body">۳۰ ریاضی، ۳۰ فیزیک، ۳۰ ریاضی</div>
+  </div>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">⚡</span>قانون ۲ دقیقه</div>
+    <div class="tech-body">فقط ۲ دقیقه شروع کن. ۹۰٪ مواقع ادامه میدی.</div>
+  </div>
+
+  <div class="tech" onclick="this.classList.toggle('open')">
+    <div class="tech-head"><span class="ico">😴</span>خواب و حافظه</div>
+    <div class="tech-body">۷-۸ ساعت خواب. قبل خواب مرور. بدون گوشی.</div>
+  </div>
 </section>
 
-<!-- لایتنر -->
+<!-- ============ LEITNER ============ -->
 <section id="leitner">
   <h2>🗂 جعبه لایتنر</h2>
   <div class="card">
     <h3>کارت جدید</h3>
     <input class="inp" id="lf" placeholder="سوال / لغت">
     <input class="inp" id="lb" placeholder="پاسخ / معنی">
-    <button class="btn btn-success btn-block" onclick="addLeitner()">➕ اضافه</button>
+    <button class="btn btn-success btn-block" onclick="addLeitner()">➕ اضافه کن</button>
   </div>
   <div class="card"><h3>📊 وضعیت جعبه‌ها</h3><div id="leitnerStats" style="text-align:center"></div></div>
   <div class="card">
@@ -751,7 +736,7 @@ h3{font-size:1em;margin:10px 0 8px}
   </div>
 </section>
 
-<!-- اشتباهات -->
+<!-- ============ MISTAKES ============ -->
 <section id="mistakes">
   <h2>📕 دفتر اشتباهات</h2>
   <div class="card">
@@ -763,7 +748,7 @@ h3{font-size:1em;margin:10px 0 8px}
   <div id="mistakesList"></div>
 </section>
 
-<!-- نمرات -->
+<!-- ============ GRADES ============ -->
 <section id="grades">
   <h2>📊 نمرات</h2>
   <div class="card">
@@ -783,7 +768,7 @@ h3{font-size:1em;margin:10px 0 8px}
   <div id="gradesList"></div>
 </section>
 
-<!-- کارها -->
+<!-- ============ TODO ============ -->
 <section id="todo">
   <h2>✔️ کارها</h2>
   <div class="card">
@@ -801,7 +786,7 @@ h3{font-size:1em;margin:10px 0 8px}
   <div class="card"><h3>انجام‌شده</h3><div id="todoDone"></div></div>
 </section>
 
-<!-- اهداف -->
+<!-- ============ GOALS ============ -->
 <section id="goals">
   <h2>🎯 اهداف</h2>
   <div class="card">
@@ -819,7 +804,7 @@ h3{font-size:1em;margin:10px 0 8px}
   <div id="goalsList"></div>
 </section>
 
-<!-- پومودورو -->
+<!-- ============ POMODORO ============ -->
 <section id="pomodoro">
   <h2>⏱ پومودورو</h2>
   <div class="pomodoro">
@@ -839,7 +824,7 @@ h3{font-size:1em;margin:10px 0 8px}
   </div>
 </section>
 
-<!-- آمار -->
+<!-- ============ STATS ============ -->
 <section id="stats">
   <h2>📈 آمار</h2>
   <div class="grid-2">
@@ -852,7 +837,15 @@ h3{font-size:1em;margin:10px 0 8px}
   <div class="card"><h3>📋 گزارش</h3><div id="logList" style="max-height:280px;overflow-y:auto"></div></div>
 </section>
 
-<!-- عادت‌ها -->
+<!-- ============ ANALYSIS ============ -->
+<section id="analysis">
+  <h2>💡 تحلیل</h2>
+  <div class="card"><h3>📊 میانگین هر درس</h3><div id="subjAvg"></div></div>
+  <div class="card"><h3>⚠️ نیازمند توجه</h3><div id="weakL"></div></div>
+  <div class="card"><h3>💪 نقاط قوت</h3><div id="strongL"></div></div>
+</section>
+
+<!-- ============ HABITS ============ -->
 <section id="habits">
   <h2>🔥 عادت‌ها</h2>
   <div class="card">
@@ -865,7 +858,7 @@ h3{font-size:1em;margin:10px 0 8px}
   <div class="card"><h3>۱۴ روز اخیر</h3><div id="habitGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:6px"></div></div>
 </section>
 
-<!-- یادداشت -->
+<!-- ============ NOTES ============ -->
 <section id="notes">
   <h2>📝 یادداشت‌ها</h2>
   <textarea class="inp" id="notesA" style="min-height:300px" placeholder="بنویس..."></textarea>
@@ -875,31 +868,49 @@ h3{font-size:1em;margin:10px 0 8px}
   </div>
 </section>
 
-<!-- قوانین -->
+<!-- ============ RULES ============ -->
 <section id="rules">
   <h2>⭐ قوانین طلایی</h2>
   <ul style="list-style:none;padding:0">
     <li class="rule"><span class="rule-n">1</span>هدف: هکر سایبری → ریاضی + انگلیسی + برنامه‌نویسی</li>
     <li class="rule"><span class="rule-n">2</span>خواب ۲۲:۳۰ تا ۶:۰۰</li>
     <li class="rule"><span class="rule-n">3</span>گوشی بیرون اتاق هنگام مطالعه</li>
-    <li class="rule"><span class="rule-n">4</span>هر روز عربی یا انگلیسی</li>
-    <li class="rule"><span class="rule-n">5</span>هر روز یک بلوک ۹۰ دقیقه‌ای</li>
+    <li class="rule"><span class="rule-n">4</span>هر روز عربی یا انگلیسی، حتی ۲۰ دقیقه</li>
+    <li class="rule"><span class="rule-n">5</span>هر روز یک بلوک اصلی ۹۰ دقیقه‌ای</li>
     <li class="rule"><span class="rule-n">6</span>دفتر اشتباهات + دفتر فرمول</li>
     <li class="rule"><span class="rule-n">7</span>جمعه: مرور صبح، استراحت بقیه</li>
-    <li class="rule"><span class="rule-n">8</span>یه روز خراب شد؟ برگرد به روال</li>
+    <li class="rule"><span class="rule-n">8</span>اگه یه روز خراب شد، فقط برگرد به روال</li>
     <li class="rule"><span class="rule-n">9</span>مقایسه فقط با خودت هفته قبل</li>
-    <li class="rule"><span class="rule-n">10</span>هک یاد بگیر، ولی جای درس رو نگیر</li>
+    <li class="rule"><span class="rule-n">10</span>هک یاد بگیر، اما جای درس رو نگیر</li>
   </ul>
 </section>
 
-<!-- پشتیبان -->
+<!-- ============ BACKUP ============ -->
 <section id="backup">
   <h2>💾 پشتیبان</h2>
-  <div class="card"><h3>📤 خروجی</h3><button class="btn btn-primary btn-block" onclick="exportData()">⬇️ دانلود فایل پشتیبان</button></div>
-  <div class="card"><h3>📥 بازگردانی</h3><input type="file" id="importF" accept=".json" onchange="importData(event)" class="inp"></div>
-  <div class="card"><h3>📲 نصب PWA</h3><button class="btn btn-info btn-block" onclick="installPWA()">📲 نصب روی گوشی</button></div>
-  <div class="card"><h3>🎓 مشاور تحصیلی</h3><div class="btn-group"><button class="btn btn-primary" onclick="openAssistantManual('school')">🏫 گزارش مدرسه</button><button class="btn btn-info" onclick="openAssistantManual('night')">🌙 گزارش شب</button></div></div>
-  <div class="card"><h3>⚠️ پاک کردن</h3><button class="btn btn-danger btn-block" onclick="resetAll()">🗑 پاک کردن همه</button></div>
+  <div class="card">
+    <h3>📤 خروجی</h3>
+    <button class="btn btn-primary btn-block" onclick="exportData()">⬇️ دانلود فایل پشتیبان</button>
+  </div>
+  <div class="card">
+    <h3>📥 بازگردانی</h3>
+    <input type="file" id="importF" accept=".json" onchange="importData(event)" class="inp">
+  </div>
+  <div class="card">
+    <h3>📲 نصب PWA</h3>
+    <button class="btn btn-info btn-block" onclick="installPWA()">📲 نصب روی گوشی</button>
+  </div>
+  <div class="card">
+    <h3>🎓 مشاور تحصیلی</h3>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="openAssistantManual('school')">🏫 گزارش مدرسه</button>
+      <button class="btn btn-info" onclick="openAssistantManual('night')">🌙 گزارش شب</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>⚠️ پاک کردن</h3>
+    <button class="btn btn-danger btn-block" onclick="resetAll()">🗑 پاک کردن همه</button>
+  </div>
 </section>
 
 </div>
@@ -908,19 +919,17 @@ h3{font-size:1em;margin:10px 0 8px}
 <nav class="bottom-nav">
   <button class="active" data-t="dashboard" onclick="go('dashboard')"><span class="ico">🏠</span><span>خانه</span></button>
   <button data-t="schedule" onclick="go('schedule')"><span class="ico">📅</span><span>برنامه</span></button>
-  <button data-t="health" onclick="go('health')"><span class="ico">🛌</span><span>سلامت</span></button>
-  <button data-t="weakness" onclick="go('weakness')"><span class="ico">💡</span><span>تحلیل</span></button>
+  <button data-t="checklist" onclick="go('checklist')"><span class="ico">✅</span><span>چک‌لیست</span></button>
+  <button data-t="profile" onclick="go('profile')"><span class="ico">🪪</span><span>پرونده</span></button>
   <button data-t="more" onclick="toggleMore()"><span class="ico">⋯</span><span>بیشتر</span></button>
 </nav>
 
 <div class="more-menu" id="moreMenu">
-  <button onclick="go('checklist');closeMore()"><span class="ico">✅</span>چک‌لیست</button>
+  <button onclick="go('techniques');closeMore()"><span class="ico">🧠</span>تکنیک‌ها</button>
   <button onclick="go('sessions');closeMore()"><span class="ico">📝</span>جلسات</button>
-  <button onclick="go('distraction');closeMore()"><span class="ico">🧠</span>حواس‌پرتی</button>
   <button onclick="go('exams');closeMore()"><span class="ico">📝</span>آزمون‌ها</button>
   <button onclick="go('journal');closeMore()"><span class="ico">🌙</span>ژورنال</button>
-  <button onclick="go('weekly');closeMore()"><span class="ico">📊</span>گزارش هفته</button>
-  <button onclick="go('techniques');closeMore()"><span class="ico">🧠</span>تکنیک‌ها</button>
+  <button onclick="go('monthly');closeMore()"><span class="ico">📊</span>گزارش ماه</button>
   <button onclick="go('leitner');closeMore()"><span class="ico">🗂</span>لایتنر</button>
   <button onclick="go('mistakes');closeMore()"><span class="ico">📕</span>اشتباهات</button>
   <button onclick="go('grades');closeMore()"><span class="ico">📊</span>نمرات</button>
@@ -928,9 +937,9 @@ h3{font-size:1em;margin:10px 0 8px}
   <button onclick="go('goals');closeMore()"><span class="ico">🎯</span>اهداف</button>
   <button onclick="go('habits');closeMore()"><span class="ico">🔥</span>عادت‌ها</button>
   <button onclick="go('stats');closeMore()"><span class="ico">📈</span>آمار</button>
-  <button onclick="go('profile');closeMore()"><span class="ico">🪪</span>پرونده</button>
-  <button onclick="go('rules');closeMore()"><span class="ico">⭐</span>قوانین</button>
+  <button onclick="go('analysis');closeMore()"><span class="ico">💡</span>تحلیل</button>
   <button onclick="go('notes');closeMore()"><span class="ico">📝</span>یادداشت</button>
+  <button onclick="go('rules');closeMore()"><span class="ico">⭐</span>قوانین</button>
   <button onclick="go('backup');closeMore()"><span class="ico">💾</span>پشتیبان</button>
 </div>
 
@@ -952,7 +961,9 @@ h3{font-size:1em;margin:10px 0 8px}
 <div class="toast" id="toast"></div>
 
 <script>
-// ============= ابزارها =============
+// =============================================================
+// ابزارها
+// =============================================================
 const fa = (n) => n.toString().replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
 const today = () => new Date().toISOString().split('T')[0];
 const getData = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch(e) { return d; } };
@@ -961,23 +972,28 @@ function pad2(n) { return n.toString().padStart(2, '0'); }
 function timeToMin(t) { const [h, m] = t.split(':').map(Number); return h * 60 + m; }
 function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1800); }
 
+// =============================================================
 // PWA
+// =============================================================
 if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {})); }
 let deferredPrompt = null;
 function isStandalone() { return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
 window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
 function installPWA() {
   if (isStandalone()) { toast('✅ اپ نصب شده'); return; }
-  if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(c => { if (c.outcome === 'accepted') toast('🎉 اپ نصب شد!'); deferredPrompt = null; }); return; }
+  if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then((c) => { if (c.outcome === 'accepted') toast('🎉 اپ نصب شد!'); deferredPrompt = null; }); return; }
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-  alert(isIOS ? '📲 iPhone: Share → Add to Home Screen' : '📲 Android: منوی Chrome → Install app');
+  alert(isIOS ? '📲 iPhone:\n۱. Share\n۲. Add to Home Screen' : '📲 Android:\nمنوی ۳ نقطه Chrome → Install app');
 }
 window.addEventListener('appinstalled', () => toast('🎉 اپ نصب شد!'));
 
-// تاریخ
+// =============================================================
+// تبدیل تاریخ
+// =============================================================
 function gregorianToJalali(gy, gm, gd) {
   const g_d_m = [0,31,59,90,120,151,181,212,243,273,304,334];
-  let jy = (gy <= 1600) ? 0 : 979; gy -= (gy <= 1600) ? 621 : 1600;
+  let jy = (gy <= 1600) ? 0 : 979;
+  gy -= (gy <= 1600) ? 621 : 1600;
   const gy2 = (gm > 2) ? (gy + 1) : gy;
   let days = (365*gy) + Math.floor((gy2+3)/4) - Math.floor((gy2+99)/100) + Math.floor((gy2+399)/400) - 80 + gd + g_d_m[gm-1];
   jy += 33 * Math.floor(days/12053); days %= 12053;
@@ -1009,19 +1025,32 @@ function getShamsi(d) {
   return {y: jy, m: jm, d: jd, monthName: JALALI_MONTHS[jm-1], dayName: WEEK_DAYS_FA[dt.getDay()], jsDay: dt.getDay()};
 }
 
+// =============================================================
 // داده‌ها
-const SCHOOL_SCHEDULE = { 6:['هندسه','دفاعی','فارسی','شیمی'],0:['فیزیک','نگارش','ریاضی','جغرافیا'],1:['دینی','زبان','شیمی','آزمایشگاه'],2:['فیزیک','زبان','عربی','ریاضی'],3:['ورزش','ریاضی','تفکر'],4:[],5:[] };
-const SUBJECT_ICONS = {'هندسه':'📏','دفاعی':'🛡','فارسی':'📜','شیمی':'🧪','آزمایشگاه':'🔬','فیزیک':'⚛️','نگارش':'✍️','ریاضی':'📐','جغرافیا':'🌍','دینی':'📖','زبان':'🌐','عربی':'🕌','ورزش':'⚽','تفکر':'💭','انگلیسی':'🌐'};
+// =============================================================
+const SCHOOL_SCHEDULE = {
+  6: ['هندسه','دفاعی','فارسی','شیمی'],
+  0: ['فیزیک','نگارش','ریاضی','جغرافیا'],
+  1: ['دینی','زبان','شیمی','آزمایشگاه'],
+  2: ['فیزیک','زبان','عربی','ریاضی'],
+  3: ['ورزش','ریاضی','تفکر'],
+  4: [], 5: []
+};
+const SUBJECT_ICONS = {
+  'هندسه':'📏','دفاعی':'🛡','فارسی':'📜','شیمی':'🧪','آزمایشگاه':'🔬',
+  'فیزیک':'⚛️','نگارش':'✍️','ریاضی':'📐','جغرافیا':'🌍',
+  'دینی':'📖','زبان':'🌐','عربی':'🕌','ورزش':'⚽','تفکر':'💭','انگلیسی':'🌐'
+};
 const ALL_SUBJECTS = ['ریاضی','فیزیک','هندسه','شیمی','عربی','زبان','فارسی','نگارش','جغرافیا','دینی','تفکر','دفاعی','آزمایشگاه'];
 
 const SCHEDULE = {
-  6:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور لغت","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور هندسه","study","📏"],["21:30","22:15","مرور شیمی","study","🧪"],["22:30","23:59","خواب","sleep","😴"]],
-  0:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور کوتاه","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","15:30","استراحت","rest","☕"],["15:30","17:00","ریاضی","study","📐"],["17:00","17:15","استراحت","rest","☕"],["17:15","18:15","عربی","study","🕌"],["18:15","18:45","استراحت","rest","☕"],["18:45","20:00","فیزیک","study","⚛️"],["20:00","20:45","شام","rest","🍽"],["20:45","21:30","تکالیف","study","✍️"],["21:30","22:15","مرور روز","study","📓"],["22:30","23:59","خواب","sleep","😴"]],
-  1:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور زبان","study","🌐"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور شیمی","study","🧪"],["21:30","22:15","زبان","study","🌐"],["22:30","23:59","خواب","sleep","😴"]],
-  2:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","15:30","استراحت","rest","☕"],["15:30","17:00","ریاضی","study","📐"],["17:00","17:15","استراحت","rest","☕"],["17:15","18:15","عربی","study","🕌"],["18:15","18:45","استراحت","rest","☕"],["18:45","20:00","فیزیک","study","⚛️"],["20:00","20:45","شام","rest","🍽"],["20:45","21:30","زبان","study","🌐"],["21:30","22:15","مرور","study","📓"],["22:30","23:59","خواب","sleep","😴"]],
-  3:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور ریاضی","study","📐"],["21:30","22:15","هندسه","study","📏"],["22:30","23:59","خواب","sleep","😴"]],
-  4:[["08:00","08:30","بیداری، صبحانه","wake","🌅"],["08:30","10:00","ریاضی","study","📐"],["10:00","10:30","استراحت","rest","☕"],["10:30","12:00","فیزیک","study","⚛️"],["12:00","14:00","ناهار","rest","🍽"],["14:00","15:30","عربی","study","🕌"],["15:30","16:00","استراحت","rest","☕"],["16:00","17:30","زبان","study","🌐"],["17:30","19:00","شیمی یا هندسه","study","🧪"],["19:00","23:59","آزاد","rest","🎮"]],
-  5:[["08:00","09:00","بیداری، صبحانه","wake","🌅"],["09:00","10:30","مرور کل هفته","study","📖"],["10:30","11:00","دفتر اشتباهات","study","📓"],["11:00","11:30","برنامه هفته بعد","study","📝"],["11:30","23:59","استراحت","rest","🎮"]]
+  6: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور لغت","study","📖"],["07:00","14:00","مدرسه: هندسه، دفاعی، فارسی، شیمی","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور هندسه","study","📏"],["21:30","22:15","مرور شیمی","study","🧪"],["22:30","23:59","خواب","sleep","😴"]],
+  0: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور کوتاه","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","15:30","استراحت","rest","☕"],["15:30","17:00","ریاضی","study","📐"],["17:00","17:15","استراحت","rest","☕"],["17:15","18:15","عربی","study","🕌"],["18:15","18:45","استراحت","rest","☕"],["18:45","20:00","فیزیک","study","⚛️"],["20:00","20:45","شام","rest","🍽"],["20:45","21:30","تکالیف","study","✍️"],["21:30","22:15","مرور روز","study","📓"],["22:30","23:59","خواب","sleep","😴"]],
+  1: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور زبان","study","🌐"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور شیمی","study","🧪"],["21:30","22:15","زبان","study","🌐"],["22:30","23:59","خواب","sleep","😴"]],
+  2: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","15:30","استراحت","rest","☕"],["15:30","17:00","ریاضی","study","📐"],["17:00","17:15","استراحت","rest","☕"],["17:15","18:15","عربی","study","🕌"],["18:15","18:45","استراحت","rest","☕"],["18:45","20:00","فیزیک","study","⚛️"],["20:00","20:45","شام","rest","🍽"],["20:45","21:30","زبان","study","🌐"],["21:30","22:15","مرور","study","📓"],["22:30","23:59","خواب","sleep","😴"]],
+  3: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور ریاضی","study","📐"],["21:30","22:15","هندسه","study","📏"],["22:30","23:59","خواب","sleep","😴"]],
+  4: [["08:00","08:30","بیداری، صبحانه","wake","🌅"],["08:30","10:00","ریاضی","study","📐"],["10:00","10:30","استراحت","rest","☕"],["10:30","12:00","فیزیک","study","⚛️"],["12:00","14:00","ناهار","rest","🍽"],["14:00","15:30","عربی","study","🕌"],["15:30","16:00","استراحت","rest","☕"],["16:00","17:30","زبان","study","🌐"],["17:30","19:00","شیمی یا هندسه","study","🧪"],["19:00","23:59","آزاد","rest","🎮"]],
+  5: [["08:00","09:00","بیداری، صبحانه","wake","🌅"],["09:00","10:30","مرور کل هفته","study","📖"],["10:30","11:00","دفتر اشتباهات","study","📓"],["11:00","11:30","برنامه هفته بعد","study","📝"],["11:30","23:59","استراحت","rest","🎮"]]
 };
 
 const PHASES = {
@@ -1042,7 +1071,9 @@ const PHASES = {
 const EXAMS = { midterm: { name: 'میان‌ترم', jy: 1405, jm: 9, jd: 15 }, final: { name: 'پایان‌ترم', jy: 1405, jm: 10, jd: 20 } };
 function examDateToGregorian(exam) { const [gy, gm, gd] = jalaliToGregorian(exam.jy, exam.jm, exam.jd); return new Date(gy, gm-1, gd, 0, 0, 0); }
 
-// ساعت زنده
+// =============================================================
+// ساعت زنده + فعالیت فعلی
+// =============================================================
 function updateClock() {
   const now = new Date();
   document.getElementById('liveTime').textContent = `${fa(pad2(now.getHours()))}:${fa(pad2(now.getMinutes()))}:${fa(pad2(now.getSeconds()))}`;
@@ -1065,7 +1096,9 @@ function getCurrent() {
   return null;
 }
 
+// =============================================================
 // رندر کارت‌ها
+// =============================================================
 function renderClasses() {
   const el = document.getElementById('classesContainer');
   if (!el) return;
@@ -1098,7 +1131,7 @@ function renderPhase() {
   const phase = PHASES[sh.m] || {title:'—',icon:'📅',goals:[]};
   const daysInMonth = sh.m <= 6 ? 31 : (sh.m === 12 ? 29 : 30);
   const pct = Math.round((sh.d / daysInMonth) * 100);
-  el.innerHTML = `<div class="phase-hero"><div class="phase-month"><span>📅 ${sh.monthName} ${fa(sh.y)}</span><span>روز ${fa(sh.d)} از ${fa(daysInMonth)}</span></div><div class="phase-title"><span>${phase.icon}</span>${phase.title}</div><ul class="phase-goals">${phase.goals.map(g=>`<li>${g}</li>`).join('')}</ul><div class="phase-progress"><div class="phase-progress-fill" style="width:${pct}%"></div></div><div class="phase-footer">${fa(pct)}٪ از این ماه گذشته</div></div>`;
+  el.innerHTML = `<div class="phase-hero"><div class="phase-month"><span>📅 فاز ${sh.monthName} ${fa(sh.y)}</span><span>روز ${fa(sh.d)} از ${fa(daysInMonth)}</span></div><div class="phase-title"><span class="ph-ico">${phase.icon}</span>${phase.title}</div><ul class="phase-goals">${phase.goals.map(g=>`<li>${g}</li>`).join('')}</ul><div class="phase-progress"><div class="phase-progress-fill" style="width:${pct}%"></div></div><div class="phase-footer">${fa(pct)}٪ از این ماه گذشته</div></div>`;
 }
 
 function renderCountdown() {
@@ -1108,14 +1141,14 @@ function renderCountdown() {
   const renderCard = (exam, cls) => {
     const target = examDateToGregorian(exam);
     const diff = target - now;
-    if (diff <= 0) return `<div class="cd-card ${cls} ended"><div class="cd-title">${exam.name}</div><div style="font-size:1.5em;margin:10px 0">✅</div><div class="cd-msg">تموم شد</div></div>`;
+    if (diff <= 0) return `<div class="cd-card ${cls} ended"><div class="cd-title">${exam.name}</div><div style="font-size:1.5em;margin:10px 0">✅</div><div class="cd-msg">تموم شد</div><div class="cd-date">${fa(exam.jd)} ${JALALI_MONTHS[exam.jm-1]} ${fa(exam.jy)}</div></div>`;
     const days = Math.floor(diff/86400000), hours = Math.floor((diff%86400000)/3600000), mins = Math.floor((diff%3600000)/60000), secs = Math.floor((diff%60000)/1000);
     let msg = '', msgCls = '';
     if (days <= 3) { msg = '⏰ خیلی نزدیک!'; msgCls = 'warn'; }
     else if (days <= 14) { msg = '⚠️ جدی بگیر'; msgCls = 'warn'; }
     else if (days <= 30) { msg = '📚 آماده شو'; }
     else { msg = '✅ وقت داری'; msgCls = 'ok'; }
-    return `<div class="cd-card ${cls}"><div class="cd-title">${exam.name}</div><div class="cd-numbers"><div class="cd-num ${cls}"><div class="cd-num-v">${fa(days)}</div><div class="cd-num-l">روز</div></div><div class="cd-num ${cls}"><div class="cd-num-v">${fa(hours)}</div><div class="cd-num-l">ساعت</div></div><div class="cd-num ${cls}"><div class="cd-num-v">${fa(mins)}</div><div class="cd-num-l">دقیقه</div></div><div class="cd-num ${cls}"><div class="cd-num-v">${fa(secs)}</div><div class="cd-num-l">ثانیه</div></div></div><div class="cd-msg ${msgCls}">${msg}</div><div class="cd-date">${fa(exam.jd)} ${JALALI_MONTHS[exam.jm-1]}</div></div>`;
+    return `<div class="cd-card ${cls}"><div class="cd-title">${exam.name}</div><div class="cd-numbers"><div class="cd-num ${cls}"><div class="cd-num-v">${fa(days)}</div><div class="cd-num-l">روز</div></div><div class="cd-num ${cls}"><div class="cd-num-v">${fa(hours)}</div><div class="cd-num-l">ساعت</div></div><div class="cd-num ${cls}"><div class="cd-num-v">${fa(mins)}</div><div class="cd-num-l">دقیقه</div></div><div class="cd-num ${cls}"><div class="cd-num-v">${fa(secs)}</div><div class="cd-num-l">ثانیه</div></div></div><div class="cd-msg ${msgCls}">${msg}</div><div class="cd-date">${fa(exam.jd)} ${JALALI_MONTHS[exam.jm-1]} ${fa(exam.jy)}</div></div>`;
   };
   el.innerHTML = renderCard(EXAMS.midterm, 'midterm') + renderCard(EXAMS.final, 'final');
 }
@@ -1200,11 +1233,13 @@ function go(id) {
   if (btn) btn.classList.add('active');
   else document.querySelector('.bottom-nav button[data-t="more"]').classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
-  const render = {schedule:()=>{renderWeekTabs();renderFullSchedule();renderSchoolGrid();},
-    profile:renderProfile, checklist:renderChecklists, sessions:renderSessions,
-    exams:renderExams, journal:renderJournal, weakness:renderWeakness,
-    weekly:renderWeeklyReport, health:renderHealth, distraction:renderDistractionPage};
-  if (render[id]) render[id]();
+  if (id === 'schedule') { renderWeekTabs(); renderFullSchedule(); renderSchoolGrid(); }
+  if (id === 'profile') renderProfile();
+  if (id === 'checklist') renderChecklists();
+  if (id === 'sessions') renderSessions();
+  if (id === 'exams') renderExams();
+  if (id === 'journal') renderJournal();
+  if (id === 'monthly') renderMonthly();
 }
 function toggleMore() { document.getElementById('moreMenu').classList.toggle('active'); }
 function closeMore() { document.getElementById('moreMenu').classList.remove('active'); }
@@ -1218,20 +1253,24 @@ function toggleTheme() {
 }
 (function(){ const s = localStorage.getItem('theme') || 'light'; document.body.setAttribute('data-theme', s); document.getElementById('themeBtn').textContent = s === 'dark' ? '☀️' : '🌙'; })();
 
+// =============================================================
 // پرونده
+// =============================================================
 const PROFILE_KEY = 'ilia-profile';
 function getProfile() { return getData(PROFILE_KEY, {}); }
-function saveProfile() { const p = getProfile(); p.name = document.getElementById('pfName').value.trim() || p.name || 'ایلیا'; p.school = document.getElementById('pfSchool').value.trim() || p.school || ''; p.avg9 = parseFloat(document.getElementById('pfAvg9').value) || p.avg9 || 0; p.avgTarget = parseFloat(document.getElementById('pfAvgTarget').value) || p.avgTarget || 0; setData(PROFILE_KEY, p); renderProfile(); toast('✅ ذخیره شد'); }
+function saveProfile() { const p = getProfile(); p.name = document.getElementById('pfName').value.trim() || p.name || 'ایلیا صالح‌زاده'; p.school = document.getElementById('pfSchool').value.trim() || p.school || 'دبیرستان شاهد سیرجان'; p.avg9 = parseFloat(document.getElementById('pfAvg9').value) || p.avg9 || 0; p.avgTarget = parseFloat(document.getElementById('pfAvgTarget').value) || p.avgTarget || 0; setData(PROFILE_KEY, p); renderProfile(); toast('✅ ذخیره شد'); }
+function savePsych() { const p = getProfile(); p.psych = document.getElementById('pfPsych').value; setData(PROFILE_KEY, p); toast('✅ ذخیره شد'); }
 function setLearningStyle(s) { const p = getProfile(); p.learning = s; setData(PROFILE_KEY, p); renderProfile(); }
 function setSubjectLevel(subj, lvl) { const p = getProfile(); if (!p.levels) p.levels = {}; p.levels[subj] = lvl; setData(PROFILE_KEY, p); renderProfile(); }
 function renderProfile() {
   const p = getProfile();
   const hdr = document.getElementById('profileHeader');
-  if (hdr) hdr.innerHTML = `<div class="profile-header"><h3>${p.name || 'ایلیا'}</h3><p>${p.school || 'دبیرستان شاهد سیرجان'} — دهم ریاضی</p></div>`;
+  if (hdr) hdr.innerHTML = `<div class="profile-header"><h3>${p.name || 'ایلیا صالح‌زاده'}</h3><p>${p.school || 'دبیرستان شاهد سیرجان'} — دهم ریاضی</p></div>`;
   const nameEl = document.getElementById('pfName'); if (nameEl) nameEl.value = p.name || '';
   const sEl = document.getElementById('pfSchool'); if (sEl) sEl.value = p.school || '';
   const a9 = document.getElementById('pfAvg9'); if (a9) a9.value = p.avg9 || '';
   const at = document.getElementById('pfAvgTarget'); if (at) at.value = p.avgTarget || '';
+  const ps = document.getElementById('pfPsych'); if (ps) ps.value = p.psych || '';
   const levels = p.levels || {};
   const subjList = ['ریاضی','هندسه','فیزیک','شیمی','عربی','زبان','فارسی','دینی','جغرافیا','نگارش'];
   const names = ['', 'ضعیف', 'متوسط', 'خوب', 'عالی'];
@@ -1246,33 +1285,50 @@ function renderProfile() {
     if (el) {
       if (p.learning === k) {
         el.style.background = 'linear-gradient(135deg,#667eea,#764ba2)';
-        el.style.color = '#fff'; el.style.borderColor = 'transparent';
-      } else { el.style.background = ''; el.style.color = ''; el.style.borderColor = ''; }
+        el.style.color = '#fff';
+        el.style.borderColor = 'transparent';
+        el.style.boxShadow = '0 3px 10px rgba(102,126,234,.35)';
+      } else {
+        el.style.background = ''; el.style.color = ''; el.style.borderColor = ''; el.style.boxShadow = '';
+      }
     }
   });
   const lsResult = document.getElementById('lsResult');
-  const lsMap = {visual:'👁 بصری — با شکل بهتر یاد می‌گیری',auditory:'👂 شنیداری — با شنیدن بهتر',kinesthetic:'✋ جنبشی — با انجام دادن بهتر',reading:'📖 خواندنی — با خواندن بهتر'};
+  const lsMap = {visual:'👁 بصری — با شکل و نمودار بهتر یاد می‌گیری',auditory:'👂 شنیداری — با شنیدن بهتر یاد می‌گیری',kinesthetic:'✋ جنبشی — با انجام دادن بهتر یاد می‌گیری',reading:'📖 خواندنی — با خواندن و نوشتن بهتر یاد می‌گیری'};
   if (lsResult) lsResult.textContent = p.learning ? lsMap[p.learning] : '—';
 }
 
+// =============================================================
 // چک‌لیست
+// =============================================================
 const CL_KEY = 'ilia-checklist';
 const DAILY_CHECKS = ['خواب ۲۲:۳۰ تا ۶:۰۰','صبحانه خوردم','۱۰ دقیقه مرور صبح','سر کلاس جزوه نوشتم','مرور درس‌های امروز','بلوک اصلی ۹۰ دقیقه','عربی یا انگلیسی','دفتر اشتباهات','دفتر افکار مزاحم','برنامه فردا','بدون صفحه قبل خواب'];
+const WEEKLY_CHECKS = ['۵۰ بلوک اصلی','عربی ۵ روز','زبان ۵ روز','دفتر اشتباهات','دفتر افکار مزاحم','خواب منظم','باشگاه رفتم','هک یاد گرفتم'];
 function renderChecklists() {
   const sh = getShamsi();
   const clDate = document.getElementById('clTodayDate'); if (clDate) clDate.textContent = `${fa(sh.d)} ${sh.monthName}`;
   const data = getData(CL_KEY, {});
   const t = today();
+  const weekKey = getWeekKey();
   const todayData = data[t] || {};
   const todayEl = document.getElementById('clToday');
   if (todayEl) todayEl.innerHTML = DAILY_CHECKS.map((c, i) => `<label class="check-item"><input type="checkbox" ${todayData[i]?'checked':''} onchange="toggleCheck('${t}', ${i}, this.checked)"><span class="cm"></span><span class="ct">${c}</span></label>`).join('');
   const doneToday = Object.values(todayData).filter(Boolean).length;
   const clTP = document.getElementById('clTodayProgress');
   if (clTP) clTP.innerHTML = `<div class="pb" style="margin-top:10px"><div class="pf ${doneToday===DAILY_CHECKS.length?'pf-ok':''}" style="width:${(doneToday/DAILY_CHECKS.length)*100}%"></div></div><span>${fa(doneToday)} از ${fa(DAILY_CHECKS.length)} — ${fa(Math.round((doneToday/DAILY_CHECKS.length)*100))}٪</span>`;
+  const weekData = data[weekKey] || {};
+  const weekEl = document.getElementById('clWeek');
+  if (weekEl) weekEl.innerHTML = WEEKLY_CHECKS.map((c, i) => `<label class="check-item"><input type="checkbox" ${weekData[i]?'checked':''} onchange="toggleCheck('${weekKey}', ${i}, this.checked)"><span class="cm"></span><span class="ct">${c}</span></label>`).join('');
+  const doneWeek = Object.values(weekData).filter(Boolean).length;
+  const clWP = document.getElementById('clWeekProgress');
+  if (clWP) clWP.innerHTML = `<div class="pb" style="margin-top:10px"><div class="pf ${doneWeek===WEEKLY_CHECKS.length?'pf-ok':''}" style="width:${(doneWeek/WEEKLY_CHECKS.length)*100}%"></div></div><span>${fa(doneWeek)} از ${fa(WEEKLY_CHECKS.length)} — ${fa(Math.round((doneWeek/WEEKLY_CHECKS.length)*100))}٪</span>`;
 }
+function getWeekKey() { const d = new Date(); const day = d.getDay(); const diff = d.getDate() - day; const start = new Date(d.setDate(diff)); return 'week-' + start.toISOString().split('T')[0]; }
 function toggleCheck(key, i, val) { const data = getData(CL_KEY, {}); if (!data[key]) data[key] = {}; data[key][i] = val; setData(CL_KEY, data); renderChecklists(); }
 
-// جلسات
+// =============================================================
+// جلسات مطالعه
+// =============================================================
 const SS_KEY = 'ilia-sessions';
 function addSession() {
   const subj = document.getElementById('ssSubj').value;
@@ -1312,128 +1368,9 @@ function renderSessions() {
   if (wl) wl.innerHTML = weekSessions.length ? weekSessions.slice().reverse().map(s => `<div style="font-size:.75em;color:var(--text-light);margin:8px 0 2px">${s.date}</div>` + fmt(s)).join('') : '<p style="text-align:center;color:var(--text-light);font-size:.85em">جلسه‌ای نیست</p>';
 }
 
-// خواب و سلامت
-const HL_KEY = 'ilia-health';
-function setSleepQuality(n) { window._slQuality = n; document.querySelectorAll('#slStars .sleep-star').forEach((el, i) => el.classList.toggle('active', i < n)); }
-function logSleep() {
-  const s = document.getElementById('slSleep').value;
-  const w = document.getElementById('slWake').value;
-  if (!s || !w) return toast('ساعت خواب و بیداری رو وارد کن');
-  const [sh, sm] = s.split(':').map(Number);
-  const [wh, wm] = w.split(':').map(Number);
-  let total = (wh*60 + wm) - (sh*60 + sm);
-  if (total < 0) total += 24*60;
-  const hrs = total / 60;
-  const data = getData(HL_KEY, { sleep: [], nutrition: {}, exercise: [] });
-  data.sleep = (data.sleep || []).filter(x => x.date !== today());
-  data.sleep.push({ date: today(), sleep: s, wake: w, hours: hrs, quality: window._slQuality || 0 });
-  setData(HL_KEY, data);
-  renderHealth();
-  toast('✅ خواب ثبت شد');
-}
-function toggleNutrition(type, el) {
-  const data = getData(HL_KEY, { sleep: [], nutrition: {}, exercise: [] });
-  if (!data.nutrition) data.nutrition = {};
-  if (!data.nutrition[today()]) data.nutrition[today()] = {};
-  data.nutrition[today()][type] = !data.nutrition[today()][type];
-  setData(HL_KEY, data);
-  el.classList.toggle('btn-secondary');
-  el.classList.toggle('btn-success');
-}
-function logExercise() {
-  const min = parseInt(document.getElementById('exMin').value);
-  const type = document.getElementById('exType').value.trim() || 'ورزش';
-  if (!min || min <= 0) return toast('دقیقه رو وارد کن');
-  const data = getData(HL_KEY, { sleep: [], nutrition: {}, exercise: [] });
-  data.exercise = data.exercise || [];
-  data.exercise.push({ date: today(), min, type, ts: Date.now() });
-  setData(HL_KEY, data);
-  document.getElementById('exMin').value = '';
-  document.getElementById('exType').value = '';
-  toast('✅ ورزش ثبت شد');
-}
-function renderHealth() {
-  const data = getData(HL_KEY, { sleep: [], nutrition: {}, exercise: [] });
-  const sleeps = data.sleep || [];
-  const t = today();
-  const todaySleep = sleeps.find(x => x.date === t);
-  const sv = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = fa(v); };
-  sv('slToday', todaySleep ? todaySleep.hours.toFixed(1) : 0);
-  const wk = new Date(Date.now() - 7*86400000).toISOString().split('T')[0];
-  const wkSleeps = sleeps.filter(x => x.date >= wk);
-  const avg = wkSleeps.length ? (wkSleeps.reduce((s,x) => s+x.hours, 0) / wkSleeps.length) : 0;
-  sv('slWeek', avg.toFixed(1));
-  const chart = document.getElementById('sleepChart');
-  if (chart) {
-    let html = ''; let max = 1; const days = [];
-    for (let i = 6; i >= 0; i--) {
-      const dd = new Date(Date.now() - i*86400000);
-      const ds = dd.toISOString().split('T')[0];
-      const nm = WEEK_DAYS_SHORT[dd.getDay()];
-      const e = sleeps.find(x => x.date === ds);
-      const h = e ? e.hours : 0;
-      days.push({n:nm, h}); if (h > max) max = h;
-    }
-    days.forEach(d => { const pct = (d.h/max)*100; html += `<div class="bar" style="height:${Math.max(4,pct)}%"><div class="bar-v">${fa(d.h.toFixed(1))}</div><div class="bar-lbl">${d.n}</div></div>`; });
-    chart.innerHTML = html;
-  }
-  // تغذیه
-  const nData = (data.nutrition || {})[t] || {};
-  ['breakfast','lunch','dinner','water'].forEach(k => {
-    const el = document.getElementById('nt-' + k);
-    if (el) {
-      if (nData[k]) { el.classList.remove('btn-secondary'); el.classList.add('btn-success'); }
-      else { el.classList.remove('btn-success'); el.classList.add('btn-secondary'); }
-    }
-  });
-  // تاریخچه
-  const histEl = document.getElementById('sleepHistory');
-  if (histEl) histEl.innerHTML = sleeps.length === 0 ? '<p style="text-align:center;color:var(--text-light);font-size:.85em">چیزی ثبت نشده</p>' :
-    sleeps.slice().reverse().slice(0, 14).map(s => `<div class="item"><span>${s.date}</span><span style="font-size:.85em;color:var(--text-light)">${s.sleep} → ${s.wake} (${fa(s.hours.toFixed(1))} ساعت)</span></div>`).join('');
-}
-
-// حواس‌پرتی
-const DS_KEY = 'ilia-distraction';
-let _distractTags = [];
-function toggleDistractTag(tag, el) {
-  const i = _distractTags.indexOf(tag);
-  if (i >= 0) _distractTags.splice(i, 1); else _distractTags.push(tag);
-  el.classList.toggle('selected');
-}
-function logDistraction() {
-  if (_distractTags.length === 0) return toast('حداقل یه دلیل انتخاب کن');
-  const note = document.getElementById('distractNote').value.trim();
-  const list = getData(DS_KEY, []);
-  list.push({ id: Date.now(), date: today(), tags: [..._distractTags], note, ts: Date.now() });
-  setData(DS_KEY, list);
-  _distractTags = [];
-  document.querySelectorAll('.distract-tag').forEach(el => el.classList.remove('selected'));
-  document.getElementById('distractNote').value = '';
-  renderDistractionPage();
-  toast('✅ ثبت شد');
-}
-function renderDistractionPage() {
-  const list = getData(DS_KEY, []);
-  const wk = new Date(Date.now() - 7*86400000).toISOString().split('T')[0];
-  const wkList = list.filter(x => x.date >= wk);
-  const tagCounts = {};
-  wkList.forEach(x => x.tags.forEach(t => tagCounts[t] = (tagCounts[t] || 0) + 1));
-  const sorted = Object.entries(tagCounts).sort((a,b) => b[1] - a[1]);
-  const analysisEl = document.getElementById('distractAnalysis');
-  if (analysisEl) {
-    if (sorted.length === 0) analysisEl.innerHTML = '<p style="text-align:center;color:var(--text-light);font-size:.85em">هیچ حواس‌پرتی‌ای ثبت نشده 🎉</p>';
-    else {
-      const max = sorted[0][1];
-      analysisEl.innerHTML = sorted.map(([tag, count]) => `<div style="margin:8px 0;font-size:.85em"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><b>${tag}</b><span>${fa(count)} بار</span></div><div class="pb"><div class="pf pf-bad" style="width:${(count/max)*100}%"></div></div></div>`).join('');
-      analysisEl.innerHTML += `<div class="analysis-box warn" style="margin-top:12px"><b>💡 پیشنهاد:</b><br>بیشترین علت حواس‌پرتی تو <b>${sorted[0][0]}</b> هست. برای حلش:<br>• قبل از مطالعه، منبعش رو حذف کن<br>• دفتر افکار مزاحم کنار دست داشته باش<br>• بین بلوک‌ها، ازاد بذار ذهنت رو تخلیه کنی</div>`;
-    }
-  }
-  const histEl = document.getElementById('distractHistory');
-  if (histEl) histEl.innerHTML = list.length === 0 ? '<p style="text-align:center;color:var(--text-light);font-size:.85em">چیزی نیست</p>' :
-    list.slice().reverse().slice(0, 30).map(x => `<div class="item"><div style="flex:1;font-size:.85em"><b>${x.tags.join('، ')}</b>${x.note?`<div style="font-size:.75em;color:var(--text-light);margin-top:3px">${x.note}</div>`:''}</div><span style="font-size:.72em;color:var(--text-light)">${x.date}</span></div>`).join('');
-}
-
-// آزمون
+// =============================================================
+// تحلیل آزمون
+// =============================================================
 const EX_KEY = 'ilia-exam-analysis';
 function addExam() {
   const title = document.getElementById('exTitle').value.trim();
@@ -1470,7 +1407,9 @@ function tagErr(id, tag) { const exams = getData(EX_KEY, []); const e = exams.fi
 function setExamLesson(id, val) { const exams = getData(EX_KEY, []); const e = exams.find(x => x.id === id); if (e) { e.lesson = val; setData(EX_KEY, exams); } }
 function delExam(id) { if (!confirm('حذف بشه؟')) return; setData(EX_KEY, getData(EX_KEY, []).filter(e => e.id !== id)); renderExams(); }
 
+// =============================================================
 // ژورنال
+// =============================================================
 const J_KEY = 'ilia-journal';
 function saveJournal() {
   const j1 = document.getElementById('jq1').value.trim();
@@ -1497,35 +1436,124 @@ function renderJournal() {
     journals.slice().reverse().slice(0, 14).map(j => `<div class="card" style="border-right:4px solid var(--primary)"><div style="font-size:.8em;color:var(--primary);font-weight:700;margin-bottom:8px">📅 ${j.date}</div>${j.learned?`<div style="font-size:.83em;margin:5px 0"><b>✅ یاد گرفتم:</b> ${j.learned}</div>`:''}${j.hard?`<div style="font-size:.83em;margin:5px 0"><b>⚠️ سخت بود:</b> ${j.hard}</div>`:''}${j.tomorrow?`<div style="font-size:.83em;margin:5px 0"><b>🎯 فردا:</b> ${j.tomorrow}</div>`:''}</div>`).join('');
 }
 
-// نمرات
-const GRK = 'ilia-grades';
-function addGrade() {
-  const s = document.getElementById('gS').value.trim();
-  const v = parseFloat(document.getElementById('gV').value);
-  const t = document.getElementById('gT').value.trim() || 'آزمون';
-  if (!s || isNaN(v)) return toast('فیلدها رو پر کن');
-  const l = getData(GRK, []);
-  l.push({id:Date.now(), subject:s, value:v, title:t, date:today()});
-  setData(GRK, l);
-  document.getElementById('gS').value = ''; document.getElementById('gV').value = ''; document.getElementById('gT').value = '';
-  renderGrades();
-  toast('✅ ثبت شد');
+// =============================================================
+// گزارش ماهانه
+// =============================================================
+function renderMonthly() {
+  const el = document.getElementById('monthlyContent');
+  if (!el) return;
+  const sh = getShamsi();
+  const monthStart = new Date();
+  monthStart.setDate(monthStart.getDate() - sh.d + 1);
+  const startStr = monthStart.toISOString().split('T')[0];
+  const sessions = getData(SS_KEY, []).filter(s => s.date >= startStr);
+  const grades = getData(GRK, []).filter(g => g.date >= startStr);
+  const exams = getData(EX_KEY, []).filter(e => e.date >= startStr);
+  const logs = getData('ilia-log', []).filter(l => l.date >= startStr);
+  const totalMin = sessions.reduce((s,x) => s+x.min, 0);
+  const totalPages = sessions.reduce((s,x) => s+x.pages, 0);
+  const totalTests = sessions.reduce((s,x) => s+x.tests, 0);
+  const totalHours = logs.reduce((s,x) => s+x.hours, 0);
+  const avgGrade = grades.length ? (grades.reduce((s,g) => s+g.value, 0)/grades.length) : 0;
+  const subjStats = {};
+  sessions.forEach(s => { if (!subjStats[s.subj]) subjStats[s.subj] = 0; subjStats[s.subj] += s.min; });
+  const topSubj = Object.entries(subjStats).sort((a,b) => b[1]-a[1]).slice(0,5);
+  el.innerHTML = `<div class="phase-hero" style="background:linear-gradient(135deg,#27ae60,#16a085)"><div class="phase-month"><span>📅 ${sh.monthName} ${fa(sh.y)}</span></div><div class="phase-title"><span class="ph-ico">📊</span>گزارش ماهانه</div><p style="font-size:.85em;opacity:.95">خلاصه عملکرد این ماه تو</p></div><div class="grid-2"><div class="stat"><div class="stat-v">${fa(Math.round(totalHours))}</div><div class="stat-l">ساعت مطالعه</div></div><div class="stat"><div class="stat-v">${fa(Math.round(totalMin))}</div><div class="stat-l">دقیقه کل</div></div><div class="stat"><div class="stat-v">${fa(sessions.length)}</div><div class="stat-l">جلسه</div></div><div class="stat"><div class="stat-v">${fa(totalPages)}</div><div class="stat-l">صفحه</div></div><div class="stat"><div class="stat-v">${fa(totalTests)}</div><div class="stat-l">تست</div></div><div class="stat"><div class="stat-v">${avgGrade?fa(avgGrade.toFixed(1)):'۰'}</div><div class="stat-l">معدل</div></div></div><div class="card"><h3>📚 بیشترین مطالعه روی</h3>${topSubj.length ? topSubj.map(([s,m]) => `<div style="margin:8px 0;font-size:.88em"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><b>${SUBJECT_ICONS[s]||'📚'} ${s}</b><span>${fa(Math.round(m/60*10)/10)} ساعت</span></div><div class="pb"><div class="pf" style="width:${(m/topSubj[0][1])*100}%"></div></div></div>`).join('') : '<p style="text-align:center;color:var(--text-light);font-size:.85em">هنوز جلسه‌ای ثبت نشده</p>'}</div><div class="card"><h3>📊 آمار آزمون‌ها</h3>${exams.length ? `<div class="info-row"><b>تعداد آزمون:</b><span>${fa(exams.length)}</span></div><div class="info-row"><b>میانگین %:</b><span>${fa(Math.round(exams.reduce((s,e)=>s+(e.correct/e.total)*100,0)/exams.length))}٪</span></div>` : '<p style="text-align:center;color:var(--text-light);font-size:.85em">آزمونی ثبت نشده</p>'}</div><div class="card"><h3>💡 پیشنهاد مشاور</h3><div class="analysis-box">${generateMonthlyAdvice(totalHours, avgGrade, totalTests)}</div></div>`;
 }
+function generateMonthlyAdvice(hours, avg, tests) {
+  let adv = '';
+  if (hours < 30) adv += '⚠️ ساعت مطالعه ماهانه‌ات پایین بود. هدف: حداقل ۶۰ ساعت در ماه.<br>';
+  else if (hours > 100) adv += '🎉 مطالعه‌ات عالیه! همینطوری ادامه بده.<br>';
+  else adv += '✅ ساعت مطالعه‌ات قابل قبوله. برای بهتر شدن، روزی ۳۰ دقیقه اضافه کن.<br>';
+  if (avg && avg < 15) adv += '📚 معدلت زیر ۱۵ه. باید روی دروس ضعیف تمرکز کنی.<br>';
+  else if (avg >= 18) adv += '🏆 معدلت عالیه، آفرین!<br>';
+  if (tests < 50) adv += '📝 تست‌هات کمه. برای تسلط حداقل ۲۰۰ تست در ماه لازمه.<br>';
+  return adv || 'داده‌های کافی برای تحلیل وجود نداره.';
+}
+
+// =============================================================
+// پومودورو + تمرکز
+// =============================================================
+let pT = 25*60, pTot = 25*60, pI = null, pR = false;
+function setPom(m, btn) { document.querySelectorAll('.pomo-mode').forEach(b => b.classList.remove('active')); btn.classList.add('active'); pTot = m*60; pT = pTot; updPom(); if (pR) { clearInterval(pI); pR = false; document.getElementById('startBtn').textContent = '▶ شروع'; } }
+function updPom() { const t = `${fa(pad2(Math.floor(pT/60)))}:${fa(pad2(pT%60))}`; document.getElementById('pomD').textContent = t; const ft = document.getElementById('focusTimer'); if (ft) ft.textContent = t; }
+function startPom() { const b = document.getElementById('startBtn'); if (pR) { clearInterval(pI); pR = false; b.textContent = '▶ ادامه'; } else { pR = true; b.textContent = '⏸ توقف'; pI = setInterval(() => { pT--; if (pT <= 0) { clearInterval(pI); pR = false; b.textContent = '▶ شروع'; done(); autoLog(); pT = pTot; } updPom(); }, 1000); } }
+function resetPom() { clearInterval(pI); pR = false; pT = pTot; updPom(); document.getElementById('startBtn').textContent = '▶ شروع'; }
+function done() { try { const ctx = new (window.AudioContext||window.webkitAudioContext)(); [800,600].forEach((f,i) => { const o = ctx.createOscillator(), g = ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.frequency.value = f; g.gain.value = .3; o.start(ctx.currentTime+i*.5); o.stop(ctx.currentTime+i*.5+.35); }); } catch(e) {} setTimeout(() => { try { new Notification('⏰ وقت تموم شد'); } catch(e) {} toast('⏰ وقت تموم شد!'); }, 100); }
+function autoLog() { const s = document.getElementById('pomSubj').value.trim() || 'مطالعه'; const log = getData('ilia-log', []); log.push({date:today(), hours:pTot/3600, subject:s, ts:Date.now()}); setData('ilia-log', log); renderStats(); }
+let fT = 25*60, fI = null, fR = false;
+function startFocusMode() { document.getElementById('focusMode').classList.add('active'); document.getElementById('focusSubject').textContent = document.getElementById('pomSubj').value.trim() || 'حالت تمرکز'; fT = pTot; updF(); }
+function exitFocus() { document.getElementById('focusMode').classList.remove('active'); clearInterval(fI); fR = false; document.getElementById('focusStartBtn').textContent = '▶ شروع'; }
+function updF() { document.getElementById('focusTimer').textContent = `${fa(pad2(Math.floor(fT/60)))}:${fa(pad2(fT%60))}`; }
+function toggleFocusTimer() { const b = document.getElementById('focusStartBtn'); if (fR) { clearInterval(fI); fR = false; b.textContent = '▶ ادامه'; } else { fR = true; b.textContent = '⏸ توقف'; fI = setInterval(() => { fT--; if (fT <= 0) { clearInterval(fI); fR = false; b.textContent = '▶ شروع'; done(); autoLog(); fT = pTot; } updF(); }, 1000); } }
+
+// =============================================================
+// آمار
+// =============================================================
+function renderStats() {
+  const log = getData('ilia-log', []);
+  const t = today();
+  const wk = new Date(Date.now() - 7*86400000).toISOString().split('T')[0];
+  const todayT = log.filter(e => e.date === t).reduce((s,e) => s+e.hours, 0);
+  const weekT = log.filter(e => e.date >= wk).reduce((s,e) => s+e.hours, 0);
+  const allT = log.reduce((s,e) => s+e.hours, 0);
+  let streak = 0; const ds = new Set(log.map(e => e.date)); let d = new Date();
+  while (ds.has(d.toISOString().split('T')[0])) { streak++; d.setDate(d.getDate()-1); }
+  const sv = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = fa(v); };
+  sv('tT', todayT.toFixed(1)); sv('wT', weekT.toFixed(1)); sv('aT', allT.toFixed(1)); sv('stT', streak);
+  sv('dbToday', todayT.toFixed(1)); sv('dbStreak', streak);
+  const chart = document.getElementById('chart');
+  if (chart) { let html = ''; let max = .1; const days = []; for (let i = 6; i >= 0; i--) { const dd = new Date(Date.now() - i*86400000); const ds2 = dd.toISOString().split('T')[0]; const nm = WEEK_DAYS_SHORT[dd.getDay()]; const tot = log.filter(e => e.date === ds2).reduce((s,e) => s+e.hours, 0); days.push({n:nm, t:tot}); if (tot > max) max = tot; } days.forEach(dd => { const h = (dd.t/max)*100; html += `<div class="bar" style="height:${Math.max(4,h)}%"><div class="bar-v">${fa(dd.t.toFixed(1))}</div><div class="bar-lbl">${dd.n}</div></div>`; }); chart.innerHTML = html; }
+  const logEl = document.getElementById('logList');
+  if (logEl) logEl.innerHTML = log.length === 0 ? '<p style="text-align:center;color:var(--text-light);padding:16px;font-size:.85em">هنوز چیزی ثبت نشده</p>' : log.slice().reverse().slice(0, 20).map(e => `<div class="item"><span>${e.subject}</span><span style="color:var(--text-light);font-size:.85em">${fa(e.hours.toFixed(1))} ساعت — ${e.date}</span></div>`).join('');
+}
+
+// =============================================================
+// لایتنر، اشتباهات، نمرات، کارها، اهداف، عادت‌ها، یادداشت
+// =============================================================
+const LK = 'ilia-leitner';
+let lIdx = 0;
+function addLeitner() { const f = document.getElementById('lf').value.trim(); const b = document.getElementById('lb').value.trim(); if (!f || !b) return toast('هر دو فیلد رو پر کن'); const l = getData(LK, []); l.push({id:Date.now(), front:f, back:b, box:1, next:today()}); setData(LK, l); document.getElementById('lf').value = ''; document.getElementById('lb').value = ''; renderLeitner(); toast('✅ کارت اضافه شد'); }
+function renderLeitner() {
+  const l = getData(LK, []);
+  const stats = {1:0,2:0,3:0,4:0,5:0}; l.forEach(c => stats[c.box]++);
+  const st = document.getElementById('leitnerStats');
+  if (st) st.innerHTML = Object.entries(stats).map(([b,n]) => `<span style="display:inline-block;padding:5px 10px;border-radius:8px;background:var(--bg);margin:3px;border:2px solid var(--border);font-size:.8em">جعبه ${fa(b)}: <b>${fa(n)}</b></span>`).join('');
+  const due = l.filter(c => c.next <= today());
+  const card = document.getElementById('leitnerCard'); if (card) card.classList.remove('flipped');
+  const cnt = document.getElementById('leitnerCounter');
+  if (l.length === 0) { document.getElementById('lv1').textContent = 'کارتی نیست'; document.getElementById('lv2').textContent = 'اضافه کن!'; if (cnt) cnt.textContent = '۰ کارت'; return; }
+  if (due.length === 0) { document.getElementById('lv1').textContent = '🎉 مرور امروز تمومه!'; document.getElementById('lv2').textContent = 'فردا برگرد'; if (cnt) cnt.textContent = `کل: ${fa(l.length)} کارت`; return; }
+  if (lIdx >= due.length) lIdx = 0;
+  const c = due[lIdx];
+  document.getElementById('lv1').textContent = c.front;
+  document.getElementById('lv2').textContent = c.back;
+  if (cnt) cnt.textContent = `${fa(lIdx+1)} از ${fa(due.length)}`;
+}
+function flipLeitner() { document.getElementById('leitnerCard').classList.toggle('flipped'); }
+function leitnerAnswer(knew) { const l = getData(LK, []); const due = l.filter(c => c.next <= today()); if (!due.length) return; const c = due[lIdx]; if (!c) return; const intervals = {1:1, 2:3, 3:7, 4:14, 5:30}; if (knew) c.box = Math.min(5, c.box+1); else c.box = 1; const nd = new Date(); nd.setDate(nd.getDate() + intervals[c.box]); c.next = nd.toISOString().split('T')[0]; setData(LK, l); lIdx = 0; renderLeitner(); }
+
+const MK = 'ilia-mistakes';
+function addMistake() { const s = document.getElementById('mS').value.trim(); const q = document.getElementById('mQ').value.trim(); const r = document.getElementById('mR').value.trim(); if (!s || !q) return toast('درس و سوال اجباریه'); const l = getData(MK, []); l.push({id:Date.now(), subject:s, question:q, reason:r, date:today()}); setData(MK, l); document.getElementById('mS').value = ''; document.getElementById('mQ').value = ''; document.getElementById('mR').value = ''; renderMistakes(); toast('✅ ثبت شد'); }
+function renderMistakes() {
+  const l = getData(MK, []);
+  const el = document.getElementById('mistakesList');
+  if (!el) return;
+  el.innerHTML = l.length === 0 ? '<div class="card" style="text-align:center;color:var(--text-light);font-size:.88em">هنوز اشتباهی ثبت نشده</div>' : l.slice().reverse().map(m => `<div class="card" style="border-right:4px solid var(--danger)"><div style="display:flex;justify-content:space-between;gap:6px;font-size:.88em"><div style="flex:1"><b style="color:var(--primary)">${m.subject}</b> — ${m.question}</div><button class="x-btn" onclick="delMistake(${m.id})">✕</button></div>${m.reason?`<div style="margin-top:6px;font-size:.82em;color:var(--text-light)">💡 ${m.reason}</div>`:''}<div style="font-size:.72em;color:var(--text-light);margin-top:4px">${m.date}</div></div>`).join('');
+}
+function delMistake(id) { setData(MK, getData(MK, []).filter(m => m.id !== id)); renderMistakes(); }
+
+const GRK = 'ilia-grades';
+function addGrade() { const s = document.getElementById('gS').value.trim(); const v = parseFloat(document.getElementById('gV').value); const t = document.getElementById('gT').value.trim() || 'آزمون'; if (!s || isNaN(v)) return toast('فیلدها رو پر کن'); const l = getData(GRK, []); l.push({id:Date.now(), subject:s, value:v, title:t, date:today()}); setData(GRK, l); document.getElementById('gS').value = ''; document.getElementById('gV').value = ''; document.getElementById('gT').value = ''; renderGrades(); toast('✅ ثبت شد'); }
 function renderGrades() {
   const l = getData(GRK, []);
   const el = document.getElementById('gradesList');
-  if (el) el.innerHTML = l.length === 0 ? '<div class="card" style="text-align:center;color:var(--text-light);font-size:.88em">نمره‌ای ثبت نشده</div>' :
-    l.slice().reverse().map(g => {
-      const col = g.value >= 17 ? 'var(--success)' : g.value >= 14 ? 'var(--accent)' : 'var(--danger)';
-      return `<div class="item" style="border-right-color:${col}"><div style="flex:1"><b>${g.subject}</b> — ${g.title}<div style="font-size:.75em;color:var(--text-light)">${g.date}</div></div><div style="display:flex;gap:8px;align-items:center"><span style="font-weight:900;color:${col};font-size:1.1em">${fa(g.value)}</span><button class="x-btn" onclick="delGrade(${g.id})">✕</button></div></div>`;
-    }).join('');
+  if (el) el.innerHTML = l.length === 0 ? '<div class="card" style="text-align:center;color:var(--text-light);font-size:.88em">نمره‌ای ثبت نشده</div>' : l.slice().reverse().map(g => { const col = g.value >= 17 ? 'var(--success)' : g.value >= 14 ? 'var(--accent)' : 'var(--danger)'; return `<div class="item" style="border-right-color:${col}"><div style="flex:1"><b>${g.subject}</b> — ${g.title}<div style="font-size:.75em;color:var(--text-light)">${g.date}</div></div><div style="display:flex;gap:8px;align-items:center"><span style="font-weight:900;color:${col};font-size:1.1em">${fa(g.value)}</span><button class="x-btn" onclick="delGrade(${g.id})">✕</button></div></div>`; }).join('');
   const sv = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = fa(v); };
-  if (l.length) { const avg = l.reduce((s,g) => s+g.value, 0)/l.length; sv('avgAll', avg.toFixed(2)); sv('maxG', Math.max(...l.map(g => g.value))); sv('minG', Math.min(...l.map(g => g.value))); sv('cntG', l.length); }
-  else { ['avgAll','maxG','minG','cntG'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '۰'; }); }
+  if (l.length) { const avg = l.reduce((s,g) => s+g.value, 0)/l.length; sv('avgAll', avg.toFixed(2)); sv('maxG', Math.max(...l.map(g => g.value))); sv('minG', Math.min(...l.map(g => g.value))); sv('cntG', l.length); } else { ['avgAll','maxG','minG','cntG'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '۰'; }); }
 }
-function delGrade(id) { setData(GRK, getData(GRK, []).filter(g => g.id !== id)); renderGrades(); }
+function delGrade(id) { setData(GRK, getData(GRK, []).filter(g => g.id !== id)); renderGrades(); renderAnalysis(); }
 
-// کارها، اهداف، عادت‌ها، لایتنر، اشتباهات، یادداشت
 const TK = 'ilia-todos';
 function addTodo() { const t = document.getElementById('tdT').value.trim(); const p = document.getElementById('tdP').value; if (!t) return; const l = getData(TK, []); l.push({id:Date.now(), text:t, priority:p, done:false}); setData(TK, l); document.getElementById('tdT').value = ''; renderTodo(); }
 function renderTodo() {
@@ -1576,311 +1604,34 @@ function renderHabits() {
 function toggleHabit(id) { const l = getData(HK, []); const h = l.find(x => x.id === id); if (h) { if (!h.checks) h.checks = {}; h.checks[today()] = !h.checks[today()]; } setData(HK, l); renderHabits(); }
 function delHabit(id) { setData(HK, getData(HK, []).filter(h => h.id !== id)); renderHabits(); }
 
-const LK = 'ilia-leitner';
-let lIdx = 0;
-function addLeitner() { const f = document.getElementById('lf').value.trim(); const b = document.getElementById('lb').value.trim(); if (!f || !b) return toast('هر دو فیلد رو پر کن'); const l = getData(LK, []); l.push({id:Date.now(), front:f, back:b, box:1, next:today()}); setData(LK, l); document.getElementById('lf').value = ''; document.getElementById('lb').value = ''; renderLeitner(); toast('✅ کارت اضافه شد'); }
-function renderLeitner() {
-  const l = getData(LK, []);
-  const stats = {1:0,2:0,3:0,4:0,5:0}; l.forEach(c => stats[c.box]++);
-  const st = document.getElementById('leitnerStats');
-  if (st) st.innerHTML = Object.entries(stats).map(([b,n]) => `<span style="display:inline-block;padding:5px 10px;border-radius:8px;background:var(--bg);margin:3px;border:2px solid var(--border);font-size:.8em">جعبه ${fa(b)}: <b>${fa(n)}</b></span>`).join('');
-  const due = l.filter(c => c.next <= today());
-  const card = document.getElementById('leitnerCard'); if (card) card.classList.remove('flipped');
-  const cnt = document.getElementById('leitnerCounter');
-  if (l.length === 0) { document.getElementById('lv1').textContent = 'کارتی نیست'; document.getElementById('lv2').textContent = 'اضافه کن!'; if (cnt) cnt.textContent = '۰ کارت'; return; }
-  if (due.length === 0) { document.getElementById('lv1').textContent = '🎉 مرور تمومه!'; document.getElementById('lv2').textContent = 'فردا برگرد'; if (cnt) cnt.textContent = `کل: ${fa(l.length)} کارت`; return; }
-  if (lIdx >= due.length) lIdx = 0;
-  const c = due[lIdx];
-  document.getElementById('lv1').textContent = c.front;
-  document.getElementById('lv2').textContent = c.back;
-  if (cnt) cnt.textContent = `${fa(lIdx+1)} از ${fa(due.length)}`;
-}
-function flipLeitner() { document.getElementById('leitnerCard').classList.toggle('flipped'); }
-function leitnerAnswer(knew) { const l = getData(LK, []); const due = l.filter(c => c.next <= today()); if (!due.length) return; const c = due[lIdx]; if (!c) return; const intervals = {1:1, 2:3, 3:7, 4:14, 5:30}; if (knew) c.box = Math.min(5, c.box+1); else c.box = 1; const nd = new Date(); nd.setDate(nd.getDate() + intervals[c.box]); c.next = nd.toISOString().split('T')[0]; setData(LK, l); lIdx = 0; renderLeitner(); }
-
-const MK = 'ilia-mistakes';
-function addMistake() { const s = document.getElementById('mS').value.trim(); const q = document.getElementById('mQ').value.trim(); const r = document.getElementById('mR').value.trim(); if (!s || !q) return toast('درس و سوال اجباریه'); const l = getData(MK, []); l.push({id:Date.now(), subject:s, question:q, reason:r, date:today()}); setData(MK, l); document.getElementById('mS').value = ''; document.getElementById('mQ').value = ''; document.getElementById('mR').value = ''; renderMistakes(); toast('✅ ثبت شد'); }
-function renderMistakes() {
-  const l = getData(MK, []);
-  const el = document.getElementById('mistakesList');
-  if (!el) return;
-  el.innerHTML = l.length === 0 ? '<div class="card" style="text-align:center;color:var(--text-light);font-size:.88em">هنوز اشتباهی ثبت نشده</div>' : l.slice().reverse().map(m => `<div class="card" style="border-right:4px solid var(--danger)"><div style="display:flex;justify-content:space-between;gap:6px;font-size:.88em"><div style="flex:1"><b style="color:var(--primary)">${m.subject}</b> — ${m.question}</div><button class="x-btn" onclick="delMistake(${m.id})">✕</button></div>${m.reason?`<div style="margin-top:6px;font-size:.82em;color:var(--text-light)">💡 ${m.reason}</div>`:''}<div style="font-size:.72em;color:var(--text-light);margin-top:4px">${m.date}</div></div>`).join('');
-}
-function delMistake(id) { setData(MK, getData(MK, []).filter(m => m.id !== id)); renderMistakes(); }
-
 const NK = 'ilia-notes';
 const nA = document.getElementById('notesA');
 if (nA) { nA.value = localStorage.getItem(NK) || ''; let tm; nA.addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(() => localStorage.setItem(NK, nA.value), 700); }); }
 function saveNotes() { localStorage.setItem(NK, nA.value); toast('✅ ذخیره شد'); }
 function clearNotes() { if (confirm('پاک بشه؟')) { nA.value = ''; localStorage.removeItem(NK); } }
 
-// پومودورو
-let pT = 25*60, pTot = 25*60, pI = null, pR = false;
-function setPom(m, btn) { document.querySelectorAll('.pomo-mode').forEach(b => b.classList.remove('active')); btn.classList.add('active'); pTot = m*60; pT = pTot; updPom(); if (pR) { clearInterval(pI); pR = false; document.getElementById('startBtn').textContent = '▶ شروع'; } }
-function updPom() { const t = `${fa(pad2(Math.floor(pT/60)))}:${fa(pad2(pT%60))}`; document.getElementById('pomD').textContent = t; const ft = document.getElementById('focusTimer'); if (ft) ft.textContent = t; }
-function startPom() { const b = document.getElementById('startBtn'); if (pR) { clearInterval(pI); pR = false; b.textContent = '▶ ادامه'; } else { pR = true; b.textContent = '⏸ توقف'; pI = setInterval(() => { pT--; if (pT <= 0) { clearInterval(pI); pR = false; b.textContent = '▶ شروع'; done(); autoLog(); pT = pTot; } updPom(); }, 1000); } }
-function resetPom() { clearInterval(pI); pR = false; pT = pTot; updPom(); document.getElementById('startBtn').textContent = '▶ شروع'; }
-function done() { try { const ctx = new (window.AudioContext||window.webkitAudioContext)(); [800,600].forEach((f,i) => { const o = ctx.createOscillator(), g = ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.frequency.value = f; g.gain.value = .3; o.start(ctx.currentTime+i*.5); o.stop(ctx.currentTime+i*.5+.35); }); } catch(e) {} setTimeout(() => { try { new Notification('⏰ وقت تموم شد'); } catch(e) {} toast('⏰ وقت تموم شد!'); }, 100); }
-function autoLog() { const s = document.getElementById('pomSubj').value.trim() || 'مطالعه'; const log = getData('ilia-log', []); log.push({date:today(), hours:pTot/3600, subject:s, ts:Date.now()}); setData('ilia-log', log); renderStats(); }
-let fT = 25*60, fI = null, fR = false;
-function startFocusMode() { document.getElementById('focusMode').classList.add('active'); document.getElementById('focusSubject').textContent = document.getElementById('pomSubj').value.trim() || 'حالت تمرکز'; fT = pTot; updF(); }
-function exitFocus() { document.getElementById('focusMode').classList.remove('active'); clearInterval(fI); fR = false; document.getElementById('focusStartBtn').textContent = '▶ شروع'; }
-function updF() { document.getElementById('focusTimer').textContent = `${fa(pad2(Math.floor(fT/60)))}:${fa(pad2(fT%60))}`; }
-function toggleFocusTimer() { const b = document.getElementById('focusStartBtn'); if (fR) { clearInterval(fI); fR = false; b.textContent = '▶ ادامه'; } else { fR = true; b.textContent = '⏸ توقف'; fI = setInterval(() => { fT--; if (fT <= 0) { clearInterval(fI); fR = false; b.textContent = '▶ شروع'; done(); autoLog(); fT = pTot; } updF(); }, 1000); } }
-
-// آمار
-function renderStats() {
-  const log = getData('ilia-log', []);
-  const t = today();
-  const wk = new Date(Date.now() - 7*86400000).toISOString().split('T')[0];
-  const todayT = log.filter(e => e.date === t).reduce((s,e) => s+e.hours, 0);
-  const weekT = log.filter(e => e.date >= wk).reduce((s,e) => s+e.hours, 0);
-  const allT = log.reduce((s,e) => s+e.hours, 0);
-  let streak = 0; const ds = new Set(log.map(e => e.date)); let d = new Date();
-  while (ds.has(d.toISOString().split('T')[0])) { streak++; d.setDate(d.getDate()-1); }
-  const sv = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = fa(v); };
-  sv('tT', todayT.toFixed(1)); sv('wT', weekT.toFixed(1)); sv('aT', allT.toFixed(1)); sv('stT', streak);
-  sv('dbToday', todayT.toFixed(1)); sv('dbStreak', streak);
-  const chart = document.getElementById('chart');
-  if (chart) { let html = ''; let max = .1; const days = []; for (let i = 6; i >= 0; i--) { const dd = new Date(Date.now() - i*86400000); const ds2 = dd.toISOString().split('T')[0]; const nm = WEEK_DAYS_SHORT[dd.getDay()]; const tot = log.filter(e => e.date === ds2).reduce((s,e) => s+e.hours, 0); days.push({n:nm, t:tot}); if (tot > max) max = tot; } days.forEach(dd => { const h = (dd.t/max)*100; html += `<div class="bar" style="height:${Math.max(4,h)}%"><div class="bar-v">${fa(dd.t.toFixed(1))}</div><div class="bar-lbl">${dd.n}</div></div>`; }); chart.innerHTML = html; }
-  const logEl = document.getElementById('logList');
-  if (logEl) logEl.innerHTML = log.length === 0 ? '<p style="text-align:center;color:var(--text-light);padding:16px;font-size:.85em">هنوز چیزی ثبت نشده</p>' : log.slice().reverse().slice(0, 20).map(e => `<div class="item"><span>${e.subject}</span><span style="color:var(--text-light);font-size:.85em">${fa(e.hours.toFixed(1))} ساعت — ${e.date}</span></div>`).join('');
-}
-
-// تحلیل ضعف
-function getDailyGoal(day = new Date().getDay()) {
-  const goals = { 6: 2.5, 0: 3, 1: 2.5, 2: 3, 3: 2.5, 4: 4, 5: 3 };
-  return goals[day] || 3;
-}
-function getStudiedOn(dateStr) { const log = getData('ilia-log', []); return log.filter(e => e.date === dateStr).reduce((s,e) => s + e.hours, 0); }
-function getDayDeficit(dateStr) { const d = new Date(dateStr); const goal = getDailyGoal(d.getDay()); const studied = getStudiedOn(dateStr); return Math.max(0, goal - studied); }
-function getDeficitData() { return getData('ilia-deficit', { total: 0, history: [] }); }
-function addDeficit(hours, dateStr) { if (hours <= 0.25) return; const d = getDeficitData(); d.total = Math.min(50, (d.total || 0) + hours); d.history = d.history || []; d.history.push({ date: dateStr, hours, ts: Date.now(), type: 'add' }); d.history = d.history.slice(-90); setData('ilia-deficit', d); }
-function reduceDeficit(hours) { if (hours <= 0) return; const d = getDeficitData(); d.total = Math.max(0, (d.total || 0) - hours); d.history = d.history || []; d.history.push({ date: today(), hours: -hours, ts: Date.now(), type: 'makeup' }); setData('ilia-deficit', d); }
-function getMakeupPlan() {
-  const d = getDeficitData();
-  const total = d.total || 0;
-  if (total <= 0.5) return { total: 0, days: [] };
-  const upcoming = [];
-  for (let i = 0; i <= 6; i++) {
-    const dt = new Date(); dt.setDate(dt.getDate() + i);
-    const day = dt.getDay();
-    const capacity = day === 4 ? 2 : day === 5 ? 1.5 : 1;
-    upcoming.push({ date: dt.toISOString().split('T')[0], dayName: WEEK_DAYS_FA[day], dayIndex: day, capacity, extra: 0 });
-  }
-  const sorted = [...upcoming].sort((a,b) => b.capacity - a.capacity);
-  let remaining = total;
-  for (const day of sorted) {
-    if (remaining <= 0) break;
-    const add = Math.min(day.capacity, remaining);
-    day.extra = add; remaining -= add;
-    const orig = upcoming.find(u => u.date === day.date);
-    if (orig) orig.extra = add;
-  }
-  return { total, days: upcoming.filter(d => d.extra > 0).sort((a,b) => a.date.localeCompare(b.date)) };
-}
-function getTodayExtra() { const plan = getMakeupPlan(); const d = plan.days.find(x => x.date === today()); return d ? d.extra : 0; }
-function scanDeficits() {
-  const lastScan = localStorage.getItem('ilia-deficit-last-scan');
-  const todayStr = today();
-  if (lastScan === todayStr) return;
-  const processed = getData('ilia-deficit-processed', {});
-  const log = getData('ilia-log', []);
-  for (let i = 1; i <= 7; i++) {
-    const dt = new Date(); dt.setDate(dt.getDate() - i);
-    const ds = dt.toISOString().split('T')[0];
-    if (processed[ds]) continue;
-    const dayIdx = dt.getDay();
-    const studied = log.filter(e => e.date === ds).reduce((s,e) => s + e.hours, 0);
-    const goal = getDailyGoal(dayIdx);
-    const hasLog = log.some(e => e.date === ds);
-    if (hasLog && studied < goal - 0.25) addDeficit(goal - studied, ds);
-    processed[ds] = true;
-  }
-  setData('ilia-deficit-processed', processed);
-  localStorage.setItem('ilia-deficit-last-scan', todayStr);
-}
-function renderMakeupCard() {
-  const el = document.getElementById('makeupContainer');
-  if (!el) return;
-  const plan = getMakeupPlan();
-  if (plan.total <= 0.5) { el.innerHTML = ''; return; }
-  const todayExtra = getTodayExtra();
-  const todayGoal = getDailyGoal(new Date().getDay());
-  let html = `<div class="makeup-card"><div class="makeup-title">📊 برنامه جبران مطالعه</div><div class="makeup-total"><div><span class="label">بدهی کل:</span> <b>${fa(plan.total.toFixed(1))} ساعت</b></div>${todayExtra > 0 ? `<div><span class="label">اضافه امروز:</span> <b>+${fa(todayExtra.toFixed(1))} ساعت</b></div>` : ''}</div><div class="makeup-plan"><div style="font-size:.78em;color:var(--text-light);margin-bottom:8px;font-weight:700">📅 پیشنهاد تقسیم:</div>${plan.days.map(d => `<div class="makeup-day ${d.date === today() ? 'today' : ''}"><span class="makeup-day-name">${d.dayName}${d.date === today() ? ' (امروز)' : ''}</span><span class="makeup-day-amount">+${fa(d.extra.toFixed(1))} ساعت</span></div>`).join('')}</div><div class="makeup-tip">💡 هدف امروزت: <b>${fa((todayGoal + todayExtra).toFixed(1))} ساعت</b></div></div>`;
-  el.innerHTML = html;
-}
-
-// تحلیل ضعف پیشرفته
-function renderWeakness() {
+function renderAnalysis() {
   const grades = getData(GRK, []);
-  const profile = getProfile();
-  const levels = profile.levels || {};
   const by = {};
-  grades.forEach(g => { if (!by[g.subject]) by[g.subject] = []; by[g.subject].push(g); });
-  const subjects = ['ریاضی','فیزیک','هندسه','شیمی','عربی','زبان','فارسی','دینی','جغرافیا','نگارش'];
-  const analysis = subjects.map(s => {
-    const gs = by[s] || [];
-    const avg = gs.length ? gs.reduce((a,g) => a+g.value, 0)/gs.length : null;
-    const level = levels[s] || 0;
-    const sessions = getData(SS_KEY, []).filter(x => x.subj === s);
-    const totalMin = sessions.reduce((a,x) => a+x.min, 0);
-    let status = 'normal';
-    if (avg !== null && avg < 15) status = 'weak';
-    else if (avg !== null && avg >= 17) status = 'strong';
-    else if (avg === null && level === 1) status = 'weak';
-    else if (avg === null && level === 4) status = 'strong';
-    return { name: s, avg, level, totalMin, status, count: gs.length };
-  });
-  const weak = analysis.filter(a => a.status === 'weak');
-  const strong = analysis.filter(a => a.status === 'strong');
-  const summaryEl = document.getElementById('weaknessSummary');
-  if (summaryEl) {
-    const log = getData('ilia-log', []);
-    const wk = new Date(Date.now() - 7*86400000).toISOString().split('T')[0];
-    const weekT = log.filter(e => e.date >= wk).reduce((s,e) => s+e.hours, 0);
-    let text = '';
-    if (weak.length === 0) text = '🎉 <b>هیچ درس ضعیفی نداری!</b><br>همه درس‌هات توی محدوده خوب هستن. همینطوری ادامه بده.';
-    else if (weak.length <= 2) text = `✅ فقط <b>${weak.length} درس</b> نیاز به توجه داره. با تمرکز روی اینها، میتونی به سرعت قوی شی.`;
-    else if (weak.length <= 4) text = `⚠️ <b>${weak.length} درس</b> نیاز به توجه داره. برنامه جبرانی منظم داشته باش.`;
-    else text = `🔴 <b>${weak.length} درس</b> ضعیف داری. باید یه برنامه جدی برای جبران بذاری.`;
-    text += `<br><br><b>📊 وضعیت این هفته:</b> ${fa(weekT.toFixed(1))} ساعت مطالعه`;
-    if (strong.length > 0) text += `<br><b>💪 نقاط قوت:</b> ${strong.map(a => a.name).join('، ')}`;
-    summaryEl.innerHTML = `<div class="analysis-box ${weak.length > 3 ? 'danger' : weak.length > 0 ? 'warn' : 'info'}">${text}</div>`;
-  }
-  const weakEl = document.getElementById('weakSubjectsList');
-  if (weakEl) {
-    if (weak.length === 0) weakEl.innerHTML = '<p style="text-align:center;color:var(--success);font-size:.88em;font-weight:700">🎉 همه چیز خوبه</p>';
-    else weakEl.innerHTML = weak.map(a => {
-      let desc = '';
-      if (a.avg !== null) desc += `میانگین نمره: <b>${fa(a.avg.toFixed(2))}</b><br>`;
-      if (a.totalMin > 0) desc += `مطالعه هفته: <b>${fa(Math.round(a.totalMin/60*10)/10)} ساعت</b><br>`;
-      desc += `پیشنهاد: <b>روزی ۳۰ دقیقه اختصاصی برای ${a.name}</b> + تمرین بیشتر + مرور دفتر اشتباهات`;
-      return `<div class="weakness-item"><div class="weakness-title">${SUBJECT_ICONS[a.name]||'📚'} ${a.name}</div><div class="weakness-desc">${desc}</div></div>`;
-    }).join('');
-  }
-  const trendEl = document.getElementById('gradeTrend');
-  if (trendEl) {
-    if (subjects.length === 0) trendEl.innerHTML = '<p style="text-align:center;color:var(--text-light);font-size:.85em">نمره‌ای ثبت نشده</p>';
-    else {
-      let html = '';
-      subjects.forEach(s => {
-        const gs = grades.filter(g => g.subject === s);
-        if (gs.length < 2) return;
-        gs.sort((a,b) => a.date.localeCompare(b.date));
-        const recent = gs.slice(-3);
-        const older = gs.slice(-6, -3);
-        const recentAvg = recent.reduce((a,g) => a+g.value, 0) / recent.length;
-        const olderAvg = older.length ? older.reduce((a,g) => a+g.value, 0) / older.length : recentAvg;
-        const diff = recentAvg - olderAvg;
-        let arrow = '➡️', color = 'var(--text-light)', text = 'ثابت';
-        if (diff > 0.5) { arrow = '📈'; color = 'var(--success)'; text = 'بهبود'; }
-        else if (diff < -0.5) { arrow = '📉'; color = 'var(--danger)'; text = 'افت'; }
-        html += `<div class="item"><div style="flex:1"><b>${s}</b><div style="font-size:.78em;color:var(--text-light)">${fa(gs.length)} آزمون</div></div><span style="font-size:1.4em">${arrow}</span><span style="color:${color};font-weight:700;margin-right:8px">${text}</span></div>`;
-      });
-      trendEl.innerHTML = html || '<p style="text-align:center;color:var(--text-light);font-size:.85em">برای تحلیل روند، حداقل ۲ آزمون از هر درس لازمه</p>';
-    }
-  }
+  grades.forEach(g => { if (!by[g.subject]) by[g.subject] = []; by[g.subject].push(g.value); });
+  const subs = Object.keys(by).map(s => ({name:s, avg:by[s].reduce((a,b) => a+b,0)/by[s].length}));
+  const avgEl = document.getElementById('subjAvg');
+  if (avgEl) avgEl.innerHTML = subs.length === 0 ? '<p style="text-align:center;color:var(--text-light);font-size:.85em">اول نمره ثبت کن</p>' : subs.map(s => { const pct = (s.avg/20)*100; const col = s.avg >= 17 ? 'pf-ok' : s.avg >= 14 ? 'pf-warn' : 'pf-bad'; const tcol = s.avg >= 17 ? 'var(--success)' : s.avg >= 14 ? 'var(--accent)' : 'var(--danger)'; return `<div style="margin:10px 0;font-size:.88em"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><b>${s.name}</b><span style="color:${tcol};font-weight:bold">${fa(s.avg.toFixed(2))}</span></div><div class="pb"><div class="pf ${col}" style="width:${pct}%"></div></div></div>`; }).join('');
+  const weak = subs.filter(s => s.avg < 15).sort((a,b) => a.avg - b.avg);
+  const strong = subs.filter(s => s.avg >= 17).sort((a,b) => b.avg - a.avg);
+  const wEl = document.getElementById('weakL');
+  if (wEl) wEl.innerHTML = weak.length === 0 ? '<p style="color:var(--success);text-align:center;font-size:.85em">🎉 هیچ درس ضعیفی نداری</p>' : weak.map(s => `<div class="item" style="border-right-color:var(--danger)"><b>${s.name}</b><span style="color:var(--danger);font-weight:bold">${fa(s.avg.toFixed(2))}</span></div>`).join('');
+  const sEl = document.getElementById('strongL');
+  if (sEl) sEl.innerHTML = strong.length === 0 ? '<p style="text-align:center;color:var(--text-light);font-size:.85em">هنوز درس قوی نداری</p>' : strong.map(s => `<div class="item" style="border-right-color:var(--success)"><b>${s.name}</b><span style="color:var(--success);font-weight:bold">${fa(s.avg.toFixed(2))}</span></div>`).join('');
 }
 
-// گزارش هفتگی
-function renderWeeklyReport() {
-  const el = document.getElementById('weeklyContent');
-  if (!el) return;
-  const wk = new Date(Date.now() - 7*86400000).toISOString().split('T')[0];
-  const sessions = getData(SS_KEY, []).filter(s => s.date >= wk);
-  const logs = getData('ilia-log', []).filter(l => l.date >= wk);
-  const sleeps = (getData(HL_KEY, {sleep:[]}).sleep || []).filter(s => s.date >= wk);
-  const distractions = getData(DS_KEY, []).filter(d => d.date >= wk);
-  const exams = getData(EX_KEY, []).filter(e => e.date >= wk);
-  const journals = getData(J_KEY, []).filter(j => j.date >= wk);
-
-  const totalHours = logs.reduce((s,x) => s+x.hours, 0);
-  const totalMin = sessions.reduce((s,x) => s+x.min, 0);
-  const totalTests = sessions.reduce((s,x) => s+x.tests, 0);
-  const totalPages = sessions.reduce((s,x) => s+x.pages, 0);
-  const avgSleep = sleeps.length ? (sleeps.reduce((s,x) => s+x.hours, 0) / sleeps.length) : 0;
-  const avgQuality = sleeps.length ? (sleeps.reduce((s,x) => s+x.quality||0, 0) / sleeps.length) : 0;
-
-  // توزیع مطالعه
-  const subjHours = {};
-  sessions.forEach(s => { subjHours[s.subj] = (subjHours[s.subj] || 0) + s.min / 60; });
-  const topSubj = Object.entries(subjHours).sort((a,b) => b[1] - a[1]);
-
-  // تحلیل
-  const target = 18; // ۱۸ ساعت در هفته (~۲.۵ ساعت روزانه)
-  let perf = 'normal';
-  if (totalHours >= target) perf = 'good';
-  else if (totalHours < target * 0.6) perf = 'bad';
-
-  // بیشترین حواس‌پرتی
-  const tagCounts = {};
-  distractions.forEach(d => d.tags.forEach(t => tagCounts[t] = (tagCounts[t] || 0) + 1));
-  const topDistract = Object.entries(tagCounts).sort((a,b) => b[1] - a[1]).slice(0, 3);
-
-  let html = `<div class="phase-hero" style="background:linear-gradient(135deg,#27ae60,#16a085)"><div class="phase-month"><span>📅 هفته اخیر</span><span>${fa(sessions.length)} جلسه</span></div><div class="phase-title"><span>📊</span>گزارش هفتگی</div><p style="font-size:.85em;opacity:.95">تحلیل هفته + پیشنهاد هفته بعد</p></div>`;
-
-  html += `<div class="grid-2"><div class="stat"><div class="stat-v">${fa(totalHours.toFixed(1))}</div><div class="stat-l">ساعت مطالعه</div></div><div class="stat"><div class="stat-v">${fa(totalMin)}</div><div class="stat-l">دقیقه</div></div><div class="stat"><div class="stat-v">${fa(totalTests)}</div><div class="stat-l">تست</div></div><div class="stat"><div class="stat-v">${fa(totalPages)}</div><div class="stat-l">صفحه</div></div><div class="stat"><div class="stat-v">${fa(avgSleep.toFixed(1))}</div><div class="stat-l">خواب میانگین</div></div><div class="stat"><div class="stat-v">${fa(avgQuality.toFixed(1))}</div><div class="stat-l">کیفیت خواب</div></div></div>`;
-
-  // تحلیل عملکرد
-  if (perf === 'good') html += `<div class="analysis-box"><b>🎉 عملکرد عالی!</b><br>این هفته <b>${fa(totalHours.toFixed(1))} ساعت</b> خوندی که بالای هدفه. همینطوری ادامه بده.</div>`;
-  else if (perf === 'bad') html += `<div class="analysis-box danger"><b>⚠️ عملکرد ضعیف</b><br>هدف هفتگی <b>${fa(target)} ساعت</b> بود ولی فقط <b>${fa(totalHours.toFixed(1))} ساعت</b> شد. هفته بعد باید جبران کنی.</div>`;
-  else html += `<div class="analysis-box warn"><b>📚 عملکرد متوسط</b><br>این هفته <b>${fa(totalHours.toFixed(1))} ساعت</b> خوندی. برای رسیدن به هدف (${fa(target)} ساعت)، روزی ۳۰ دقیقه اضافه کن.</div>`;
-
-  // توزیع درس‌ها
-  if (topSubj.length) {
-    html += `<div class="card"><h3>📚 توزیع مطالعه</h3>`;
-    topSubj.slice(0, 8).forEach(([s, h]) => {
-      html += `<div style="margin:8px 0;font-size:.85em"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><b>${SUBJECT_ICONS[s]||'📚'} ${s}</b><span>${fa(h.toFixed(1))} ساعت</span></div><div class="pb"><div class="pf" style="width:${(h/topSubj[0][1])*100}%"></div></div></div>`;
-    });
-    // هشدار تعادل
-    const allSubj = ['ریاضی','فیزیک','هندسه','شیمی','عربی','زبان'];
-    const missing = allSubj.filter(s => !subjHours[s] || subjHours[s] < 0.5);
-    if (missing.length > 0) html += `<div class="analysis-box warn" style="margin-top:12px"><b>⚠️ توجه:</b><br>این درسا کمتر از ۳۰ دقیقه خوندی: <b>${missing.join('، ')}</b> — هفته بعد تعادل رو رعایت کن.</div>`;
-    html += `</div>`;
-  }
-
-  // خواب
-  if (avgSleep > 0) {
-    if (avgSleep < 6.5) html += `<div class="analysis-box danger"><b>😴 کم‌خوابی!</b><br>میانگین خواب <b>${fa(avgSleep.toFixed(1))} ساعت</b> بود. کمبود خواب، تمرکز و حافظه رو کم می‌کنه. هدف: ۷-۸ ساعت.</div>`;
-    else if (avgSleep >= 7 && avgSleep <= 9) html += `<div class="analysis-box"><b>😴 خواب خوب</b><br>میانگین خواب <b>${fa(avgSleep.toFixed(1))} ساعت</b> بود. همینطور ادامه بده.</div>`;
-  }
-
-  // حواس‌پرتی
-  if (topDistract.length) {
-    html += `<div class="card"><h3>🧠 بیشترین حواس‌پرتی‌ها</h3>`;
-    topDistract.forEach(([tag, count]) => { html += `<div class="item"><span>${tag}</span><span style="color:var(--danger);font-weight:700">${fa(count)} بار</span></div>`; });
-    html += `<div class="analysis-box warn" style="margin-top:10px"><b>💡 پیشنهاد:</b><br>بیشترین علت حواس‌پرتی تو <b>${topDistract[0][0]}</b> بود. هفته بعد قبل مطالعه، این منبع رو حذف کن.</div></div>`;
-  }
-
-  // پیشنهاد هفته بعد
-  html += `<div class="card"><h3>📋 پیشنهاد برای هفته بعد</h3>`;
-  const suggestions = [];
-  if (perf === 'bad') suggestions.push('🎯 هدف مطالعه رو روی <b>۱۸ ساعت مفید</b> بذار');
-  if (avgSleep < 6.5) suggestions.push('😴 ساعت خواب رو به <b>۷ ساعت</b> برسون (۲۲:۳۰ بخواب)');
-  else if (avgSleep > 9) suggestions.push('⏰ از خواب زیاد پرهیز کن، ۷-۸ ساعت کافیه');
-  if (topDistract.length) suggestions.push(`📱 برای <b>${topDistract[0][0]}</b> راهکار عملی پیدا کن`);
-  if (topSubj.length) {
-    const allSubj = ['ریاضی','فیزیک','هندسه','شیمی','عربی','زبان'];
-    const missing = allSubj.filter(s => !subjHours[s] || subjHours[s] < 0.5);
-    if (missing.length > 0) suggestions.push(`📚 هفته بعد حتماً <b>${missing.slice(0, 2).join(' و ')}</b> رو بخون`);
-  }
-  if (exams.length === 0) suggestions.push('📝 این هفته از خودت یه آزمون آزمایشی بگیر');
-  if (journals.length < 3) suggestions.push('🌙 حداقل ۳ شب ژورنال بنویس');
-  if (suggestions.length === 0) suggestions.push('✅ همه چیز خوبه، همین روال رو ادامه بده');
-
-  suggestions.forEach(s => { html += `<div class="item" style="border-right-color:var(--info)"><span style="font-size:.88em">${s}</span></div>`; });
-  html += `</div>`;
-
-  el.innerHTML = html;
-}
-
+// =============================================================
 // پشتیبان
+// =============================================================
 function exportData() {
   const data = {};
   Object.keys(localStorage).forEach(k => { if (k.startsWith('ilia-')) data[k] = localStorage.getItem(k); });
-  data.theme = localStorage.getItem('theme');
-  data.exportDate = new Date().toISOString();
+  data.theme = localStorage.getItem('theme'); data.exportDate = new Date().toISOString();
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a'); a.href = url; a.download = `backup-ilia-${today()}.json`; a.click();
@@ -1890,27 +1641,73 @@ function exportData() {
 function importData(e) { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = (ev) => { try { const d = JSON.parse(ev.target.result); Object.entries(d).forEach(([k,v]) => { if (v !== undefined && v !== null) localStorage.setItem(k, v); }); toast('✅ بازگردانی شد'); setTimeout(() => location.reload(), 800); } catch(err) { toast('❌ فایل معتبر نیست'); } }; r.readAsText(f); }
 function resetAll() { if (!confirm('همه چیز پاک بشه؟')) return; if (!confirm('مطمئنی؟')) return; localStorage.clear(); location.reload(); }
 
-// مشاور هوشمند
+// =============================================================
+// مشاور هوشمند — تشخیص خودکار زمان
+// =============================================================
 let asst = {mode:null, step:0, school_subjects:[], school_missed:[], study_hours:0, study_subjects:[], study_quality:0};
+
 const ASSISTANT_CONFIG = {
-  minCooldown: 45*60*1000,
+  minCooldown: 45 * 60 * 1000,
   maxAsksPerDay: 4,
-  schoolWindows: [{start:14*60, end:15*60}, {start:20*60, end:20*60+45}],
-  nightWindows: [{start:20*60+45, end:21*60+15}, {start:22*60, end:22*60+45}],
+  schoolWindows: [
+    { start: 14*60,      end: 15*60 },
+    { start: 20*60,      end: 20*60+45 }
+  ],
+  nightWindows: [
+    { start: 20*60+45,   end: 21*60+15 },
+    { start: 22*60,      end: 22*60+45 }
+  ],
   doNotDisturbKinds: ['school', 'study', 'sport', 'sleep'],
   bootDelay: 6000
 };
+
 function todaySchoolReportKey() { return 'ilia-school-report-' + today(); }
 function todayStudyReportKey() { return 'ilia-study-report-' + today(); }
 function getTodaySchoolReport() { return getData(todaySchoolReportKey(), null); }
 function getTodayStudyReport() { return getData(todayStudyReportKey(), null); }
-function isInDNDBlock() { const cur = getCurrent(); if (!cur) return false; return ASSISTANT_CONFIG.doNotDisturbKinds.includes(cur.item.kind); }
-function isUserTyping() { const ae = document.activeElement; if (!ae) return false; const tag = ae.tagName; if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true; if (document.getElementById('focusMode').classList.contains('active')) return true; if (document.getElementById('assistantOverlay').classList.contains('active')) return true; return false; }
-function isInWindow(type) { const now = new Date(); const curMin = now.getHours()*60 + now.getMinutes(); const windows = type === 'school' ? ASSISTANT_CONFIG.schoolWindows : ASSISTANT_CONFIG.nightWindows; return windows.some(w => curMin >= w.start && curMin < w.end); }
-function isCooldownOk() { const last = parseInt(localStorage.getItem('ilia-assistant-last-ask') || '0'); return (Date.now() - last) >= ASSISTANT_CONFIG.minCooldown; }
-function getTodayAskCount() { return parseInt(localStorage.getItem('ilia-assistant-asks-' + today()) || '0'); }
-function isDailyLimitOk() { return getTodayAskCount() < ASSISTANT_CONFIG.maxAsksPerDay; }
-function recordAsk() { localStorage.setItem('ilia-assistant-last-ask', Date.now().toString()); const key = 'ilia-assistant-asks-' + today(); const c = parseInt(localStorage.getItem(key) || '0'); localStorage.setItem(key, (c + 1).toString()); }
+
+function isInDNDBlock() {
+  const cur = getCurrent();
+  if (!cur) return false;
+  return ASSISTANT_CONFIG.doNotDisturbKinds.includes(cur.item.kind);
+}
+
+function isUserTyping() {
+  const ae = document.activeElement;
+  if (!ae) return false;
+  const tag = ae.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+  if (document.getElementById('focusMode').classList.contains('active')) return true;
+  if (document.getElementById('assistantOverlay').classList.contains('active')) return true;
+  return false;
+}
+
+function isInWindow(type) {
+  const now = new Date();
+  const curMin = now.getHours() * 60 + now.getMinutes();
+  const windows = type === 'school' ? ASSISTANT_CONFIG.schoolWindows : ASSISTANT_CONFIG.nightWindows;
+  return windows.some(w => curMin >= w.start && curMin < w.end);
+}
+
+function isCooldownOk() {
+  const last = parseInt(localStorage.getItem('ilia-assistant-last-ask') || '0');
+  return (Date.now() - last) >= ASSISTANT_CONFIG.minCooldown;
+}
+
+function getTodayAskCount() {
+  return parseInt(localStorage.getItem('ilia-assistant-asks-' + today()) || '0');
+}
+function isDailyLimitOk() {
+  return getTodayAskCount() < ASSISTANT_CONFIG.maxAsksPerDay;
+}
+
+function recordAsk() {
+  localStorage.setItem('ilia-assistant-last-ask', Date.now().toString());
+  const key = 'ilia-assistant-asks-' + today();
+  const c = parseInt(localStorage.getItem(key) || '0');
+  localStorage.setItem(key, (c + 1).toString());
+}
+
 function isGoodTimeForReport(type) {
   if (type === 'school' && getTodaySchoolReport()) return false;
   if (type === 'night' && getTodayStudyReport()) return false;
@@ -1921,6 +1718,7 @@ function isGoodTimeForReport(type) {
   if (!isDailyLimitOk()) return false;
   return true;
 }
+
 function getSmartIntro(type) {
   const h = new Date().getHours();
   const sr = getTodaySchoolReport();
@@ -1930,36 +1728,71 @@ function getSmartIntro(type) {
   else if (h < 17) timeGreeting = 'وقت بخیر';
   else if (h < 20) timeGreeting = 'عصر بخیر';
   else timeGreeting = 'شب بخیر';
-  const streak = (() => { const log = getData('ilia-log', []); let s = 0; const ds = new Set(log.map(e => e.date)); let d = new Date(); while (ds.has(d.toISOString().split('T')[0])) { s++; d.setDate(d.getDate()-1); } return s; })();
-  const deficitData = getDeficitData();
-  const todayExtra = getTodayExtra();
+  const streak = (() => {
+    const log = getData('ilia-log', []);
+    let s = 0; const ds = new Set(log.map(e => e.date)); let d = new Date();
+    while (ds.has(d.toISOString().split('T')[0])) { s++; d.setDate(d.getDate()-1); }
+    return s;
+  })();
   if (type === 'school') {
     let msg = `${timeGreeting} ایلیا! 👋<br>`;
-    if (sr && !(sr.missed && sr.missed.length)) msg += 'قبلاً گفتی همه درسا رو گرفتی. حالا گزارش فردا رو نگاه کنیم.';
-    else msg += 'از مدرسه برگشتی؟ بذار گزارش امروزت رو بگیرم.';
-    if (streak >= 3) msg += `<br><br>🔥 <b>${fa(streak)} روز پیوسته!</b>`;
-    if (deficitData.total > 0.5) msg += `<br>📊 بدهی مطالعه: <b>${fa(deficitData.total.toFixed(1))} ساعت</b>`;
+    if (sr && !(sr.missed && sr.missed.length)) msg += 'قبلاً گفتی همه درسا رو گرفتی. حالا بذار گزارش فردا رو یه نگاه بندازیم.';
+    else msg += 'از مدرسه برگشتی؟ بذار یه گزارش امروزت بگیرم تا تمرکز امشب رو دقیق‌تر بچینم.';
+    if (streak >= 3) msg += `<br><br>🔥 <b>${fa(streak)} روز پیوسته‌ست داری می‌خونی!</b>`;
     return msg;
   } else {
     let msg = `${timeGreeting} ایلیا 🌙<br>`;
     const todayT = getData('ilia-log', []).filter(e => e.date === today()).reduce((s,e) => s+e.hours, 0);
-    if (todayT > 0) msg += `امروز تا الان <b>${fa(todayT.toFixed(1))} ساعت</b> ثبت شده. بذار کامل کنیم.`;
-    else msg += 'قبل خواب بذار یه گزارش امروزت بگیرم.';
-    if (streak >= 7) msg += `<br><br>🏆 <b>${fa(streak)} روز پیوسته!</b>`;
-    else if (streak >= 3) msg += `<br><br>🔥 <b>${fa(streak)} روز پیوسته!</b>`;
-    if (deficitData.total > 0.5) { msg += `<br><br>📊 <b>بدهی: ${fa(deficitData.total.toFixed(1))} ساعت</b>`; if (todayExtra > 0) msg += `<br>امروز <b>+${fa(todayExtra.toFixed(1))} ساعت</b> اضافه داری`; }
+    if (todayT > 0) msg += `امروز تا الان <b>${fa(todayT.toFixed(1))} ساعت</b> مطالعه ثبت شده. بذار آمار امروز رو کامل کنیم.`;
+    else if (nr) msg += 'گزارش شبانه امروز رو قبلاً دادی.';
+    else msg += 'قبل خواب بذار یه گزارش امروزت بگیرم تا بدونم چقدر پیش رفتی.';
+    if (streak >= 7) msg += `<br><br>🏆 <b>${fa(streak)} روز پیوسته!</b> این عالیه.`;
+    else if (streak >= 3) msg += `<br><br>🔥 <b>${fa(streak)} روز پیوسته‌ست داری می‌خونی!</b>`;
     return msg;
   }
 }
+
 function checkAssistant() {
   if (isUserTyping()) return;
-  if (isGoodTimeForReport('school')) { setTimeout(() => { if (!isUserTyping() && isGoodTimeForReport('school')) { recordAsk(); openAssistant('school'); } }, 2500); return; }
-  if (isGoodTimeForReport('night')) { setTimeout(() => { if (!isUserTyping() && isGoodTimeForReport('night')) { recordAsk(); openAssistant('night'); } }, 2500); return; }
+  if (isGoodTimeForReport('school')) {
+    setTimeout(() => {
+      if (!isUserTyping() && isGoodTimeForReport('school')) {
+        recordAsk();
+        openAssistant('school');
+      }
+    }, 2500);
+    return;
+  }
+  if (isGoodTimeForReport('night')) {
+    setTimeout(() => {
+      if (!isUserTyping() && isGoodTimeForReport('night')) {
+        recordAsk();
+        openAssistant('night');
+      }
+    }, 2500);
+    return;
+  }
 }
-function openAssistant(mode) { asst = {mode, step:0, school_subjects:[], school_missed:[], study_hours:0, study_subjects:[], study_quality:0}; document.getElementById('assistantOverlay').classList.add('active'); renderAsst(); }
-function closeAssistant() { document.getElementById('assistantOverlay').classList.remove('active'); localStorage.setItem('ilia-assistant-last-ask', Date.now().toString()); renderTodayReports(); renderMakeupCard(); renderAlert(); }
-function snoozeAssistant() { localStorage.setItem('ilia-assistant-last-ask', Date.now().toString()); document.getElementById('assistantOverlay').classList.remove('active'); toast('⏰ باشه، بعداً یادت میندازم'); }
-function openAssistantManual(mode) { if (!mode) { const h = new Date().getHours(); mode = h < 19 ? 'school' : 'night'; } openAssistant(mode); }
+
+function openAssistant(mode) {
+  asst = {mode, step:0, school_subjects:[], school_missed:[], study_hours:0, study_subjects:[], study_quality:0};
+  document.getElementById('assistantOverlay').classList.add('active');
+  renderAsst();
+}
+function closeAssistant() {
+  document.getElementById('assistantOverlay').classList.remove('active');
+  localStorage.setItem('ilia-assistant-last-ask', Date.now().toString());
+  renderTodayReports();
+}
+function snoozeAssistant() {
+  localStorage.setItem('ilia-assistant-last-ask', Date.now().toString());
+  document.getElementById('assistantOverlay').classList.remove('active');
+  toast('⏰ باشه، ۳۰ دقیقه دیگه یادت میندازم');
+}
+function openAssistantManual(mode) {
+  if (!mode) { const h = new Date().getHours(); mode = h < 19 ? 'school' : 'night'; }
+  openAssistant(mode);
+}
 function asstMsg(t, w) { return `<div class="msg ${w==='user'?'msg-user':'msg-bot'}">${t}</div>`; }
 
 function renderAsst() {
@@ -1971,20 +1804,23 @@ function renderAsst() {
     if (asst.step === 0) {
       body.innerHTML = asstMsg(getSmartIntro('school'));
       footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">شروع کن</button><button class="btn btn-secondary" onclick="snoozeAssistant()">⏰ بعداً</button>';
-    } else if (asst.step === 1) {
+    }
+    else if (asst.step === 1) {
       const day = new Date().getDay();
       const dayClasses = SCHOOL_SCHEDULE[day] || [];
       if (asst.school_subjects.length === 0) asst.school_subjects = [...dayClasses];
       const opts = dayClasses.map(s => `<button class="opt ${asst.school_subjects.includes(s)?'selected':''}" onclick="toggleSchoolSubj('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${s}</button>`).join('');
       body.innerHTML = asstMsg('امروز معلم‌ها چه درس‌هایی دادن؟') + '<div class="opt-list">' + opts + '</div>';
       footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">ادامه</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>';
-    } else if (asst.step === 2) {
+    }
+    else if (asst.step === 2) {
       let html = asstMsg('کدوم رو <b>کامل نفهمیدی</b>؟');
       const opts = asst.school_subjects.map(s => `<button class="opt ${asst.school_missed.includes(s)?'selected':''}" onclick="toggleSchoolMissed('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${s}</button>`).join('');
       html += '<div class="opt-list">' + (opts || '<p style="text-align:center;font-size:.85em;color:var(--text-light)">اول درس انتخاب کن</p>') + '</div>';
       body.innerHTML = html;
       footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">تحلیل کن</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>';
-    } else if (asst.step === 3) {
+    }
+    else if (asst.step === 3) {
       setData(todaySchoolReportKey(), {subjects:asst.school_subjects, missed:asst.school_missed, date:today(), ts:Date.now()});
       const dayName = getShamsi().dayName;
       let html = asstMsg(`گزارش ${dayName} ثبت شد 🌱`);
@@ -1994,26 +1830,31 @@ function renderAsst() {
       body.innerHTML = html;
       footer.innerHTML = '<button class="btn btn-primary" onclick="closeAssistant()">باشه</button>';
     }
-  } else if (asst.mode === 'night') {
+  }
+  else if (asst.mode === 'night') {
     if (asst.step === 0) {
       body.innerHTML = asstMsg(getSmartIntro('night'));
       footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">شروع کن</button><button class="btn btn-secondary" onclick="snoozeAssistant()">⏰ بعداً</button>';
-    } else if (asst.step === 1) {
+    }
+    else if (asst.step === 1) {
       body.innerHTML = asstMsg('امروز <b>چند ساعت</b> مفید مطالعه کردی؟');
       footer.innerHTML = '<input type="number" class="asst-input" id="asstHours" min="0" max="16" step="0.5" placeholder="۲.۵"><button class="btn btn-primary" onclick="asstSubmitHours()">ادامه</button>';
       setTimeout(() => { const el = document.getElementById('asstHours'); if (el) el.focus(); }, 100);
-    } else if (asst.step === 2) {
+    }
+    else if (asst.step === 2) {
       let html = asstMsg(`ثبت شد: <b>${fa(asst.study_hours)} ساعت</b> 🌟<br>چه درس‌هایی خوندی؟`);
       const opts = ALL_SUBJECTS.map(s => `<button class="opt ${asst.study_subjects.includes(s)?'selected':''}" onclick="toggleStudySubj('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${s}</button>`).join('');
       html += '<div class="opt-list">' + opts + '</div>';
       body.innerHTML = html;
       footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">ادامه</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>';
-    } else if (asst.step === 3) {
+    }
+    else if (asst.step === 3) {
       let html = asstMsg('این جلسه‌ها چقدر <b>مفید</b> بودن؟');
       html += `<div class="stars" id="asstStars">${[1,2,3,4,5].map(n => `<span class="star ${asst.study_quality>=n?'active':''}" onclick="setStudyQuality(${n})">⭐</span>`).join('')}</div>`;
       body.innerHTML = html;
       footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">پایان</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>';
-    } else if (asst.step === 4) {
+    }
+    else if (asst.step === 4) {
       setData(todayStudyReportKey(), {hours:asst.study_hours, subjects:asst.study_subjects, quality:asst.study_quality, date:today(), ts:Date.now()});
       if (asst.study_hours > 0) {
         const log = getData('ilia-log', []);
@@ -2021,32 +1862,18 @@ function renderAsst() {
         setData('ilia-log', log);
         renderStats();
       }
-      const todayGoal = getDailyGoal(new Date().getDay());
-      const todayDeficit = Math.max(0, todayGoal - asst.study_hours);
-      const todayExcess = Math.max(0, asst.study_hours - todayGoal);
-      if (todayDeficit > 0.25) addDeficit(todayDeficit, today());
-      else if (todayExcess > 0.25) reduceDeficit(todayExcess);
-
       let html = asstMsg('گزارش شب ثبت شد ✅');
       html += `<div class="summary-box"><b>⏱ مطالعه:</b> ${fa(asst.study_hours)} ساعت<br><b>📚 درس‌ها:</b> ${asst.study_subjects.length ? asst.study_subjects.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + s).join('، ') : 'ثبت نشده'}<br><b>⭐ کیفیت:</b> ${fa(asst.study_quality)} از ۵</div>`;
-      const goal = todayGoal;
+      const goal = 3;
       let cls = '', msg = '';
-      if (asst.study_hours >= goal) { cls = ''; msg = `🎉 <b>آفرین!</b> به هدف امروزت (${fa(goal)} ساعت) رسیدی.`; }
+      if (asst.study_hours >= goal) { cls = ''; msg = `🎉 <b>آفرین!</b> به هدف رسیدی.`; }
       else if (asst.study_hours >= goal * .6) { cls = 'warn'; msg = `⚠️ <b>خوب بود ولی کافی نبود.</b> هدف ${fa(goal)} ساعت بود.`; }
       else if (asst.study_hours > 0) { cls = 'danger'; msg = `😐 <b>کم بود.</b> امروز فقط ${fa(asst.study_hours)} ساعت.`; }
       else { cls = 'danger'; msg = `😢 <b>امروز نخوندی.</b> فردا با قانون ۲ دقیقه شروع کن.`; }
       html += `<div class="analysis-box ${cls}">${msg}</div>`;
-
-      const plan = getMakeupPlan();
-      if (plan.total > 0.5) {
-        html += `<div class="analysis-box warn"><b>📊 برنامه جبران مطالعه</b><br>بدهی کل: <b>${fa(plan.total.toFixed(1))} ساعت</b><br><br>پیشنهاد تقسیم:<br>${plan.days.map(d => `• ${d.dayName}: <b>+${fa(d.extra.toFixed(1))} ساعت</b>`).join('<br>')}<br><br><small style="opacity:.8">💡 با این تقسیم، هم جبران میشه هم عقب نمیفتی.</small></div>`;
-      } else if (asst.study_hours >= goal) {
-        html += `<div class="analysis-box"><b>🎉 عالیه!</b><br>امروز به هدف رسیدی و بدهی نداری.</div>`;
-      }
-
       const tomorrow = new Date(Date.now() + 86400000);
       const tmwClasses = SCHOOL_SCHEDULE[tomorrow.getDay()] || [];
-      if (tmwClasses.length) html += `<div class="analysis-box info"><b>📅 فردا داری:</b><br>${tmwClasses.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + s).join('، ')}</div>`;
+      if (tmwClasses.length) html += `<div class="analysis-box" style="background:linear-gradient(135deg,rgba(102,126,234,.12),rgba(118,75,162,.05));border-color:var(--primary)"><b>📅 فردا داری:</b><br>${tmwClasses.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + s).join('، ')}</div>`;
       html += asstMsg('شب بخیر! 😴');
       body.innerHTML = html;
       footer.innerHTML = '<button class="btn btn-primary" onclick="closeAssistant()">شب بخیر</button>';
@@ -2072,27 +1899,9 @@ function renderTodayReports() {
   el.innerHTML = html;
 }
 
-// هشدار افت
-function renderAlert() {
-  const el = document.getElementById('alertContainer');
-  if (!el) return;
-  const log = getData('ilia-log', []);
-  let badDays = 0;
-  for (let i = 1; i <= 3; i++) {
-    const d = new Date(); d.setDate(d.getDate() - i);
-    const ds = d.toISOString().split('T')[0];
-    const goal = getDailyGoal(d.getDay());
-    const studied = log.filter(e => e.date === ds).reduce((s,e) => s+e.hours, 0);
-    if (studied < goal * 0.5) badDays++;
-  }
-  if (badDays >= 3) {
-    el.innerHTML = `<div class="alert-card"><div class="alert-title">🔔 هشدار افت</div><div class="alert-text">۳ روز اخیر کم خوندی. این می‌تونه شروع یه روند بد باشه. امروز فقط <b>۲۰ دقیقه</b> شروع کن — قانون ۲ دقیقه. با یه شروع کوچیک، روند رو برمی‌گردونی.</div></div>`;
-  } else {
-    el.innerHTML = '';
-  }
-}
-
+// =============================================================
 // کیبورد
+// =============================================================
 document.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
   const fa_ = document.getElementById('focusMode').classList.contains('active');
@@ -2103,7 +1912,9 @@ document.addEventListener('keydown', (e) => {
   if (e.key === ' ') { if (document.getElementById('pomodoro').classList.contains('active')) { e.preventDefault(); startPom(); } else if (fa_) { e.preventDefault(); toggleFocusTimer(); } }
 });
 
+// =============================================================
 // Init
+// =============================================================
 renderStats();
 renderTodo();
 renderGoals();
@@ -2111,6 +1922,7 @@ renderLeitner();
 renderMistakes();
 renderGrades();
 renderHabits();
+renderAnalysis();
 updPom();
 updateClock();
 renderPhase();
@@ -2127,24 +1939,22 @@ renderChecklists();
 renderSessions();
 renderExams();
 renderJournal();
-renderHealth();
-renderWeakness();
-renderWeeklyReport();
-renderDistractionPage();
-scanDeficits();
-renderMakeupCard();
-renderAlert();
+renderMonthly();
 
 setInterval(updateClock, 1000);
 setInterval(renderCountdown, 1000);
-setInterval(() => { renderNow(); renderTodaySchedule(); renderMakeupCard(); renderAlert(); }, 30000);
+setInterval(() => { renderNow(); renderTodaySchedule(); }, 30000);
 setInterval(renderPhase, 3600000);
 setInterval(renderClasses, 3600000);
 
+// مشاور هوشمند
 setTimeout(checkAssistant, ASSISTANT_CONFIG.bootDelay);
 setInterval(checkAssistant, 90000);
-document.addEventListener('visibilitychange', () => { if (!document.hidden) setTimeout(checkAssistant, 3000); });
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) setTimeout(checkAssistant, 3000);
+});
 
+// یادآور فعالیت
 let lastActivity = null;
 setInterval(() => {
   const cur = getCurrent();
