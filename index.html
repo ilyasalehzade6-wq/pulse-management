@@ -11,8 +11,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="مطالعه">
-<link rel="apple-touch-icon" href="./icon.svg">
-<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
 <meta name="description" content="برنامه‌ریزی درسی و ابزارهای مطالعه — ایلیا صالح‌زاده">
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
 <style>
@@ -716,7 +717,6 @@ function isStandalone() {
 }
 
 function updateInstallBtn() {
-  // دکمه همیشه میمونه — کاری نمیکنیم
   const btn = document.getElementById('installBtn');
   if (!btn) return;
   btn.classList.remove('hidden');
@@ -729,12 +729,10 @@ window.addEventListener('beforeinstallprompt', (e) => {
 });
 
 function installPWA() {
-  // اگه الان توی حالت اپ باز شده، پیام بده
   if (isStandalone()) {
     toast('✅ اپ نصب شده و الان توی حالت اپ بازه');
     return;
   }
-  // اگه Chrome/Edge پشتیبانی میکنه
   if (deferredPrompt) {
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then((choice) => {
@@ -748,7 +746,6 @@ function installPWA() {
     });
     return;
   }
-  // در غیر این صورت، راهنمای دستی
   manualInstall();
 }
 
