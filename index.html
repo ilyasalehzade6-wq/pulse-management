@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="theme-color" content="#667eea">
-<title>مرکز مطالعه ایلیا — مشاور تحصیلی هوشمند</title>
+<title>مرکز مطالعه ایلیا — مشاور هوشمند</title>
 <link rel="manifest" href="./manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -114,101 +114,38 @@ h3{font-size:1em;margin:10px 0 8px}
 .stat-v{font-size:1.4em;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .stat-l{font-size:.72em;color:var(--text-light);margin-top:2px}
 
-/* ==========================================================
-   BUTTON SYSTEM — بازطراحی شده
-   ========================================================== */
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  padding:12px 18px;
-  border-radius:12px;
-  font-family:inherit;
-  font-size:.86em;
-  font-weight:700;
-  letter-spacing:-0.01em;
-  line-height:1;
-  cursor:pointer;
-  border:none;
-  color:#fff;
-  white-space:nowrap;
-  transition:transform .12s ease, box-shadow .2s ease, background .2s ease, opacity .15s;
-  box-shadow:0 2px 6px rgba(0,0,0,.10);
-  user-select:none;
-  text-decoration:none;
-}
+/* BUTTON SYSTEM */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 18px;border-radius:12px;font-family:inherit;font-size:.86em;font-weight:700;letter-spacing:-0.01em;line-height:1;cursor:pointer;border:none;color:#fff;white-space:nowrap;transition:transform .12s ease, box-shadow .2s ease, background .2s ease, opacity .15s;box-shadow:0 2px 6px rgba(0,0,0,.10);user-select:none;text-decoration:none}
 .btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.14)}
 .btn:active{transform:translateY(0) scale(.97);box-shadow:0 1px 3px rgba(0,0,0,.1)}
 .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-
-/* رنگ‌ها با گرادیانت و سایه رنگی */
 .btn-primary{background:linear-gradient(135deg,#667eea,#5568d3);box-shadow:0 3px 10px rgba(102,126,234,.35)}
 .btn-primary:hover{box-shadow:0 6px 18px rgba(102,126,234,.45)}
-
 .btn-danger{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 3px 10px rgba(239,68,68,.30)}
 .btn-danger:hover{box-shadow:0 6px 18px rgba(239,68,68,.42)}
-
 .btn-success{background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 3px 10px rgba(16,185,129,.30)}
 .btn-success:hover{box-shadow:0 6px 18px rgba(16,185,129,.42)}
-
 .btn-info{background:linear-gradient(135deg,#0ea5e9,#0284c7);box-shadow:0 3px 10px rgba(14,165,233,.30)}
 .btn-info:hover{box-shadow:0 6px 18px rgba(14,165,233,.42)}
-
 .btn-accent{background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 3px 10px rgba(245,158,11,.30)}
 .btn-accent:hover{box-shadow:0 6px 18px rgba(245,158,11,.42)}
-
 .btn-secondary{background:var(--bg);color:var(--text);border:1.5px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .btn-secondary:hover{background:var(--bg-card);border-color:var(--primary);color:var(--primary);box-shadow:0 4px 12px rgba(102,126,234,.15)}
-
 .btn-ghost{background:transparent;color:var(--text-light);border:1.5px solid var(--border);box-shadow:none}
 .btn-ghost:hover{background:var(--bg);color:var(--text);border-color:var(--primary);box-shadow:none;transform:none}
-
 .btn-block{width:100%;padding:14px;font-size:.88em}
 .btn-sm{padding:8px 14px;font-size:.76em;border-radius:10px;gap:5px;box-shadow:0 2px 5px rgba(0,0,0,.08)}
 .btn-sm:hover{box-shadow:0 3px 10px rgba(0,0,0,.12)}
-.btn-xs{padding:6px 10px;font-size:.7em;border-radius:8px;gap:4px}
-
-/* گروه دکمه‌ها — هم‌عرض */
 .btn-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 .btn-group-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
 .btn-group .btn,.btn-group-3 .btn{width:100%;padding:14px 8px;font-size:.82em}
 
-/* دکمه‌های داخل کارت عملیات */
-.action-tile{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  padding:16px 8px;
-  background:var(--bg-card);
-  border:1.5px solid var(--border);
-  border-radius:14px;
-  cursor:pointer;
-  transition:all .18s ease;
-  font-family:inherit;
-  color:var(--text);
-  box-shadow:0 1px 3px rgba(0,0,0,.04);
-  text-align:center;
-}
-.action-tile:hover{
-  transform:translateY(-2px);
-  border-color:var(--primary);
-  box-shadow:0 8px 20px rgba(102,126,234,.15);
-}
+.action-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 8px;background:var(--bg-card);border:1.5px solid var(--border);border-radius:14px;cursor:pointer;transition:all .18s ease;font-family:inherit;color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.04);text-align:center}
+.action-tile:hover{transform:translateY(-2px);border-color:var(--primary);box-shadow:0 8px 20px rgba(102,126,234,.15)}
 .action-tile:active{transform:translateY(0) scale(.98)}
 .action-tile .tile-icon{font-size:1.6em;line-height:1}
 .action-tile .tile-label{font-size:.75em;font-weight:700;color:var(--text-light)}
 
-/* دکمه‌های داخل پیام‌ها */
-.assistant-footer .btn{flex:1;min-width:0;padding:13px 12px}
-.assistant-footer .btn+.btn{flex:1}
-.assistant-footer .asst-input{flex:1 1 100%}
-
-/* ==========================================================
-   INPUTS
-   ========================================================== */
 .inp{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--bg-card);color:var(--text);font-family:inherit;font-size:.9em;margin-bottom:8px;transition:border-color .15s,box-shadow .15s}
 .inp:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(102,126,234,.15)}
 .inp-row{display:flex;gap:8px;margin-bottom:8px}
@@ -224,9 +161,6 @@ h3{font-size:1em;margin:10px 0 8px}
 .check-item input:checked ~ .ct{text-decoration:line-through;opacity:.5}
 .ct{font-size:.88em;font-weight:500}
 
-/* ==========================================================
-   BOTTOM NAV
-   ========================================================== */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--bg-card);border-top:1px solid var(--border);display:flex;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,.06);padding-bottom:env(safe-area-inset-bottom)}
 .bottom-nav button{flex:1;background:transparent;border:none;cursor:pointer;font-family:inherit;color:var(--text-light);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:.65em;font-weight:700;padding:8px 2px;position:relative;transition:color .15s}
 .bottom-nav button .ico{font-size:1.35em;line-height:1;transition:transform .15s}
@@ -242,9 +176,6 @@ h3{font-size:1em;margin:10px 0 8px}
 .more-menu button:active{transform:scale(.96)}
 .more-menu .ico{font-size:1.4em}
 
-/* ==========================================================
-   POMODORO
-   ========================================================== */
 .pomodoro{text-align:center;padding:22px 14px;background:var(--bg-card);border-radius:16px;box-shadow:var(--shadow);margin-bottom:12px}
 .pomodoro-timer{font-size:3.6em;font-weight:900;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:10px 0;font-variant-numeric:tabular-nums;letter-spacing:2px}
 .pomo-modes{display:flex;justify-content:center;gap:6px;margin-bottom:12px;flex-wrap:wrap}
@@ -253,9 +184,6 @@ h3{font-size:1em;margin:10px 0 8px}
 .pomo-mode.active{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border-color:transparent;box-shadow:0 3px 10px rgba(102,126,234,.35)}
 .pomo-btns{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
 
-/* ==========================================================
-   ITEMS
-   ========================================================== */
 .item{padding:12px 14px;background:var(--bg-card);border-radius:11px;margin:6px 0;border:1px solid var(--border);border-right:4px solid var(--info);display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.88em;transition:all .15s}
 .item:hover{border-color:var(--primary)}
 .item.p-high{border-right-color:var(--danger)}
@@ -361,7 +289,6 @@ h3{font-size:1em;margin:10px 0 8px}
 .cd-msg.warn{color:var(--danger);font-weight:700}
 .cd-msg.ok{color:var(--success);font-weight:700}
 
-/* ========== مشاور تحصیلی ========== */
 .assistant-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:9998;display:none;align-items:flex-end;justify-content:center;animation:fi .3s}
 .assistant-overlay.active{display:flex}
 .assistant-modal{background:var(--bg-card);width:100%;max-width:520px;border-radius:22px 22px 0 0;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 -10px 60px rgba(0,0,0,.35);animation:slideUp .4s cubic-bezier(.2,.8,.2,1)}
@@ -403,7 +330,6 @@ h3{font-size:1em;margin:10px 0 8px}
 .tr-line{font-size:.83em;color:var(--text-light);line-height:1.9}
 .tr-line b{color:var(--text)}
 
-/* ========== پرونده دانش‌آموز ========== */
 .profile-header{background:linear-gradient(135deg,#27ae60,#16a085);color:#fff;border-radius:16px;padding:18px;margin-bottom:12px;text-align:center;box-shadow:0 6px 20px rgba(39,174,96,.3)}
 .profile-header h3{color:#fff;margin:0 0 6px;font-size:1.1em;justify-content:center}
 .profile-header p{font-size:.85em;opacity:.95}
@@ -423,7 +349,6 @@ h3{font-size:1em;margin:10px 0 8px}
 .lvl-btn.sel-3{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;border-color:transparent;box-shadow:0 2px 6px rgba(14,165,233,.3)}
 .lvl-btn.sel-4{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-color:transparent;box-shadow:0 2px 6px rgba(16,185,129,.3)}
 
-/* ========== تحلیل آزمون ========== */
 .exam-item{background:var(--bg-card);border-radius:12px;margin:8px 0;border:1px solid var(--border);border-right:4px solid var(--primary);overflow:hidden;transition:all .15s}
 .exam-item:hover{box-shadow:0 4px 14px rgba(0,0,0,.06)}
 .exam-head{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
@@ -508,7 +433,6 @@ h3{font-size:1em;margin:10px 0 8px}
     <div class="stat"><div class="stat-v" id="dbStreak">۰</div><div class="stat-l">روز پیوسته</div></div>
   </div>
 
-  <!-- دسترسی سریع — کارت‌های کاشی‌ای -->
   <div class="grid-2">
     <button class="action-tile" onclick="startFocusMode()"><span class="tile-icon">🎯</span><span class="tile-label">حالت تمرکز</span></button>
     <button class="action-tile" onclick="go('pomodoro')"><span class="tile-icon">⏱</span><span class="tile-label">پومودورو</span></button>
@@ -541,7 +465,7 @@ h3{font-size:1em;margin:10px 0 8px}
 
   <div class="card">
     <h3>🧠 سبک یادگیری</h3>
-    <div class="btn-group-3" style="grid-template-columns:1fr 1fr;gap:6px">
+    <div class="btn-group" style="gap:6px">
       <button class="btn btn-secondary btn-sm" onclick="setLearningStyle('visual')" id="ls-visual">👁 بصری</button>
       <button class="btn btn-secondary btn-sm" onclick="setLearningStyle('auditory')" id="ls-auditory">👂 شنیداری</button>
       <button class="btn btn-secondary btn-sm" onclick="setLearningStyle('kinesthetic')" id="ls-kinesthetic">✋ جنبشی</button>
@@ -1048,6 +972,9 @@ function pad2(n) { return n.toString().padStart(2, '0'); }
 function timeToMin(t) { const [h, m] = t.split(':').map(Number); return h * 60 + m; }
 function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1800); }
 
+// =============================================================
+// PWA
+// =============================================================
 if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {})); }
 let deferredPrompt = null;
 function isStandalone() { return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
@@ -1060,6 +987,9 @@ function installPWA() {
 }
 window.addEventListener('appinstalled', () => toast('🎉 اپ نصب شد!'));
 
+// =============================================================
+// تبدیل تاریخ
+// =============================================================
 function gregorianToJalali(gy, gm, gd) {
   const g_d_m = [0,31,59,90,120,151,181,212,243,273,304,334];
   let jy = (gy <= 1600) ? 0 : 979;
@@ -1095,18 +1025,32 @@ function getShamsi(d) {
   return {y: jy, m: jm, d: jd, monthName: JALALI_MONTHS[jm-1], dayName: WEEK_DAYS_FA[dt.getDay()], jsDay: dt.getDay()};
 }
 
-const SCHOOL_SCHEDULE = { 6:['هندسه','دفاعی','فارسی','شیمی'],0:['فیزیک','نگارش','ریاضی','جغرافیا'],1:['دینی','زبان','شیمی','آزمایشگاه'],2:['فیزیک','زبان','عربی','ریاضی'],3:['ورزش','ریاضی','تفکر'],4:[],5:[] };
-const SUBJECT_ICONS = {'هندسه':'📏','دفاعی':'🛡','فارسی':'📜','شیمی':'🧪','آزمایشگاه':'🔬','فیزیک':'⚛️','نگارش':'✍️','ریاضی':'📐','جغرافیا':'🌍','دینی':'📖','زبان':'🌐','عربی':'🕌','ورزش':'⚽','تفکر':'💭','انگلیسی':'🌐'};
+// =============================================================
+// داده‌ها
+// =============================================================
+const SCHOOL_SCHEDULE = {
+  6: ['هندسه','دفاعی','فارسی','شیمی'],
+  0: ['فیزیک','نگارش','ریاضی','جغرافیا'],
+  1: ['دینی','زبان','شیمی','آزمایشگاه'],
+  2: ['فیزیک','زبان','عربی','ریاضی'],
+  3: ['ورزش','ریاضی','تفکر'],
+  4: [], 5: []
+};
+const SUBJECT_ICONS = {
+  'هندسه':'📏','دفاعی':'🛡','فارسی':'📜','شیمی':'🧪','آزمایشگاه':'🔬',
+  'فیزیک':'⚛️','نگارش':'✍️','ریاضی':'📐','جغرافیا':'🌍',
+  'دینی':'📖','زبان':'🌐','عربی':'🕌','ورزش':'⚽','تفکر':'💭','انگلیسی':'🌐'
+};
 const ALL_SUBJECTS = ['ریاضی','فیزیک','هندسه','شیمی','عربی','زبان','فارسی','نگارش','جغرافیا','دینی','تفکر','دفاعی','آزمایشگاه'];
 
 const SCHEDULE = {
-  6:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور لغت","study","📖"],["07:00","14:00","مدرسه: هندسه، دفاعی، فارسی، شیمی","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور هندسه","study","📏"],["21:30","22:15","مرور شیمی","study","🧪"],["22:30","23:59","خواب","sleep","😴"]],
-  0:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور کوتاه","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","15:30","استراحت","rest","☕"],["15:30","17:00","ریاضی","study","📐"],["17:00","17:15","استراحت","rest","☕"],["17:15","18:15","عربی","study","🕌"],["18:15","18:45","استراحت","rest","☕"],["18:45","20:00","فیزیک","study","⚛️"],["20:00","20:45","شام","rest","🍽"],["20:45","21:30","تکالیف","study","✍️"],["21:30","22:15","مرور روز","study","📓"],["22:30","23:59","خواب","sleep","😴"]],
-  1:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور زبان","study","🌐"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور شیمی","study","🧪"],["21:30","22:15","زبان","study","🌐"],["22:30","23:59","خواب","sleep","😴"]],
-  2:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","15:30","استراحت","rest","☕"],["15:30","17:00","ریاضی","study","📐"],["17:00","17:15","استراحت","rest","☕"],["17:15","18:15","عربی","study","🕌"],["18:15","18:45","استراحت","rest","☕"],["18:45","20:00","فیزیک","study","⚛️"],["20:00","20:45","شام","rest","🍽"],["20:45","21:30","زبان","study","🌐"],["21:30","22:15","مرور","study","📓"],["22:30","23:59","خواب","sleep","😴"]],
-  3:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور ریاضی","study","📐"],["21:30","22:15","هندسه","study","📏"],["22:30","23:59","خواب","sleep","😴"]],
-  4:[["08:00","08:30","بیداری، صبحانه","wake","🌅"],["08:30","10:00","ریاضی","study","📐"],["10:00","10:30","استراحت","rest","☕"],["10:30","12:00","فیزیک","study","⚛️"],["12:00","14:00","ناهار","rest","🍽"],["14:00","15:30","عربی","study","🕌"],["15:30","16:00","استراحت","rest","☕"],["16:00","17:30","زبان","study","🌐"],["17:30","19:00","شیمی یا هندسه","study","🧪"],["19:00","23:59","آزاد","rest","🎮"]],
-  5:[["08:00","09:00","بیداری، صبحانه","wake","🌅"],["09:00","10:30","مرور کل هفته","study","📖"],["10:30","11:00","دفتر اشتباهات","study","📓"],["11:00","11:30","برنامه هفته بعد","study","📝"],["11:30","23:59","استراحت","rest","🎮"]]
+  6: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور لغت","study","📖"],["07:00","14:00","مدرسه: هندسه، دفاعی، فارسی، شیمی","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور هندسه","study","📏"],["21:30","22:15","مرور شیمی","study","🧪"],["22:30","23:59","خواب","sleep","😴"]],
+  0: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور کوتاه","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","15:30","استراحت","rest","☕"],["15:30","17:00","ریاضی","study","📐"],["17:00","17:15","استراحت","rest","☕"],["17:15","18:15","عربی","study","🕌"],["18:15","18:45","استراحت","rest","☕"],["18:45","20:00","فیزیک","study","⚛️"],["20:00","20:45","شام","rest","🍽"],["20:45","21:30","تکالیف","study","✍️"],["21:30","22:15","مرور روز","study","📓"],["22:30","23:59","خواب","sleep","😴"]],
+  1: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور زبان","study","🌐"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور شیمی","study","🧪"],["21:30","22:15","زبان","study","🌐"],["22:30","23:59","خواب","sleep","😴"]],
+  2: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","15:30","استراحت","rest","☕"],["15:30","17:00","ریاضی","study","📐"],["17:00","17:15","استراحت","rest","☕"],["17:15","18:15","عربی","study","🕌"],["18:15","18:45","استراحت","rest","☕"],["18:45","20:00","فیزیک","study","⚛️"],["20:00","20:45","شام","rest","🍽"],["20:45","21:30","زبان","study","🌐"],["21:30","22:15","مرور","study","📓"],["22:30","23:59","خواب","sleep","😴"]],
+  3: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور ریاضی","study","📐"],["21:30","22:15","هندسه","study","📏"],["22:30","23:59","خواب","sleep","😴"]],
+  4: [["08:00","08:30","بیداری، صبحانه","wake","🌅"],["08:30","10:00","ریاضی","study","📐"],["10:00","10:30","استراحت","rest","☕"],["10:30","12:00","فیزیک","study","⚛️"],["12:00","14:00","ناهار","rest","🍽"],["14:00","15:30","عربی","study","🕌"],["15:30","16:00","استراحت","rest","☕"],["16:00","17:30","زبان","study","🌐"],["17:30","19:00","شیمی یا هندسه","study","🧪"],["19:00","23:59","آزاد","rest","🎮"]],
+  5: [["08:00","09:00","بیداری، صبحانه","wake","🌅"],["09:00","10:30","مرور کل هفته","study","📖"],["10:30","11:00","دفتر اشتباهات","study","📓"],["11:00","11:30","برنامه هفته بعد","study","📝"],["11:30","23:59","استراحت","rest","🎮"]]
 };
 
 const PHASES = {
@@ -1127,13 +1071,15 @@ const PHASES = {
 const EXAMS = { midterm: { name: 'میان‌ترم', jy: 1405, jm: 9, jd: 15 }, final: { name: 'پایان‌ترم', jy: 1405, jm: 10, jd: 20 } };
 function examDateToGregorian(exam) { const [gy, gm, gd] = jalaliToGregorian(exam.jy, exam.jm, exam.jd); return new Date(gy, gm-1, gd, 0, 0, 0); }
 
+// =============================================================
+// ساعت زنده + فعالیت فعلی
+// =============================================================
 function updateClock() {
   const now = new Date();
   document.getElementById('liveTime').textContent = `${fa(pad2(now.getHours()))}:${fa(pad2(now.getMinutes()))}:${fa(pad2(now.getSeconds()))}`;
   const sh = getShamsi();
   document.getElementById('liveDate').textContent = `${sh.dayName} — ${fa(sh.d)} ${sh.monthName} ${fa(sh.y)}`;
 }
-
 function getCurrent() {
   const now = new Date();
   const curMin = now.getHours()*60 + now.getMinutes();
@@ -1150,6 +1096,9 @@ function getCurrent() {
   return null;
 }
 
+// =============================================================
+// رندر کارت‌ها
+// =============================================================
 function renderClasses() {
   const el = document.getElementById('classesContainer');
   if (!el) return;
@@ -1304,6 +1253,9 @@ function toggleTheme() {
 }
 (function(){ const s = localStorage.getItem('theme') || 'light'; document.body.setAttribute('data-theme', s); document.getElementById('themeBtn').textContent = s === 'dark' ? '☀️' : '🌙'; })();
 
+// =============================================================
+// پرونده
+// =============================================================
 const PROFILE_KEY = 'ilia-profile';
 function getProfile() { return getData(PROFILE_KEY, {}); }
 function saveProfile() { const p = getProfile(); p.name = document.getElementById('pfName').value.trim() || p.name || 'ایلیا صالح‌زاده'; p.school = document.getElementById('pfSchool').value.trim() || p.school || 'دبیرستان شاهد سیرجان'; p.avg9 = parseFloat(document.getElementById('pfAvg9').value) || p.avg9 || 0; p.avgTarget = parseFloat(document.getElementById('pfAvgTarget').value) || p.avgTarget || 0; setData(PROFILE_KEY, p); renderProfile(); toast('✅ ذخیره شد'); }
@@ -1337,10 +1289,7 @@ function renderProfile() {
         el.style.borderColor = 'transparent';
         el.style.boxShadow = '0 3px 10px rgba(102,126,234,.35)';
       } else {
-        el.style.background = '';
-        el.style.color = '';
-        el.style.borderColor = '';
-        el.style.boxShadow = '';
+        el.style.background = ''; el.style.color = ''; el.style.borderColor = ''; el.style.boxShadow = '';
       }
     }
   });
@@ -1349,6 +1298,9 @@ function renderProfile() {
   if (lsResult) lsResult.textContent = p.learning ? lsMap[p.learning] : '—';
 }
 
+// =============================================================
+// چک‌لیست
+// =============================================================
 const CL_KEY = 'ilia-checklist';
 const DAILY_CHECKS = ['خواب ۲۲:۳۰ تا ۶:۰۰','صبحانه خوردم','۱۰ دقیقه مرور صبح','سر کلاس جزوه نوشتم','مرور درس‌های امروز','بلوک اصلی ۹۰ دقیقه','عربی یا انگلیسی','دفتر اشتباهات','دفتر افکار مزاحم','برنامه فردا','بدون صفحه قبل خواب'];
 const WEEKLY_CHECKS = ['۵۰ بلوک اصلی','عربی ۵ روز','زبان ۵ روز','دفتر اشتباهات','دفتر افکار مزاحم','خواب منظم','باشگاه رفتم','هک یاد گرفتم'];
@@ -1374,6 +1326,9 @@ function renderChecklists() {
 function getWeekKey() { const d = new Date(); const day = d.getDay(); const diff = d.getDate() - day; const start = new Date(d.setDate(diff)); return 'week-' + start.toISOString().split('T')[0]; }
 function toggleCheck(key, i, val) { const data = getData(CL_KEY, {}); if (!data[key]) data[key] = {}; data[key][i] = val; setData(CL_KEY, data); renderChecklists(); }
 
+// =============================================================
+// جلسات مطالعه
+// =============================================================
 const SS_KEY = 'ilia-sessions';
 function addSession() {
   const subj = document.getElementById('ssSubj').value;
@@ -1413,6 +1368,9 @@ function renderSessions() {
   if (wl) wl.innerHTML = weekSessions.length ? weekSessions.slice().reverse().map(s => `<div style="font-size:.75em;color:var(--text-light);margin:8px 0 2px">${s.date}</div>` + fmt(s)).join('') : '<p style="text-align:center;color:var(--text-light);font-size:.85em">جلسه‌ای نیست</p>';
 }
 
+// =============================================================
+// تحلیل آزمون
+// =============================================================
 const EX_KEY = 'ilia-exam-analysis';
 function addExam() {
   const title = document.getElementById('exTitle').value.trim();
@@ -1449,6 +1407,9 @@ function tagErr(id, tag) { const exams = getData(EX_KEY, []); const e = exams.fi
 function setExamLesson(id, val) { const exams = getData(EX_KEY, []); const e = exams.find(x => x.id === id); if (e) { e.lesson = val; setData(EX_KEY, exams); } }
 function delExam(id) { if (!confirm('حذف بشه؟')) return; setData(EX_KEY, getData(EX_KEY, []).filter(e => e.id !== id)); renderExams(); }
 
+// =============================================================
+// ژورنال
+// =============================================================
 const J_KEY = 'ilia-journal';
 function saveJournal() {
   const j1 = document.getElementById('jq1').value.trim();
@@ -1475,6 +1436,9 @@ function renderJournal() {
     journals.slice().reverse().slice(0, 14).map(j => `<div class="card" style="border-right:4px solid var(--primary)"><div style="font-size:.8em;color:var(--primary);font-weight:700;margin-bottom:8px">📅 ${j.date}</div>${j.learned?`<div style="font-size:.83em;margin:5px 0"><b>✅ یاد گرفتم:</b> ${j.learned}</div>`:''}${j.hard?`<div style="font-size:.83em;margin:5px 0"><b>⚠️ سخت بود:</b> ${j.hard}</div>`:''}${j.tomorrow?`<div style="font-size:.83em;margin:5px 0"><b>🎯 فردا:</b> ${j.tomorrow}</div>`:''}</div>`).join('');
 }
 
+// =============================================================
+// گزارش ماهانه
+// =============================================================
 function renderMonthly() {
   const el = document.getElementById('monthlyContent');
   if (!el) return;
@@ -1507,6 +1471,9 @@ function generateMonthlyAdvice(hours, avg, tests) {
   return adv || 'داده‌های کافی برای تحلیل وجود نداره.';
 }
 
+// =============================================================
+// پومودورو + تمرکز
+// =============================================================
 let pT = 25*60, pTot = 25*60, pI = null, pR = false;
 function setPom(m, btn) { document.querySelectorAll('.pomo-mode').forEach(b => b.classList.remove('active')); btn.classList.add('active'); pTot = m*60; pT = pTot; updPom(); if (pR) { clearInterval(pI); pR = false; document.getElementById('startBtn').textContent = '▶ شروع'; } }
 function updPom() { const t = `${fa(pad2(Math.floor(pT/60)))}:${fa(pad2(pT%60))}`; document.getElementById('pomD').textContent = t; const ft = document.getElementById('focusTimer'); if (ft) ft.textContent = t; }
@@ -1520,6 +1487,9 @@ function exitFocus() { document.getElementById('focusMode').classList.remove('ac
 function updF() { document.getElementById('focusTimer').textContent = `${fa(pad2(Math.floor(fT/60)))}:${fa(pad2(fT%60))}`; }
 function toggleFocusTimer() { const b = document.getElementById('focusStartBtn'); if (fR) { clearInterval(fI); fR = false; b.textContent = '▶ ادامه'; } else { fR = true; b.textContent = '⏸ توقف'; fI = setInterval(() => { fT--; if (fT <= 0) { clearInterval(fI); fR = false; b.textContent = '▶ شروع'; done(); autoLog(); fT = pTot; } updF(); }, 1000); } }
 
+// =============================================================
+// آمار
+// =============================================================
 function renderStats() {
   const log = getData('ilia-log', []);
   const t = today();
@@ -1538,6 +1508,9 @@ function renderStats() {
   if (logEl) logEl.innerHTML = log.length === 0 ? '<p style="text-align:center;color:var(--text-light);padding:16px;font-size:.85em">هنوز چیزی ثبت نشده</p>' : log.slice().reverse().slice(0, 20).map(e => `<div class="item"><span>${e.subject}</span><span style="color:var(--text-light);font-size:.85em">${fa(e.hours.toFixed(1))} ساعت — ${e.date}</span></div>`).join('');
 }
 
+// =============================================================
+// لایتنر، اشتباهات، نمرات، کارها، اهداف، عادت‌ها، یادداشت
+// =============================================================
 const LK = 'ilia-leitner';
 let lIdx = 0;
 function addLeitner() { const f = document.getElementById('lf').value.trim(); const b = document.getElementById('lb').value.trim(); if (!f || !b) return toast('هر دو فیلد رو پر کن'); const l = getData(LK, []); l.push({id:Date.now(), front:f, back:b, box:1, next:today()}); setData(LK, l); document.getElementById('lf').value = ''; document.getElementById('lb').value = ''; renderLeitner(); toast('✅ کارت اضافه شد'); }
@@ -1652,6 +1625,9 @@ function renderAnalysis() {
   if (sEl) sEl.innerHTML = strong.length === 0 ? '<p style="text-align:center;color:var(--text-light);font-size:.85em">هنوز درس قوی نداری</p>' : strong.map(s => `<div class="item" style="border-right-color:var(--success)"><b>${s.name}</b><span style="color:var(--success);font-weight:bold">${fa(s.avg.toFixed(2))}</span></div>`).join('');
 }
 
+// =============================================================
+// پشتیبان
+// =============================================================
 function exportData() {
   const data = {};
   Object.keys(localStorage).forEach(k => { if (k.startsWith('ilia-')) data[k] = localStorage.getItem(k); });
@@ -1665,33 +1641,243 @@ function exportData() {
 function importData(e) { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = (ev) => { try { const d = JSON.parse(ev.target.result); Object.entries(d).forEach(([k,v]) => { if (v !== undefined && v !== null) localStorage.setItem(k, v); }); toast('✅ بازگردانی شد'); setTimeout(() => location.reload(), 800); } catch(err) { toast('❌ فایل معتبر نیست'); } }; r.readAsText(f); }
 function resetAll() { if (!confirm('همه چیز پاک بشه؟')) return; if (!confirm('مطمئنی؟')) return; localStorage.clear(); location.reload(); }
 
+// =============================================================
+// مشاور هوشمند — تشخیص خودکار زمان
+// =============================================================
 let asst = {mode:null, step:0, school_subjects:[], school_missed:[], study_hours:0, study_subjects:[], study_quality:0};
+
+const ASSISTANT_CONFIG = {
+  minCooldown: 45 * 60 * 1000,
+  maxAsksPerDay: 4,
+  schoolWindows: [
+    { start: 14*60,      end: 15*60 },
+    { start: 20*60,      end: 20*60+45 }
+  ],
+  nightWindows: [
+    { start: 20*60+45,   end: 21*60+15 },
+    { start: 22*60,      end: 22*60+45 }
+  ],
+  doNotDisturbKinds: ['school', 'study', 'sport', 'sleep'],
+  bootDelay: 6000
+};
+
 function todaySchoolReportKey() { return 'ilia-school-report-' + today(); }
 function todayStudyReportKey() { return 'ilia-study-report-' + today(); }
 function getTodaySchoolReport() { return getData(todaySchoolReportKey(), null); }
 function getTodayStudyReport() { return getData(todayStudyReportKey(), null); }
-function shouldAskSchool() { const day = new Date().getDay(); if (day === 4 || day === 5) return false; const h = new Date().getHours(); if (h < 14 || h > 18) return false; return !getTodaySchoolReport(); }
-function shouldAskNight() { const h = new Date().getHours(); if (h < 20 || h > 23) return false; return !getTodayStudyReport(); }
-function checkAssistant() { if (document.getElementById('assistantOverlay').classList.contains('active')) return; if (shouldAskSchool()) setTimeout(() => openAssistant('school'), 2500); else if (shouldAskNight()) setTimeout(() => openAssistant('night'), 2500); }
-function openAssistant(mode) { asst = {mode, step:0, school_subjects:[], school_missed:[], study_hours:0, study_subjects:[], study_quality:0}; document.getElementById('assistantOverlay').classList.add('active'); renderAsst(); }
-function closeAssistant() { document.getElementById('assistantOverlay').classList.remove('active'); renderTodayReports(); }
-function openAssistantManual(mode) { if (!mode) { const h = new Date().getHours(); mode = h < 19 ? 'school' : 'night'; } openAssistant(mode); }
+
+function isInDNDBlock() {
+  const cur = getCurrent();
+  if (!cur) return false;
+  return ASSISTANT_CONFIG.doNotDisturbKinds.includes(cur.item.kind);
+}
+
+function isUserTyping() {
+  const ae = document.activeElement;
+  if (!ae) return false;
+  const tag = ae.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+  if (document.getElementById('focusMode').classList.contains('active')) return true;
+  if (document.getElementById('assistantOverlay').classList.contains('active')) return true;
+  return false;
+}
+
+function isInWindow(type) {
+  const now = new Date();
+  const curMin = now.getHours() * 60 + now.getMinutes();
+  const windows = type === 'school' ? ASSISTANT_CONFIG.schoolWindows : ASSISTANT_CONFIG.nightWindows;
+  return windows.some(w => curMin >= w.start && curMin < w.end);
+}
+
+function isCooldownOk() {
+  const last = parseInt(localStorage.getItem('ilia-assistant-last-ask') || '0');
+  return (Date.now() - last) >= ASSISTANT_CONFIG.minCooldown;
+}
+
+function getTodayAskCount() {
+  return parseInt(localStorage.getItem('ilia-assistant-asks-' + today()) || '0');
+}
+function isDailyLimitOk() {
+  return getTodayAskCount() < ASSISTANT_CONFIG.maxAsksPerDay;
+}
+
+function recordAsk() {
+  localStorage.setItem('ilia-assistant-last-ask', Date.now().toString());
+  const key = 'ilia-assistant-asks-' + today();
+  const c = parseInt(localStorage.getItem(key) || '0');
+  localStorage.setItem(key, (c + 1).toString());
+}
+
+function isGoodTimeForReport(type) {
+  if (type === 'school' && getTodaySchoolReport()) return false;
+  if (type === 'night' && getTodayStudyReport()) return false;
+  if (!isInWindow(type)) return false;
+  if (isInDNDBlock()) return false;
+  if (isUserTyping()) return false;
+  if (!isCooldownOk()) return false;
+  if (!isDailyLimitOk()) return false;
+  return true;
+}
+
+function getSmartIntro(type) {
+  const h = new Date().getHours();
+  const sr = getTodaySchoolReport();
+  const nr = getTodayStudyReport();
+  let timeGreeting = '';
+  if (h < 12) timeGreeting = 'صبح بخیر';
+  else if (h < 17) timeGreeting = 'وقت بخیر';
+  else if (h < 20) timeGreeting = 'عصر بخیر';
+  else timeGreeting = 'شب بخیر';
+  const streak = (() => {
+    const log = getData('ilia-log', []);
+    let s = 0; const ds = new Set(log.map(e => e.date)); let d = new Date();
+    while (ds.has(d.toISOString().split('T')[0])) { s++; d.setDate(d.getDate()-1); }
+    return s;
+  })();
+  if (type === 'school') {
+    let msg = `${timeGreeting} ایلیا! 👋<br>`;
+    if (sr && !(sr.missed && sr.missed.length)) msg += 'قبلاً گفتی همه درسا رو گرفتی. حالا بذار گزارش فردا رو یه نگاه بندازیم.';
+    else msg += 'از مدرسه برگشتی؟ بذار یه گزارش امروزت بگیرم تا تمرکز امشب رو دقیق‌تر بچینم.';
+    if (streak >= 3) msg += `<br><br>🔥 <b>${fa(streak)} روز پیوسته‌ست داری می‌خونی!</b>`;
+    return msg;
+  } else {
+    let msg = `${timeGreeting} ایلیا 🌙<br>`;
+    const todayT = getData('ilia-log', []).filter(e => e.date === today()).reduce((s,e) => s+e.hours, 0);
+    if (todayT > 0) msg += `امروز تا الان <b>${fa(todayT.toFixed(1))} ساعت</b> مطالعه ثبت شده. بذار آمار امروز رو کامل کنیم.`;
+    else if (nr) msg += 'گزارش شبانه امروز رو قبلاً دادی.';
+    else msg += 'قبل خواب بذار یه گزارش امروزت بگیرم تا بدونم چقدر پیش رفتی.';
+    if (streak >= 7) msg += `<br><br>🏆 <b>${fa(streak)} روز پیوسته!</b> این عالیه.`;
+    else if (streak >= 3) msg += `<br><br>🔥 <b>${fa(streak)} روز پیوسته‌ست داری می‌خونی!</b>`;
+    return msg;
+  }
+}
+
+function checkAssistant() {
+  if (isUserTyping()) return;
+  if (isGoodTimeForReport('school')) {
+    setTimeout(() => {
+      if (!isUserTyping() && isGoodTimeForReport('school')) {
+        recordAsk();
+        openAssistant('school');
+      }
+    }, 2500);
+    return;
+  }
+  if (isGoodTimeForReport('night')) {
+    setTimeout(() => {
+      if (!isUserTyping() && isGoodTimeForReport('night')) {
+        recordAsk();
+        openAssistant('night');
+      }
+    }, 2500);
+    return;
+  }
+}
+
+function openAssistant(mode) {
+  asst = {mode, step:0, school_subjects:[], school_missed:[], study_hours:0, study_subjects:[], study_quality:0};
+  document.getElementById('assistantOverlay').classList.add('active');
+  renderAsst();
+}
+function closeAssistant() {
+  document.getElementById('assistantOverlay').classList.remove('active');
+  localStorage.setItem('ilia-assistant-last-ask', Date.now().toString());
+  renderTodayReports();
+}
+function snoozeAssistant() {
+  localStorage.setItem('ilia-assistant-last-ask', Date.now().toString());
+  document.getElementById('assistantOverlay').classList.remove('active');
+  toast('⏰ باشه، ۳۰ دقیقه دیگه یادت میندازم');
+}
+function openAssistantManual(mode) {
+  if (!mode) { const h = new Date().getHours(); mode = h < 19 ? 'school' : 'night'; }
+  openAssistant(mode);
+}
 function asstMsg(t, w) { return `<div class="msg ${w==='user'?'msg-user':'msg-bot'}">${t}</div>`; }
+
 function renderAsst() {
   const body = document.getElementById('assistantBody');
   const footer = document.getElementById('assistantFooter');
   if (!body || !footer) return;
+
   if (asst.mode === 'school') {
-    if (asst.step === 0) { body.innerHTML = asstMsg('سلام ایلیا! 👋<br>از مدرسه برگشتی؟ بذار یه گزارش امروزت بگیرم.') + asstMsg('آماده‌ای؟'); footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">شروع</button><button class="btn btn-secondary" onclick="closeAssistant()">بعداً</button>'; }
-    else if (asst.step === 1) { const day = new Date().getDay(); const dayClasses = SCHOOL_SCHEDULE[day] || []; if (asst.school_subjects.length === 0) asst.school_subjects = [...dayClasses]; const opts = dayClasses.map(s => `<button class="opt ${asst.school_subjects.includes(s)?'selected':''}" onclick="toggleSchoolSubj('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${s}</button>`).join(''); body.innerHTML = asstMsg('امروز معلم‌ها چه درس‌هایی دادن؟') + '<div class="opt-list">' + opts + '</div>'; footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">ادامه</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>'; }
-    else if (asst.step === 2) { let html = asstMsg('کدوم رو <b>کامل نفهمیدی</b>؟'); const opts = asst.school_subjects.map(s => `<button class="opt ${asst.school_missed.includes(s)?'selected':''}" onclick="toggleSchoolMissed('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${s}</button>`).join(''); html += '<div class="opt-list">' + (opts || '<p style="text-align:center;font-size:.85em;color:var(--text-light)">اول درس انتخاب کن</p>') + '</div>'; body.innerHTML = html; footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">تحلیل کن</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>'; }
-    else if (asst.step === 3) { setData(todaySchoolReportKey(), {subjects:asst.school_subjects, missed:asst.school_missed, date:today(), ts:Date.now()}); const dayName = getShamsi().dayName; let html = asstMsg(`گزارش ${dayName} ثبت شد 🌱`); html += `<div class="summary-box"><b>📖 امروز داشتی:</b><br>${asst.school_subjects.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + s).join(' • ')}</div>`; if (asst.school_missed.length) html += `<div class="analysis-box warn"><b>⚠️ تمرکز امشب:</b><br>${asst.school_missed.map(s => '• ' + (SUBJECT_ICONS[s]||'📚') + ' ' + s + ' — ۲۰ دقیقه').join('<br>')}</div>`; else html += `<div class="analysis-box"><b>🎉 آفرین!</b><br>همه درسا رو گرفتی.</div>`; body.innerHTML = html; footer.innerHTML = '<button class="btn btn-primary" onclick="closeAssistant()">باشه</button>'; }
-  } else if (asst.mode === 'night') {
-    if (asst.step === 0) { body.innerHTML = asstMsg('شب بخیر ایلیا 🌙<br>بذار یه گزارش امروزت بگیرم.'); footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">شروع</button><button class="btn btn-secondary" onclick="closeAssistant()">بعداً</button>'; }
-    else if (asst.step === 1) { body.innerHTML = asstMsg('امروز <b>چند ساعت</b> مفید مطالعه کردی؟'); footer.innerHTML = '<input type="number" class="asst-input" id="asstHours" min="0" max="16" step="0.5" placeholder="۲.۵"><button class="btn btn-primary" onclick="asstSubmitHours()">ادامه</button>'; setTimeout(() => { const el = document.getElementById('asstHours'); if (el) el.focus(); }, 100); }
-    else if (asst.step === 2) { let html = asstMsg(`ثبت شد: <b>${fa(asst.study_hours)} ساعت</b> 🌟<br>چه درس‌هایی خوندی؟`); const opts = ALL_SUBJECTS.map(s => `<button class="opt ${asst.study_subjects.includes(s)?'selected':''}" onclick="toggleStudySubj('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${s}</button>`).join(''); html += '<div class="opt-list">' + opts + '</div>'; body.innerHTML = html; footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">ادامه</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>'; }
-    else if (asst.step === 3) { let html = asstMsg('این جلسه‌ها چقدر <b>مفید</b> بودن؟'); html += `<div class="stars" id="asstStars">${[1,2,3,4,5].map(n => `<span class="star ${asst.study_quality>=n?'active':''}" onclick="setStudyQuality(${n})">⭐</span>`).join('')}</div>`; body.innerHTML = html; footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">پایان</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>'; }
-    else if (asst.step === 4) { setData(todayStudyReportKey(), {hours:asst.study_hours, subjects:asst.study_subjects, quality:asst.study_quality, date:today(), ts:Date.now()}); if (asst.study_hours > 0) { const log = getData('ilia-log', []); log.push({date:today(), hours:asst.study_hours, subject:asst.study_subjects.join('، ') || 'مطالعه', ts:Date.now()}); setData('ilia-log', log); renderStats(); } let html = asstMsg('گزارش شب ثبت شد ✅'); html += `<div class="summary-box"><b>⏱ مطالعه:</b> ${fa(asst.study_hours)} ساعت<br><b>📚 درس‌ها:</b> ${asst.study_subjects.length ? asst.study_subjects.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + s).join('، ') : 'ثبت نشده'}<br><b>⭐ کیفیت:</b> ${fa(asst.study_quality)} از ۵</div>`; const goal = 3; let cls = '', msg = ''; if (asst.study_hours >= goal) { cls = ''; msg = `🎉 <b>آفرین!</b> به هدف رسیدی.`; } else if (asst.study_hours >= goal * .6) { cls = 'warn'; msg = `⚠️ <b>خوب بود ولی کافی نبود.</b>`; } else if (asst.study_hours > 0) { cls = 'danger'; msg = `😐 <b>کم بود.</b>`; } else { cls = 'danger'; msg = `😢 <b>امروز نخوندی.</b>`; } html += `<div class="analysis-box ${cls}">${msg}</div>`; const tomorrow = new Date(Date.now() + 86400000); const tmwClasses = SCHOOL_SCHEDULE[tomorrow.getDay()] || []; if (tmwClasses.length) html += `<div class="analysis-box" style="background:linear-gradient(135deg,rgba(102,126,234,.12),rgba(118,75,162,.05));border-color:var(--primary)"><b>📅 فردا داری:</b><br>${tmwClasses.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + s).join('، ')}</div>`; html += asstMsg('شب بخیر! 😴'); body.innerHTML = html; footer.innerHTML = '<button class="btn btn-primary" onclick="closeAssistant()">شب بخیر</button>'; }
+    if (asst.step === 0) {
+      body.innerHTML = asstMsg(getSmartIntro('school'));
+      footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">شروع کن</button><button class="btn btn-secondary" onclick="snoozeAssistant()">⏰ بعداً</button>';
+    }
+    else if (asst.step === 1) {
+      const day = new Date().getDay();
+      const dayClasses = SCHOOL_SCHEDULE[day] || [];
+      if (asst.school_subjects.length === 0) asst.school_subjects = [...dayClasses];
+      const opts = dayClasses.map(s => `<button class="opt ${asst.school_subjects.includes(s)?'selected':''}" onclick="toggleSchoolSubj('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${s}</button>`).join('');
+      body.innerHTML = asstMsg('امروز معلم‌ها چه درس‌هایی دادن؟') + '<div class="opt-list">' + opts + '</div>';
+      footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">ادامه</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>';
+    }
+    else if (asst.step === 2) {
+      let html = asstMsg('کدوم رو <b>کامل نفهمیدی</b>؟');
+      const opts = asst.school_subjects.map(s => `<button class="opt ${asst.school_missed.includes(s)?'selected':''}" onclick="toggleSchoolMissed('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${s}</button>`).join('');
+      html += '<div class="opt-list">' + (opts || '<p style="text-align:center;font-size:.85em;color:var(--text-light)">اول درس انتخاب کن</p>') + '</div>';
+      body.innerHTML = html;
+      footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">تحلیل کن</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>';
+    }
+    else if (asst.step === 3) {
+      setData(todaySchoolReportKey(), {subjects:asst.school_subjects, missed:asst.school_missed, date:today(), ts:Date.now()});
+      const dayName = getShamsi().dayName;
+      let html = asstMsg(`گزارش ${dayName} ثبت شد 🌱`);
+      html += `<div class="summary-box"><b>📖 امروز داشتی:</b><br>${asst.school_subjects.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + s).join(' • ')}</div>`;
+      if (asst.school_missed.length) html += `<div class="analysis-box warn"><b>⚠️ تمرکز امشب:</b><br>${asst.school_missed.map(s => '• ' + (SUBJECT_ICONS[s]||'📚') + ' ' + s + ' — ۲۰ دقیقه').join('<br>')}</div>`;
+      else html += `<div class="analysis-box"><b>🎉 آفرین!</b><br>همه درسا رو گرفتی.</div>`;
+      body.innerHTML = html;
+      footer.innerHTML = '<button class="btn btn-primary" onclick="closeAssistant()">باشه</button>';
+    }
+  }
+  else if (asst.mode === 'night') {
+    if (asst.step === 0) {
+      body.innerHTML = asstMsg(getSmartIntro('night'));
+      footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">شروع کن</button><button class="btn btn-secondary" onclick="snoozeAssistant()">⏰ بعداً</button>';
+    }
+    else if (asst.step === 1) {
+      body.innerHTML = asstMsg('امروز <b>چند ساعت</b> مفید مطالعه کردی؟');
+      footer.innerHTML = '<input type="number" class="asst-input" id="asstHours" min="0" max="16" step="0.5" placeholder="۲.۵"><button class="btn btn-primary" onclick="asstSubmitHours()">ادامه</button>';
+      setTimeout(() => { const el = document.getElementById('asstHours'); if (el) el.focus(); }, 100);
+    }
+    else if (asst.step === 2) {
+      let html = asstMsg(`ثبت شد: <b>${fa(asst.study_hours)} ساعت</b> 🌟<br>چه درس‌هایی خوندی؟`);
+      const opts = ALL_SUBJECTS.map(s => `<button class="opt ${asst.study_subjects.includes(s)?'selected':''}" onclick="toggleStudySubj('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${s}</button>`).join('');
+      html += '<div class="opt-list">' + opts + '</div>';
+      body.innerHTML = html;
+      footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">ادامه</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>';
+    }
+    else if (asst.step === 3) {
+      let html = asstMsg('این جلسه‌ها چقدر <b>مفید</b> بودن؟');
+      html += `<div class="stars" id="asstStars">${[1,2,3,4,5].map(n => `<span class="star ${asst.study_quality>=n?'active':''}" onclick="setStudyQuality(${n})">⭐</span>`).join('')}</div>`;
+      body.innerHTML = html;
+      footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">پایان</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>';
+    }
+    else if (asst.step === 4) {
+      setData(todayStudyReportKey(), {hours:asst.study_hours, subjects:asst.study_subjects, quality:asst.study_quality, date:today(), ts:Date.now()});
+      if (asst.study_hours > 0) {
+        const log = getData('ilia-log', []);
+        log.push({date:today(), hours:asst.study_hours, subject:asst.study_subjects.join('، ') || 'مطالعه', ts:Date.now()});
+        setData('ilia-log', log);
+        renderStats();
+      }
+      let html = asstMsg('گزارش شب ثبت شد ✅');
+      html += `<div class="summary-box"><b>⏱ مطالعه:</b> ${fa(asst.study_hours)} ساعت<br><b>📚 درس‌ها:</b> ${asst.study_subjects.length ? asst.study_subjects.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + s).join('، ') : 'ثبت نشده'}<br><b>⭐ کیفیت:</b> ${fa(asst.study_quality)} از ۵</div>`;
+      const goal = 3;
+      let cls = '', msg = '';
+      if (asst.study_hours >= goal) { cls = ''; msg = `🎉 <b>آفرین!</b> به هدف رسیدی.`; }
+      else if (asst.study_hours >= goal * .6) { cls = 'warn'; msg = `⚠️ <b>خوب بود ولی کافی نبود.</b> هدف ${fa(goal)} ساعت بود.`; }
+      else if (asst.study_hours > 0) { cls = 'danger'; msg = `😐 <b>کم بود.</b> امروز فقط ${fa(asst.study_hours)} ساعت.`; }
+      else { cls = 'danger'; msg = `😢 <b>امروز نخوندی.</b> فردا با قانون ۲ دقیقه شروع کن.`; }
+      html += `<div class="analysis-box ${cls}">${msg}</div>`;
+      const tomorrow = new Date(Date.now() + 86400000);
+      const tmwClasses = SCHOOL_SCHEDULE[tomorrow.getDay()] || [];
+      if (tmwClasses.length) html += `<div class="analysis-box" style="background:linear-gradient(135deg,rgba(102,126,234,.12),rgba(118,75,162,.05));border-color:var(--primary)"><b>📅 فردا داری:</b><br>${tmwClasses.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + s).join('، ')}</div>`;
+      html += asstMsg('شب بخیر! 😴');
+      body.innerHTML = html;
+      footer.innerHTML = '<button class="btn btn-primary" onclick="closeAssistant()">شب بخیر</button>';
+    }
   }
 }
 function asstNext() { asst.step++; renderAsst(); }
@@ -1713,6 +1899,9 @@ function renderTodayReports() {
   el.innerHTML = html;
 }
 
+// =============================================================
+// کیبورد
+// =============================================================
 document.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
   const fa_ = document.getElementById('focusMode').classList.contains('active');
@@ -1723,12 +1912,58 @@ document.addEventListener('keydown', (e) => {
   if (e.key === ' ') { if (document.getElementById('pomodoro').classList.contains('active')) { e.preventDefault(); startPom(); } else if (fa_) { e.preventDefault(); toggleFocusTimer(); } }
 });
 
-renderStats(); renderTodo(); renderGoals(); renderLeitner(); renderMistakes(); renderGrades(); renderHabits(); renderAnalysis(); updPom();
-updateClock(); renderPhase(); renderClasses(); renderNow(); renderCountdown(); renderTodaySchedule(); renderSchoolGrid(); renderWeekTabs(); renderFullSchedule(); renderTodayReports(); renderProfile(); renderChecklists(); renderSessions(); renderExams(); renderJournal(); renderMonthly();
-setInterval(updateClock, 1000); setInterval(renderCountdown, 1000); setInterval(() => { renderNow(); renderTodaySchedule(); }, 30000); setInterval(renderPhase, 3600000); setInterval(renderClasses, 3600000);
-setTimeout(checkAssistant, 3000); setInterval(checkAssistant, 60000);
+// =============================================================
+// Init
+// =============================================================
+renderStats();
+renderTodo();
+renderGoals();
+renderLeitner();
+renderMistakes();
+renderGrades();
+renderHabits();
+renderAnalysis();
+updPom();
+updateClock();
+renderPhase();
+renderClasses();
+renderNow();
+renderCountdown();
+renderTodaySchedule();
+renderSchoolGrid();
+renderWeekTabs();
+renderFullSchedule();
+renderTodayReports();
+renderProfile();
+renderChecklists();
+renderSessions();
+renderExams();
+renderJournal();
+renderMonthly();
+
+setInterval(updateClock, 1000);
+setInterval(renderCountdown, 1000);
+setInterval(() => { renderNow(); renderTodaySchedule(); }, 30000);
+setInterval(renderPhase, 3600000);
+setInterval(renderClasses, 3600000);
+
+// مشاور هوشمند
+setTimeout(checkAssistant, ASSISTANT_CONFIG.bootDelay);
+setInterval(checkAssistant, 90000);
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) setTimeout(checkAssistant, 3000);
+});
+
+// یادآور فعالیت
 let lastActivity = null;
-setInterval(() => { const cur = getCurrent(); const currentTask = cur ? cur.item.task : null; if (currentTask !== lastActivity && lastActivity !== null) { if (cur) { try { new Notification('⏰ فعالیت جدید', {body:cur.item.task}); } catch(e) {} toast('⏰ ' + cur.item.task); } } lastActivity = currentTask; }, 60000);
+setInterval(() => {
+  const cur = getCurrent();
+  const currentTask = cur ? cur.item.task : null;
+  if (currentTask !== lastActivity && lastActivity !== null) {
+    if (cur) { try { new Notification('⏰ فعالیت جدید', {body:cur.item.task}); } catch(e) {} toast('⏰ ' + cur.item.task); }
+  }
+  lastActivity = currentTask;
+}, 60000);
 </script>
 </body>
 </html>
