@@ -1,7 +1,7 @@
 {
   "name": "مرکز مطالعه ایلیا",
   "short_name": "مطالعه",
-  "description": "برنامه‌ریزی درسی و ابزارهای مطالعه — ایلیا صالح‌زاده",
+  "description": "برنامه‌ریزی درسی و مشاور تحصیلی — ایلیا صالح‌زاده",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -29,20 +29,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "پومودورو",
-      "short_name": "پومودورو",
-      "url": "./index.html#pomodoro",
-      "description": "شروع تایمر پومودورو"
-    },
-    {
-      "name": "برنامه امروز",
-      "short_name": "برنامه",
-      "url": "./index.html#schedule",
-      "description": "مشاهده برنامه امروز"
     }
   ]
 }

@@ -2,9 +2,9 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#667eea">
-<title>مرکز مطالعه ایلیا — مشاور جامع</title>
+<title>مرکز مطالعه ایلیا</title>
 <link rel="manifest" href="./manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -29,9 +29,10 @@
   --border:#2d3748; --shadow:0 2px 12px rgba(0,0,0,0.4);
   --shadow-lg:0 10px 40px rgba(0,0,0,0.6);
 }
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;max-width:100%}
+html,body{overflow-x:hidden;width:100%;max-width:100vw;position:relative}
 body{font-family:'Vazirmatn',Tahoma,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;padding-bottom:calc(var(--nav-h) + 20px);transition:background .3s,color .3s}
-.container{max-width:900px;margin:0 auto}
+.container{max-width:900px;margin:0 auto;padding:0 2px}
 
 header{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;padding:18px;text-align:center;position:relative;overflow:hidden}
 header::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.1),transparent 70%);animation:rot 25s linear infinite}
@@ -48,7 +49,7 @@ header h1{font-size:1.1em;font-weight:700;position:relative;z-index:1;margin-bot
 .theme-toggle:active,.install-btn:active,.asst-open-btn:active{transform:scale(.9)}
 @keyframes installPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.6)}50%{box-shadow:0 0 0 10px rgba(255,255,255,0)}}
 
-.content{padding:16px 14px}
+.content{padding:16px 12px}
 section{display:none;animation:fi .25s}
 section.active{display:block}
 @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -110,23 +111,22 @@ h3{font-size:1em;margin:10px 0 8px}
 .stat-v{font-size:1.4em;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .stat-l{font-size:.72em;color:var(--text-light);margin-top:2px}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 18px;border-radius:12px;font-family:inherit;font-size:.86em;font-weight:700;letter-spacing:-0.01em;line-height:1;cursor:pointer;border:none;color:#fff;white-space:nowrap;transition:transform .12s ease, box-shadow .2s ease, background .2s ease, opacity .15s;box-shadow:0 2px 6px rgba(0,0,0,.10);user-select:none;text-decoration:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 18px;border-radius:12px;font-family:inherit;font-size:.86em;font-weight:700;line-height:1;cursor:pointer;border:none;color:#fff;white-space:nowrap;transition:transform .12s, box-shadow .2s, background .2s;box-shadow:0 2px 6px rgba(0,0,0,.10);user-select:none;text-decoration:none}
 .btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.14)}
-.btn:active{transform:translateY(0) scale(.97);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.btn:active{transform:translateY(0) scale(.97)}
 .btn-primary{background:linear-gradient(135deg,#667eea,#5568d3);box-shadow:0 3px 10px rgba(102,126,234,.35)}
 .btn-danger{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 3px 10px rgba(239,68,68,.30)}
 .btn-success{background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 3px 10px rgba(16,185,129,.30)}
 .btn-info{background:linear-gradient(135deg,#0ea5e9,#0284c7);box-shadow:0 3px 10px rgba(14,165,233,.30)}
 .btn-accent{background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 3px 10px rgba(245,158,11,.30)}
 .btn-secondary{background:var(--bg);color:var(--text);border:1.5px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.btn-secondary:hover{background:var(--bg-card);border-color:var(--primary);color:var(--primary)}
 .btn-block{width:100%;padding:14px;font-size:.88em}
 .btn-sm{padding:8px 14px;font-size:.76em;border-radius:10px;gap:5px}
 .btn-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 .btn-group-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
 .btn-group .btn,.btn-group-3 .btn{width:100%;padding:14px 8px;font-size:.82em}
 
-.action-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 8px;background:var(--bg-card);border:1.5px solid var(--border);border-radius:14px;cursor:pointer;transition:all .18s ease;font-family:inherit;color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.04);text-align:center}
+.action-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 8px;background:var(--bg-card);border:1.5px solid var(--border);border-radius:14px;cursor:pointer;transition:all .18s;font-family:inherit;color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.04);text-align:center}
 .action-tile:hover{transform:translateY(-2px);border-color:var(--primary);box-shadow:0 8px 20px rgba(102,126,234,.15)}
 .action-tile:active{transform:translateY(0) scale(.98)}
 .action-tile .tile-icon{font-size:1.6em;line-height:1}
@@ -138,7 +138,6 @@ h3{font-size:1em;margin:10px 0 8px}
 .inp-row .inp{margin-bottom:0}
 
 .check-item{display:flex;align-items:center;padding:11px 14px;margin:6px 0;background:var(--bg-card);border-radius:12px;cursor:pointer;border:1px solid var(--border);user-select:none;transition:all .15s}
-.check-item:hover{border-color:var(--primary);background:var(--bg)}
 .check-item input{display:none}
 .cm{width:22px;height:22px;border-radius:7px;border:2px solid var(--border);margin-left:12px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;background:var(--bg-card)}
 .cm::after{content:'✓';color:#fff;font-weight:bold;opacity:0;transform:scale(0);transition:all .2s;font-size:.85em}
@@ -154,11 +153,9 @@ h3{font-size:1em;margin:10px 0 8px}
 .bottom-nav button.active .ico{transform:scale(1.1)}
 .bottom-nav button.active::before{content:'';position:absolute;top:0;left:22%;right:22%;height:3px;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:0 0 6px 6px}
 
-.more-menu{position:fixed;bottom:var(--nav-h);left:0;right:0;background:var(--bg-card);border-top:1px solid var(--border);padding:14px;display:none;grid-template-columns:repeat(4,1fr);gap:8px;z-index:99;box-shadow:0 -10px 30px rgba(0,0,0,.1);padding-bottom:calc(14px + env(safe-area-inset-bottom));animation:slideMenu .25s ease}
-@keyframes slideMenu{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+.more-menu{position:fixed;bottom:var(--nav-h);left:0;right:0;background:var(--bg-card);border-top:1px solid var(--border);padding:14px;display:none;grid-template-columns:repeat(4,1fr);gap:8px;z-index:99;box-shadow:0 -10px 30px rgba(0,0,0,.1);padding-bottom:calc(14px + env(safe-area-inset-bottom))}
 .more-menu.active{display:grid}
 .more-menu button{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px 6px;cursor:pointer;font-family:inherit;font-size:.75em;font-weight:600;color:var(--text);display:flex;flex-direction:column;align-items:center;gap:5px;transition:all .15s}
-.more-menu button:hover{border-color:var(--primary);transform:translateY(-1px)}
 .more-menu .ico{font-size:1.4em}
 
 .pomodoro{text-align:center;padding:22px 14px;background:var(--bg-card);border-radius:16px;box-shadow:var(--shadow);margin-bottom:12px}
@@ -174,8 +171,7 @@ h3{font-size:1em;margin:10px 0 8px}
 .item.done{opacity:.5;text-decoration:line-through}
 .item-txt{flex:1;word-break:break-word}
 .item input[type=checkbox]{width:20px;height:20px;cursor:pointer;accent-color:var(--primary);flex-shrink:0}
-.x-btn{background:transparent;border:none;cursor:pointer;color:var(--danger);font-size:1.1em;padding:4px 8px;flex-shrink:0;border-radius:6px;transition:background .15s}
-.x-btn:hover{background:rgba(231,76,60,.1)}
+.x-btn{background:transparent;border:none;cursor:pointer;color:var(--danger);font-size:1.1em;padding:4px 8px;flex-shrink:0;border-radius:6px}
 
 .pb{height:8px;background:var(--border);border-radius:10px;overflow:hidden;margin:6px 0}
 .pf{height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:10px;transition:width .4s}
@@ -244,24 +240,25 @@ h3{font-size:1em;margin:10px 0 8px}
 .phase-progress-fill{height:100%;background:#fff;border-radius:10px;transition:width .6s}
 .phase-footer{font-size:.75em;opacity:.9;text-align:center;margin-top:8px;position:relative;z-index:1}
 
-.countdown-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.cd-card{background:var(--bg-card);border-radius:14px;padding:14px 12px;border:1px solid var(--border);box-shadow:var(--shadow);text-align:center}
+.countdown-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.cd-card{background:var(--bg-card);border-radius:14px;padding:12px 8px;border:1px solid var(--border);box-shadow:var(--shadow);text-align:center}
+.cd-card.school{border-top:4px solid var(--info)}
 .cd-card.midterm{border-top:4px solid var(--accent)}
 .cd-card.final{border-top:4px solid var(--danger)}
 .cd-card.ended{opacity:.6}
-.cd-title{font-size:.8em;color:var(--text-light);margin-bottom:8px;font-weight:600}
-.cd-date{font-size:.68em;color:var(--text-light);margin-top:8px}
-.cd-numbers{display:flex;justify-content:center;gap:6px;margin-bottom:6px}
-.cd-num{flex:1;background:var(--bg);border-radius:10px;padding:8px 4px}
-.cd-num-v{font-size:1.5em;font-weight:900;color:var(--primary);font-variant-numeric:tabular-nums;line-height:1.1}
-.cd-num-l{font-size:.62em;color:var(--text-light);margin-top:2px}
+.cd-title{font-size:.72em;color:var(--text-light);margin-bottom:8px;font-weight:600}
+.cd-numbers{display:flex;justify-content:center;gap:3px;margin-bottom:6px}
+.cd-num{flex:1;background:var(--bg);border-radius:8px;padding:6px 2px}
+.cd-num-v{font-size:1.1em;font-weight:900;color:var(--primary);font-variant-numeric:tabular-nums;line-height:1.1}
+.cd-num-l{font-size:.55em;color:var(--text-light);margin-top:2px}
+.cd-num.school .cd-num-v{color:var(--info)}
 .cd-num.midterm .cd-num-v{color:var(--accent)}
 .cd-num.final .cd-num-v{color:var(--danger)}
-.cd-msg{font-size:.72em;color:var(--text-light);margin-top:6px}
+.cd-msg{font-size:.65em;color:var(--text-light);margin-top:6px}
 .cd-msg.warn{color:var(--danger);font-weight:700}
 .cd-msg.ok{color:var(--success);font-weight:700}
+.cd-date{font-size:.6em;color:var(--text-light);margin-top:4px}
 
-/* ========== راهنمای منبع ========== */
 .source-card{background:var(--bg-card);border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid var(--border);box-shadow:var(--shadow)}
 .source-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .source-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3em;flex-shrink:0}
@@ -275,7 +272,6 @@ h3{font-size:1em;margin:10px 0 8px}
 .source-order{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--bg);border-radius:10px;margin:6px 0;font-size:.85em;border-right:3px solid var(--info)}
 .step-num{width:24px;height:24px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.75em;flex-shrink:0}
 
-/* ========== خلاصه‌نویسی ========== */
 .summary-method{background:var(--bg-card);border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid var(--border);border-right:4px solid var(--primary);box-shadow:var(--shadow)}
 .summary-method h4{font-size:1em;font-weight:800;margin-bottom:10px;color:var(--primary);display:flex;align-items:center;gap:8px}
 .method-example{background:var(--bg);border-radius:10px;padding:12px;margin:10px 0;font-size:.85em;line-height:1.95}
@@ -289,9 +285,8 @@ h3{font-size:1em;margin:10px 0 8px}
 .cornell-key{padding:10px;border-left:2px solid var(--border);color:var(--text-light)}
 .cornell-notes{padding:10px;font-weight:500}
 .cornell-summary{padding:10px;background:var(--bg);color:var(--text);font-weight:600}
-.mindmap-demo{background:var(--bg);border-radius:10px;padding:16px;text-align:center;font-family:monospace;font-size:.85em;line-height:1.8;color:var(--text);white-space:pre;overflow-x:auto}
+.mindmap-demo{background:var(--bg);border-radius:10px;padding:16px;text-align:center;font-family:monospace;font-size:.82em;line-height:1.8;white-space:pre;overflow-x:auto;color:var(--text)}
 
-/* مشاور */
 .assistant-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:9998;display:none;align-items:flex-end;justify-content:center}
 .assistant-overlay.active{display:flex}
 .assistant-modal{background:var(--bg-card);width:100%;max-width:520px;border-radius:22px 22px 0 0;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 -10px 60px rgba(0,0,0,.35);animation:slideUp .4s cubic-bezier(.2,.8,.2,1)}
@@ -373,7 +368,7 @@ h3{font-size:1em;margin:10px 0 8px}
 .exam-score{font-weight:900;font-size:1.1em;margin-right:8px}
 .exam-body{padding:0 14px 14px;display:none;border-top:1px dashed var(--border);padding-top:12px;font-size:.85em;line-height:1.95}
 .exam-body.open{display:block}
-.err-badge{display:inline-block;padding:5px 12px;border-radius:14px;font-size:.78em;font-weight:600;margin:3px;cursor:pointer;border:1.5px solid var(--border);transition:all .15s}
+.err-badge{display:inline-block;padding:5px 12px;border-radius:14px;font-size:.78em;font-weight:600;margin:3px;cursor:pointer;border:1.5px solid var(--border)}
 .err-badge.sci{background:rgba(231,76,60,.15);color:var(--danger);border-color:var(--danger)}
 .err-badge.care{background:rgba(243,156,18,.15);color:var(--accent);border-color:var(--accent)}
 .err-badge.time{background:rgba(52,152,219,.15);color:var(--info);border-color:var(--info)}
@@ -400,7 +395,6 @@ h3{font-size:1em;margin:10px 0 8px}
 .distract-tag.selected{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border-color:transparent}
 
 .weakness-item{background:var(--bg-card);border-radius:12px;padding:12px 14px;margin:8px 0;border:1px solid var(--border);border-right:4px solid var(--danger)}
-.weakness-item.ok{border-right-color:var(--success)}
 .weakness-title{font-weight:700;font-size:.9em;margin-bottom:6px}
 .weakness-desc{font-size:.82em;color:var(--text-light);line-height:1.85}
 
@@ -453,7 +447,7 @@ h3{font-size:1em;margin:10px 0 8px}
   <div id="makeupContainer"></div>
   <div id="nowContainer"></div>
 
-  <h3 style="margin:16px 0 8px;font-size:.95em;color:var(--text-light)">⏳ شمارش معکوس امتحانات</h3>
+  <h3 style="margin:16px 0 8px;font-size:.95em;color:var(--text-light)">⏳ شمارش معکوس</h3>
   <div class="countdown-grid" id="countdownGrid"></div>
 
   <div class="card">
@@ -476,9 +470,9 @@ h3{font-size:1em;margin:10px 0 8px}
 
 <!-- راهنمای منبع -->
 <section id="sourceguide">
-  <h2>📖 راهنمای منبع هر درس</h2>
+  <h2>📖 راهنمای منبع</h2>
   <p style="color:var(--text-light);font-size:.88em;margin-bottom:14px;line-height:1.9">
-    برای هر درس، مشخص کن که <b>از کتاب بخونی</b> یا <b>از ویدیو ببینی</b>. نسبت‌ها و ترتیب‌ها رو دقیق رعایت کن.
+    برای هر درس، <b>از کتاب بخون یا از ویدیو ببین</b> — با نسبت و ترتیب درست.
   </p>
 
   <div class="source-card">
@@ -486,18 +480,12 @@ h3{font-size:1em;margin:10px 0 8px}
       <div class="source-icon" style="background:rgba(231,76,60,.15);color:#e74c3c">📐</div>
       <div><div class="source-name">ریاضی</div><div class="source-sub">اول کتاب، بعد ویدیو</div></div>
     </div>
-    <div class="source-guide">
-      <b>📌 ترتیب:</b> اول کتاب رو نگاه کن، بعد اگه نفهمیدی ویدیو<br>
-      <b>🎯 دلیل:</b> ریاضی با تمرین حل کردن یاد می‌گیری، نه با تماشا
-    </div>
-    <div class="ratio-bar">
-      <div class="ratio-video" style="width:30%">ویدیو ۳۰٪</div>
-      <div class="ratio-book" style="width:70%">کتاب + تمرین ۷۰٪</div>
-    </div>
-    <div class="source-order"><span class="step-num">۱</span><span>کتاب رو ۵ دقیقه ورق بزن (فقط تیتر و شکل)</span></div>
-    <div class="source-order"><span class="step-num">۲</span><span>تمرین‌های آخر فصل رو یه نگاه بنداز</span></div>
-    <div class="source-order"><span class="step-num">۳</span><span>اگه نفهمیدی، ویدیو رو ببین (نه کامل، فقط همون بخش)</span></div>
-    <div class="source-order"><span class="step-num">۴</span><span>بلافاصله ۳ تا ۵ تمرین حل کن</span></div>
+    <div class="source-guide"><b>ترتیب:</b> کتاب → ویدیو (اگه نفهمیدی) → تمرین<br><b>دلیل:</b> ریاضی با تمرین یاد می‌گیری</div>
+    <div class="ratio-bar"><div class="ratio-video" style="width:30%">ویدیو ۳۰٪</div><div class="ratio-book" style="width:70%">کتاب ۷۰٪</div></div>
+    <div class="source-order"><span class="step-num">۱</span><span>کتاب رو ۵ دقیقه ورق بزن</span></div>
+    <div class="source-order"><span class="step-num">۲</span><span>تمرین‌های آخر فصل رو ببین</span></div>
+    <div class="source-order"><span class="step-num">۳</span><span>اگه نفهمیدی، ویدیو ببین</span></div>
+    <div class="source-order"><span class="step-num">۴</span><span>۳-۵ تمرین حل کن</span></div>
   </div>
 
   <div class="source-card">
@@ -505,18 +493,8 @@ h3{font-size:1em;margin:10px 0 8px}
       <div class="source-icon" style="background:rgba(52,152,219,.15);color:#3498db">⚛️</div>
       <div><div class="source-name">فیزیک</div><div class="source-sub">اول ویدیو، بعد کتاب</div></div>
     </div>
-    <div class="source-guide">
-      <b>📌 ترتیب:</b> ویدیو → کتاب → تمرین<br>
-      <b>🎯 دلیل:</b> فیزیک مفهومی‌ست، تصویر کمک می‌کنه بهتر بفهمی
-    </div>
-    <div class="ratio-bar">
-      <div class="ratio-video" style="width:50%">ویدیو ۵۰٪</div>
-      <div class="ratio-book" style="width:50%">کتاب + تمرین ۵۰٪</div>
-    </div>
-    <div class="source-order"><span class="step-num">۱</span><span>یه ویدیو ۲۰-۳۰ دقیقه‌ای ببین</span></div>
-    <div class="source-order"><span class="step-num">۲</span><span>کتاب رو باز کن، همون بخش رو بخون</span></div>
-    <div class="source-order"><span class="step-num">۳</span><span>فرمول‌ها رو توی دفتر فرمول بنویس</span></div>
-    <div class="source-order"><span class="step-num">۴</span><span>۳-۵ تمرین حل کن</span></div>
+    <div class="source-guide"><b>ترتیب:</b> ویدیو → کتاب → تمرین<br><b>دلیل:</b> فیزیک مفهومی‌ست، تصویر کمک می‌کنه</div>
+    <div class="ratio-bar"><div class="ratio-video" style="width:50%">ویدیو ۵۰٪</div><div class="ratio-book" style="width:50%">کتاب ۵۰٪</div></div>
   </div>
 
   <div class="source-card">
@@ -524,18 +502,8 @@ h3{font-size:1em;margin:10px 0 8px}
       <div class="source-icon" style="background:rgba(155,89,182,.15);color:#9b59b6">📏</div>
       <div><div class="source-name">هندسه</div><div class="source-sub">اول کتاب، بعد ویدیو</div></div>
     </div>
-    <div class="source-guide">
-      <b>📌 ترتیب:</b> کتاب → ویدیو (برای اثبات‌ها) → تمرین<br>
-      <b>🎯 دلیل:</b> هندسه با شکل کشیدن یاد می‌گیری
-    </div>
-    <div class="ratio-bar">
-      <div class="ratio-video" style="width:40%">ویدیو ۴۰٪</div>
-      <div class="ratio-book" style="width:60%">کتاب + تمرین ۶۰٪</div>
-    </div>
-    <div class="source-order"><span class="step-num">۱</span><span>قضیه رو از کتاب بخون</span></div>
-    <div class="source-order"><span class="step-num">۲</span><span>شکلش رو بکش</span></div>
-    <div class="source-order"><span class="step-num">۳</span><span>اگه اثبات رو نفهمیدی، ویدیو ببین</span></div>
-    <div class="source-order"><span class="step-num">۴</span><span>خودت دوباره اثبات کن (بدون کتاب)</span></div>
+    <div class="source-guide"><b>ترتیب:</b> کتاب → ویدیو → تمرین<br><b>دلیل:</b> هندسه با شکل کشیدن یاد می‌گیری</div>
+    <div class="ratio-bar"><div class="ratio-video" style="width:40%">ویدیو ۴۰٪</div><div class="ratio-book" style="width:60%">کتاب ۶۰٪</div></div>
   </div>
 
   <div class="source-card">
@@ -543,18 +511,8 @@ h3{font-size:1em;margin:10px 0 8px}
       <div class="source-icon" style="background:rgba(22,160,133,.15);color:#16a085">🧪</div>
       <div><div class="source-name">شیمی</div><div class="source-sub">اول ویدیو، بعد کتاب</div></div>
     </div>
-    <div class="source-guide">
-      <b>📌 ترتیب:</b> ویدیو (برای واکنش) → کتاب → تمرین<br>
-      <b>🎯 دلیل:</b> واکنش‌ها و مفاهیم با تصویر بهتر جا میفتن
-    </div>
-    <div class="ratio-bar">
-      <div class="ratio-video" style="width:40%">ویدیو ۴۰٪</div>
-      <div class="ratio-book" style="width:60%">کتاب + تمرین ۶۰٪</div>
-    </div>
-    <div class="source-order"><span class="step-num">۱</span><span>ویدیو واکنش‌ها و مفاهیم رو ببین</span></div>
-    <div class="source-order"><span class="step-num">۲</span><span>کتاب رو بخون (فرمول‌ها)</span></div>
-    <div class="source-order"><span class="step-num">۳</span><span>واکنش‌ها رو توی یه جدول دسته‌بندی کن</span></div>
-    <div class="source-order"><span class="step-num">۴</span><span>هر ۳ روز مرور کن</span></div>
+    <div class="source-guide"><b>ترتیب:</b> ویدیو → کتاب → تمرین<br><b>دلیل:</b> واکنش‌ها با تصویر بهتر جا میفتن</div>
+    <div class="ratio-bar"><div class="ratio-video" style="width:40%">ویدیو ۴۰٪</div><div class="ratio-book" style="width:60%">کتاب ۶۰٪</div></div>
   </div>
 
   <div class="source-card">
@@ -562,18 +520,8 @@ h3{font-size:1em;margin:10px 0 8px}
       <div class="source-icon" style="background:rgba(243,156,18,.15);color:#f39c12">🕌</div>
       <div><div class="source-name">عربی</div><div class="source-sub">کتاب برای متن، ویدیو برای گرامر</div></div>
     </div>
-    <div class="source-guide">
-      <b>📌 ترتیب:</b> کتاب (لغت + متن) → ویدیو (قواعد) → تمرین<br>
-      <b>🎯 دلیل:</b> لغت و متن با خوندن جا میفته، قواعد با تصویر
-    </div>
-    <div class="ratio-bar">
-      <div class="ratio-video" style="width:25%">ویدیو ۲۵٪</div>
-      <div class="ratio-book" style="width:75%">کتاب + تمرین ۷۵٪</div>
-    </div>
-    <div class="source-order"><span class="step-num">۱</span><span>روزی ۱۰ لغت + یک جمله</span></div>
-    <div class="source-order"><span class="step-num">۲</span><span>روزی ۵ خط ترجمه</span></div>
-    <div class="source-order"><span class="step-num">۳</span><span>گرامر رو از ویدیو ببین</span></div>
-    <div class="source-order"><span class="step-num">۴</span><span>بلافاصله ۵-۱۰ تمرین قواعد حل کن</span></div>
+    <div class="source-guide"><b>ترتیب:</b> کتاب → ویدیو (قواعد) → تمرین</div>
+    <div class="ratio-bar"><div class="ratio-video" style="width:25%">ویدیو ۲۵٪</div><div class="ratio-book" style="width:75%">کتاب ۷۵٪</div></div>
   </div>
 
   <div class="source-card">
@@ -581,18 +529,8 @@ h3{font-size:1em;margin:10px 0 8px}
       <div class="source-icon" style="background:rgba(39,174,96,.15);color:#27ae60">🌐</div>
       <div><div class="source-name">انگلیسی</div><div class="source-sub">کتاب برای متن، ویدیو برای گرامر</div></div>
     </div>
-    <div class="source-guide">
-      <b>📌 ترتیب:</b> کتاب (لغت + Reading) → ویدیو (گرامر) → Writing<br>
-      <b>🎯 دلیل:</b> انگلیسی با تکرار روزانه جا میفته
-    </div>
-    <div class="ratio-bar">
-      <div class="ratio-video" style="width:25%">ویدیو ۲۵٪</div>
-      <div class="ratio-book" style="width:75%">کتاب + تمرین ۷۵٪</div>
-    </div>
-    <div class="source-order"><span class="step-num">۱</span><span>روزی ۱۰ کلمه + فلش‌کارت</span></div>
-    <div class="source-order"><span class="step-num">۲</span><span>یه پاراگراف Reading بخون و ترجمه کن</span></div>
-    <div class="source-order"><span class="step-num">۳</span><span>گرامر رو از ویدیو</span></div>
-    <div class="source-order"><span class="step-num">۴</span><span>۲-۳ جمله Writing تمرین کن</span></div>
+    <div class="source-guide"><b>ترتیب:</b> کتاب → ویدیو → Writing</div>
+    <div class="ratio-bar"><div class="ratio-video" style="width:25%">ویدیو ۲۵٪</div><div class="ratio-book" style="width:75%">کتاب ۷۵٪</div></div>
   </div>
 
   <div class="source-card">
@@ -600,13 +538,7 @@ h3{font-size:1em;margin:10px 0 8px}
       <div class="source-icon" style="background:rgba(192,57,43,.15);color:#c0392b">📜</div>
       <div><div class="source-name">فارسی</div><div class="source-sub">فقط کتاب</div></div>
     </div>
-    <div class="source-guide">
-      <b>📌 ترتیب:</b> فقط کتاب<br>
-      <b>🎯 دلیل:</b> فارسی با خوندن و معنی کردن بهتر یاد می‌گیری، ویدیو لازم نیست
-    </div>
-    <div class="ratio-bar">
-      <div class="ratio-book" style="width:100%">کتاب ۱۰۰٪</div>
-    </div>
+    <div class="ratio-bar"><div class="ratio-book" style="width:100%">کتاب ۱۰۰٪</div></div>
   </div>
 
   <div class="source-card">
@@ -614,88 +546,72 @@ h3{font-size:1em;margin:10px 0 8px}
       <div class="source-icon" style="background:rgba(127,140,141,.15);color:#7f8c8d">📖</div>
       <div><div class="source-name">دینی، جغرافیا، تفکر</div><div class="source-sub">فقط کتاب</div></div>
     </div>
-    <div class="source-guide">
-      <b>📌 ترتیب:</b> فقط کتاب<br>
-      <b>🎯 دلیل:</b> این درسا با خوندن و مرور منظم نمره‌آور می‌شن
-    </div>
-    <div class="ratio-bar">
-      <div class="ratio-book" style="width:100%">کتاب ۱۰۰٪</div>
-    </div>
+    <div class="ratio-bar"><div class="ratio-book" style="width:100%">کتاب ۱۰۰٪</div></div>
   </div>
 
   <div class="card" style="background:linear-gradient(135deg,rgba(102,126,234,.1),rgba(118,75,162,.05));border-color:var(--primary)">
-    <h3>💡 چهار قانون طلایی</h3>
+    <h3>💡 ۴ قانون طلایی</h3>
     <div style="font-size:.88em;line-height:2">
-      <div style="margin:8px 0"><b>۱.</b> <b>هیچ‌وقت</b> ویدیو رو جای کتاب نذار</div>
-      <div style="margin:8px 0"><b>۲.</b> بعد از هر ویدیو، <b>بلافاصله</b> تمرین حل کن</div>
-      <div style="margin:8px 0"><b>۳.</b> اگه سر کلاس فهمیدی، <b>ویدیو نبین</b></div>
-      <div style="margin:8px 0"><b>۴.</b> برای هر ۳۰ دقیقه ویدیو، <b>۶۰ دقیقه تمرین</b></div>
+      <div style="margin:8px 0"><b>۱.</b> ویدیو رو جای کتاب نذار</div>
+      <div style="margin:8px 0"><b>۲.</b> بعد هر ویدیو، تمرین حل کن</div>
+      <div style="margin:8px 0"><b>۳.</b> اگه سر کلاس فهمیدی، ویدیو نبین</div>
+      <div style="margin:8px 0"><b>۴.</b> برای ۳۰ دقیقه ویدیو، ۶۰ دقیقه تمرین</div>
     </div>
   </div>
 </section>
 
 <!-- خلاصه‌نویسی -->
 <section id="summary">
-  <h2>📝 آموزش خلاصه‌نویسی</h2>
-  <p style="color:var(--text-light);font-size:.88em;margin-bottom:14px;line-height:1.9">
-    خلاصه‌نویسی مهم‌ترین مهارتیه که اگه یاد بگیری، <b>برای همیشه</b> ازش استفاده می‌کنی.
-  </p>
+  <h2>📝 خلاصه‌نویسی</h2>
 
   <div class="card" style="background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(239,68,68,.03));border-color:var(--danger)">
-    <h3 style="color:var(--danger)">⚠️ اول اشتباه بزرگ رو بفهم</h3>
+    <h3 style="color:var(--danger)">⚠️ اشتباه بزرگ</h3>
     <div class="method-example bad">
-      <span class="label">❌ اشتباه: کپی از کتاب</span>
-      «مشتق تابع f در نقطه x به صورت حد نسبت تغییر تابع به تغییر متغیر، وقتی تغییر متغیر به سمت صفر میل کند، تعریف می‌شود.»
-      <div style="margin-top:8px;font-size:.85em;color:var(--text-light)">این کپی از کتابه. خلاصه نیست. هیچ‌وقت یادت نمی‌مونه.</div>
+      <span class="label">❌ کپی از کتاب</span>
+      «مشتق تابع f در نقطه x به صورت حد نسبت تغییر تابع به تغییر متغیر تعریف می‌شود.»
     </div>
     <div class="method-example good">
-      <span class="label">✅ درست: با زبان خودت</span>
+      <span class="label">✅ با زبان خودت</span>
       «مشتق = سرعت تغییر. مثل کیلومترشمار ماشین که سرعت لحظه‌ای رو نشون میده.»
-      <div style="margin-top:8px;font-size:.85em;color:var(--text-light)">این خلاصه‌ست. خودت نوشتی. یادت می‌مونه.</div>
     </div>
   </div>
 
-  <h3 style="margin:20px 0 10px">📘 روش ۱: یادداشت کورنل (بهترین برای کلاس)</h3>
+  <h3 style="margin:20px 0 10px">📘 روش ۱: یادداشت کورنل</h3>
 
   <div class="summary-method">
-    <h4>📐 چطور دفتر رو تقسیم کنی؟</h4>
+    <h4>📐 تقسیم دفتر</h4>
     <div class="cornell-demo">
       <div class="cornell-top">
-        <div class="cornell-key"><b>🔑 کلیدواژه‌ها</b><br><br>(بعد از کلاس پر کن)<br>• Δ چیه؟<br>• کی دو جواب داره؟<br>• فرمول چیه؟</div>
+        <div class="cornell-key"><b>🔑 کلیدواژه‌ها</b><br><br>(بعد از کلاس)<br>• Δ چیه؟<br>• کی دو جواب داره؟</div>
         <div class="cornell-notes"><b>📝 یادداشت</b><br><br>(سر کلاس)<br>معادله درجه دو: ax² + bx + c = 0<br>روش‌ها: تجزیه، فرمول Δ، مربع کامل<br>Δ = b² - 4ac</div>
       </div>
       <div class="cornell-summary"><b>📌 خلاصه:</b> معادله درجه دو رو با ۳ روش میشه حل کرد. سریع‌ترین راه، فرمول Δ هست.</div>
     </div>
-    <div class="source-order"><span class="step-num">۱</span><span>صفحه رو به ۴ بخش تقسیم کن</span></div>
-    <div class="source-order"><span class="step-num">۲</span><span>سر کلاس، تو بخش راست (یادداشت) بنویس</span></div>
-    <div class="source-order"><span class="step-num">۳</span><span>بعد کلاس، تو بخش چپ (کلیدواژه) سوال بنویس</span></div>
-    <div class="source-order"><span class="step-num">۴</span><span>آخر شب، تو بخش پایین ۲-۳ خط خلاصه بنویس</span></div>
+    <div class="source-order"><span class="step-num">۱</span><span>صفحه رو ۴ بخش کن</span></div>
+    <div class="source-order"><span class="step-num">۲</span><span>سر کلاس تو بخش راست بنویس</span></div>
+    <div class="source-order"><span class="step-num">۳</span><span>بعد کلاس تو بخش چپ سوال بنویس</span></div>
+    <div class="source-order"><span class="step-num">۴</span><span>آخر شب خلاصه بنویس</span></div>
   </div>
 
   <h3 style="margin:20px 0 10px">🗺 روش ۲: نقشه ذهنی</h3>
 
   <div class="summary-method">
-    <h4>🎯 برای مرور کل فصل عالیه</h4>
-    <div class="mindmap-demo">
-            تجزیه
-             │
- فرمول Δ ──── معادله درجه دو ──── مربع کامل
-             │
-      ax² + bx + c = 0
-             │
-        Δ = b² - 4ac
-    </div>
+    <h4>🎯 برای مرور کل فصل</h4>
+    <div class="mindmap-demo">        تجزیه
+         │
+فرمول Δ ──── معادله درجه دو ──── مربع کامل
+         │
+   ax² + bx + c = 0</div>
     <div style="font-size:.85em;line-height:2;margin-top:10px">
-      <b>چطور بکشیش؟</b><br>
-      ۱. موضوع اصلی رو وسط بنویس<br>
-      ۲. شاخه‌های اصلی رو دورش بکش<br>
-      ۳. زیرشاخه‌ها رو اضافه کن<br>
-      ۴. با <b>رنگ‌های مختلف</b> کار کن<br>
-      ۵. آخرش، از حفظ دوباره بکشش
+      <b>چطور؟</b><br>
+      ۱. موضوع اصلی وسط<br>
+      ۲. شاخه‌ها دورش<br>
+      ۳. با رنگ‌های مختلف<br>
+      ۴. آخرش از حفظ بکش
     </div>
   </div>
 
-  <h3 style="margin:20px 0 10px">🎴 روش ۳: کارت خلاصه (فلش‌کارت)</h3>
+  <h3 style="margin:20px 0 10px">🎴 روش ۳: فلش‌کارت</h3>
 
   <div class="summary-method">
     <h4>✨ برای لغت و فرمول</h4>
@@ -707,28 +623,27 @@ h3{font-size:1em;margin:10px 0 8px}
       <span class="label">پشت کارت:</span>
       دانش‌آموز به مدرسه رفت
     </div>
-    <div class="source-order"><span class="step-num">۱</span><span>یه کارت ۱۰×۱۵ بردار</span></div>
+    <div class="source-order"><span class="step-num">۱</span><span>کارت ۱۰×۱۵</span></div>
     <div class="source-order"><span class="step-num">۲</span><span>یه طرف سوال، یه طرف جواب</span></div>
-    <div class="source-order"><span class="step-num">۳</span><span>روزی ۱۰-۱۵ کارت مرور کن</span></div>
-    <div class="source-order"><span class="step-num">۴</span><span>از بخش «لایتنر» اپ استفاده کن</span></div>
+    <div class="source-order"><span class="step-num">۳</span><span>روزی ۱۰-۱۵ کارت</span></div>
   </div>
 
-  <h3 style="margin:20px 0 10px">📋 خلاصه‌نویسی هر درس چطور باشه؟</h3>
+  <h3 style="margin:20px 0 10px">📋 هر درس چطور خلاصه بشه؟</h3>
 
   <div class="card">
     <div style="font-size:.88em;line-height:2.2">
-      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>📐 ریاضی:</b> نقشه ذهنی برای فصل + فلش‌کارت برای فرمول‌ها</div>
-      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>⚛️ فیزیک:</b> نقشه ذهنی برای مفاهیم + دفتر فرمول</div>
-      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>📏 هندسه:</b> هر قضیه با شکل + خلاصه اثبات</div>
-      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>🧪 شیمی:</b> جدول واکنش‌ها + نقشه ذهنی</div>
-      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>🕌 عربی:</b> فلش‌کارت برای لغت + کورنل برای قواعد</div>
-      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>🌐 انگلیسی:</b> فلش‌کارت برای لغت + کورنل برای گرامر</div>
-      <div style="padding:8px 0"><b>📜 فارسی:</b> نقشه ذهنی برای آرایه‌ها + کورنل برای دستور</div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>📐 ریاضی:</b> نقشه ذهنی فصل + فلش‌کارت فرمول</div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>⚛️ فیزیک:</b> نقشه ذهنی + دفتر فرمول</div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>📏 هندسه:</b> هر قضیه با شکل</div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>🧪 شیمی:</b> جدول واکنش‌ها</div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>🕌 عربی:</b> فلش‌کارت لغت + کورنل قواعد</div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>🌐 انگلیسی:</b> فلش‌کارت لغت + کورنل گرامر</div>
+      <div style="padding:8px 0"><b>📜 فارسی:</b> نقشه ذهنی آرایه + کورنل دستور</div>
     </div>
   </div>
 
   <div class="card" style="background:linear-gradient(135deg,rgba(39,174,96,.1),rgba(39,174,96,.03));border-color:var(--success)">
-    <h3 style="color:var(--success)">🎯 قانون طلایی خلاصه‌نویسی</h3>
+    <h3 style="color:var(--success)">🎯 قانون طلایی</h3>
     <div style="font-size:.9em;line-height:2;text-align:center;padding:10px">
       <b>اگه نتونی بدون کتاب با زبان خودت توضیح بدی،</b><br>
       <b style="color:var(--danger);font-size:1.1em">یعنی هنوز یاد نگرفتی.</b>
@@ -796,21 +711,17 @@ h3{font-size:1em;margin:10px 0 8px}
     <button class="btn btn-primary btn-block" onclick="logSleep()">💾 ثبت خواب</button>
   </div>
   <div class="grid-2">
-    <div class="stat"><div class="stat-v" id="slToday">۰</div><div class="stat-l">ساعت خواب</div></div>
+    <div class="stat"><div class="stat-v" id="slToday">۰</div><div class="stat-l">خواب دیشب</div></div>
     <div class="stat"><div class="stat-v" id="slWeek">۰</div><div class="stat-l">میانگین هفته</div></div>
   </div>
   <div class="card"><h3>📊 نمودار ۷ روز</h3><div class="chart" id="sleepChart"></div></div>
-  <div class="card">
-    <h3>📋 تاریخچه</h3>
-    <div id="sleepHistory" style="max-height:300px;overflow-y:auto"></div>
-  </div>
+  <div class="card"><h3>📋 تاریخچه</h3><div id="sleepHistory" style="max-height:300px;overflow-y:auto"></div></div>
 </section>
 
 <!-- جلسات -->
 <section id="sessions">
-  <h2>📝 ثبت جلسات مطالعه</h2>
+  <h2>📝 جلسات مطالعه</h2>
   <div class="card">
-    <h3>جلسه جدید</h3>
     <div class="inp-row">
       <select class="inp" id="ssSubj">
         <option>ریاضی</option><option>هندسه</option><option>فیزیک</option>
@@ -825,10 +736,10 @@ h3{font-size:1em;margin:10px 0 8px}
       <input class="inp" id="ssPages" type="number" placeholder="صفحه" min="0">
       <input class="inp" id="ssTests" type="number" placeholder="تست" min="0">
     </div>
-    <button class="btn btn-success btn-block" onclick="addSession()">➕ ثبت جلسه</button>
+    <button class="btn btn-success btn-block" onclick="addSession()">➕ ثبت</button>
   </div>
   <div class="card">
-    <h3>📊 آمار هفته</h3>
+    <h3>📊 این هفته</h3>
     <div class="grid-2">
       <div class="stat"><div class="stat-v" id="ssWeekMin">۰</div><div class="stat-l">دقیقه</div></div>
       <div class="stat"><div class="stat-v" id="ssWeekPages">۰</div><div class="stat-l">صفحه</div></div>
@@ -836,12 +747,12 @@ h3{font-size:1em;margin:10px 0 8px}
       <div class="stat"><div class="stat-v" id="ssWeekSess">۰</div><div class="stat-l">جلسه</div></div>
     </div>
   </div>
-  <div class="card"><h3>📋 جلسات امروز</h3><div id="ssTodayList"></div></div>
+  <div class="card"><h3>📋 امروز</h3><div id="ssTodayList"></div></div>
 </section>
 
 <!-- حواس‌پرتی -->
 <section id="distraction">
-  <h2>🧠 ردیاب حواس‌پرتی</h2>
+  <h2>🧠 حواس‌پرتی</h2>
   <div class="card">
     <p style="font-size:.85em;color:var(--text-light);margin-bottom:10px">چی باعث شد پرت شی؟</p>
     <div id="distractTags">
@@ -898,11 +809,11 @@ h3{font-size:1em;margin:10px 0 8px}
   <div class="card"><h3>📖 قبلی</h3><div id="journalList" style="max-height:400px;overflow-y:auto"></div></div>
 </section>
 
-<!-- تحلیل ضعف -->
+<!-- تحلیل -->
 <section id="weakness">
   <h2>💡 تحلیل نقاط ضعف</h2>
   <div class="card"><h3>🎯 خلاصه هوشمند</h3><div id="weaknessSummary"></div></div>
-  <div class="card"><h3>📉 درس‌های نیازمند توجه</h3><div id="weakSubjectsList"></div></div>
+  <div class="card"><h3>📉 نیازمند توجه</h3><div id="weakSubjectsList"></div></div>
   <div class="card"><h3>📈 روند نمرات</h3><div id="gradeTrend"></div></div>
 </section>
 
@@ -924,7 +835,7 @@ h3{font-size:1em;margin:10px 0 8px}
 <!-- تکنیک‌ها -->
 <section id="techniques">
   <h2>🧠 تکنیک‌ها</h2>
-  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">⏰</span>مدیریت زمان</div><div class="tech-body"><b>پومودورو:</b> ۲۵+۵<br><b>بلوک‌بندی:</b> «۱۵:۳۰ تا ۱۷:۰۰ فقط ریاضی»<br><b>اولویت‌بندی:</b> ماتریس آیزنهاور</div></div>
+  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">⏰</span>مدیریت زمان</div><div class="tech-body"><b>پومودورو:</b> ۲۵+۵<br><b>بلوک‌بندی:</b> «۱۵:۳۰ تا ۱۷:۰۰ فقط ریاضی»<br><b>اولویت:</b> ماتریس آیزنهاور</div></div>
   <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">🎯</span>تمرکز عمیق</div><div class="tech-body"><ol><li>گوشی بیرون اتاق</li><li>اعلان‌ها خاموش</li><li>فقط یک تب باز</li><li>دفتر افکار مزاحم</li></ol></div></div>
   <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">📖</span>مطالعه فعال</div><div class="tech-body"><b>قبل:</b> پیش‌خوانی<br><b>در حین:</b> سوال‌سازی<br><b>بعد:</b> خودآزمایی<br><b>پایان:</b> خلاصه‌نویسی</div></div>
   <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">📐</span>حل مسئله</div><div class="tech-body"><ol><li>صورت مسئله</li><li>شکل بکش</li><li>داده‌ها</li><li>فرمول</li><li>حل</li><li>بازبینی</li></ol></div></div>
@@ -932,7 +843,6 @@ h3{font-size:1em;margin:10px 0 8px}
   <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">🍅</span>پومودورو</div><div class="tech-body">۲۵ دقیقه تمرکز + ۵ استراحت.</div></div>
   <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">🧑‍🏫</span>فاینمن</div><div class="tech-body">مفهوم رو مثل بچه ۱۲ ساله توضیح بده.</div></div>
   <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">📖</span>مرور فاصله‌دار</div><div class="tech-body">۲۴ساعت → ۳روز → ۱هفته → ۲هفته → ۱ماه</div></div>
-  <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">🔁</span>یادآوری فعال</div><div class="tech-body">کتاب رو ببند، از خودت سوال بپرس.</div></div>
   <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">😴</span>خواب و حافظه</div><div class="tech-body">۷-۸ ساعت خواب + مرور قبل خواب</div></div>
   <div class="tech" onclick="this.classList.toggle('open')"><div class="tech-head"><span class="ico">⚡</span>قانون ۲ دقیقه</div><div class="tech-body">فقط ۲ دقیقه شروع کن.</div></div>
 </section>
@@ -983,7 +893,7 @@ h3{font-size:1em;margin:10px 0 8px}
       <input class="inp" id="gV" type="number" placeholder="نمره" min="0" max="20" step="0.25">
       <input class="inp" id="gT" placeholder="عنوان آزمون">
     </div>
-    <button class="btn btn-success btn-block" onclick="addGrade()">➕ ثبت نمره</button>
+    <button class="btn btn-success btn-block" onclick="addGrade()">➕ ثبت</button>
   </div>
   <div class="grid-2">
     <div class="stat"><div class="stat-v" id="avgAll">۰</div><div class="stat-l">معدل</div></div>
@@ -1073,7 +983,7 @@ h3{font-size:1em;margin:10px 0 8px}
     </div>
     <div id="habitsList"></div>
   </div>
-  <div class="card"><h3>۱۴ روز اخیر</h3><div id="habitGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:6px"></div></div>
+  <div class="card"><h3>۱۴ روز</h3><div id="habitGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:6px"></div></div>
 </section>
 
 <!-- یادداشت -->
@@ -1109,7 +1019,8 @@ h3{font-size:1em;margin:10px 0 8px}
   <div class="card"><h3>📤 خروجی</h3><button class="btn btn-primary btn-block" onclick="exportData()">⬇️ دانلود</button></div>
   <div class="card"><h3>📥 بازگردانی</h3><input type="file" id="importF" accept=".json" onchange="importData(event)" class="inp"></div>
   <div class="card"><h3>📲 نصب PWA</h3><button class="btn btn-info btn-block" onclick="installPWA()">📲 نصب روی گوشی</button>
-    <p style="font-size:.78em;color:var(--text-light);margin-top:10px;line-height:1.8" id="pwaStatus">وضعیت PWA: در حال بررسی...</p>
+    <p style="font-size:.78em;color:var(--text-light);margin-top:10px;line-height:1.8" id="pwaStatus">وضعیت: در حال بررسی...</p>
+    <button class="btn btn-secondary btn-block" onclick="checkPwaStatus()" style="margin-top:8px">🔄 بررسی دوباره</button>
   </div>
   <div class="card"><h3>🎓 مشاور</h3><div class="btn-group"><button class="btn btn-primary" onclick="openAssistantManual('school')">🏫 مدرسه</button><button class="btn btn-info" onclick="openAssistantManual('night')">🌙 شب</button></div></div>
   <div class="card"><h3>⚠️ پاک کردن</h3><button class="btn btn-danger btn-block" onclick="resetAll()">🗑 پاک کردن همه</button></div>
@@ -1127,15 +1038,15 @@ h3{font-size:1em;margin:10px 0 8px}
 </nav>
 
 <div class="more-menu" id="moreMenu">
-  <button onclick="go('sourceguide');closeMore()"><span class="ico">📖</span>راهنمای منبع</button>
-  <button onclick="go('summary');closeMore()"><span class="ico">📝</span>خلاصه‌نویسی</button>
+  <button onclick="go('sourceguide');closeMore()"><span class="ico">📖</span>منبع</button>
+  <button onclick="go('summary');closeMore()"><span class="ico">📝</span>خلاصه</button>
   <button onclick="go('checklist');closeMore()"><span class="ico">✅</span>چک‌لیست</button>
   <button onclick="go('sessions');closeMore()"><span class="ico">📝</span>جلسات</button>
   <button onclick="go('distraction');closeMore()"><span class="ico">🧠</span>حواس‌پرتی</button>
   <button onclick="go('exams');closeMore()"><span class="ico">📝</span>آزمون‌ها</button>
   <button onclick="go('journal');closeMore()"><span class="ico">🌙</span>ژورنال</button>
-  <button onclick="go('weekly');closeMore()"><span class="ico">📊</span>گزارش هفته</button>
-  <button onclick="go('techniques');closeMore()"><span class="ico">🧠</span>تکنیک‌ها</button>
+  <button onclick="go('weekly');closeMore()"><span class="ico">📊</span>گزارش</button>
+  <button onclick="go('techniques');closeMore()"><span class="ico">🧠</span>تکنیک</button>
   <button onclick="go('leitner');closeMore()"><span class="ico">🗂</span>لایتنر</button>
   <button onclick="go('mistakes');closeMore()"><span class="ico">📕</span>اشتباهات</button>
   <button onclick="go('grades');closeMore()"><span class="ico">📊</span>نمرات</button>
@@ -1178,44 +1089,37 @@ function toast(msg) { const t = document.getElementById('toast'); t.textContent 
 
 // ============= PWA =============
 let deferredPrompt = null;
-let swRegistration = null;
+let swReady = false;
 
-function isStandalone() { return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
-
-// ثبت Service Worker
-async function registerSW() {
-  if (!('serviceWorker' in navigator)) {
-    updatePwaStatus('❌ مرورگر شما از Service Worker پشتیبانی نمی‌کند');
-    return;
-  }
-  if (!window.isSecureContext) {
-    updatePwaStatus('❌ اتصال امن (HTTPS) لازم است');
-    return;
-  }
-  try {
-    swRegistration = await navigator.serviceWorker.register('./service-worker.js', { scope: './' });
-    console.log('✅ Service Worker registered:', swRegistration.scope);
-    updatePwaStatus('✅ Service Worker فعال است');
-    
-    // چک کردن آپدیت
-    swRegistration.addEventListener('updatefound', () => {
-      const newWorker = swRegistration.installing;
-      newWorker.addEventListener('statechange', () => {
-        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-          console.log('🔄 نسخه جدید آماده');
-          updatePwaStatus('🔄 نسخه جدید آماده — اپ رو رفرش کن');
-        }
-      });
-    });
-  } catch (err) {
-    console.error('❌ Service Worker registration failed:', err);
-    updatePwaStatus(`❌ خطا در Service Worker: ${err.message}`);
-  }
+function isStandalone() {
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         window.navigator.standalone === true;
 }
 
-function updatePwaStatus(text) {
-  const el = document.getElementById('pwaStatus');
-  if (el) el.textContent = text;
+// ثبت Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js', { scope: './' })
+      .then(reg => {
+        console.log('✅ SW registered:', reg.scope);
+        swReady = true;
+        updatePwaStatus('✅ Service Worker فعال — ۳۰ ثانیه صبر کن');
+        reg.addEventListener('updatefound', () => {
+          const nw = reg.installing;
+          nw.addEventListener('statechange', () => {
+            if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+              updatePwaStatus('🔄 نسخه جدید — رفرش کن');
+            }
+          });
+        });
+      })
+      .catch(err => {
+        console.error('❌ SW error:', err);
+        updatePwaStatus('❌ خطا: ' + err.message);
+      });
+  });
+} else {
+  updatePwaStatus('❌ مرورگر پشتیبانی نمی‌کند');
 }
 
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -1225,24 +1129,26 @@ window.addEventListener('beforeinstallprompt', (e) => {
   updatePwaStatus('✅ آماده نصب — دکمه نصب رو بزن');
 });
 
-function installPWA() {
+async function installPWA() {
   if (isStandalone()) { toast('✅ اپ در حالت PWA باز است'); return; }
   
   if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choice) => {
-      if (choice.outcome === 'accepted') {
+    try {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
         toast('🎉 اپ نصب شد!');
         updatePwaStatus('✅ اپ نصب شد');
       } else {
         toast('لغو شد');
       }
       deferredPrompt = null;
-    });
+    } catch (err) {
+      toast('خطا در نصب');
+    }
     return;
   }
   
-  // راهنمای دستی
   const ua = navigator.userAgent;
   const isIOS = /iPad|iPhone|iPod/.test(ua);
   const isAndroid = /Android/.test(ua);
@@ -1250,13 +1156,13 @@ function installPWA() {
   
   let msg = '';
   if (isIOS) {
-    msg = '📲 روی iPhone:\n\n۱. دکمه Share (مربع با فلش)\n۲. Add to Home Screen\n۳. Add\n\nاگه این گزینه رو نمی‌بینی، Safari رو ببند و باز کن.';
+    msg = '📲 iPhone:\n\n۱. دکمه Share (مربع با فلش)\n۲. Add to Home Screen\n۳. Add';
   } else if (isAndroid && isChrome) {
-    msg = '📲 روی Android:\n\n۱. منوی ۳ نقطه بالا-راست Chrome\n۲. Install app یا Add to Home screen\n۳. Install\n\nاگه Install app نبینی:\n• یه بار صفحه رو رفرش کن\n• ۳۰ ثانیه صبر کن\n• دوباره منو رو باز کن';
+    msg = '📲 Android:\n\n۱. منوی ۳ نقطه Chrome\n۲. Install app یا Add to Home screen\n۳. نصب\n\n🔧 اگه Install app نبینی:\n\n۱. chrome://flags رو باز کن\n۲. "pwa" رو جستجو کن\n۳. Enable PWA Universal Install رو Disabled کن\n۴. Chrome رو ببند و باز کن\n\nاگه بازم نبود:\nاز سه نقطه Add to Home screen رو بزن (شورتکات).';
   } else if (isAndroid) {
-    msg = '📲 مرورگر شما PWA رو پشتیبانی نمی‌کنه.\n\nبا Chrome باز کن:\nchrome://settings/help\n\nیا از Chrome استفاده کن.';
+    msg = '📲 با Chrome باز کن:\n\nاز منوی ۳ نقطه → Install app';
   } else {
-    msg = '📲 از منوی مرورگر:\n\nInstall یا Add to Home screen رو بزن.';
+    msg = 'از منوی مرورگر، Install رو بزن.';
   }
   alert(msg);
   updatePwaStatus('ℹ️ راهنما نمایش داده شد');
@@ -1268,6 +1174,18 @@ window.addEventListener('appinstalled', () => {
   updatePwaStatus('✅ اپ نصب شد');
   deferredPrompt = null;
 });
+
+function updatePwaStatus(text) {
+  const el = document.getElementById('pwaStatus');
+  if (el) el.textContent = text;
+}
+
+function checkPwaStatus() {
+  if (isStandalone()) { updatePwaStatus('✅ در حالت PWA اجرا می‌شه'); return; }
+  if (deferredPrompt) { updatePwaStatus('✅ آماده نصب'); return; }
+  if (swReady) { updatePwaStatus('✅ Service Worker فعال — اگه Install app نیست، از Add to Home screen استفاده کن'); return; }
+  updatePwaStatus('⏳ در حال بررسی...');
+}
 
 // ============= تاریخ =============
 function gregorianToJalali(gy, gm, gd) {
@@ -1334,7 +1252,11 @@ const PHASES = {
   12:{title:'اسفند — پیش به جلو',icon:'🚀',goals:['روزی ۳ تا ۳.۵ ساعت','جلو برو','تست‌زنی','برنامه نوروز']}
 };
 
-const EXAMS = { midterm: { name: 'میان‌ترم', jy: 1405, jm: 9, jd: 15 }, final: { name: 'پایان‌ترم', jy: 1405, jm: 10, jd: 20 } };
+const EXAMS = {
+  schoolStart: { name: 'شروع مدرسه', jy: 1405, jm: 7, jd: 4 },
+  midterm: { name: 'میان‌ترم', jy: 1405, jm: 9, jd: 15 },
+  final: { name: 'پایان‌ترم', jy: 1405, jm: 10, jd: 20 }
+};
 function examDateToGregorian(exam) { const [gy, gm, gd] = jalaliToGregorian(exam.jy, exam.jm, exam.jd); return new Date(gy, gm-1, gd, 0, 0, 0); }
 
 // ============= ساعت و فعالیت =============
@@ -1403,16 +1325,17 @@ function renderCountdown() {
   const renderCard = (exam, cls) => {
     const target = examDateToGregorian(exam);
     const diff = target - now;
-    if (diff <= 0) return `<div class="cd-card ${cls} ended"><div class="cd-title">${exam.name}</div><div style="font-size:1.5em;margin:10px 0">✅</div><div class="cd-msg">تموم شد</div></div>`;
-    const days = Math.floor(diff/86400000), hours = Math.floor((diff%86400000)/3600000), mins = Math.floor((diff%3600000)/60000), secs = Math.floor((diff%60000)/1000);
+    if (diff <= 0) return `<div class="cd-card ${cls} ended"><div class="cd-title">${exam.name}</div><div style="font-size:1.5em;margin:10px 0">✅</div><div class="cd-msg">گذشت</div></div>`;
+    const days = Math.floor(diff/86400000), hours = Math.floor((diff%86400000)/3600000),
+          mins = Math.floor((diff%3600000)/60000), secs = Math.floor((diff%60000)/1000);
     let msg = '', msgCls = '';
-    if (days <= 3) { msg = '⏰ خیلی نزدیک!'; msgCls = 'warn'; }
-    else if (days <= 14) { msg = '⚠️ جدی بگیر'; msgCls = 'warn'; }
-    else if (days <= 30) { msg = '📚 آماده شو'; }
+    if (days <= 3) { msg = '⏰ نزدیک!'; msgCls = 'warn'; }
+    else if (days <= 14) { msg = '⚠️ جدی'; msgCls = 'warn'; }
+    else if (days <= 30) { msg = '📚 آماده'; }
     else { msg = '✅ وقت داری'; msgCls = 'ok'; }
     return `<div class="cd-card ${cls}"><div class="cd-title">${exam.name}</div><div class="cd-numbers"><div class="cd-num ${cls}"><div class="cd-num-v">${fa(days)}</div><div class="cd-num-l">روز</div></div><div class="cd-num ${cls}"><div class="cd-num-v">${fa(hours)}</div><div class="cd-num-l">ساعت</div></div><div class="cd-num ${cls}"><div class="cd-num-v">${fa(mins)}</div><div class="cd-num-l">دقیقه</div></div><div class="cd-num ${cls}"><div class="cd-num-v">${fa(secs)}</div><div class="cd-num-l">ثانیه</div></div></div><div class="cd-msg ${msgCls}">${msg}</div><div class="cd-date">${fa(exam.jd)} ${JALALI_MONTHS[exam.jm-1]}</div></div>`;
   };
-  el.innerHTML = renderCard(EXAMS.midterm, 'midterm') + renderCard(EXAMS.final, 'final');
+  el.innerHTML = renderCard(EXAMS.schoolStart, 'school') + renderCard(EXAMS.midterm, 'midterm') + renderCard(EXAMS.final, 'final');
 }
 
 function renderTodaySchedule() {
@@ -1498,7 +1421,8 @@ function go(id) {
   const render = {schedule:()=>{renderWeekTabs();renderFullSchedule();renderSchoolGrid();},
     profile:renderProfile, checklist:renderChecklists, sessions:renderSessions,
     exams:renderExams, journal:renderJournal, weakness:renderWeakness,
-    weekly:renderWeeklyReport, health:renderHealth, distraction:renderDistractionPage};
+    weekly:renderWeeklyReport, health:renderHealth, distraction:renderDistractionPage,
+    backup:checkPwaStatus};
   if (render[id]) render[id]();
 }
 function toggleMore() { document.getElementById('moreMenu').classList.toggle('active'); }
@@ -1603,7 +1527,7 @@ function renderSessions() {
   if (tl) tl.innerHTML = todaySessions.length ? todaySessions.map(fmt).join('') : '<p style="text-align:center;color:var(--text-light);font-size:.85em">هنوز جلسه‌ای ثبت نکردی</p>';
 }
 
-// ============= خواب و سلامت =============
+// ============= خواب =============
 const HL_KEY = 'ilia-health';
 function setSleepQuality(n) { window._slQuality = n; document.querySelectorAll('#slStars .sleep-star').forEach((el, i) => el.classList.toggle('active', i < n)); }
 function logSleep() {
@@ -1959,7 +1883,7 @@ function renderMakeupCard() {
   if (plan.total <= 0.5) { el.innerHTML = ''; return; }
   const todayExtra = getTodayExtra();
   const todayGoal = getDailyGoal(new Date().getDay());
-  let html = `<div class="makeup-card"><div class="makeup-title">📊 برنامه جبران مطالعه</div><div class="makeup-total"><div><span class="label">بدهی کل:</span> <b>${fa(plan.total.toFixed(1))} ساعت</b></div>${todayExtra > 0 ? `<div><span class="label">اضافه امروز:</span> <b>+${fa(todayExtra.toFixed(1))} ساعت</b></div>` : ''}</div><div class="makeup-plan"><div style="font-size:.78em;color:var(--text-light);margin-bottom:8px;font-weight:700">📅 پیشنهاد تقسیم:</div>${plan.days.map(d => `<div class="makeup-day ${d.date === today() ? 'today' : ''}"><span class="makeup-day-name">${d.dayName}${d.date === today() ? ' (امروز)' : ''}</span><span class="makeup-day-amount">+${fa(d.extra.toFixed(1))} ساعت</span></div>`).join('')}</div><div class="makeup-tip">💡 هدف امروزت: <b>${fa((todayGoal + todayExtra).toFixed(1))} ساعت</b></div></div>`;
+  let html = `<div class="makeup-card"><div class="makeup-title">📊 برنامه جبران مطالعه</div><div class="makeup-total"><div><span class="label">بدهی کل:</span> <b>${fa(plan.total.toFixed(1))} ساعت</b></div>${todayExtra > 0 ? `<div><span class="label">اضافه امروز:</span> <b>+${fa(todayExtra.toFixed(1))} ساعت</b></div>` : ''}</div><div class="makeup-plan"><div style="font-size:.78em;color:var(--text-light);margin-bottom:8px;font-weight:700">📅 تقسیم روی روزها:</div>${plan.days.map(d => `<div class="makeup-day ${d.date === today() ? 'today' : ''}"><span class="makeup-day-name">${d.dayName}${d.date === today() ? ' (امروز)' : ''}</span><span class="makeup-day-amount">+${fa(d.extra.toFixed(1))} ساعت</span></div>`).join('')}</div><div class="makeup-tip">💡 هدف امروزت: <b>${fa((todayGoal + todayExtra).toFixed(1))} ساعت</b></div></div>`;
   el.innerHTML = html;
 }
 
@@ -2158,7 +2082,7 @@ function renderAsst() {
       footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">تحلیل کن</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>';
     } else if (asst.step === 3) {
       setData(todaySchoolReportKey(), {subjects:asst.school_subjects, missed:asst.school_missed, date:today(), ts:Date.now()});
-      let html = asstMsg(`گزارش ثبت شد 🌱`);
+      let html = asstMsg('گزارش ثبت شد 🌱');
       html += `<div class="summary-box"><b>📖 امروز داشتی:</b><br>${asst.school_subjects.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + s).join(' • ')}</div>`;
       if (asst.school_missed.length) html += `<div class="analysis-box warn"><b>⚠️ تمرکز امشب:</b><br>${asst.school_missed.map(s => '• ' + (SUBJECT_ICONS[s]||'📚') + ' ' + s).join('<br>')}</div>`;
       else html += `<div class="analysis-box"><b>🎉 آفرین!</b></div>`;
@@ -2299,9 +2223,6 @@ renderDistractionPage();
 scanDeficits();
 renderMakeupCard();
 renderAlert();
-
-// PWA
-registerSW();
 
 setInterval(updateClock, 1000);
 setInterval(renderCountdown, 1000);
