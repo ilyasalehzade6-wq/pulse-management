@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="theme-color" content="#667eea">
 <title>مطالعه — ایلیا صالح‌زاده</title>
+<!-- PWA -->
+<link rel="manifest" href="./manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="مطالعه">
+<link rel="apple-touch-icon" href="./icon.svg">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<meta name="description" content="برنامه‌ریزی درسی و ابزارهای مطالعه — ایلیا صالح‌زاده">
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
 <style>
 :root {
@@ -173,7 +182,6 @@ h3{font-size:1em;margin:10px 0 8px}
 .toast{position:fixed;bottom:calc(var(--nav-h) + 16px);left:50%;transform:translateX(-50%) translateY(100px);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:24px;font-size:.85em;font-weight:600;z-index:200;transition:transform .3s;box-shadow:var(--shadow-lg);max-width:90%;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
-/* Week tabs */
 .week-tabs{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:12px}
 .wd-tab{padding:8px 2px;background:var(--bg-card);border:1.5px solid var(--border);border-radius:8px;text-align:center;cursor:pointer;font-size:.68em;color:var(--text-light);transition:all .15s;user-select:none}
 .wd-tab:active{transform:scale(.95)}
@@ -198,7 +206,6 @@ h3{font-size:1em;margin:10px 0 8px}
 .ti.past{opacity:.4}
 .ti.past .tx{text-decoration:line-through}
 
-/* Phase card */
 .phase-hero{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border-radius:18px;padding:20px 16px;margin-bottom:12px;box-shadow:0 10px 30px rgba(102,126,234,.4);position:relative;overflow:hidden}
 .phase-hero::before{content:'';position:absolute;top:-40%;left:-30%;width:180%;height:180%;background:radial-gradient(circle,rgba(255,255,255,.13),transparent 60%);animation:rot 30s linear infinite}
 .phase-month{font-size:.82em;opacity:.95;position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
@@ -211,7 +218,6 @@ h3{font-size:1em;margin:10px 0 8px}
 .phase-progress-fill{height:100%;background:#fff;border-radius:10px;transition:width .6s}
 .phase-footer{font-size:.75em;opacity:.9;text-align:center;margin-top:8px;position:relative;z-index:1}
 
-/* Countdown */
 .countdown-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 .cd-card{background:var(--bg-card);border-radius:14px;padding:14px 12px;border:1px solid var(--border);box-shadow:var(--shadow);text-align:center;position:relative;overflow:hidden}
 .cd-card.midterm{border-top:4px solid var(--accent)}
@@ -229,10 +235,13 @@ h3{font-size:1em;margin:10px 0 8px}
 .cd-msg.warn{color:var(--danger);font-weight:700}
 .cd-msg.ok{color:var(--success);font-weight:700}
 
+/* PWA install banner */
+#installBanner{display:none;position:fixed;bottom:calc(var(--nav-h) + 16px);left:14px;right:14px;background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;padding:14px 16px;border-radius:14px;box-shadow:0 10px 30px rgba(102,126,234,.4);z-index:150;align-items:center;gap:12px}
+
 @media print{
   body{background:#fff;color:#000;padding:0}
   header{background:#333!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .bottom-nav,.more-menu,.theme-toggle,.pomodoro,.btn,.focus-mode,.toast,.chart,.now-card,.next-card{display:none!important}
+  .bottom-nav,.more-menu,.theme-toggle,.pomodoro,.btn,.focus-mode,.toast,.chart,.now-card,.next-card,#installBanner{display:none!important}
   section{display:block!important;page-break-after:always}
   section:last-child{page-break-after:auto}
   .card,.tech,.item,.today-item{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
@@ -262,29 +271,22 @@ h3{font-size:1em;margin:10px 0 8px}
 
 <!-- ============ DASHBOARD ============ -->
 <section id="dashboard" class="active">
-  <!-- Phase hero -->
   <div id="phaseContainer"></div>
-
-  <!-- Now card -->
   <div id="nowContainer"></div>
 
-  <!-- Countdown to exams -->
   <h3 style="margin:16px 0 8px;font-size:.95em;color:var(--text-light)">⏳ شمارش معکوس امتحانات</h3>
   <div class="countdown-grid" id="countdownGrid"></div>
 
-  <!-- Today schedule -->
   <div class="card">
     <h3>📋 برنامه امروز — <span id="todayName" style="color:var(--primary)"></span></h3>
     <div id="todaySchedule"></div>
   </div>
 
-  <!-- Quick stats -->
   <div class="grid-2">
     <div class="stat"><div class="stat-v" id="dbToday">۰</div><div class="stat-l">ساعت امروز</div></div>
     <div class="stat"><div class="stat-v" id="dbStreak">۰</div><div class="stat-l">روز پیوسته</div></div>
   </div>
 
-  <!-- Quick buttons -->
   <div class="grid-2">
     <button class="btn btn-primary btn-block" onclick="startFocusMode()">🎯 تمرکز</button>
     <button class="btn btn-info btn-block" onclick="go('pomodoro')">⏱ پومودورو</button>
@@ -307,186 +309,122 @@ h3{font-size:1em;margin:10px 0 8px}
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">🍅</span>پومودورو</div>
-    <div class="tech-body">
-      <b>چیه؟</b> ۲۵ دقیقه تمرکز کامل + ۵ دقیقه استراحت.
-      <ol><li>تایمر ۲۵ دقیقه بذار</li><li>گوشی بیرون اتاق، فقط یک کار</li><li>وقتی زنگ زد، ۵ دقیقه استراحت (آب، کشش، نه گوشی)</li><li>بعد ۴ دور، ۱۵-۳۰ دقیقه استراحت بلند</li></ol>
-      <b>نکته:</b> اگه ۲۵ دقیقه کوتاهه، از ۴۵/۱۰ یا ۵۰/۱۰ استفاده کن.
-    </div>
+    <div class="tech-body"><b>چیه؟</b> ۲۵ دقیقه تمرکز کامل + ۵ دقیقه استراحت.<ol><li>تایمر ۲۵ دقیقه بذار</li><li>گوشی بیرون اتاق، فقط یک کار</li><li>وقتی زنگ زد، ۵ دقیقه استراحت (آب، کشش، نه گوشی)</li><li>بعد ۴ دور، ۱۵-۳۰ دقیقه استراحت بلند</li></ol><b>نکته:</b> اگه ۲۵ دقیقه کوتاهه، از ۴۵/۱۰ یا ۵۰/۱۰ استفاده کن.</div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">🧑‍🏫</span>تکنیک فاینمن</div>
-    <div class="tech-body">
-      <b>چیه؟</b> یه مفهوم رو طوری توضیح بده که یه بچه ۱۲ ساله بفهمه.
-      <ol><li>اسم مفهوم رو بالای صفحه بنویس</li><li>با زبان ساده توضیح بده</li><li>هر جا گیر کردی، برگرد به کتاب</li><li>ساده‌ترش کن، مثال بزن</li></ol>
-      <b>بهترین برای:</b> ریاضی، فیزیک، شیمی.
-    </div>
+    <div class="tech-body"><b>چیه؟</b> یه مفهوم رو طوری توضیح بده که یه بچه ۱۲ ساله بفهمه.<ol><li>اسم مفهوم رو بالای صفحه بنویس</li><li>با زبان ساده توضیح بده</li><li>هر جا گیر کردی، برگرد به کتاب</li><li>ساده‌ترش کن، مثال بزن</li></ol><b>بهترین برای:</b> ریاضی، فیزیک، شیمی.</div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">📖</span>مرور فاصله‌دار</div>
-    <div class="tech-body">
-      <b>برنامه مرور:</b>
-      <ul><li>۲۴ ساعت بعد از یادگیری</li><li>۳ روز بعد</li><li>۱ هفته بعد</li><li>۲ هفته بعد</li><li>۱ ماه بعد</li></ul>
-      <b>ابزار:</b> از بخش «لایتنر» استفاده کن.
-    </div>
+    <div class="tech-body"><b>برنامه مرور:</b><ul><li>۲۴ ساعت بعد از یادگیری</li><li>۳ روز بعد</li><li>۱ هفته بعد</li><li>۲ هفته بعد</li><li>۱ ماه بعد</li></ul><b>ابزار:</b> از بخش «لایتنر» استفاده کن.</div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">🔁</span>یادآوری فعال</div>
-    <div class="tech-body">
-      <b>چیه؟</b> به جای دوباره خوندن، از خودت سوال بپرس.
-      <ol><li>بعد از خوندن، کتاب رو ببند</li><li>با زبان خودت خلاصه بگو یا بنویس</li><li>فلش‌کارت بساز</li><li>به دوست یا خانواده توضیح بده</li></ol>
-      <b>قانون طلایی:</b> اگه نمی‌تونی بدون کتاب توضیح بدی، یعنی یاد نگرفتی.
-    </div>
+    <div class="tech-body"><b>چیه؟</b> به جای دوباره خوندن، از خودت سوال بپرس.<ol><li>بعد از خوندن، کتاب رو ببند</li><li>با زبان خودت خلاصه بگو یا بنویس</li><li>فلش‌کارت بساز</li><li>به دوست یا خانواده توضیح بده</li></ol><b>قانون طلایی:</b> اگه نمی‌تونی بدون کتاب توضیح بدی، یعنی یاد نگرفتی.</div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">📝</span>یادداشت کورنل</div>
-    <div class="tech-body">
-      <ol><li>صفحه رو به ۴ بخش تقسیم کن: عنوان، کلیدواژه (چپ)، یادداشت (راست)، خلاصه (پایین)</li><li>سر کلاس، تو بخش راست یادداشت بنویس</li><li>بعد کلاس، تو بخش چپ سوال بنویس</li><li>آخر شب، خلاصه بنویس</li></ol>
-    </div>
+    <div class="tech-body"><ol><li>صفحه رو به ۴ بخش تقسیم کن: عنوان، کلیدواژه (چپ)، یادداشت (راست)، خلاصه (پایین)</li><li>سر کلاس، تو بخش راست یادداشت بنویس</li><li>بعد کلاس، تو بخش چپ سوال بنویس</li><li>آخر شب، خلاصه بنویس</li></ol></div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">🗺</span>نقشه ذهنی</div>
-    <div class="tech-body">
-      <ol><li>موضوع اصلی وسط</li><li>شاخه‌های اصلی دورش</li><li>زیرشاخه‌ها</li><li>با رنگ‌های مختلف</li><li>آخرش از حفظ بازسازی کن</li></ol>
-      <b>بهترین برای:</b> فارسی، دینی، اجتماعی، جمع‌بندی فصل‌ها.
-    </div>
+    <div class="tech-body"><ol><li>موضوع اصلی وسط</li><li>شاخه‌های اصلی دورش</li><li>زیرشاخه‌ها</li><li>با رنگ‌های مختلف</li><li>آخرش از حفظ بازسازی کن</li></ol><b>بهترین برای:</b> فارسی، دینی، اجتماعی، جمع‌بندی فصل‌ها.</div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">📚</span>روش SQ3R</div>
-    <div class="tech-body">
-      <ol><li><b>Survey:</b> تیترها، شکل‌ها رو نگاه کن</li><li><b>Question:</b> تیترها رو به سوال تبدیل کن</li><li><b>Read:</b> دنبال جواب بخون</li><li><b>Recite:</b> با زبان خودت بگو</li><li><b>Review:</b> همه رو یه بار مرور کن</li></ol>
-    </div>
+    <div class="tech-body"><ol><li><b>Survey:</b> تیترها، شکل‌ها رو نگاه کن</li><li><b>Question:</b> تیترها رو به سوال تبدیل کن</li><li><b>Read:</b> دنبال جواب بخون</li><li><b>Recite:</b> با زبان خودت بگو</li><li><b>Review:</b> همه رو یه بار مرور کن</li></ol></div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">🔀</span>Interleaving</div>
-    <div class="tech-body">
-      <b>چیه؟</b> به جای خوندن یه درس برای ساعت‌ها، چند درس رو با هم مخلوط کن.
-      <ol><li>۳۰ دقیقه ریاضی، ۳۰ دقیقه فیزیک، ۳۰ دقیقه ریاضی</li><li>موضوعات مشابه رو در هم تنیده مرور کن</li><li>بین درس‌های سخت و آسان جابه‌جا شو</li></ol>
-      <b>بهترین برای:</b> ریاضی و فیزیک.
-    </div>
+    <div class="tech-body"><b>چیه؟</b> به جای خوندن یه درس برای ساعت‌ها، چند درس رو با هم مخلوط کن.<ol><li>۳۰ دقیقه ریاضی، ۳۰ دقیقه فیزیک، ۳۰ دقیقه ریاضی</li><li>موضوعات مشابه رو در هم تنیده مرور کن</li><li>بین درس‌های سخت و آسان جابه‌جا شو</li></ol><b>بهترین برای:</b> ریاضی و فیزیک.</div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">🧩</span>Chunking</div>
-    <div class="tech-body">
-      <b>چیه؟</b> اطلاعات بزرگ رو به تکه‌های کوچیک بشکن.
-      <ol><li>یه فصل ۳۰ صفحه‌ای رو به ۵ بخش تقسیم کن</li><li>هر تکه رو جدا یاد بگیر</li><li>آخر همه رو با هم ترکیب کن</li></ol>
-    </div>
+    <div class="tech-body"><b>چیه؟</b> اطلاعات بزرگ رو به تکه‌های کوچیک بشکن.<ol><li>یه فصل ۳۰ صفحه‌ای رو به ۵ بخش تقسیم کن</li><li>هر تکه رو جدا یاد بگیر</li><li>آخر همه رو با هم ترکیب کن</li></ol></div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">🎨</span>کدگذاری دوگانه</div>
-    <div class="tech-body">
-      <ol><li>هر مفهوم رو با یه شکل بکش</li><li>فرمول‌ها رو با نمودار نشون بده</li><li>واکنش‌ها رو با فلش و رنگ</li></ol>
-      <b>چرا؟</b> مغز تصویر رو بهتر از متن حفظ می‌کنه.
-    </div>
+    <div class="tech-body"><ol><li>هر مفهوم رو با یه شکل بکش</li><li>فرمول‌ها رو با نمودار نشون بده</li><li>واکنش‌ها رو با فلش و رنگ</li></ol><b>چرا؟</b> مغز تصویر رو بهتر از متن حفظ می‌کنه.</div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">❓</span>سوال‌سازی عمیق</div>
-    <div class="tech-body">
-      <ol><li>«این چرا اینطوریه؟»</li><li>«اگه این نبود چی میشد؟»</li><li>«این کجا به کار میاد؟»</li><li>«چه ربطی به قبلی داره؟»</li></ol>
-    </div>
+    <div class="tech-body"><ol><li>«این چرا اینطوریه؟»</li><li>«اگه این نبود چی میشد؟»</li><li>«این کجا به کار میاد؟»</li><li>«چه ربطی به قبلی داره؟»</li></ol></div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">⚡</span>قانون ۲ دقیقه</div>
-    <div class="tech-body">
-      <ol><li>تایمر ۲ دقیقه بذار</li><li>فقط یه صفحه بخون</li><li>اگه خواستی ول کن — ولی ۹۰٪ مواقع ادامه میدی</li></ol>
-    </div>
+    <div class="tech-body"><ol><li>تایمر ۲ دقیقه بذار</li><li>فقط یه صفحه بخون</li><li>اگه خواستی ول کن — ولی ۹۰٪ مواقع ادامه میدی</li></ol></div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">🎯</span>قانون پارتو ۸۰/۲۰</div>
-    <div class="tech-body">
-      <ol><li>پیدا کن کدوم ۲۰٪ مهم‌ترن</li><li>وقت بیشتری روشون بذار</li><li>جزئیات کم‌اهمیت رو کمتر</li></ol>
-      <b>بهترین:</b> وقتی وقت کم داری.
-    </div>
+    <div class="tech-body"><ol><li>پیدا کن کدوم ۲۰٪ مهم‌ترن</li><li>وقت بیشتری روشون بذار</li><li>جزئیات کم‌اهمیت رو کمتر</li></ol><b>بهترین:</b> وقتی وقت کم داری.</div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">📋</span>ماتریس آیزنهاور</div>
-    <div class="tech-body">
-      <ul><li>🔴 فوری و مهم: همین الان</li><li>🟡 مهم ولی نه فوری: برنامه‌ریزی</li><li>🔵 فوری ولی نه مهم: واگذار</li><li>⚪ نه فوری نه مهم: حذف</li></ul>
-    </div>
+    <div class="tech-body"><ul><li>🔴 فوری و مهم: همین الان</li><li>🟡 مهم ولی نه فوری: برنامه‌ریزی</li><li>🔵 فوری ولی نه مهم: واگذار</li><li>⚪ نه فوری نه مهم: حذف</li></ul></div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">⏰</span>بلوک‌بندی زمانی</div>
-    <div class="tech-body">
-      <ol><li>مثلاً: «۱۵:۳۰ تا ۱۷:۰۰ فقط ریاضی»</li><li>تو اون بازه، هیچ کار دیگه‌ای نکن</li><li>حتی اگه تموم نشد، سر وقت عوض کن</li></ol>
-    </div>
+    <div class="tech-body"><ol><li>مثلاً: «۱۵:۳۰ تا ۱۷:۰۰ فقط ریاضی»</li><li>تو اون بازه، هیچ کار دیگه‌ای نکن</li><li>حتی اگه تموم نشد، سر وقت عوض کن</li></ol></div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">🧠</span>ذهن‌آگاهی مطالعه</div>
-    <div class="tech-body">
-      <ol><li>قبل شروع، ۳ نفس عمیق</li><li>بپرس: «الان دقیقاً چی میخوام یاد بگیرم؟»</li><li>فکر مزاحم اومد؟ تو دفتر افکار بنویس</li><li>موقع استراحت کاملاً استراحت کن</li></ol>
-    </div>
+    <div class="tech-body"><ol><li>قبل شروع، ۳ نفس عمیق</li><li>بپرس: «الان دقیقاً چی میخوام یاد بگیرم؟»</li><li>فکر مزاحم اومد؟ تو دفتر افکار بنویس</li><li>موقع استراحت کاملاً استراحت کن</li></ol></div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">📓</span>دفتر اشتباهات</div>
-    <div class="tech-body">
-      <ol><li>هر سوالی غلط زدی، توش بنویس</li><li>دلیل غلط: بی‌دقتی، نفهمیدن، فراموشی</li><li>راه‌حل درست</li><li>هفته‌ای یه بار مرور</li><li>قبل امتحان، فقط همین دفتر رو بخون</li></ol>
-    </div>
+    <div class="tech-body"><ol><li>هر سوالی غلط زدی، توش بنویس</li><li>دلیل غلط: بی‌دقتی، نفهمیدن، فراموشی</li><li>راه‌حل درست</li><li>هفته‌ای یه بار مرور</li><li>قبل امتحان، فقط همین دفتر رو بخون</li></ol></div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">😴</span>خواب و تثبیت حافظه</div>
-    <div class="tech-body">
-      <ol><li>۷-۸ ساعت خواب شبانه</li><li>قبل خواب ۳۰ دقیقه، مطالب مهم رو مرور کن</li><li>بدون گوشی بخواب</li><li>ساعت خواب و بیداری ثابت</li></ol>
-    </div>
+    <div class="tech-body"><ol><li>۷-۸ ساعت خواب شبانه</li><li>قبل خواب ۳۰ دقیقه، مطالب مهم رو مرور کن</li><li>بدون گوشی بخواب</li><li>ساعت خواب و بیداری ثابت</li></ol></div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">🏃</span>ورزش و یادگیری</div>
-    <div class="tech-body">
-      <ol><li>روزی ۲۰ دقیقه ورزش سبک</li><li>قبل مطالعه، ۵ دقیقه کشش</li><li>بین بلوک‌ها، کمی قدم بزن</li></ol>
-    </div>
+    <div class="tech-body"><ol><li>روزی ۲۰ دقیقه ورزش سبک</li><li>قبل مطالعه، ۵ دقیقه کشش</li><li>بین بلوک‌ها، کمی قدم بزن</li></ol></div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">🍎</span>تغذیه و تمرکز</div>
-    <div class="tech-body">
-      <ul><li>صبحانه: پروتئین + کربوهیدرات</li><li>قبل مطالعه سنگین غذا نخور</li><li>آب کافی</li><li>میان‌وعده: آجیل، میوه، ماست</li><li>کافئین زیاد = اضطراب</li></ul>
-    </div>
+    <div class="tech-body"><ul><li>صبحانه: پروتئین + کربوهیدرات</li><li>قبل مطالعه سنگین غذا نخور</li><li>آب کافی</li><li>میان‌وعده: آجیل، میوه، ماست</li><li>کافئین زیاد = اضطراب</li></ul></div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">📱</span>مدیریت گوشی</div>
-    <div class="tech-body">
-      <ol><li>گوشی بیرون اتاق</li><li>حالت هواپیما اگه لازمه</li><li>اعلان‌ها خاموش</li><li>اپ مسدودکننده</li></ol>
-      <b>چرا؟</b> هر چک کردن، ۲۰ دقیقه تمرکز رو خراب می‌کنه.
-    </div>
+    <div class="tech-body"><ol><li>گوشی بیرون اتاق</li><li>حالت هواپیما اگه لازمه</li><li>اعلان‌ها خاموش</li><li>اپ مسدودکننده</li></ol><b>چرا؟</b> هر چک کردن، ۲۰ دقیقه تمرکز رو خراب می‌کنه.</div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">🎯</span>هدف‌گذاری SMART</div>
-    <div class="tech-body">
-      <ul><li><b>S</b>pecific — مشخص: «۲۰ تست ریاضی فصل ۱»</li><li><b>M</b>easurable — عدد داشته باشه</li><li><b>A</b>chievable — دست‌یافتنی</li><li><b>R</b>elevant — مرتبط با هدفت</li><li><b>T</b>ime-bound — زمان‌دار</li></ul>
-    </div>
+    <div class="tech-body"><ul><li><b>S</b>pecific — مشخص: «۲۰ تست ریاضی فصل ۱»</li><li><b>M</b>easurable — عدد داشته باشه</li><li><b>A</b>chievable — دست‌یافتنی</li><li><b>R</b>elevant — مرتبط با هدفت</li><li><b>T</b>ime-bound — زمان‌دار</li></ul></div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">🌱</span>عادت‌سازی تدریجی</div>
-    <div class="tech-body">
-      <ol><li>با ۱۰ دقیقه شروع کن (نه ۲ ساعت)</li><li>هر روز همون ساعت، همون مکان</li><li>هر هفته ۱۰٪ اضافه کن</li><li>یه روز خراب شد؟ فرداش دوباره</li></ol>
-      <b>قانون:</b> تداوم از شدت مهم‌تره.
-    </div>
+    <div class="tech-body"><ol><li>با ۱۰ دقیقه شروع کن (نه ۲ ساعت)</li><li>هر روز همون ساعت، همون مکان</li><li>هر هفته ۱۰٪ اضافه کن</li><li>یه روز خراب شد؟ فرداش دوباره</li></ol><b>قانون:</b> تداوم از شدت مهم‌تره.</div>
   </div>
 
   <div class="tech" onclick="this.classList.toggle('open')">
     <div class="tech-head"><span class="ico">🔗</span>عادت‌سوار شدن</div>
-    <div class="tech-body">
-      <ol><li>«بعد از شام، ۳۰ دقیقه عربی»</li><li>«بعد از مسواک صبح، ۱۰ دقیقه مرور»</li><li>«بعد از رسیدن از مدرسه، ۱۵ دقیقه استراحت، بعد مطالعه»</li></ol>
-    </div>
+    <div class="tech-body"><ol><li>«بعد از شام، ۳۰ دقیقه عربی»</li><li>«بعد از مسواک صبح، ۱۰ دقیقه مرور»</li><li>«بعد از رسیدن از مدرسه، ۱۵ دقیقه استراحت، بعد مطالعه»</li></ol></div>
   </div>
 </section>
 
@@ -500,10 +438,7 @@ h3{font-size:1em;margin:10px 0 8px}
     <input class="inp" id="lb" placeholder="پاسخ / معنی">
     <button class="btn btn-success btn-block" onclick="addLeitner()">➕ اضافه کن</button>
   </div>
-  <div class="card">
-    <h3>📊 وضعیت جعبه‌ها</h3>
-    <div id="leitnerStats" style="text-align:center"></div>
-  </div>
+  <div class="card"><h3>📊 وضعیت جعبه‌ها</h3><div id="leitnerStats" style="text-align:center"></div></div>
   <div class="card">
     <h3>🎴 کارت امروز</h3>
     <div class="flashcard" id="leitnerCard" onclick="flipLeitner()">
@@ -689,6 +624,11 @@ h3{font-size:1em;margin:10px 0 8px}
     <input type="file" id="importF" accept=".json" onchange="importData(event)" class="inp">
   </div>
   <div class="card">
+    <h3>📲 نصب PWA</h3>
+    <p style="color:var(--text-light);font-size:.85em;margin-bottom:10px">این اپ رو روی گوشی نصب کن تا آفلاین کار کنه</p>
+    <button class="btn btn-info btn-block" onclick="manualInstall()">📲 نصب روی گوشی</button>
+  </div>
+  <div class="card">
     <h3>⚠️ پاک کردن</h3>
     <button class="btn btn-danger btn-block" onclick="resetAll()">🗑 پاک کردن همه</button>
   </div>
@@ -720,11 +660,82 @@ h3{font-size:1em;margin:10px 0 8px}
   <button onclick="window.print()"><span class="ico">🖨</span>پرینت</button>
 </div>
 
+<!-- PWA install banner -->
+<div id="installBanner">
+  <div style="flex:1;font-size:.85em;font-weight:600">📲 می‌خوای مثل اپ روی گوشی نصب کنی؟</div>
+  <button onclick="installPWA()" style="background:#fff;color:#667eea;border:none;padding:8px 16px;border-radius:10px;font-family:inherit;font-weight:700;font-size:.85em;cursor:pointer">نصب</button>
+  <button onclick="dismissInstall()" style="background:transparent;color:#fff;border:none;font-size:1.2em;cursor:pointer;padding:0 4px">✕</button>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 // =============================================================
-// تبدیل تاریخ میلادی به شمسی
+// PWA — Service Worker
+// =============================================================
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then((reg) => console.log('✅ SW ثبت شد:', reg.scope))
+      .catch((err) => console.log('❌ SW ثبت نشد:', err));
+  });
+}
+
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (!localStorage.getItem('ilia-pwa-dismissed') && !localStorage.getItem('ilia-pwa-installed')) {
+    const banner = document.getElementById('installBanner');
+    if (banner) banner.style.display = 'flex';
+  }
+});
+
+function installPWA() {
+  if (!deferredPrompt) {
+    manualInstall();
+    return;
+  }
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then((choice) => {
+    if (choice.outcome === 'accepted') {
+      toast('✅ نصب شد!');
+      localStorage.setItem('ilia-pwa-installed', 'true');
+    } else {
+      localStorage.setItem('ilia-pwa-dismissed', 'true');
+    }
+    deferredPrompt = null;
+    const banner = document.getElementById('installBanner');
+    if (banner) banner.style.display = 'none';
+  });
+}
+
+function dismissInstall() {
+  localStorage.setItem('ilia-pwa-dismissed', 'true');
+  document.getElementById('installBanner').style.display = 'none';
+}
+
+function manualInstall() {
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const isAndroid = /Android/.test(navigator.userAgent);
+  if (isIOS) {
+    alert('📲 روی iPhone:\n\n۱. دکمه Share (مربع با فلش) رو بزن\n۲. برو به «Add to Home Screen»\n۳. «Add» رو بزن\n\nحالا مثل اپ روی گوشیت نصب میشه!');
+  } else if (isAndroid) {
+    alert('📲 روی Android:\n\n۱. منوی ۳ نقطه بالا-راست Chrome رو بزن\n۲. «Add to Home screen» یا «Install app»\n۳. تأیید کن\n\nحالا مثل اپ نصب میشه!');
+  } else {
+    alert('📲 برای نصب:\n\nاز منوی مرورگر، گزینه «Install» یا «Add to Home screen» رو انتخاب کن.');
+  }
+}
+
+window.addEventListener('appinstalled', () => {
+  const banner = document.getElementById('installBanner');
+  if (banner) banner.style.display = 'none';
+  localStorage.setItem('ilia-pwa-installed', 'true');
+  toast('🎉 اپ نصب شد!');
+});
+
+// =============================================================
+// تبدیل تاریخ
 // =============================================================
 function gregorianToJalali(gy, gm, gd) {
   const g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
@@ -742,7 +753,6 @@ function gregorianToJalali(gy, gm, gd) {
   return [jy, jm, jd];
 }
 
-// تبدیل شمسی به میلادی (برای محاسبه شمارش معکوس)
 function jalaliToGregorian(jy, jm, jd) {
   jy += 1595;
   let days = -355668 + (365 * jy) + (Math.floor(jy / 33) * 8) + Math.floor(((jy % 33) + 3) / 4) + jd + ((jm < 7) ? (jm - 1) * 31 : ((jm - 7) * 30) + 186);
@@ -780,133 +790,39 @@ function getShamsi(d) {
 // برنامه هفتگی
 // =============================================================
 const SCHEDULE = {
-  6: [
-    ["06:00","06:30","بیداری، صبحانه","wake","🌅"],
-    ["06:30","07:00","۱۰ دقیقه مرور عربی/انگلیسی","study","📖"],
-    ["07:00","14:00","مدرسه","school","🏫"],
-    ["14:00","15:00","ناهار","rest","🍽"],
-    ["15:00","16:00","استراحت (بدون صفحه)","rest","☕"],
-    ["16:00","16:30","آماده‌سازی باشگاه","rest","👕"],
-    ["16:30","20:00","باشگاه کیک‌بوکسینگ","sport","🥊"],
-    ["20:00","20:45","دوش، شام","rest","🍽"],
-    ["20:45","21:30","مرور سبک + دفتر اشتباهات","study","📓"],
-    ["21:30","22:30","آماده خواب","rest","🌙"],
-    ["22:30","23:59","خواب","sleep","😴"]
-  ],
-  0: [
-    ["06:00","06:30","بیداری، صبحانه","wake","🌅"],
-    ["06:30","07:00","۱۰ دقیقه مرور","study","📖"],
-    ["07:00","14:00","مدرسه","school","🏫"],
-    ["14:00","15:00","ناهار","rest","🍽"],
-    ["15:00","15:30","استراحت","rest","☕"],
-    ["15:30","17:00","ریاضی (ویدیو ۳۰ + تمرین ۶۰)","study","📐"],
-    ["17:00","17:15","استراحت","rest","☕"],
-    ["17:15","18:15","عربی","study","📖"],
-    ["18:15","18:45","استراحت","rest","☕"],
-    ["18:45","20:00","تکالیف + شیمی","study","🧪"],
-    ["20:00","20:45","شام","rest","🍽"],
-    ["20:45","22:00","هندسه","study","📏"],
-    ["22:00","22:30","مرور + برنامه فردا","study","📝"],
-    ["22:30","23:59","خواب","sleep","😴"]
-  ],
-  1: [
-    ["06:00","06:30","بیداری، صبحانه","wake","🌅"],
-    ["06:30","07:00","۱۰ دقیقه مرور","study","📖"],
-    ["07:00","14:00","مدرسه","school","🏫"],
-    ["14:00","15:00","ناهار","rest","🍽"],
-    ["15:00","16:00","استراحت","rest","☕"],
-    ["16:00","16:30","آماده‌سازی باشگاه","rest","👕"],
-    ["16:30","20:00","باشگاه","sport","🥊"],
-    ["20:00","20:45","دوش، شام","rest","🍽"],
-    ["20:45","22:00","فیزیک (ویدیو ۳۰ + تمرین ۴۵)","study","⚛️"],
-    ["22:00","22:30","مرور + برنامه فردا","study","📝"],
-    ["22:30","23:59","خواب","sleep","😴"]
-  ],
-  2: [
-    ["06:00","06:30","بیداری، صبحانه","wake","🌅"],
-    ["06:30","07:00","۱۰ دقیقه مرور","study","📖"],
-    ["07:00","14:00","مدرسه","school","🏫"],
-    ["14:00","15:00","ناهار","rest","🍽"],
-    ["15:00","15:30","استراحت","rest","☕"],
-    ["15:30","17:00","ریاضی","study","📐"],
-    ["17:00","17:15","استراحت","rest","☕"],
-    ["17:15","18:15","انگلیسی","study","🌍"],
-    ["18:15","18:45","استراحت","rest","☕"],
-    ["18:45","20:00","تکالیف + فارسی","study","📜"],
-    ["20:00","20:45","شام","rest","🍽"],
-    ["20:45","22:00","فیزیک یا هندسه","study","⚛️"],
-    ["22:00","22:30","مرور + دفتر اشتباهات","study","📓"],
-    ["22:30","23:59","خواب","sleep","😴"]
-  ],
-  3: [
-    ["06:00","06:30","بیداری، صبحانه","wake","🌅"],
-    ["06:30","07:00","۱۰ دقیقه مرور","study","📖"],
-    ["07:00","14:00","مدرسه","school","🏫"],
-    ["14:00","15:00","ناهار","rest","🍽"],
-    ["15:00","16:00","استراحت","rest","☕"],
-    ["16:00","16:30","آماده‌سازی باشگاه","rest","👕"],
-    ["16:30","20:00","باشگاه","sport","🥊"],
-    ["20:00","20:45","دوش، شام","rest","🍽"],
-    ["20:45","22:00","ریاضی","study","📐"],
-    ["22:00","22:30","مرور + برنامه فردا","study","📝"],
-    ["22:30","23:59","خواب","sleep","😴"]
-  ],
-  4: [
-    ["08:00","08:30","بیداری، صبحانه","wake","🌅"],
-    ["08:30","10:00","ریاضی یا فیزیک","study","📐"],
-    ["10:00","10:30","استراحت","rest","☕"],
-    ["10:30","12:00","عربی + انگلیسی","study","📖"],
-    ["12:00","14:00","ناهار، استراحت","rest","🍽"],
-    ["14:00","15:30","شیمی","study","🧪"],
-    ["15:30","16:00","استراحت","rest","☕"],
-    ["16:00","17:30","هندسه","study","📏"],
-    ["17:30","23:59","آزاد / استراحت","rest","🎮"]
-  ],
-  5: [
-    ["08:00","09:00","بیداری، صبحانه","wake","🌅"],
-    ["09:00","10:30","مرور کل هفته (خلاصه‌ها)","study","📖"],
-    ["10:30","11:00","دفتر اشتباهات","study","📓"],
-    ["11:00","11:30","برنامه هفته بعد","study","📝"],
-    ["11:30","23:59","استراحت کامل","rest","🎮"]
-  ]
+  6: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","۱۰ دقیقه مرور عربی/انگلیسی","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت (بدون صفحه)","rest","☕"],["16:00","16:30","آماده‌سازی باشگاه","rest","👕"],["16:30","20:00","باشگاه کیک‌بوکسینگ","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور سبک + دفتر اشتباهات","study","📓"],["21:30","22:30","آماده خواب","rest","🌙"],["22:30","23:59","خواب","sleep","😴"]],
+  0: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","۱۰ دقیقه مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","15:30","استراحت","rest","☕"],["15:30","17:00","ریاضی (ویدیو ۳۰ + تمرین ۶۰)","study","📐"],["17:00","17:15","استراحت","rest","☕"],["17:15","18:15","عربی","study","📖"],["18:15","18:45","استراحت","rest","☕"],["18:45","20:00","تکالیف + شیمی","study","🧪"],["20:00","20:45","شام","rest","🍽"],["20:45","22:00","هندسه","study","📏"],["22:00","22:30","مرور + برنامه فردا","study","📝"],["22:30","23:59","خواب","sleep","😴"]],
+  1: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","۱۰ دقیقه مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده‌سازی باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","22:00","فیزیک (ویدیو ۳۰ + تمرین ۴۵)","study","⚛️"],["22:00","22:30","مرور + برنامه فردا","study","📝"],["22:30","23:59","خواب","sleep","😴"]],
+  2: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","۱۰ دقیقه مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","15:30","استراحت","rest","☕"],["15:30","17:00","ریاضی","study","📐"],["17:00","17:15","استراحت","rest","☕"],["17:15","18:15","انگلیسی","study","🌍"],["18:15","18:45","استراحت","rest","☕"],["18:45","20:00","تکالیف + فارسی","study","📜"],["20:00","20:45","شام","rest","🍽"],["20:45","22:00","فیزیک یا هندسه","study","⚛️"],["22:00","22:30","مرور + دفتر اشتباهات","study","📓"],["22:30","23:59","خواب","sleep","😴"]],
+  3: [["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","۱۰ دقیقه مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده‌سازی باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","22:00","ریاضی","study","📐"],["22:00","22:30","مرور + برنامه فردا","study","📝"],["22:30","23:59","خواب","sleep","😴"]],
+  4: [["08:00","08:30","بیداری، صبحانه","wake","🌅"],["08:30","10:00","ریاضی یا فیزیک","study","📐"],["10:00","10:30","استراحت","rest","☕"],["10:30","12:00","عربی + انگلیسی","study","📖"],["12:00","14:00","ناهار، استراحت","rest","🍽"],["14:00","15:30","شیمی","study","🧪"],["15:30","16:00","استراحت","rest","☕"],["16:00","17:30","هندسه","study","📏"],["17:30","23:59","آزاد / استراحت","rest","🎮"]],
+  5: [["08:00","09:00","بیداری، صبحانه","wake","🌅"],["09:00","10:30","مرور کل هفته (خلاصه‌ها)","study","📖"],["10:30","11:00","دفتر اشتباهات","study","📓"],["11:00","11:30","برنامه هفته بعد","study","📝"],["11:30","23:59","استراحت کامل","rest","🎮"]]
 };
 
 // =============================================================
 // فازهای ماهانه
 // =============================================================
 const PHASES = {
-  1: { title: 'جلو افتادن', icon: '⚡',
-       goals: ['تعطیلات: ۳ تا ۴ ساعت مفید روزانه', 'پیش‌خوانی نیمسال دوم', 'مرور سبک نیمسال اول', 'هدف: از مدرسه جلوتری'] },
-  2: { title: 'تثبیت', icon: '💪',
-       goals: ['روزی ۳ تا ۴ ساعت مفید', 'تست‌زنی جدی از هر فصل', 'هفته‌ای یک آزمون از خودت', 'رفع ضعف‌ها از دفتر اشتباهات'] },
-  3: { title: 'امتحانات پایان سال', icon: '🏆',
-       goals: ['مرور همه چیز با خلاصه‌های خودت', 'نمونه سوال امتحانی سال‌های قبل', 'دفتر اشتباهات رو کامل بخون', 'خواب کافی قبل هر امتحان'] },
-  4: { title: 'جمع‌بندی تیر', icon: '🌞',
-       goals: ['استراحت بعد از امتحانات', 'مرور سبک برای سال بعد', 'یادگیری هک (Linux + Python)', 'کتاب غیردرسی بخون'] },
-  5: { title: 'مرداد — پیش‌خوانی', icon: '🌻',
-       goals: ['پیش‌خوانی فصل‌های اول سال یازدهم', 'مرور ریاضی دهم', 'روزی ۱ ساعت انگلیسی', 'تمرین برنامه‌نویسی'] },
-  6: { title: 'شهریور — آماده‌سازی', icon: '🎒',
-       goals: ['مرور کامل ریاضی و فیزیک دهم', 'پیش‌خوانی عربی', 'تنظیم خواب برای مدرسه', 'خرید منابع سال جدید'] },
-  7: { title: 'مهر — عادت‌سازی', icon: '🌱',
-       goals: ['هفته ۱: ۹۰ دقیقه مفید روزانه', 'هفته ۲: ۲ ساعت', 'هفته ۳: ۲.۵ ساعت', 'هفته ۴: ۳ ساعت — تثبیت خواب منظم'] },
-  8: { title: 'آبان — ثبات', icon: '🌿',
-       goals: ['روزی ۳ ساعت مفید', 'مرور فاصله‌دار جدی', 'بدون عقب‌افتادگی از مدرسه', 'دفتر اشتباهات فعال'] },
-  9: { title: 'آذر — آماده امتحان میان‌ترم', icon: '📝',
-       goals: ['روزی ۳ ساعت + تست', '۲ هفته آخر: تمرکز روی امتحانات', 'حل نمونه سوال امتحانی', 'دفتر اشتباهات رو کامل بخون'] },
-  10: { title: 'دی — آماده امتحان پایان‌ترم', icon: '🎯',
-       goals: ['روزی ۳ تا ۳.۵ ساعت مفید', 'هفته اول: مرور کل نیمسال', 'هفته آخر: نمونه سوال امتحانی', 'خواب کافی + تغذیه خوب'] },
-  11: { title: 'بهمن — جمع‌بندی و استراحت', icon: '📊',
-       goals: ['روزی ۲.۵ تا ۳ ساعت مفید', 'مرور ضعف‌ها از دفتر اشتباهات', 'شروع پیش‌خوانی نیمسال دوم', 'کمی استراحت بعد از امتحانات'] },
-  12: { title: 'اسفند — پیش به سوی جلو', icon: '🚀',
-       goals: ['روزی ۳ تا ۳.۵ ساعت مفید', 'همراه با مدرسه جلو برو، نه عقب', 'تست‌زنی از فصل‌های جدید', 'برنامه‌ریزی برای تعطیلات نوروز'] }
+  1: { title: 'جلو افتادن', icon: '⚡', goals: ['تعطیلات: ۳ تا ۴ ساعت مفید روزانه', 'پیش‌خوانی نیمسال دوم', 'مرور سبک نیمسال اول', 'هدف: از مدرسه جلوتری'] },
+  2: { title: 'تثبیت', icon: '💪', goals: ['روزی ۳ تا ۴ ساعت مفید', 'تست‌زنی جدی از هر فصل', 'هفته‌ای یک آزمون از خودت', 'رفع ضعف‌ها از دفتر اشتباهات'] },
+  3: { title: 'امتحانات پایان سال', icon: '🏆', goals: ['مرور همه چیز با خلاصه‌های خودت', 'نمونه سوال امتحانی سال‌های قبل', 'دفتر اشتباهات رو کامل بخون', 'خواب کافی قبل هر امتحان'] },
+  4: { title: 'جمع‌بندی تیر', icon: '🌞', goals: ['استراحت بعد از امتحانات', 'مرور سبک برای سال بعد', 'یادگیری هک (Linux + Python)', 'کتاب غیردرسی بخون'] },
+  5: { title: 'مرداد — پیش‌خوانی', icon: '🌻', goals: ['پیش‌خوانی فصل‌های اول سال یازدهم', 'مرور ریاضی دهم', 'روزی ۱ ساعت انگلیسی', 'تمرین برنامه‌نویسی'] },
+  6: { title: 'شهریور — آماده‌سازی', icon: '🎒', goals: ['مرور کامل ریاضی و فیزیک دهم', 'پیش‌خوانی عربی', 'تنظیم خواب برای مدرسه', 'خرید منابع سال جدید'] },
+  7: { title: 'مهر — عادت‌سازی', icon: '🌱', goals: ['هفته ۱: ۹۰ دقیقه مفید روزانه', 'هفته ۲: ۲ ساعت', 'هفته ۳: ۲.۵ ساعت', 'هفته ۴: ۳ ساعت — تثبیت خواب منظم'] },
+  8: { title: 'آبان — ثبات', icon: '🌿', goals: ['روزی ۳ ساعت مفید', 'مرور فاصله‌دار جدی', 'بدون عقب‌افتادگی از مدرسه', 'دفتر اشتباهات فعال'] },
+  9: { title: 'آذر — آماده امتحان میان‌ترم', icon: '📝', goals: ['روزی ۳ ساعت + تست', '۲ هفته آخر: تمرکز روی امتحانات', 'حل نمونه سوال امتحانی', 'دفتر اشتباهات رو کامل بخون'] },
+  10: { title: 'دی — آماده امتحان پایان‌ترم', icon: '🎯', goals: ['روزی ۳ تا ۳.۵ ساعت مفید', 'هفته اول: مرور کل نیمسال', 'هفته آخر: نمونه سوال امتحانی', 'خواب کافی + تغذیه خوب'] },
+  11: { title: 'بهمن — جمع‌بندی و استراحت', icon: '📊', goals: ['روزی ۲.۵ تا ۳ ساعت مفید', 'مرور ضعف‌ها از دفتر اشتباهات', 'شروع پیش‌خوانی نیمسال دوم', 'کمی استراحت بعد از امتحانات'] },
+  12: { title: 'اسفند — پیش به سوی جلو', icon: '🚀', goals: ['روزی ۳ تا ۳.۵ ساعت مفید', 'همراه با مدرسه جلو برو، نه عقب', 'تست‌زنی از فصل‌های جدید', 'برنامه‌ریزی برای تعطیلات نوروز'] }
 };
 
 // =============================================================
-// تاریخ امتحانات
+// امتحانات
 // =============================================================
 const EXAMS = {
-  midterm: { name: 'میان‌ترم', jy: 1405, jm: 9, jd: 15 },   // ۱۵ آذر ۱۴۰۵
-  final:   { name: 'پایان‌ترم', jy: 1405, jm: 10, jd: 20 }  // ۲۰ دی ۱۴۰۵
+  midterm: { name: 'میان‌ترم', jy: 1405, jm: 9, jd: 15 },
+  final:   { name: 'پایان‌ترم', jy: 1405, jm: 10, jd: 20 }
 };
 
 function examDateToGregorian(exam) {
@@ -930,7 +846,7 @@ function toast(msg) {
 }
 
 // =============================================================
-// ساعت و تاریخ زنده
+// ساعت زنده
 // =============================================================
 function updateClock() {
   const now = new Date();
@@ -1024,9 +940,7 @@ function renderPhase() {
         <span>روز ${fa(sh.d)} از ${fa(daysInMonth)}</span>
       </div>
       <div class="phase-title"><span class="ph-ico">${phase.icon}</span>${phase.title}</div>
-      <ul class="phase-goals">
-        ${phase.goals.map(g => `<li>${g}</li>`).join('')}
-      </ul>
+      <ul class="phase-goals">${phase.goals.map(g => `<li>${g}</li>`).join('')}</ul>
       <div class="phase-progress"><div class="phase-progress-fill" style="width:${pct}%"></div></div>
       <div class="phase-footer">${fa(pct)}٪ از این ماه گذشته</div>
     </div>
@@ -1034,12 +948,11 @@ function renderPhase() {
 }
 
 function isLeapYear(jy) {
-  // سال کبیسه شمسی تقریبی
   return ((jy - 979) % 33) % 4 === 1 || (((jy - 979) % 33) % 4 === 2 && ((jy - 979) % 33) % 28 < 4);
 }
 
 // =============================================================
-// شمارش معکوس امتحانات
+// شمارش معکوس
 // =============================================================
 function renderCountdown() {
   const el = document.getElementById('countdownGrid');
@@ -1108,7 +1021,7 @@ function renderTodaySchedule() {
 }
 
 // =============================================================
-// برنامه هفتگی — با تب‌های کلیکپذیر
+// برنامه هفتگی — تب‌ها
 // =============================================================
 let selectedDay = null;
 
@@ -1691,7 +1604,6 @@ renderGrades();
 renderHabits();
 renderAnalysis();
 updPom();
-
 updateClock();
 renderPhase();
 renderNow();
@@ -1705,7 +1617,6 @@ setInterval(renderCountdown, 1000);
 setInterval(() => { renderNow(); renderTodaySchedule(); }, 30000);
 setInterval(renderPhase, 3600000);
 
-// یادآور تغییر فعالیت
 let lastActivity = null;
 setInterval(() => {
   const cur = getCurrent();
