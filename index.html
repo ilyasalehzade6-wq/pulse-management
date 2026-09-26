@@ -44,6 +44,40 @@ header h1{font-size:1.1em;font-weight:700;position:relative;z-index:1;margin-bot
 .live-date{position:relative;z-index:1;margin-top:4px;font-size:.82em;opacity:.95}
 .theme-toggle{position:absolute;top:10px;left:10px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);border:none;cursor:pointer;font-size:1.1em;z-index:2;display:flex;align-items:center;justify-content:center}
 
+/* دکمه نصب دائمی در هدر */
+.install-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, #fff, #f0f4ff);
+  color: var(--primary);
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: .78em;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  animation: installPulse 2s infinite;
+  transition: transform .15s;
+}
+.install-btn:active { transform: scale(.94); }
+.install-btn.hidden { display: none; }
+.install-btn .ic { font-size: 1.15em; }
+@keyframes installPulse {
+  0%, 100% { box-shadow: 0 4px 12px rgba(0,0,0,.15), 0 0 0 0 rgba(255,255,255,.6); }
+  50% { box-shadow: 0 4px 12px rgba(0,0,0,.15), 0 0 0 8px rgba(255,255,255,0); }
+}
+@media (max-width: 400px) {
+  .install-btn { font-size: .7em; padding: 6px 10px; }
+  .install-btn .lbl { display: none; }
+}
+
 .content{padding:16px 14px}
 section{display:none;animation:fi .25s}
 section.active{display:block}
@@ -235,13 +269,10 @@ h3{font-size:1em;margin:10px 0 8px}
 .cd-msg.warn{color:var(--danger);font-weight:700}
 .cd-msg.ok{color:var(--success);font-weight:700}
 
-/* PWA install banner */
-#installBanner{display:none;position:fixed;bottom:calc(var(--nav-h) + 16px);left:14px;right:14px;background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;padding:14px 16px;border-radius:14px;box-shadow:0 10px 30px rgba(102,126,234,.4);z-index:150;align-items:center;gap:12px}
-
 @media print{
   body{background:#fff;color:#000;padding:0}
   header{background:#333!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .bottom-nav,.more-menu,.theme-toggle,.pomodoro,.btn,.focus-mode,.toast,.chart,.now-card,.next-card,#installBanner{display:none!important}
+  .bottom-nav,.more-menu,.theme-toggle,.pomodoro,.btn,.focus-mode,.toast,.chart,.now-card,.next-card,.install-btn{display:none!important}
   section{display:block!important;page-break-after:always}
   section:last-child{page-break-after:auto}
   .card,.tech,.item,.today-item{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
@@ -254,6 +285,10 @@ h3{font-size:1em;margin:10px 0 8px}
 
 <header>
   <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
+  <button class="install-btn" id="installBtn" onclick="installPWA()">
+    <span class="ic">📲</span>
+    <span class="lbl">نصب</span>
+  </button>
   <h1>📚 مرکز مطالعه ایلیا</h1>
   <div class="live-clock"><span class="clock-time" id="liveTime">۰۰:۰۰:۰۰</span></div>
   <div class="live-date" id="liveDate">—</div>
@@ -626,7 +661,7 @@ h3{font-size:1em;margin:10px 0 8px}
   <div class="card">
     <h3>📲 نصب PWA</h3>
     <p style="color:var(--text-light);font-size:.85em;margin-bottom:10px">این اپ رو روی گوشی نصب کن تا آفلاین کار کنه</p>
-    <button class="btn btn-info btn-block" onclick="manualInstall()">📲 نصب روی گوشی</button>
+    <button class="btn btn-info btn-block" onclick="installPWA()">📲 نصب روی گوشی</button>
   </div>
   <div class="card">
     <h3>⚠️ پاک کردن</h3>
@@ -660,13 +695,6 @@ h3{font-size:1em;margin:10px 0 8px}
   <button onclick="window.print()"><span class="ico">🖨</span>پرینت</button>
 </div>
 
-<!-- PWA install banner -->
-<div id="installBanner">
-  <div style="flex:1;font-size:.85em;font-weight:600">📲 می‌خوای مثل اپ روی گوشی نصب کنی؟</div>
-  <button onclick="installPWA()" style="background:#fff;color:#667eea;border:none;padding:8px 16px;border-radius:10px;font-family:inherit;font-weight:700;font-size:.85em;cursor:pointer">نصب</button>
-  <button onclick="dismissInstall()" style="background:transparent;color:#fff;border:none;font-size:1.2em;cursor:pointer;padding:0 4px">✕</button>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script>
@@ -681,57 +709,86 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+// =============================================================
+// PWA — نصب اپ
+// =============================================================
 let deferredPrompt = null;
+const INSTALL_KEY = 'ilia-pwa-installed';
+
+function isStandalone() {
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         window.navigator.standalone === true ||
+         document.referrer.includes('android-app://');
+}
+
+function updateInstallBtn() {
+  const btn = document.getElementById('installBtn');
+  if (!btn) return;
+  if (isStandalone() || localStorage.getItem(INSTALL_KEY) === 'true') {
+    btn.classList.add('hidden');
+  } else {
+    btn.classList.remove('hidden');
+  }
+}
+
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  if (!localStorage.getItem('ilia-pwa-dismissed') && !localStorage.getItem('ilia-pwa-installed')) {
-    const banner = document.getElementById('installBanner');
-    if (banner) banner.style.display = 'flex';
-  }
+  console.log('✅ نصب PWA آماده است');
+  updateInstallBtn();
 });
 
 function installPWA() {
-  if (!deferredPrompt) {
-    manualInstall();
+  if (isStandalone() || localStorage.getItem(INSTALL_KEY) === 'true') {
+    toast('✅ قبلاً نصب شده');
     return;
   }
-  deferredPrompt.prompt();
-  deferredPrompt.userChoice.then((choice) => {
-    if (choice.outcome === 'accepted') {
-      toast('✅ نصب شد!');
-      localStorage.setItem('ilia-pwa-installed', 'true');
-    } else {
-      localStorage.setItem('ilia-pwa-dismissed', 'true');
-    }
-    deferredPrompt = null;
-    const banner = document.getElementById('installBanner');
-    if (banner) banner.style.display = 'none';
-  });
-}
-
-function dismissInstall() {
-  localStorage.setItem('ilia-pwa-dismissed', 'true');
-  document.getElementById('installBanner').style.display = 'none';
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choice) => {
+      if (choice.outcome === 'accepted') {
+        localStorage.setItem(INSTALL_KEY, 'true');
+        toast('🎉 اپ نصب شد!');
+        setTimeout(updateInstallBtn, 500);
+      } else {
+        toast('لغو شد — هر وقت خواستی دوباره بزن');
+      }
+      deferredPrompt = null;
+    });
+    return;
+  }
+  manualInstall();
 }
 
 function manualInstall() {
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  const isAndroid = /Android/.test(navigator.userAgent);
-  if (isIOS) {
-    alert('📲 روی iPhone:\n\n۱. دکمه Share (مربع با فلش) رو بزن\n۲. برو به «Add to Home Screen»\n۳. «Add» رو بزن\n\nحالا مثل اپ روی گوشیت نصب میشه!');
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+  const isAndroid = /Android/.test(ua);
+  const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+  const isFirefox = /Firefox/.test(ua);
+
+  let msg = '';
+  if (isIOS || (isSafari && !isAndroid)) {
+    msg = '📲 برای نصب روی iPhone:\n\n۱. دکمه Share (مربع با فلش) پایین صفحه Safari رو بزن\n\n۲. توی منو، «Add to Home Screen» یا «افزودن به صفحه اصلی» رو انتخاب کن\n\n۳. اسم رو تأیید کن و «Add» رو بزن\n\n✅ حالا مثل اپ روی گوشیت نصب میشه!';
   } else if (isAndroid) {
-    alert('📲 روی Android:\n\n۱. منوی ۳ نقطه بالا-راست Chrome رو بزن\n۲. «Add to Home screen» یا «Install app»\n۳. تأیید کن\n\nحالا مثل اپ نصب میشه!');
+    msg = '📲 برای نصب روی Android:\n\n۱. منوی ۳ نقطه بالا-راست Chrome رو بزن\n\n۲. «Install app» یا «Add to Home screen» رو انتخاب کن\n\n۳. تأیید کن\n\n✅ حالا مثل اپ روی گوشیت نصب میشه!';
+  } else if (isFirefox) {
+    msg = '📲 برای نصب:\n\nاز منوی مرورگر (۳ نقطه)، گزینه «Install» رو انتخاب کن.\n\nاگه نمی‌بینی، سایت رو با Chrome باز کن.';
   } else {
-    alert('📲 برای نصب:\n\nاز منوی مرورگر، گزینه «Install» یا «Add to Home screen» رو انتخاب کن.');
+    msg = '📲 برای نصب:\n\nاز منوی مرورگر (۳ نقطه بالا-راست)، گزینه «Install» یا «Add to Home screen» رو انتخاب کن.';
   }
+  alert(msg);
 }
 
 window.addEventListener('appinstalled', () => {
-  const banner = document.getElementById('installBanner');
-  if (banner) banner.style.display = 'none';
-  localStorage.setItem('ilia-pwa-installed', 'true');
+  localStorage.setItem(INSTALL_KEY, 'true');
   toast('🎉 اپ نصب شد!');
+  updateInstallBtn();
+});
+
+window.addEventListener('load', updateInstallBtn);
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) updateInstallBtn();
 });
 
 // =============================================================
