@@ -80,6 +80,7 @@ h3{font-size:1em;margin:10px 0 8px}
 .now-progress{height:8px;background:rgba(255,255,255,.25);border-radius:10px;overflow:hidden;position:relative;z-index:1}
 .now-progress-fill{height:100%;background:#fff;border-radius:10px;transition:width 1s linear}
 .now-remaining{font-size:.78em;text-align:center;margin-top:8px;opacity:.9;position:relative;z-index:1}
+.now-hint{font-size:.7em;text-align:center;margin-top:6px;opacity:.75;position:relative;z-index:1}
 
 .next-card,.free-card{background:var(--bg-card);border-radius:14px;padding:14px;margin-bottom:12px;border:1px solid var(--border);box-shadow:var(--shadow)}
 .next-card{border-right:4px solid var(--accent)}
@@ -91,8 +92,9 @@ h3{font-size:1em;margin:10px 0 8px}
 .classes-card{background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;border-radius:16px;padding:14px 16px;margin-bottom:12px;box-shadow:0 6px 20px rgba(243,156,18,.35)}
 .classes-title{font-size:.82em;opacity:.95;margin-bottom:8px;font-weight:600}
 .classes-list{display:flex;flex-wrap:wrap;gap:6px}
-.class-chip{background:rgba(255,255,255,.22);padding:5px 12px;border-radius:20px;font-size:.82em;font-weight:600}
-.class-chip.off{background:rgba(255,255,255,.12);opacity:.85}
+.class-chip{background:rgba(255,255,255,.22);padding:5px 12px;border-radius:20px;font-size:.82em;font-weight:600;cursor:pointer;transition:all .15s}
+.class-chip:active{transform:scale(.95);background:rgba(255,255,255,.35)}
+.class-chip.off{background:rgba(255,255,255,.12);opacity:.85;cursor:default}
 
 .school-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
 .school-day{background:var(--bg);border-radius:12px;padding:10px;border:1px solid var(--border)}
@@ -100,10 +102,12 @@ h3{font-size:1em;margin:10px 0 8px}
 .school-day-name{font-size:.8em;font-weight:700;color:var(--primary);margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
 .school-day.today .school-day-name{color:var(--secondary)}
 .school-classes{display:flex;flex-direction:column;gap:4px}
-.school-class{font-size:.8em;padding:4px 8px;background:var(--bg-card);border-radius:6px;border-right:3px solid var(--info)}
-.school-class.off{color:var(--text-light);opacity:.6;border-right-color:var(--text-light);text-align:center;font-style:italic}
+.school-class{font-size:.8em;padding:4px 8px;background:var(--bg-card);border-radius:6px;border-right:3px solid var(--info);cursor:pointer;transition:all .15s}
+.school-class:active{transform:scale(.97)}
+.school-class.off{color:var(--text-light);opacity:.6;border-right-color:var(--text-light);text-align:center;font-style:italic;cursor:default}
 
-.today-item{display:flex;align-items:center;padding:11px 13px;margin:6px 0;background:var(--bg-card);border-radius:11px;border:1px solid var(--border);gap:10px;transition:all .2s}
+.today-item{display:flex;align-items:center;padding:11px 13px;margin:6px 0;background:var(--bg-card);border-radius:11px;border:1px solid var(--border);gap:10px;transition:all .2s;cursor:pointer}
+.today-item:active{transform:scale(.99)}
 .today-item.past{opacity:.4}
 .today-item.current{background:linear-gradient(135deg,rgba(102,126,234,.15),rgba(118,75,162,.1));border-color:var(--primary);box-shadow:0 4px 15px rgba(102,126,234,.2);transform:scale(1.01)}
 .today-time{font-weight:700;color:var(--primary);font-size:.78em;min-width:88px}
@@ -148,6 +152,9 @@ h3{font-size:1em;margin:10px 0 8px}
 .inp:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(102,126,234,.15)}
 .inp-row{display:flex;gap:8px;margin-bottom:8px}
 .inp-row .inp{margin-bottom:0}
+@media (max-width: 768px) {
+  .inp, .asst-input, textarea.inp { font-size: 16px !important; }
+}
 
 .check-item{display:flex;align-items:center;padding:11px 14px;margin:6px 0;background:var(--bg-card);border-radius:12px;cursor:pointer;border:1px solid var(--border);user-select:none;transition:all .15s}
 .check-item input{display:none}
@@ -232,7 +239,8 @@ h3{font-size:1em;margin:10px 0 8px}
 
 .timeline{position:relative;padding-right:14px}
 .timeline::before{content:'';position:absolute;right:5px;top:8px;bottom:8px;width:2px;background:var(--border)}
-.ti{display:flex;align-items:flex-start;padding:6px 0;position:relative;gap:8px;border-radius:8px}
+.ti{display:flex;align-items:flex-start;padding:6px 0;position:relative;gap:8px;border-radius:8px;cursor:pointer;transition:all .15s}
+.ti:active{transform:scale(.99)}
 .td{position:absolute;right:-14px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--primary);border:2px solid var(--bg-card)}
 .t-wake .td{background:#f6ad55}.t-study .td{background:#4299e1}.t-school .td{background:#805ad5}.t-rest .td{background:#48bb78}.t-sport .td{background:#ed8936}.t-sleep .td{background:#718096}
 .tt{font-weight:700;color:var(--primary);font-size:.78em;min-width:88px;padding-top:2px}
@@ -417,10 +425,39 @@ h3{font-size:1em;margin:10px 0 8px}
 .alert-text{font-size:.85em;color:#7f1d1d;line-height:1.85}
 [data-theme="dark"] .alert-text{color:#fecaca}
 
+/* ============ Guide Modal ============ */
+.guide-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:9997;display:none;align-items:flex-end;justify-content:center}
+.guide-overlay.active{display:flex}
+.guide-modal{background:var(--bg-card);width:100%;max-width:560px;border-radius:22px 22px 0 0;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 -10px 60px rgba(0,0,0,.35);animation:slideUp .4s cubic-bezier(.2,.8,.2,1);overflow:hidden}
+.guide-header{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,rgba(102,126,234,.1),rgba(118,75,162,.05))}
+.guide-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5em;flex-shrink:0;color:#fff}
+.guide-title{font-weight:800;font-size:1.05em;color:var(--text)}
+.guide-sub{font-size:.78em;color:var(--text-light);margin-top:2px}
+.guide-close{margin-right:auto;background:transparent;border:none;cursor:pointer;font-size:1.1em;color:var(--text-light);padding:6px 10px;border-radius:8px}
+.guide-body{flex:1;overflow-y:auto;padding:16px 18px}
+.guide-time-badge{display:inline-flex;align-items:center;gap:6px;color:#fff;padding:6px 14px;border-radius:20px;font-size:.8em;font-weight:700;margin-bottom:14px}
+.guide-section{margin-bottom:18px}
+.guide-section-title{font-weight:800;font-size:.95em;color:var(--primary);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.guide-steps{list-style:none;padding:0;counter-reset:gs}
+.guide-steps li{background:var(--bg);border-radius:10px;padding:11px 46px 11px 12px;margin:6px 0;font-size:.87em;position:relative;line-height:1.85;border-right:3px solid var(--primary);counter-increment:gs}
+.guide-steps li::before{content:counter(gs);position:absolute;right:10px;top:11px;width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.72em}
+.guide-steps li b{color:var(--text)}
+.guide-tip{background:linear-gradient(135deg,rgba(39,174,96,.12),rgba(39,174,96,.04));border-right:3px solid var(--success);border-radius:10px;padding:11px 13px;font-size:.86em;margin:8px 0;line-height:1.9}
+.guide-warn{background:linear-gradient(135deg,rgba(243,156,18,.12),rgba(243,156,18,.04));border-right:3px solid var(--accent);border-radius:10px;padding:11px 13px;font-size:.86em;margin:8px 0;line-height:1.9}
+.guide-ratio{display:flex;height:24px;border-radius:12px;overflow:hidden;margin:10px 0;font-size:.72em;font-weight:700;box-shadow:inset 0 1px 3px rgba(0,0,0,.08)}
+.guide-ratio-book{background:linear-gradient(135deg,#4299e1,#2c5282);color:#fff;display:flex;align-items:center;justify-content:center}
+.guide-ratio-video{background:linear-gradient(135deg,#ed8936,#c05621);color:#fff;display:flex;align-items:center;justify-content:center}
+.guide-footer{padding:14px 18px;border-top:1px solid var(--border);display:flex;gap:8px}
+.guide-footer .btn{flex:1}
+.guide-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.guide-stat{background:var(--bg);border-radius:10px;padding:10px 6px;text-align:center;border:1px solid var(--border)}
+.guide-stat-v{font-size:1.05em;font-weight:800;color:var(--primary)}
+.guide-stat-l{font-size:.66em;color:var(--text-light);margin-top:2px}
+
 @media print{
   body{background:#fff;color:#000;padding:0}
   header{background:#333!important;-webkit-print-color-adjust:exact}
-  .bottom-nav,.more-menu,.theme-toggle,.pomodoro,.btn,.focus-mode,.toast,.chart,.now-card,.next-card,.install-btn,.assistant-overlay,.asst-open-btn,.makeup-card,.alert-card,.apk-banner{display:none!important}
+  .bottom-nav,.more-menu,.theme-toggle,.pomodoro,.btn,.focus-mode,.toast,.chart,.now-card,.next-card,.install-btn,.assistant-overlay,.asst-open-btn,.makeup-card,.alert-card,.apk-banner,.guide-overlay{display:none!important}
   section{display:block!important;page-break-after:always}
   section:last-child{page-break-after:auto}
   .card,.tech,.item,.today-item{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
@@ -464,6 +501,7 @@ h3{font-size:1em;margin:10px 0 8px}
 
   <div class="card">
     <h3>📋 برنامه امروز — <span id="todayName" style="color:var(--primary)"></span></h3>
+    <p style="font-size:.75em;color:var(--text-light);margin-bottom:8px">👆 روی هر مورد بزن تا راهنمای کاملش رو ببینی</p>
     <div id="todaySchedule"></div>
   </div>
 
@@ -1024,7 +1062,9 @@ h3{font-size:1em;margin:10px 0 8px}
     </div>
   </div>
 
-  <div class="card"><h3>📤 خروجی داده‌ها</h3><button class="btn btn-primary btn-block" onclick="exportData()">⬇️ دانلود فایل پشتیبان</button></div>
+  <div class="card"><h3>📤 خروجی داده‌ها</h3><button class="btn btn-primary btn-block" onclick="exportData()">⬇️ دانلود فایل پشتیبان</button>
+    <p style="font-size:.78em;color:var(--text-light);margin-top:8px" id="backupStatus"></p>
+  </div>
   <div class="card"><h3>📥 بازگردانی</h3><input type="file" id="importF" accept=".json" onchange="importData(event)" class="inp"></div>
   <div class="card"><h3>📲 نصب PWA</h3><button class="btn btn-info btn-block" onclick="installPWA()">📲 نصب PWA</button>
     <p style="font-size:.78em;color:var(--text-light);margin-top:10px;line-height:1.8" id="pwaStatus">وضعیت: در حال بررسی...</p>
@@ -1083,97 +1123,100 @@ h3{font-size:1em;margin:10px 0 8px}
   </div>
 </div>
 
+<div class="guide-overlay" id="guideOverlay" onclick="if(event.target===this)closeGuide()">
+  <div class="guide-modal">
+    <div class="guide-header">
+      <div class="guide-icon" id="guideIcon">📚</div>
+      <div style="flex:1">
+        <div class="guide-title" id="guideTitle">راهنمای مطالعه</div>
+        <div class="guide-sub" id="guideSubtitle">—</div>
+      </div>
+      <button class="guide-close" onclick="closeGuide()">✕</button>
+    </div>
+    <div class="guide-body" id="guideBody"></div>
+    <div class="guide-footer" id="guideFooter"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 // ============= مدیریت خطا =============
-window.addEventListener('error', (e) => {
-  console.error('خطا:', e.message);
-});
-window.addEventListener('unhandledrejection', (e) => {
-  console.error('خطای Promise:', e.reason);
-});
+window.addEventListener('error', (e) => console.error('خطا:', e.message));
+window.addEventListener('unhandledrejection', (e) => console.error('خطای Promise:', e.reason));
 
-// ============= ابزارها =============
-const fa = (n) => n.toString().replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-const today = () => {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+// ============= ابزارهای پایه =============
+const pad2 = n => String(n).padStart(2, '0');
+const fa = n => String(n ?? '0').replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+const localDate = (d = new Date()) => {
+  const dt = d instanceof Date ? d : new Date(d);
+  return `${dt.getFullYear()}-${pad2(dt.getMonth()+1)}-${pad2(dt.getDate())}`;
 };
-const getData = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch(e) { return d; } };
-const setData = (k, v) => localStorage.setItem(k, JSON.stringify(v));
-function pad2(n) { return n.toString().padStart(2, '0'); }
-function timeToMin(t) { const [h, m] = t.split(':').map(Number); return h * 60 + m; }
-function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1800); }
+const today = () => localDate();
 
-// ============= هشدار تایمر (صدا + ویبره + نوتیف) =============
+const getData = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v ?? d; } catch(e) { return d; } };
+const setData = (k, v) => {
+  try { localStorage.setItem(k, JSON.stringify(v)); return true; }
+  catch(e) {
+    if (e.name === 'QuotaExceededError' || e.code === 22) toast('⚠️ حافظه پر شده — پشتیبان بگیر');
+    console.error('setData:', e);
+    return false;
+  }
+};
+function timeToMin(t) {
+  if (!t || typeof t !== 'string') return 0;
+  const [h, m] = t.split(':').map(Number);
+  return (h || 0) * 60 + (m || 0);
+}
+function toast(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._tm);
+  t._tm = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// ============= هشدار تایمر =============
 function alertTimerDone(title) {
-  // ۱. ویبره
-  try {
-    if ('vibrate' in navigator) {
-      navigator.vibrate([500, 200, 500, 200, 800]);
-    }
-  } catch(e) {}
-  
-  // ۲. صدا (۳ بار زنگ)
+  try { if ('vibrate' in navigator) navigator.vibrate([500, 200, 500, 200, 800]); } catch(e) {}
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     const playTone = (freq, start, dur) => {
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
+      const o = ctx.createOscillator(), g = ctx.createGain();
       o.connect(g); g.connect(ctx.destination);
-      o.frequency.value = freq;
-      o.type = 'sine';
+      o.frequency.value = freq; o.type = 'sine';
       g.gain.setValueAtTime(0.35, start);
       g.gain.exponentialRampToValueAtTime(0.001, start + dur);
-      o.start(start);
-      o.stop(start + dur);
+      o.start(start); o.stop(start + dur);
     };
     const t = ctx.currentTime;
-    playTone(880, t, 0.4);
-    playTone(660, t + 0.5, 0.4);
-    playTone(880, t + 1.0, 0.4);
-    playTone(660, t + 1.5, 0.4);
+    playTone(880, t, 0.4); playTone(660, t + 0.5, 0.4);
+    playTone(880, t + 1.0, 0.4); playTone(660, t + 1.5, 0.4);
     playTone(880, t + 2.0, 0.6);
   } catch(e) {}
-  
-  // ۳. نوتیفیکیشن
   try {
     if ('Notification' in window && Notification.permission === 'granted') {
       new Notification('⏰ وقت تموم شد', {
         body: title || 'وقت استراحت یا شروع کار بعدیه!',
-        icon: './icon-192.png',
-        vibrate: [500, 200, 500],
-        tag: 'timer-done',
-        requireInteraction: true
+        icon: './icon-192.png', vibrate: [500, 200, 500],
+        tag: 'timer-done', requireInteraction: true
       });
     }
   } catch(e) {}
-  
-  // ۴. Toast بزرگ
   toast('⏰ وقت تموم شد! ' + (title || ''));
-  
-  // ۵. Alert برای توجه بیشتر (فقط یک بار)
-  setTimeout(() => {
-    try { alert('⏰ وقت تموم شد!\n\n' + (title || 'زمان به پایان رسید')); } catch(e) {}
-  }, 300);
 }
 
-// ============= درخواست اجازه نوتیف =============
 function requestNotifPermission() {
-  try {
-    if ('Notification' in window && Notification.permission === 'default') {
-      Notification.requestPermission();
-    }
-  } catch(e) {}
+  try { if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission(); } catch(e) {}
 }
 
-// ============= بنر APK =============
+// ============= APK Banner =============
 function renderApkBanner() {
   const el = document.getElementById('apkBanner');
   if (!el) return;
-  if (isStandalone()) { el.innerHTML = ''; return; }
-  if (localStorage.getItem('ilia-apk-banner-dismissed') === 'true') { el.innerHTML = ''; return; }
+  if (isStandalone() || localStorage.getItem('ilia-apk-banner-dismissed') === 'true') { el.innerHTML = ''; return; }
   el.innerHTML = `
     <div class="apk-banner">
       <button class="apk-close" onclick="dismissApkBanner()">✕</button>
@@ -1184,16 +1227,12 @@ function renderApkBanner() {
           <div class="apk-banner-sub">روی گوشیت نصب کن — مثل بقیه اپ‌ها</div>
         </div>
       </div>
-      <a href="./study-app.apk" download="study-app.apk" class="apk-banner-btn">
-        ⬇️ دانلود APK
-      </a>
-    </div>
-  `;
+      <a href="./study-app.apk" download="study-app.apk" class="apk-banner-btn">⬇️ دانلود APK</a>
+    </div>`;
 }
 function dismissApkBanner() {
   localStorage.setItem('ilia-apk-banner-dismissed', 'true');
-  const el = document.getElementById('apkBanner');
-  if (el) el.innerHTML = '';
+  const el = document.getElementById('apkBanner'); if (el) el.innerHTML = '';
 }
 
 // ============= PWA =============
@@ -1201,8 +1240,7 @@ let deferredPrompt = null;
 let swReady = false;
 
 function isStandalone() {
-  return window.matchMedia('(display-mode: standalone)').matches ||
-         window.navigator.standalone === true;
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 }
 
 if ('serviceWorker' in navigator) {
@@ -1212,25 +1250,18 @@ if ('serviceWorker' in navigator) {
         console.log('✅ SW registered:', reg.scope);
         swReady = true;
         updatePwaStatus('✅ Service Worker فعال');
-        // بررسی آپدیت
         reg.addEventListener('updatefound', () => {
           const newWorker = reg.installing;
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              console.log('🔄 نسخه جدید آماده — رفرش کن');
               toast('🔄 نسخه جدید آماده — صفحه رو رفرش کن');
             }
           });
         });
       })
-      .catch(err => {
-        console.error('❌ SW error:', err);
-        updatePwaStatus('❌ خطا: ' + err.message);
-      });
+      .catch(err => { console.error('❌ SW error:', err); updatePwaStatus('❌ خطا: ' + err.message); });
   });
-} else {
-  updatePwaStatus('❌ مرورگر پشتیبانی نمی‌کند');
-}
+} else updatePwaStatus('❌ مرورگر پشتیبانی نمی‌کند');
 
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
@@ -1240,39 +1271,25 @@ window.addEventListener('beforeinstallprompt', (e) => {
 
 async function installPWA() {
   if (isStandalone()) { toast('✅ اپ در حالت PWA باز است'); return; }
-  
   if (deferredPrompt) {
     try {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        toast('🎉 اپ نصب شد!');
-        updatePwaStatus('✅ اپ نصب شد');
-      } else {
-        toast('لغو شد');
-      }
+      if (outcome === 'accepted') { toast('🎉 اپ نصب شد!'); updatePwaStatus('✅ اپ نصب شد'); }
+      else toast('لغو شد');
       deferredPrompt = null;
-    } catch (err) {
-      toast('خطا در نصب');
-    }
+    } catch (err) { toast('خطا در نصب'); }
     return;
   }
-  
   const ua = navigator.userAgent;
   const isIOS = /iPad|iPhone|iPod/.test(ua);
   const isAndroid = /Android/.test(ua);
   const isChrome = /Chrome/.test(ua) && !/Edg|OPR/.test(ua);
-  
   let msg = '';
-  if (isIOS) {
-    msg = '📲 iPhone:\n\n۱. دکمه Share\n۲. Add to Home Screen\n۳. Add';
-  } else if (isAndroid && isChrome) {
-    msg = '📲 Android:\n\n۱. منوی ۳ نقطه Chrome\n۲. Install app یا Add to Home screen\n\nاگه Install app نیست:\nاز منو Add to Home screen رو بزن';
-  } else if (isAndroid) {
-    msg = '📲 با Chrome باز کن و Install app رو بزن';
-  } else {
-    msg = 'از منوی مرورگر، Install رو بزن.';
-  }
+  if (isIOS) msg = '📲 iPhone:\n\n۱. دکمه Share\n۲. Add to Home Screen\n۳. Add';
+  else if (isAndroid && isChrome) msg = '📲 Android:\n\n۱. منوی ۳ نقطه Chrome\n۲. Install app یا Add to Home screen';
+  else if (isAndroid) msg = '📲 با Chrome باز کن و Install app رو بزن';
+  else msg = 'از منوی مرورگر، Install رو بزن.';
   alert(msg);
   updatePwaStatus('ℹ️ راهنما نمایش داده شد');
 }
@@ -1282,12 +1299,7 @@ window.addEventListener('appinstalled', () => {
   updatePwaStatus('✅ اپ نصب شد');
   deferredPrompt = null;
 });
-
-function updatePwaStatus(text) {
-  const el = document.getElementById('pwaStatus');
-  if (el) el.textContent = text;
-}
-
+function updatePwaStatus(text) { const el = document.getElementById('pwaStatus'); if (el) el.textContent = text; }
 function checkPwaStatus() {
   if (isStandalone()) { updatePwaStatus('✅ در حالت PWA اجرا می‌شه'); return; }
   if (deferredPrompt) { updatePwaStatus('✅ آماده نصب'); return; }
@@ -1295,7 +1307,7 @@ function checkPwaStatus() {
   updatePwaStatus('⏳ در حال بررسی...');
 }
 
-// ============= تاریخ =============
+// ============= تقویم =============
 function gregorianToJalali(gy, gm, gd) {
   const g_d_m = [0,31,59,90,120,151,181,212,243,273,304,334];
   let jy = (gy <= 1600) ? 0 : 979; gy -= (gy <= 1600) ? 621 : 1600;
@@ -1321,6 +1333,12 @@ function jalaliToGregorian(jy, jm, jd) {
   for (gm = 0; gm < 13 && gd > sal_a[gm]; gm++) gd -= sal_a[gm];
   return [gy, gm, gd];
 }
+function jalaliDaysInMonth(jy, jm) {
+  if (jm <= 6) return 31;
+  if (jm <= 11) return 30;
+  const r = jy % 33;
+  return [1,5,9,13,17,22,26,30].includes(r) ? 30 : 29;
+}
 const JALALI_MONTHS = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
 const WEEK_DAYS_FA = ['یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه','شنبه'];
 const WEEK_DAYS_SHORT = ['ی','د','س','چ','پ','ج','ش'];
@@ -1341,8 +1359,8 @@ const SCHEDULE = {
   1:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور زبان","study","🌐"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور شیمی","study","🧪"],["21:30","22:15","زبان","study","🌐"],["22:30","23:59","خواب","sleep","😴"]],
   2:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","15:30","استراحت","rest","☕"],["15:30","17:00","ریاضی","study","📐"],["17:00","17:15","استراحت","rest","☕"],["17:15","18:15","عربی","study","🕌"],["18:15","18:45","استراحت","rest","☕"],["18:45","20:00","فیزیک","study","⚛️"],["20:00","20:45","شام","rest","🍽"],["20:45","21:30","زبان","study","🌐"],["21:30","22:15","مرور","study","📓"],["22:30","23:59","خواب","sleep","😴"]],
   3:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور ریاضی","study","📐"],["21:30","22:15","هندسه","study","📏"],["22:30","23:59","خواب","sleep","😴"]],
-  4:[["08:00","08:30","بیداری، صبحانه","wake","🌅"],["08:30","10:00","ریاضی","study","📐"],["10:00","10:30","استراحت","rest","☕"],["10:30","12:00","فیزیک","study","⚛️"],["12:00","14:00","ناهار","rest","🍽"],["14:00","15:30","عربی","study","🕌"],["15:30","16:00","استراحت","rest","☕"],["16:00","17:30","زبان","study","🌐"],["17:30","19:00","شیمی یا هندسه","study","🧪"],["19:00","23:59","آزاد","rest","🎮"]],
-  5:[["08:00","09:00","بیداری، صبحانه","wake","🌅"],["09:00","10:30","مرور کل هفته","study","📖"],["10:30","11:00","دفتر اشتباهات","study","📓"],["11:00","11:30","برنامه هفته بعد","study","📝"],["11:30","23:59","استراحت","rest","🎮"]]
+  4:[["08:00","08:30","بیداری، صبحانه","wake","🌅"],["08:30","10:00","ریاضی","study","📐"],["10:00","10:30","استراحت","rest","☕"],["10:30","12:00","فیزیک","study","⚛️"],["12:00","14:00","ناهار","rest","🍽"],["14:00","15:30","عربی","study","🕌"],["15:30","16:00","استراحت","rest","☕"],["16:00","17:30","زبان","study","🌐"],["17:30","19:00","شیمی یا هندسه","study","🧪"],["19:00","22:30","آزاد","rest","🎮"],["22:30","23:59","خواب","sleep","😴"]],
+  5:[["08:00","09:00","بیداری، صبحانه","wake","🌅"],["09:00","10:30","مرور کل هفته","study","📖"],["10:30","11:00","دفتر اشتباهات","study","📓"],["11:00","11:30","برنامه هفته بعد","study","📝"],["11:30","22:30","استراحت","rest","🎮"],["22:30","23:59","خواب","sleep","😴"]]
 };
 
 const PHASES = {
@@ -1370,16 +1388,14 @@ function examDateToGregorian(exam) { const [gy, gm, gd] = jalaliToGregorian(exam
 function isSchoolStarted() {
   try {
     const schoolStart = examDateToGregorian(EXAMS.schoolStart);
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
+    const now = new Date(); now.setHours(0, 0, 0, 0);
     return now >= schoolStart;
   } catch(e) { return true; }
 }
 function daysUntilSchool() {
   try {
     const schoolStart = examDateToGregorian(EXAMS.schoolStart);
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
+    const now = new Date(); now.setHours(0, 0, 0, 0);
     return Math.max(0, Math.ceil((schoolStart - now) / 86400000));
   } catch(e) { return 0; }
 }
@@ -1387,9 +1403,10 @@ function daysUntilSchool() {
 // ============= ساعت و فعالیت =============
 function updateClock() {
   const now = new Date();
-  document.getElementById('liveTime').textContent = `${fa(pad2(now.getHours()))}:${fa(pad2(now.getMinutes()))}:${fa(pad2(now.getSeconds()))}`;
-  const sh = getShamsi();
-  document.getElementById('liveDate').textContent = `${sh.dayName} — ${fa(sh.d)} ${sh.monthName} ${fa(sh.y)}`;
+  const lt = document.getElementById('liveTime');
+  const ld = document.getElementById('liveDate');
+  if (lt) lt.textContent = `${fa(pad2(now.getHours()))}:${fa(pad2(now.getMinutes()))}:${fa(pad2(now.getSeconds()))}`;
+  if (ld) { const sh = getShamsi(); ld.textContent = `${sh.dayName} — ${fa(sh.d)} ${sh.monthName} ${fa(sh.y)}`; }
 }
 function getCurrent() {
   const now = new Date();
@@ -1408,10 +1425,420 @@ function getCurrent() {
   return null;
 }
 
+// ============= راهنمای مطالعه =============
+const SUBJECT_GUIDES = {
+  math: {
+    icon:'📐', color:'#e74c3c', name:'ریاضی',
+    subtitle:'کتاب اول، ویدیو فقط اگه گیر کردی',
+    ratio:{book:70, video:30}, time:90,
+    steps:[
+      '<b>۵ دقیقه:</b> فصل رو ورق بزن، ببین چه چیزایی قراره یاد بگیری',
+      '<b>۱۰ دقیقه:</b> تعریف‌ها و فرمول‌های اصلی رو تو دفتر فرمول بنویس',
+      '<b>۱۵ دقیقه:</b> مثال‌های حل‌شده کتاب رو با دقت بخون (خیلی مهم!)',
+      '<b>۳۰ دقیقه:</b> خودت ۵ تا تمرین حل کن، بدون نگاه کردن به حل',
+      '<b>۱۰ دقیقه:</b> اگه جایی گیر کردی، ویدیوی همون قسمت رو ببین',
+      '<b>۱۵ دقیقه:</b> اشتباهاتت رو تو دفتر اشتباهات بنویس',
+      '<b>۵ دقیقه:</b> با زبان خودت بگو «امروز چی یاد گرفتم»'
+    ],
+    tips:[
+      '💡 ریاضی با حل کردن یاد می‌گیری نه با خوندن. حداقل ۶۰٪ وقتت باید تمرین باشه.',
+      '💡 اگه یه تمرین رو بعد ۱۰ دقیقه نتونستی، جوابش رو ببین، ۳ روز بعد دوباره خودت حل کن.',
+      '💡 فرمول‌ها رو حفظ نکن، بفهم از کجا اومدن.'
+    ]
+  },
+  geometry: {
+    icon:'📏', color:'#9b59b6', name:'هندسه',
+    subtitle:'با شکل کشیدن یاد می‌گیری',
+    ratio:{book:60, video:40}, time:75,
+    steps:[
+      '<b>۵ دقیقه:</b> شکل‌های کتاب رو نگاه کن، ببین قراره چی رو ثابت کنی',
+      '<b>۱۵ دقیقه:</b> قضیه رو با دقت بخون، <b>خودت شکلش رو بکش</b>',
+      '<b>۱۰ دقیقه:</b> اثبات رو با شکل دنبال کن، مرحله به مرحله',
+      '<b>۲۵ دقیقه:</b> ۳ تا تمرین حل کن، هر کدوم با شکل جدا',
+      '<b>۱۰ دقیقه:</b> اگه گیر کردی ویدیو ببین، ولی اول خودت تلاش کن',
+      '<b>۱۰ دقیقه:</b> خلاصه قضیه رو با شکل تو دفتر بنویس'
+    ],
+    tips:[
+      '💡 هندسه بدون شکل مثل ریاضی بدون فرموله.',
+      '💡 هر قضیه رو با یه شکل رنگی بکش، خیلی بهتر یادت میمونه.',
+      '💡 اثبات‌ها رو با کلمات خودت بنویس، نه کپی از کتاب.'
+    ]
+  },
+  physics: {
+    icon:'⚛️', color:'#3498db', name:'فیزیک',
+    subtitle:'اول ویدیو، بعد کتاب (چون مفهومی‌ست)',
+    ratio:{book:50, video:50}, time:90,
+    steps:[
+      '<b>۱۵ دقیقه:</b> ویدیوی مبحث رو ببین (مفهوم کلی رو بگیر)',
+      '<b>۱۰ دقیقه:</b> کتاب رو بخون، فرمول‌های اصلی رو جدا کن',
+      '<b>۱۵ دقیقه:</b> مثال‌های حل‌شده رو با دقت دنبال کن',
+      '<b>۳۰ دقیقه:</b> خودت ۴-۵ مسئله حل کن',
+      '<b>۱۵ دقیقه:</b> یه آزمایش ذهنی بساز: «اگه این‌طور می‌شد چی می‌شد؟»',
+      '<b>۵ دقیقه:</b> فرمول‌ها رو تو دفتر فرمول بنویس'
+    ],
+    tips:[
+      '💡 فیزیک با تصویرسازی ذهنی یاد می‌گیری. هر مسئله رو تصور کن.',
+      '💡 واحدها رو حتماً تو حل بنویس، نصف اشتباهات از واحدهاست.',
+      '💡 قانون‌ها رو حفظ نکن، ببین از کجا اومدن.'
+    ]
+  },
+  chemistry: {
+    icon:'🧪', color:'#16a085', name:'شیمی',
+    subtitle:'ویدیو برای واکنش‌ها، کتاب برای جزئیات',
+    ratio:{book:60, video:40}, time:75,
+    steps:[
+      '<b>۱۵ دقیقه:</b> ویدیوی واکنش‌ها یا مبحث رو ببین',
+      '<b>۱۵ دقیقه:</b> کتاب رو بخون، مفاهیم کلیدی رو هایلایت کن',
+      '<b>۱۵ دقیقه:</b> یه جدول برای واکنش‌ها بکش (واکنش‌دهنده → فرآورده)',
+      '<b>۲۰ دقیقه:</b> تمرین‌های کتاب رو حل کن',
+      '<b>۱۰ دقیقه:</b> جدول رو یه بار از حفظ بنویس'
+    ],
+    tips:[
+      '💡 شیمی پر از جزئیاته، جدول و نمودار خیلی کمکت می‌کنه.',
+      '💡 هر واکنش رو با تصویر ذهنی بساز (رنگ، بو، صدا).',
+      '💡 موازنه رو روزی ۲-۳ تا تمرین کن، ملکه ذهنت می‌شه.'
+    ]
+  },
+  arabic: {
+    icon:'🕌', color:'#f39c12', name:'عربی',
+    subtitle:'کتاب برای متن، ویدیو برای قواعد',
+    ratio:{book:75, video:25}, time:60,
+    steps:[
+      '<b>۱۵ دقیقه:</b> متن درس رو با معنی بخون',
+      '<b>۱۰ دقیقه:</b> لغت‌های جدید رو تو فلش‌کارت لایتنر ثبت کن',
+      '<b>۱۵ دقیقه:</b> قواعد درس رو با ویدیو یا کتاب یاد بگیر',
+      '<b>۱۵ دقیقه:</b> ۵ تا تمرین قواعد حل کن',
+      '<b>۵ دقیقه:</b> فلش‌کارت‌های امروز رو یه دور مرور کن'
+    ],
+    tips:[
+      '💡 عربی با تکرار یاد می‌گیری. هر روز حتی ۱۰ دقیقه بهتر از هفته‌ای ۲ ساعته.',
+      '💡 لغت‌ها رو تو جمله یاد بگیر، نه تنها.',
+      '💡 قواعد رو با کورنل بنویس: راست توضیح، چپ سوال.'
+    ]
+  },
+  english: {
+    icon:'🌐', color:'#27ae60', name:'زبان انگلیسی',
+    subtitle:'لغت با فلش‌کارت، گرامر با کورنل',
+    ratio:{book:75, video:25}, time:60,
+    steps:[
+      '<b>۱۰ دقیقه:</b> لغت‌های جدید درس رو استخراج کن',
+      '<b>۱۵ دقیقه:</b> لغت‌ها رو تو فلش‌کارت لایتنر ثبت کن + یه جمله بساز',
+      '<b>۱۵ دقیقه:</b> Reading کتاب رو با معنی بخون',
+      '<b>۱۰ دقیقه:</b> گرامر رو با کورنل خلاصه کن',
+      '<b>۱۰ دقیقه:</b> یه پاراگراف کوتاه با لغت‌های امروز بنویس'
+    ],
+    tips:[
+      '💡 انگلیسی با استفاده یاد می‌گیری، نه با حفظ کردن.',
+      '💡 روزی ۵-۱۰ لغت با فلش‌کارت، بهتر از ۵۰ لغت یه روزه.',
+      '💡 فیلم و آهنگ با زیرنویس انگلیسی خیلی کمکت می‌کنه.'
+    ]
+  },
+  persian: {
+    icon:'📜', color:'#c0392b', name:'فارسی',
+    subtitle:'فقط کتاب، ولی درست',
+    ratio:{book:100, video:0}, time:60,
+    steps:[
+      '<b>۱۵ دقیقه:</b> متن درس رو با دقت بخون',
+      '<b>۱۰ دقیقه:</b> آرایه‌های ادبی رو پیدا کن و بنویس',
+      '<b>۱۰ دقیقه:</b> معنی لغت‌های سخت رو جدا کن',
+      '<b>۱۵ دقیقه:</b> دستور زبان رو با کورنل خلاصه کن',
+      '<b>۱۰ دقیقه:</b> یه نقشه ذهنی برای آرایه‌های درس بکش'
+    ],
+    tips:[
+      '💡 آرایه‌های ادبی رو با مثال یاد بگیر، نه با تعریف.',
+      '💡 دستور رو با کورنل بنویس، خیلی سریع‌تر مرور می‌شه.',
+      '💡 معنی لغت‌ها رو تو جمله یاد بگیر.'
+    ]
+  },
+  religion: {
+    icon:'📖', color:'#7f8c8d', name:'دینی',
+    subtitle:'فقط کتاب، با دقت',
+    ratio:{book:100, video:0}, time:45,
+    steps:[
+      '<b>۱۵ دقیقه:</b> درس رو با دقت بخون',
+      '<b>۱۰ دقیقه:</b> مفاهیم اصلی رو خلاصه کن',
+      '<b>۱۰ دقیقه:</b> سوال‌های آخر درس رو جواب بده',
+      '<b>۱۰ دقیقه:</b> مفاهیم کلیدی رو با نقشه ذهنی بکش'
+    ],
+    tips:[
+      '💡 دینی رو با معنی بخون، نه فقط برای امتحان.',
+      '💡 مثال‌های واقعی از زندگی خودت بساز.'
+    ]
+  },
+  geography: {
+    icon:'🌍', color:'#16a085', name:'جغرافیا',
+    subtitle:'نقشه + خلاصه',
+    ratio:{book:100, video:0}, time:45,
+    steps:[
+      '<b>۱۵ دقیقه:</b> متن درس رو بخون',
+      '<b>۱۵ دقیقه:</b> نقشه‌ها و نمودارها رو با دقت ببین',
+      '<b>۱۰ دقیقه:</b> خلاصه رو با کلمات خودت بنویس',
+      '<b>۵ دقیقه:</b> ۵ تا سوال کلیدی از خودت بپرس'
+    ],
+    tips:[
+      '💡 جغرافیا با دیدن یاد می‌گیری، از نقشه زیاد استفاده کن.',
+      '💡 مکان‌ها رو با داستان یاد بگیر.'
+    ]
+  },
+  writing: {
+    icon:'✍️', color:'#3498db', name:'نگارش',
+    subtitle:'تمرین + خلاقیت',
+    ratio:{book:80, video:20}, time:45,
+    steps:[
+      '<b>۱۰ دقیقه:</b> متن نمونه رو بخون و ساختارش رو ببین',
+      '<b>۲۰ دقیقه:</b> خودت یه متن کوتاه بنویس',
+      '<b>۱۰ دقیقه:</b> متن رو با نمونه مقایسه کن',
+      '<b>۵ دقیقه:</b> اشتباهات رو یادداشت کن'
+    ],
+    tips:[
+      '💡 نوشتن مثل ورزشه، هر روز تمرین لازمه.',
+      '💡 یه دفترچه برای ایده‌های خوب داشته باش.'
+    ]
+  },
+  review: {
+    icon:'📓', color:'#9b59b6', name:'مرور',
+    subtitle:'مرور فاصله‌دار',
+    ratio:{book:100, video:0}, time:60,
+    steps:[
+      '<b>۱۰ دقیقه:</b> خلاصه‌های قبلی رو یه دور بخون',
+      '<b>۱۵ دقیقه:</b> فلش‌کارت‌های لایتنر رو مرور کن',
+      '<b>۱۵ دقیقه:</b> دفتر اشتباهات رو نگاه کن',
+      '<b>۱۵ دقیقه:</b> ۳ تا سوال سخت از خودت بپرس',
+      '<b>۵ دقیقه:</b> هر چی یادت نیومد رو علامت بزن برای مرور بعدی'
+    ],
+    tips:[
+      '💡 مرور کوتاه و زیاد، بهتر از مرور بلند و کم.',
+      '💡 مرور قبل خواب، بهترین زمانه.'
+    ]
+  },
+  homework: {
+    icon:'✍️', color:'#f59e0b', name:'تکالیف',
+    subtitle:'سریع و با تمرکز',
+    ratio:{book:100, video:0}, time:45,
+    steps:[
+      '<b>۵ دقیقه:</b> لیست تکالیف رو بنویس، از سخت به آسون',
+      '<b>۳۰ دقیقه:</b> با تمرکز کامل انجام بده (گوشی بیرون!)',
+      '<b>۵ دقیقه:</b> یه بار چک کن',
+      '<b>۵ دقیقه:</b> سوال‌های سخت رو علامت بزن برای سوال از معلم'
+    ],
+    tips:[
+      '💡 تکالیف رو تو خونه انجام نده، تو راه یا وقت مرده.',
+      '💡 ۲۵ دقیقه تمرکز + ۵ دقیقه استراحت.'
+    ]
+  },
+  school: {
+    icon:'🏫', color:'#805ad5', name:'مدرسه',
+    subtitle:'فعال گوش کن، جزوه بنویس',
+    ratio:{book:100, video:0}, time:0,
+    steps:[
+      '<b>قبل از کلاس:</b> یه نگاه به درس جدید بنداز',
+      '<b>سر کلاس:</b> جزوه کورنل بکش (راست: یادداشت، چپ: سوال)',
+      '<b>سر کلاس:</b> سوال بپرس اگه نفهمیدی',
+      '<b>بعد از کلاس:</b> یه بار تو راه خونه مرور کن',
+      '<b>آخر شب:</b> خلاصه بنویس'
+    ],
+    tips:[
+      '💡 سر کلاس تمرکز کامل، بهترین صرفه‌جویی زمانه.',
+      '💡 گوشی رو تو کوله‌ات بذار، نه تو جیبت.'
+    ]
+  },
+  morning: {
+    icon:'🌅', color:'#f6ad55', name:'شروع روز',
+    subtitle:'با انرژی شروع کن',
+    ratio:{book:100, video:0}, time:0,
+    steps:[
+      '<b>بیداری:</b> بلافاصله بلند شو، گوشی نگاه نکن',
+      '<b>۵ دقیقه:</b> یه لیوان آب بخور',
+      '<b>۱۵ دقیقه:</b> صبحانه پروتئینی (تخم‌مرغ، پنیر، گردو)',
+      '<b>۵ دقیقه:</b> برنامه امروز رو یه نگاه بنداز',
+      '<b>۵ دقیقه:</b> کوتاه مرور کن (لغت، فرمول)'
+    ],
+    tips:[
+      '💡 صبح‌ها ذهنت آماده‌تره، ازش برای سخت‌ترین کارها استفاده کن.',
+      '💡 گوشی رو یک ساعت اول روز نگاه نکن.'
+    ]
+  },
+  meal: {
+    icon:'🍽', color:'#48bb78', name:'وعده غذایی',
+    subtitle:'با آرامش، بدون گوشی',
+    ratio:{book:100, video:0}, time:0,
+    steps:[
+      'با آرامش غذا بخور، تند نخور',
+      'گوشی و تلویزیون رو خاموش کن',
+      'اگه می‌تونی با خانواده باش',
+      '۱۵ دقیقه بعد غذا استراحت کن'
+    ],
+    tips:[
+      '💡 تغذیه خوب = تمرکز بالا. پروتئین و سبزیجات فراموش نشه.',
+      '💡 آب زیاد بخور، مخصوصاً قبل از مطالعه.'
+    ]
+  },
+  break: {
+    icon:'☕', color:'#48bb78', name:'استراحت',
+    subtitle:'درست و کوتاه',
+    ratio:{book:100, video:0}, time:0,
+    steps:[
+      '<b>۵-۱۵ دقیقه:</b> از جات بلند شو، چند قدم برو',
+      '<b>آب بخور</b> و به پنجره نگاه کن (چشمت استراحت کنه)',
+      '<b>گوشی رو چک نکن</b> (بیشتر خسته‌ات می‌کنه)',
+      'وقتی وقت تموم شد، بلافاصله برگرد سر کار'
+    ],
+    tips:[
+      '💡 استراحت طولانی‌تر از ۱۵ دقیقه، تمرکزت رو می‌بره.',
+      '💡 تو استراحت مدیتیشن کوتاه یا تنفس عمیق خیلی خوبه.'
+    ]
+  },
+  gym: {
+    icon:'🥊', color:'#ed8936', name:'باشگاه',
+    subtitle:'بدن سالم، ذهن فعال',
+    ratio:{book:100, video:0}, time:0,
+    steps:[
+      '<b>۵ دقیقه:</b> گرم کردن',
+      '<b>تمام مدت:</b> تمرکز روی تمرین، نه گوشی',
+      '<b>آب کافی</b> بخور',
+      '<b>سرد کردن</b> فراموش نشه',
+      '<b>بعد:</b> پروتئین بخور (شیر، تخم‌مرغ)'
+    ],
+    tips:[
+      '💡 ورزش منظم، حافظه و تمرکز رو ۲۰-۳۰٪ بهتر می‌کنه.',
+      '💡 باشگاه ساعت خوابت رو هم تنظیم می‌کنه.'
+    ]
+  },
+  sleep: {
+    icon:'😴', color:'#718096', name:'خواب',
+    subtitle:'کیفیت مهم‌تر از کمیت',
+    ratio:{book:100, video:0}, time:0,
+    steps:[
+      '<b>۳۰ دقیقه قبل:</b> گوشی و صفحه رو بذار کنار',
+      '<b>۱۵ دقیقه:</b> یه مرور سبک (فلش‌کارت، خلاصه)',
+      '<b>۱۰ دقیقه:</b> مسواک، دوش اگه نیازه',
+      '<b>۵ دقیقه:</b> چند نفس عمیق، اتاق تاریک',
+      '<b>ساعت خواب مشخص</b> — همیشه یه ساعت'
+    ],
+    tips:[
+      '💡 ۷-۸ ساعت خواب، بهترین دوست حافظه‌اته.',
+      '💡 مغز موقع خواب، درس‌های روز رو تثبیت می‌کنه.',
+      '💡 صفحه گوشی قبل خواب = دشمن خواب عمیق.'
+    ]
+  }
+};
+
+function getGuideForTask(task, kind) {
+  const t = (task || '').trim();
+  if (t.includes('ریاضی')) return SUBJECT_GUIDES.math;
+  if (t.includes('هندسه')) return SUBJECT_GUIDES.geometry;
+  if (t.includes('فیزیک')) return SUBJECT_GUIDES.physics;
+  if (t.includes('شیمی')) return SUBJECT_GUIDES.chemistry;
+  if (t.includes('عربی')) return SUBJECT_GUIDES.arabic;
+  if (t.includes('زبان') || t.includes('انگلیسی')) return SUBJECT_GUIDES.english;
+  if (t.includes('فارسی')) return SUBJECT_GUIDES.persian;
+  if (t.includes('دینی')) return SUBJECT_GUIDES.religion;
+  if (t.includes('جغرافیا')) return SUBJECT_GUIDES.geography;
+  if (t.includes('نگارش')) return SUBJECT_GUIDES.writing;
+  if (t.includes('تکالیف') || t.includes('تکلیف')) return SUBJECT_GUIDES.homework;
+  if (t.includes('مرور')) return SUBJECT_GUIDES.review;
+  if (t.includes('مدرسه')) return SUBJECT_GUIDES.school;
+  if (t.includes('بیداری') || t.includes('صبحانه')) return SUBJECT_GUIDES.morning;
+  if (t.includes('ناهار') || t.includes('شام') || t.includes('دوش')) return SUBJECT_GUIDES.meal;
+  if (t.includes('استراحت') || t.includes('آزاد')) return SUBJECT_GUIDES.break;
+  if (t.includes('باشگاه')) return SUBJECT_GUIDES.gym;
+  if (t.includes('خواب')) return SUBJECT_GUIDES.sleep;
+  if (kind === 'school') return SUBJECT_GUIDES.school;
+  if (kind === 'sleep') return SUBJECT_GUIDES.sleep;
+  if (kind === 'rest') return SUBJECT_GUIDES.break;
+  if (kind === 'sport') return SUBJECT_GUIDES.gym;
+  if (kind === 'wake') return SUBJECT_GUIDES.morning;
+  if (kind === 'study') return SUBJECT_GUIDES.review;
+  return SUBJECT_GUIDES.review;
+}
+
+window._todayList = [];
+window._fullList = [];
+
+function showGuideItem(source, idx) {
+  const list = source === 'today' ? window._todayList : window._fullList;
+  const item = list[idx];
+  if (!item) return;
+  const [st, en, task, kind, icon] = item;
+  openGuide(task, kind, st, en, icon);
+}
+
+function openGuide(task, kind, st, en, icon) {
+  const g = getGuideForTask(task, kind);
+  const overlay = document.getElementById('guideOverlay');
+  const iconEl = document.getElementById('guideIcon');
+  const titleEl = document.getElementById('guideTitle');
+  const subEl = document.getElementById('guideSubtitle');
+  const bodyEl = document.getElementById('guideBody');
+  const footerEl = document.getElementById('guideFooter');
+
+  iconEl.textContent = icon || g.icon || '📚';
+  iconEl.style.background = `linear-gradient(135deg, ${g.color}, ${g.color}cc)`;
+  titleEl.textContent = g.name;
+  subEl.textContent = g.subtitle || 'راهنمای مطالعه';
+
+  let html = '';
+  if (st && en) {
+    html += `<div class="guide-time-badge" style="background:linear-gradient(135deg,${g.color},${g.color}cc)">⏰ ${fa(st)} تا ${fa(en)}</div>`;
+  }
+  if (g.time) {
+    html += `<div class="guide-stat-row">
+      <div class="guide-stat"><div class="guide-stat-v">${fa(g.time)}</div><div class="guide-stat-l">دقیقه پیشنهادی</div></div>
+      <div class="guide-stat"><div class="guide-stat-v">${fa(g.steps.length)}</div><div class="guide-stat-l">مرحله</div></div>
+      <div class="guide-stat"><div class="guide-stat-v">${g.ratio ? fa(g.ratio.book) + '٪' : '۱۰۰٪'}</div><div class="guide-stat-l">کتاب</div></div>
+    </div>`;
+  }
+  if (g.ratio && g.ratio.video > 0 && g.ratio.book > 0) {
+    html += `<div class="guide-ratio">`;
+    html += `<div class="guide-ratio-video" style="width:${g.ratio.video}%">ویدیو ${fa(g.ratio.video)}٪</div>`;
+    html += `<div class="guide-ratio-book" style="width:${g.ratio.book}%">کتاب ${fa(g.ratio.book)}٪</div>`;
+    html += `</div>`;
+  }
+  if (g.steps && g.steps.length) {
+    html += `<div class="guide-section"><div class="guide-section-title">📋 مرحله به مرحله</div><ol class="guide-steps">`;
+    g.steps.forEach(s => { html += `<li>${s}</li>`; });
+    html += `</ol></div>`;
+  }
+  if (g.tips && g.tips.length) {
+    html += `<div class="guide-section"><div class="guide-section-title">💡 نکته‌های کلیدی</div>`;
+    g.tips.forEach(t => { html += `<div class="guide-tip">${t}</div>`; });
+    html += `</div>`;
+  }
+  bodyEl.innerHTML = html;
+
+  if (g.time && g.time > 0) {
+    footerEl.innerHTML = `
+      <button class="btn btn-secondary" onclick="closeGuide()">بستن</button>
+      <button class="btn btn-primary" onclick="startSessionFromGuide('${esc(g.name)}', ${g.time})">▶ شروع (${fa(g.time)} دقیقه)</button>
+    `;
+  } else {
+    footerEl.innerHTML = `<button class="btn btn-primary" onclick="closeGuide()">فهمیدم</button>`;
+  }
+
+  overlay.classList.add('active');
+  bodyEl.scrollTop = 0;
+}
+
+function closeGuide() {
+  document.getElementById('guideOverlay').classList.remove('active');
+}
+
+function startSessionFromGuide(name, minutes) {
+  closeGuide();
+  pTot = minutes * 60; pT = pTot;
+  document.querySelectorAll('.pomo-mode').forEach(b => b.classList.remove('active'));
+  const btn = document.querySelector(`.pomo-mode[data-m="${minutes}"]`);
+  if (btn) btn.classList.add('active');
+  updPom();
+  const subjEl = document.getElementById('pomSubj');
+  if (subjEl) subjEl.value = name;
+  go('pomodoro');
+  toast('▶ پومودورو ' + fa(minutes) + ' دقیقه برای ' + name);
+}
+
 // ============= رندر =============
 function renderClasses() {
-  const el = document.getElementById('classesContainer');
-  if (!el) return;
+  const el = document.getElementById('classesContainer'); if (!el) return;
   if (!isSchoolStarted()) {
     const days = daysUntilSchool();
     el.innerHTML = `<div class="classes-card" style="background:linear-gradient(135deg,#fbbf24,#f59e0b)">
@@ -1423,73 +1850,83 @@ function renderClasses() {
   const day = new Date().getDay();
   const classes = SCHOOL_SCHEDULE[day] || [];
   const dayName = WEEK_DAYS_FA[day];
-  let chips = classes.length === 0 ? '<span class="class-chip off">🎉 امروز تعطیله!</span>' : classes.map(c => `<span class="class-chip">${SUBJECT_ICONS[c]||'📚'} ${c}</span>`).join('');
-  el.innerHTML = `<div class="classes-card"><div class="classes-title">🏫 کلاس‌های امروز (${dayName})</div><div class="classes-list">${chips}</div></div>`;
+  const chips = classes.length === 0 ? '<span class="class-chip off">🎉 امروز تعطیله!</span>' :
+    classes.map(c => `<span class="class-chip" onclick="openGuide('${c}','school','','','${SUBJECT_ICONS[c]||'📚'}')">${SUBJECT_ICONS[c]||'📚'} ${c}</span>`).join('');
+  el.innerHTML = `<div class="classes-card"><div class="classes-title">🏫 کلاس‌های امروز (${dayName}) — برای راهنما کلیک کن</div><div class="classes-list">${chips}</div></div>`;
 }
 
 function renderNow() {
   const cur = getCurrent();
-  const el = document.getElementById('nowContainer');
-  if (!el) return;
+  const el = document.getElementById('nowContainer'); if (!el) return;
   const sh = getShamsi();
-  const tn = document.getElementById('todayName');
-  if (tn) tn.textContent = sh.dayName;
-  if (!cur) { el.innerHTML = `<div class="now-card" style="background:linear-gradient(135deg,#718096,#4a5568)"><div class="now-label"><span class="now-pulse"></span>الان</div><div class="now-task">😴 زمان استراحت / خواب</div><div class="now-time">برنامه‌ای نیست</div></div>`; return; }
+  const tn = document.getElementById('todayName'); if (tn) tn.textContent = sh.dayName;
+  if (!cur) {
+    el.innerHTML = `<div class="now-card" style="background:linear-gradient(135deg,#718096,#4a5568)"><div class="now-label"><span class="now-pulse"></span>الان</div><div class="now-task">😴 زمان استراحت / خواب</div><div class="now-time">برنامه‌ای نیست</div></div>`;
+    return;
+  }
   const {item, progress, remaining, next} = cur;
   const rtxt = remaining >= 60 ? `${fa(Math.floor(remaining/60))} ساعت و ${fa(remaining%60)} دقیقه` : `${fa(remaining)} دقیقه`;
   const pct = Math.round(progress*100);
-  const nextHtml = next ? `<div class="next-card"><div class="next-label">⏭ بعدی</div><div class="next-task">${next.icon} ${next.task}</div><div class="next-time">${fa(next.st)} تا ${fa(next.en)}</div></div>` : `<div class="free-card">🌙 <b>آخرین فعالیت امروز</b></div>`;
-  el.innerHTML = `<div class="now-card"><div class="now-label"><span class="now-pulse"></span>الان باید انجام بدی</div><div class="now-task">${item.icon} ${item.task}</div><div class="now-time">${fa(item.st)} تا ${fa(item.en)}</div><div class="now-progress"><div class="now-progress-fill" style="width:${pct}%"></div></div><div class="now-remaining">⏳ ${rtxt} مانده</div></div>${nextHtml}`;
+  const nextHtml = next ? `<div class="next-card"><div class="next-label">⏭ بعدی</div><div class="next-task">${next.icon} ${esc(next.task)}</div><div class="next-time">${fa(next.st)} تا ${fa(next.en)}</div></div>` : `<div class="free-card">🌙 <b>آخرین فعالیت امروز</b></div>`;
+  el.innerHTML = `<div class="now-card" style="cursor:pointer" onclick="openGuide('${esc(item.task)}','${item.kind}','${item.st}','${item.en}','${item.icon}')"><div class="now-label"><span class="now-pulse"></span>الان باید انجام بدی</div><div class="now-task">${item.icon} ${esc(item.task)}</div><div class="now-time">${fa(item.st)} تا ${fa(item.en)}</div><div class="now-progress"><div class="now-progress-fill" style="width:${pct}%"></div></div><div class="now-remaining">⏳ ${rtxt} مانده</div><div class="now-hint">👆 برای دیدن راهنما کلیک کن</div></div>${nextHtml}`;
 }
 
 function renderPhase() {
-  const el = document.getElementById('phaseContainer');
-  if (!el) return;
+  const el = document.getElementById('phaseContainer'); if (!el) return;
   const sh = getShamsi();
   const phase = PHASES[sh.m] || {title:'—',icon:'📅',goals:[]};
-  const daysInMonth = sh.m <= 6 ? 31 : (sh.m === 12 ? 29 : 30);
+  const daysInMonth = jalaliDaysInMonth(sh.y, sh.m);
   const pct = Math.round((sh.d / daysInMonth) * 100);
   el.innerHTML = `<div class="phase-hero"><div class="phase-month"><span>📅 ${sh.monthName} ${fa(sh.y)}</span><span>روز ${fa(sh.d)} از ${fa(daysInMonth)}</span></div><div class="phase-title"><span>${phase.icon}</span>${phase.title}</div><ul class="phase-goals">${phase.goals.map(g=>`<li>${g}</li>`).join('')}</ul><div class="phase-progress"><div class="phase-progress-fill" style="width:${pct}%"></div></div><div class="phase-footer">${fa(pct)}٪ از این ماه گذشته</div></div>`;
 }
 
 function renderCountdown() {
-  const el = document.getElementById('countdownGrid');
-  if (!el) return;
-  const now = new Date();
-  const renderCard = (exam, cls) => {
-    const target = examDateToGregorian(exam);
-    const diff = target - now;
-    if (diff <= 0) {
+  const el = document.getElementById('countdownGrid'); if (!el) return;
+  const now = Date.now();
+  const items = [
+    {exam: EXAMS.schoolStart, cls: 'school'},
+    {exam: EXAMS.midterm, cls: 'midterm'},
+    {exam: EXAMS.final, cls: 'final'}
+  ];
+  if (!el.dataset.built) {
+    el.innerHTML = items.map(({exam, cls}) => {
+      const target = examDateToGregorian(exam).getTime();
       const isSchool = exam.name === 'شروع مدرسه';
-      return `<div class="cd-card ${cls} ended">
-        <div class="cd-title">${exam.name}</div>
-        <div style="font-size:1.3em;margin:8px 0">✅</div>
-        <div class="cd-msg">${isSchool ? 'شروع شد' : 'گذشت'}</div>
+      const ended = target <= now;
+      return `<div class="cd-card ${cls} ${ended?'ended':''}" data-target="${target}">
+        <div class="cd-title">${esc(exam.name)}</div>
+        ${ended ? `<div style="font-size:1.3em;margin:8px 0">✅</div><div class="cd-msg">${isSchool?'شروع شد':'گذشت'}</div>` :
+        `<div class="cd-numbers">
+          <div class="cd-num ${cls}"><div class="cd-num-v" data-i="0">۰</div><div class="cd-num-l">روز</div></div>
+          <div class="cd-num ${cls}"><div class="cd-num-v" data-i="1">۰</div><div class="cd-num-l">ساعت</div></div>
+          <div class="cd-num ${cls}"><div class="cd-num-v" data-i="2">۰</div><div class="cd-num-l">دقیقه</div></div>
+          <div class="cd-num ${cls}"><div class="cd-num-v" data-i="3">۰</div><div class="cd-num-l">ثانیه</div></div>
+        </div>
+        <div class="cd-msg"></div>`}
         <div class="cd-date">${fa(exam.jd)} ${JALALI_MONTHS[exam.jm-1]}</div>
       </div>`;
+    }).join('');
+    el.dataset.built = '1';
+  }
+  el.querySelectorAll('.cd-card:not(.ended)').forEach(card => {
+    const target = +card.dataset.target;
+    const diff = target - now;
+    if (diff <= 0) { card.classList.add('ended'); el.dataset.built = ''; renderCountdown(); return; }
+    const vals = [Math.floor(diff/864e5), Math.floor(diff%864e5/36e5), Math.floor(diff%36e5/6e4), Math.floor(diff%6e4/1e3)];
+    card.querySelectorAll('.cd-num-v').forEach((n, i) => { n.textContent = fa(vals[i]); });
+    if (!card._msgTs || now - card._msgTs > 60000) {
+      const days = vals[0];
+      const msgEl = card.querySelector('.cd-msg');
+      let msg = '', msgCls = '';
+      if (days <= 3) { msg = '⏰ نزدیک!'; msgCls = 'warn'; }
+      else if (days <= 14) { msg = '⚠️ جدی'; msgCls = 'warn'; }
+      else if (days <= 30) { msg = '📚 آماده'; }
+      else { msg = '✅ وقت داری'; msgCls = 'ok'; }
+      msgEl.textContent = msg;
+      msgEl.className = 'cd-msg ' + msgCls;
+      card._msgTs = now;
     }
-    const days = Math.floor(diff/86400000);
-    const hours = Math.floor((diff%86400000)/3600000);
-    const mins = Math.floor((diff%3600000)/60000);
-    const secs = Math.floor((diff%60000)/1000);
-    let msg = '', msgCls = '';
-    if (days <= 3) { msg = '⏰ نزدیک!'; msgCls = 'warn'; }
-    else if (days <= 14) { msg = '⚠️ جدی'; msgCls = 'warn'; }
-    else if (days <= 30) { msg = '📚 آماده'; }
-    else { msg = '✅ وقت داری'; msgCls = 'ok'; }
-    return `<div class="cd-card ${cls}">
-      <div class="cd-title">${exam.name}</div>
-      <div class="cd-numbers">
-        <div class="cd-num ${cls}"><div class="cd-num-v">${fa(days)}</div><div class="cd-num-l">روز</div></div>
-        <div class="cd-num ${cls}"><div class="cd-num-v">${fa(hours)}</div><div class="cd-num-l">ساعت</div></div>
-        <div class="cd-num ${cls}"><div class="cd-num-v">${fa(mins)}</div><div class="cd-num-l">دقیقه</div></div>
-        <div class="cd-num ${cls}"><div class="cd-num-v">${fa(secs)}</div><div class="cd-num-l">ثانیه</div></div>
-      </div>
-      <div class="cd-msg ${msgCls}">${msg}</div>
-      <div class="cd-date">${fa(exam.jd)} ${JALALI_MONTHS[exam.jm-1]}</div>
-    </div>`;
-  };
-  el.innerHTML = renderCard(EXAMS.schoolStart, 'school') + renderCard(EXAMS.midterm, 'midterm') + renderCard(EXAMS.final, 'final');
+  });
 }
 
 function renderTodaySchedule() {
@@ -1497,43 +1934,29 @@ function renderTodaySchedule() {
   const curMin = now.getHours()*60 + now.getMinutes();
   const day = now.getDay();
   let list = SCHEDULE[day] || [];
-  
-  if (!isSchoolStarted()) {
-    list = list.filter(x => x[3] !== 'school');
-  }
-  
-  const el = document.getElementById('todaySchedule');
-  if (!el) return;
-  if (!list.length) { 
-    el.innerHTML = '<p style="text-align:center;color:var(--text-light);font-size:.85em">تعطیلات تابستانی 🌞</p>'; 
-    return; 
-  }
-  
+  if (!isSchoolStarted()) list = list.filter(x => x[3] !== 'school');
+  window._todayList = list;
+  const el = document.getElementById('todaySchedule'); if (!el) return;
+  if (!list.length) { el.innerHTML = '<p style="text-align:center;color:var(--text-light);font-size:.85em">تعطیلات تابستانی 🌞</p>'; return; }
   let extraHtml = '';
   if (!isSchoolStarted()) {
     const days = daysUntilSchool();
-    extraHtml = `<div style="text-align:center;padding:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;border-radius:12px;margin-bottom:12px;font-weight:700">
-      🌞 ${fa(days)} روز تا شروع مدرسه
-    </div>`;
+    extraHtml = `<div style="text-align:center;padding:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;border-radius:12px;margin-bottom:12px;font-weight:700">🌞 ${fa(days)} روز تا شروع مدرسه</div>`;
   }
-  
-  el.innerHTML = extraHtml + list.map(([st,en,task,kind,icon]) => {
+  el.innerHTML = extraHtml + list.map(([st,en,task,kind,icon], idx) => {
     const s = timeToMin(st), e = timeToMin(en);
     let cls = 'today-item';
     if (curMin >= e) cls += ' past';
     else if (curMin >= s && curMin < e) cls += ' current';
-    return `<div class="${cls} k-${kind}"><div class="today-icon">${icon}</div><div class="today-time">${fa(st)}–${fa(en)}</div><div class="today-task">${task}</div></div>`;
+    return `<div class="${cls} k-${kind}" onclick="showGuideItem('today', ${idx})"><div class="today-icon">${icon}</div><div class="today-time">${fa(st)}–${fa(en)}</div><div class="today-task">${esc(task)}</div></div>`;
   }).join('');
 }
 
 function renderSchoolGrid() {
-  const el = document.getElementById('schoolGrid');
-  if (!el) return;
+  const el = document.getElementById('schoolGrid'); if (!el) return;
   if (!isSchoolStarted()) {
     const days = daysUntilSchool();
-    el.innerHTML = `<div style="grid-column:1/-1;padding:20px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:14px;text-align:center;color:#fff;font-weight:700">
-      🌞 تعطیلات تابستانی<br>${fa(days)} روز تا شروع مدرسه
-    </div>`;
+    el.innerHTML = `<div style="grid-column:1/-1;padding:20px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:14px;text-align:center;color:#fff;font-weight:700">🌞 تعطیلات تابستانی<br>${fa(days)} روز تا شروع مدرسه</div>`;
     return;
   }
   const todayJs = new Date().getDay();
@@ -1541,54 +1964,51 @@ function renderSchoolGrid() {
     const classes = SCHOOL_SCHEDULE[d] || [];
     const isToday = d === todayJs;
     const dayName = WEEK_DAYS_FA[d];
-    let inner = classes.length === 0 ? '<div class="school-class off">تعطیل</div>' : classes.map(c => `<div class="school-class">${SUBJECT_ICONS[c]||'📚'} ${c}</div>`).join('');
+    const inner = classes.length === 0 ? '<div class="school-class off">تعطیل</div>' :
+      classes.map(c => `<div class="school-class" onclick="openGuide('${c}','school','','','${SUBJECT_ICONS[c]||'📚'}')">${SUBJECT_ICONS[c]||'📚'} ${c}</div>`).join('');
     return `<div class="school-day ${isToday?'today':''}"><div class="school-day-name"><span>${dayName}</span>${isToday?'<span>امروز</span>':''}</div><div class="school-classes">${inner}</div></div>`;
   }).join('');
 }
 
 let selectedDay = null;
 function renderFullSchedule() {
-  const el = document.getElementById('fullSchedule');
-  if (!el) return;
+  const el = document.getElementById('fullSchedule'); if (!el) return;
   const todayJs = new Date().getDay();
   if (selectedDay === null) selectedDay = todayJs;
   let list = SCHEDULE[selectedDay] || [];
   const schoolOn = isSchoolStarted();
   if (!schoolOn) list = list.filter(x => x[3] !== 'school');
+  window._fullList = list;
   const dayName = WEEK_DAYS_FA[selectedDay];
   const isToday = selectedDay === todayJs;
   const sh = getShamsi();
   const now = new Date();
   const curMin = now.getHours()*60 + now.getMinutes();
-  
   let classesHtml;
   if (!schoolOn) {
-    classesHtml = `<div style="margin:8px 0 12px;padding:14px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:10px;text-align:center;color:#fff;font-weight:700;font-size:.9em">
-      🌞 تعطیلات تابستانی — مدرسه شروع نشده
-    </div>`;
+    classesHtml = `<div style="margin:8px 0 12px;padding:14px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:10px;text-align:center;color:#fff;font-weight:700;font-size:.9em">🌞 تعطیلات تابستانی — مدرسه شروع نشده</div>`;
   } else {
     const classes = SCHOOL_SCHEDULE[selectedDay] || [];
-    classesHtml = classes.length 
-      ? `<div style="margin:8px 0 12px;padding:8px 12px;background:var(--bg);border-radius:10px;border-right:3px solid var(--accent)"><div style="font-size:.75em;color:var(--text-light);margin-bottom:6px">🏫 کلاس‌ها:</div><div style="display:flex;flex-wrap:wrap;gap:5px">${classes.map(c=>`<span style="font-size:.8em;padding:3px 10px;background:var(--bg-card);border-radius:14px;border:1px solid var(--border)">${SUBJECT_ICONS[c]||'📚'} ${c}</span>`).join('')}</div></div>` 
+    classesHtml = classes.length
+      ? `<div style="margin:8px 0 12px;padding:8px 12px;background:var(--bg);border-radius:10px;border-right:3px solid var(--accent)"><div style="font-size:.75em;color:var(--text-light);margin-bottom:6px">🏫 کلاس‌ها:</div><div style="display:flex;flex-wrap:wrap;gap:5px">${classes.map(c=>`<span style="font-size:.8em;padding:3px 10px;background:var(--bg-card);border-radius:14px;border:1px solid var(--border);cursor:pointer" onclick="openGuide('${c}','school','','','${SUBJECT_ICONS[c]||'📚'}')">${SUBJECT_ICONS[c]||'📚'} ${c}</span>`).join('')}</div></div>`
       : `<div style="margin:8px 0 12px;padding:8px 12px;background:var(--bg);border-radius:10px;text-align:center;font-size:.82em;color:var(--text-light)">🎉 تعطیل</div>`;
   }
-  
   el.innerHTML = `<div class="card">
     <h3 style="display:flex;justify-content:space-between"><span>${dayName} ${isToday?'— امروز':''}</span>${isToday?`<span style="font-size:.75em;color:var(--text-light);font-weight:normal">${fa(sh.d)} ${sh.monthName}</span>`:''}</h3>
     ${classesHtml}
-    <div class="timeline">${list.map(([st,en,task,kind,icon]) => {
+    <div class="timeline">${list.map(([st,en,task,kind,icon], idx) => {
       const s = timeToMin(st), e = timeToMin(en);
       let cls = 'ti t-' + kind;
       if (isToday && curMin >= e) cls += ' past';
       else if (isToday && curMin >= s && curMin < e) cls += ' current-item';
-      return `<div class="${cls}"><div class="td"></div><div class="tt">${fa(st)}–${fa(en)}</div><div class="tx">${icon} ${task}</div></div>`;
+      return `<div class="${cls}" onclick="showGuideItem('full', ${idx})"><div class="td"></div><div class="tt">${fa(st)}–${fa(en)}</div><div class="tx">${icon} ${esc(task)}</div></div>`;
     }).join('')}</div>
+    <div style="text-align:center;margin-top:10px;font-size:.75em;color:var(--text-light)">👆 روی هر مورد بزن تا راهنمای کاملش رو ببینی</div>
   </div>`;
 }
 
 function renderWeekTabs() {
-  const el = document.getElementById('weekTabs');
-  if (!el) return;
+  const el = document.getElementById('weekTabs'); if (!el) return;
   const todayJs = new Date().getDay();
   if (selectedDay === null) selectedDay = todayJs;
   el.innerHTML = [6,0,1,2,3,4,5].map(d => {
@@ -1606,18 +2026,26 @@ function selectDay(d) { selectedDay = d; renderWeekTabs(); renderFullSchedule();
 function go(id) {
   document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
-  const sec = document.getElementById(id);
-  if (!sec) return;
+  const sec = document.getElementById(id); if (!sec) return;
   sec.classList.add('active');
   const btn = document.querySelector(`.bottom-nav button[data-t="${id}"]`);
   if (btn) btn.classList.add('active');
   else document.querySelector('.bottom-nav button[data-t="more"]').classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
-  const render = {schedule:()=>{renderWeekTabs();renderFullSchedule();renderSchoolGrid();},
-    profile:renderProfile, checklist:renderChecklists, sessions:renderSessions,
-    exams:renderExams, journal:renderJournal, weakness:renderWeakness,
-    weekly:renderWeeklyReport, health:renderHealth, distraction:renderDistractionPage,
-    backup:checkPwaStatus};
+  const render = {
+    dashboard: () => { renderNow(); renderTodaySchedule(); renderTodayReports(); renderMakeupCard(); renderAlert(); renderCountdown(); },
+    schedule: () => { renderWeekTabs(); renderFullSchedule(); renderSchoolGrid(); },
+    profile: renderProfile,
+    checklist: renderChecklists,
+    sessions: renderSessions,
+    exams: renderExams,
+    journal: renderJournal,
+    weakness: renderWeakness,
+    weekly: renderWeeklyReport,
+    health: renderHealth,
+    distraction: renderDistractionPage,
+    backup: () => { checkPwaStatus(); renderBackupStatus(); }
+  };
   if (render[id]) render[id]();
 }
 function toggleMore() { document.getElementById('moreMenu').classList.toggle('active'); }
@@ -1629,19 +2057,34 @@ function toggleTheme() {
   document.body.setAttribute('data-theme', next);
   document.getElementById('themeBtn').textContent = next === 'dark' ? '☀️' : '🌙';
   localStorage.setItem('theme', next);
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', next === 'dark' ? '#151a24' : '#667eea');
 }
-(function(){ const s = localStorage.getItem('theme') || 'light'; document.body.setAttribute('data-theme', s); document.getElementById('themeBtn').textContent = s === 'dark' ? '☀️' : '🌙'; })();
+(function(){
+  const s = localStorage.getItem('theme') || 'light';
+  document.body.setAttribute('data-theme', s);
+  const btn = document.getElementById('themeBtn'); if (btn) btn.textContent = s === 'dark' ? '☀️' : '🌙';
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', s === 'dark' ? '#151a24' : '#667eea');
+})();
 
 // ============= پرونده =============
 const PROFILE_KEY = 'ilia-profile';
 function getProfile() { return getData(PROFILE_KEY, {}); }
-function saveProfile() { const p = getProfile(); p.name = document.getElementById('pfName').value.trim() || p.name || 'ایلیا'; p.school = document.getElementById('pfSchool').value.trim() || p.school || ''; p.avg9 = parseFloat(document.getElementById('pfAvg9').value) || p.avg9 || 0; p.avgTarget = parseFloat(document.getElementById('pfAvgTarget').value) || p.avgTarget || 0; setData(PROFILE_KEY, p); renderProfile(); toast('✅ ذخیره شد'); }
+function saveProfile() {
+  const p = getProfile();
+  p.name = document.getElementById('pfName').value.trim() || p.name || 'ایلیا';
+  p.school = document.getElementById('pfSchool').value.trim() || p.school || '';
+  p.avg9 = parseFloat(document.getElementById('pfAvg9').value) || p.avg9 || 0;
+  p.avgTarget = parseFloat(document.getElementById('pfAvgTarget').value) || p.avgTarget || 0;
+  setData(PROFILE_KEY, p); renderProfile(); toast('✅ ذخیره شد');
+}
 function setLearningStyle(s) { const p = getProfile(); p.learning = s; setData(PROFILE_KEY, p); renderProfile(); }
 function setSubjectLevel(subj, lvl) { const p = getProfile(); if (!p.levels) p.levels = {}; p.levels[subj] = lvl; setData(PROFILE_KEY, p); renderProfile(); }
 function renderProfile() {
   const p = getProfile();
   const hdr = document.getElementById('profileHeader');
-  if (hdr) hdr.innerHTML = `<div class="profile-header"><h3>${p.name || 'ایلیا'}</h3><p>${p.school || 'دبیرستان شاهد سیرجان'} — دهم ریاضی</p></div>`;
+  if (hdr) hdr.innerHTML = `<div class="profile-header"><h3>${esc(p.name || 'ایلیا')}</h3><p>${esc(p.school || 'دبیرستان شاهد سیرجان')} — دهم ریاضی</p></div>`;
   const nameEl = document.getElementById('pfName'); if (nameEl) nameEl.value = p.name || '';
   const sEl = document.getElementById('pfSchool'); if (sEl) sEl.value = p.school || '';
   const a9 = document.getElementById('pfAvg9'); if (a9) a9.value = p.avg9 || '';
@@ -1677,7 +2120,7 @@ function renderChecklists() {
   const t = today();
   const todayData = data[t] || {};
   const todayEl = document.getElementById('clToday');
-  if (todayEl) todayEl.innerHTML = DAILY_CHECKS.map((c, i) => `<label class="check-item"><input type="checkbox" ${todayData[i]?'checked':''} onchange="toggleCheck('${t}', ${i}, this.checked)"><span class="cm"></span><span class="ct">${c}</span></label>`).join('');
+  if (todayEl) todayEl.innerHTML = DAILY_CHECKS.map((c, i) => `<label class="check-item"><input type="checkbox" ${todayData[i]?'checked':''} onchange="toggleCheck('${t}', ${i}, this.checked)"><span class="cm"></span><span class="ct">${esc(c)}</span></label>`).join('');
   const doneToday = Object.values(todayData).filter(Boolean).length;
   const clTP = document.getElementById('clTodayProgress');
   if (clTP) clTP.innerHTML = `<div class="pb" style="margin-top:10px"><div class="pf ${doneToday===DAILY_CHECKS.length?'pf-ok':''}" style="width:${(doneToday/DAILY_CHECKS.length)*100}%"></div></div><span>${fa(doneToday)} از ${fa(DAILY_CHECKS.length)} — ${fa(Math.round((doneToday/DAILY_CHECKS.length)*100))}٪</span>`;
@@ -1709,7 +2152,8 @@ function addSession() {
 function renderSessions() {
   const sessions = getData(SS_KEY, []);
   const t = today();
-  const wk = new Date(Date.now() - 7*86400000).toISOString().split('T')[0];
+  const wkDate = new Date(); wkDate.setDate(wkDate.getDate() - 7);
+  const wk = localDate(wkDate);
   const weekSessions = sessions.filter(s => s.date >= wk);
   const todaySessions = sessions.filter(s => s.date === t);
   const sv = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = fa(v); };
@@ -1717,7 +2161,7 @@ function renderSessions() {
   sv('ssWeekPages', weekSessions.reduce((s,x) => s+x.pages, 0));
   sv('ssWeekTests', weekSessions.reduce((s,x) => s+x.tests, 0));
   sv('ssWeekSess', weekSessions.length);
-  const fmt = (s) => `<div class="session-item"><div class="session-head"><span class="session-subj">${SUBJECT_ICONS[s.subj]||'📚'} ${s.subj}</span><span class="session-hrs">${fa(s.min)} دقیقه</span></div><div class="session-meta">${s.topic}${s.source?` — ${s.source}`:''}${s.pages?` — ${fa(s.pages)} صفحه`:''}${s.tests?` — ${fa(s.tests)} تست`:''}</div></div>`;
+  const fmt = (s) => `<div class="session-item"><div class="session-head"><span class="session-subj">${SUBJECT_ICONS[s.subj]||'📚'} ${esc(s.subj)}</span><span class="session-hrs">${fa(s.min)} دقیقه</span></div><div class="session-meta">${esc(s.topic)}${s.source?` — ${esc(s.source)}`:''}${s.pages?` — ${fa(s.pages)} صفحه`:''}${s.tests?` — ${fa(s.tests)} تست`:''}</div></div>`;
   const tl = document.getElementById('ssTodayList');
   if (tl) tl.innerHTML = todaySessions.length ? todaySessions.map(fmt).join('') : '<p style="text-align:center;color:var(--text-light);font-size:.85em">هنوز جلسه‌ای ثبت نکردی</p>';
 }
@@ -1748,7 +2192,8 @@ function renderHealth() {
   const todaySleep = sleeps.find(x => x.date === t);
   const sv = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = fa(v); };
   sv('slToday', todaySleep ? todaySleep.hours.toFixed(1) : 0);
-  const wk = new Date(Date.now() - 7*86400000).toISOString().split('T')[0];
+  const wkDate = new Date(); wkDate.setDate(wkDate.getDate() - 7);
+  const wk = localDate(wkDate);
   const wkSleeps = sleeps.filter(x => x.date >= wk);
   const avg = wkSleeps.length ? (wkSleeps.reduce((s,x) => s+x.hours, 0) / wkSleeps.length) : 0;
   sv('slWeek', avg.toFixed(1));
@@ -1756,8 +2201,8 @@ function renderHealth() {
   if (chart) {
     let html = ''; let max = 1; const days = [];
     for (let i = 6; i >= 0; i--) {
-      const dd = new Date(Date.now() - i*86400000);
-      const ds = dd.toISOString().split('T')[0];
+      const dd = new Date(); dd.setDate(dd.getDate() - i);
+      const ds = localDate(dd);
       const nm = WEEK_DAYS_SHORT[dd.getDay()];
       const e = sleeps.find(x => x.date === ds);
       const h = e ? e.hours : 0;
@@ -1768,7 +2213,7 @@ function renderHealth() {
   }
   const histEl = document.getElementById('sleepHistory');
   if (histEl) histEl.innerHTML = sleeps.length === 0 ? '<p style="text-align:center;color:var(--text-light);font-size:.85em">چیزی ثبت نشده</p>' :
-    sleeps.slice().reverse().slice(0, 14).map(s => `<div class="item"><span>${s.date}</span><span style="font-size:.85em;color:var(--text-light)">${s.sleep} → ${s.wake} (${fa(s.hours.toFixed(1))} ساعت)</span></div>`).join('');
+    sleeps.slice().reverse().slice(0, 14).map(s => `<div class="item"><span>${esc(s.date)}</span><span style="font-size:.85em;color:var(--text-light)">${esc(s.sleep)} → ${esc(s.wake)} (${fa(s.hours.toFixed(1))} ساعت)</span></div>`).join('');
 }
 
 // ============= حواس‌پرتی =============
@@ -1793,7 +2238,8 @@ function logDistraction() {
 }
 function renderDistractionPage() {
   const list = getData(DS_KEY, []);
-  const wk = new Date(Date.now() - 7*86400000).toISOString().split('T')[0];
+  const wkDate = new Date(); wkDate.setDate(wkDate.getDate() - 7);
+  const wk = localDate(wkDate);
   const wkList = list.filter(x => x.date >= wk);
   const tagCounts = {};
   wkList.forEach(x => x.tags.forEach(t => tagCounts[t] = (tagCounts[t] || 0) + 1));
@@ -1803,8 +2249,8 @@ function renderDistractionPage() {
     if (sorted.length === 0) analysisEl.innerHTML = '<p style="text-align:center;color:var(--text-light);font-size:.85em">هیچ حواس‌پرتی‌ای ثبت نشده 🎉</p>';
     else {
       const max = sorted[0][1];
-      analysisEl.innerHTML = sorted.map(([tag, count]) => `<div style="margin:8px 0;font-size:.85em"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><b>${tag}</b><span>${fa(count)} بار</span></div><div class="pb"><div class="pf pf-bad" style="width:${(count/max)*100}%"></div></div></div>`).join('');
-      analysisEl.innerHTML += `<div class="analysis-box warn" style="margin-top:12px"><b>💡 پیشنهاد:</b><br>بیشترین علت حواس‌پرتی تو <b>${sorted[0][0]}</b> هست.</div>`;
+      analysisEl.innerHTML = sorted.map(([tag, count]) => `<div style="margin:8px 0;font-size:.85em"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><b>${esc(tag)}</b><span>${fa(count)} بار</span></div><div class="pb"><div class="pf pf-bad" style="width:${(count/max)*100}%"></div></div></div>`).join('');
+      analysisEl.innerHTML += `<div class="analysis-box warn" style="margin-top:12px"><b>💡 پیشنهاد:</b><br>بیشترین علت حواس‌پرتی تو <b>${esc(sorted[0][0])}</b> هست.</div>`;
     }
   }
 }
@@ -1820,6 +2266,7 @@ function addExam() {
   const unans = parseInt(document.getElementById('exUnanswered').value) || 0;
   const subject = document.getElementById('exSubject').value.trim();
   if (!title || !total) return toast('عنوان و تعداد کل رو وارد کن');
+  if (correct + wrong + unans > total) return toast('جمع درست+غلط+نزده بیشتر از کل است');
   const exams = getData(EX_KEY, []);
   exams.push({id:Date.now(), title, date, total, correct, wrong, unans, subject, ts:Date.now()});
   setData(EX_KEY, exams);
@@ -1832,13 +2279,12 @@ function renderExams() {
   const sv = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = fa(v); };
   if (exams.length) { const avg = exams.reduce((s,e) => s + (e.correct/e.total)*100, 0) / exams.length; sv('exAvg', Math.round(avg)); sv('exCount', exams.length); }
   else { sv('exAvg', 0); sv('exCount', 0); }
-  const el = document.getElementById('examsList');
-  if (!el) return;
+  const el = document.getElementById('examsList'); if (!el) return;
   el.innerHTML = exams.length === 0 ? '<div class="card" style="text-align:center;color:var(--text-light);font-size:.88em">هنوز آزمونی ثبت نشده</div>' :
     exams.slice().reverse().map(e => {
       const pct = Math.round((e.correct/e.total)*100);
       const col = pct >= 75 ? 'var(--success)' : pct >= 50 ? 'var(--accent)' : 'var(--danger)';
-      return `<div class="exam-item"><div class="exam-head" onclick="toggleExamBody(${e.id})"><div class="exam-head-info"><div class="exam-title">${e.subject?SUBJECT_ICONS[e.subject]||'📚':''} ${e.title}</div><div class="exam-sub">${e.date} — ${fa(e.total)} سوال — ${fa(e.correct)} درست / ${fa(e.wrong)} غلط / ${fa(e.unans)} نزده</div></div><div class="exam-score" style="color:${col}">${fa(pct)}٪</div></div><div class="exam-body" id="eb-${e.id}"><b>تفکیک غلط‌ها:</b><br><span class="err-badge sci" onclick="tagErr(${e.id},'sci')">🔬 علمی</span><span class="err-badge care" onclick="tagErr(${e.id},'care')">🎯 بی‌دقتی</span><span class="err-badge time" onclick="tagErr(${e.id},'time')">⏰ زمان</span><span class="err-badge unk" onclick="tagErr(${e.id},'unk')">❓ نابلدی</span><br><br><input class="inp" placeholder="درس‌نامه" value="${e.lesson||''}" onchange="setExamLesson(${e.id}, this.value)"><button class="btn btn-sm btn-danger" onclick="delExam(${e.id})" style="margin-top:8px">🗑 حذف</button></div></div>`;
+      return `<div class="exam-item"><div class="exam-head" onclick="toggleExamBody(${e.id})"><div class="exam-head-info"><div class="exam-title">${e.subject?SUBJECT_ICONS[e.subject]||'📚':''} ${esc(e.title)}</div><div class="exam-sub">${esc(e.date)} — ${fa(e.total)} سوال — ${fa(e.correct)} درست / ${fa(e.wrong)} غلط / ${fa(e.unans)} نزده</div></div><div class="exam-score" style="color:${col}">${fa(pct)}٪</div></div><div class="exam-body" id="eb-${e.id}"><b>تفکیک غلط‌ها:</b><br><span class="err-badge sci" onclick="tagErr(${e.id},'sci')">🔬 علمی</span><span class="err-badge care" onclick="tagErr(${e.id},'care')">🎯 بی‌دقتی</span><span class="err-badge time" onclick="tagErr(${e.id},'time')">⏰ زمان</span><span class="err-badge unk" onclick="tagErr(${e.id},'unk')">❓ نابلدی</span><br><br><input class="inp" placeholder="درس‌نامه" value="${esc(e.lesson||'')}" onchange="setExamLesson(${e.id}, this.value)"><button class="btn btn-sm btn-danger" onclick="delExam(${e.id})" style="margin-top:8px">🗑 حذف</button></div></div>`;
     }).join('');
 }
 function toggleExamBody(id) { const el = document.getElementById('eb-' + id); if (el) el.classList.toggle('open'); }
@@ -1867,10 +2313,9 @@ function renderJournal() {
   const t = today();
   const todayJ = journals.find(x => x.date === t);
   if (todayJ) { document.getElementById('jq1').value = todayJ.learned || ''; document.getElementById('jq2').value = todayJ.hard || ''; document.getElementById('jq3').value = todayJ.tomorrow || ''; }
-  const el = document.getElementById('journalList');
-  if (!el) return;
+  const el = document.getElementById('journalList'); if (!el) return;
   el.innerHTML = journals.length === 0 ? '<p style="text-align:center;color:var(--text-light);font-size:.85em">هنوز ژورنالی نیست</p>' :
-    journals.slice().reverse().slice(0, 14).map(j => `<div class="card" style="border-right:4px solid var(--primary)"><div style="font-size:.8em;color:var(--primary);font-weight:700;margin-bottom:8px">📅 ${j.date}</div>${j.learned?`<div style="font-size:.83em;margin:5px 0"><b>✅</b> ${j.learned}</div>`:''}${j.hard?`<div style="font-size:.83em;margin:5px 0"><b>⚠️</b> ${j.hard}</div>`:''}${j.tomorrow?`<div style="font-size:.83em;margin:5px 0"><b>🎯</b> ${j.tomorrow}</div>`:''}</div>`).join('');
+    journals.slice().reverse().slice(0, 14).map(j => `<div class="card" style="border-right:4px solid var(--primary)"><div style="font-size:.8em;color:var(--primary);font-weight:700;margin-bottom:8px">📅 ${esc(j.date)}</div>${j.learned?`<div style="font-size:.83em;margin:5px 0"><b>✅</b> ${esc(j.learned)}</div>`:''}${j.hard?`<div style="font-size:.83em;margin:5px 0"><b>⚠️</b> ${esc(j.hard)}</div>`:''}${j.tomorrow?`<div style="font-size:.83em;margin:5px 0"><b>🎯</b> ${esc(j.tomorrow)}</div>`:''}</div>`).join('');
 }
 
 // ============= نمرات =============
@@ -1893,7 +2338,7 @@ function renderGrades() {
   if (el) el.innerHTML = l.length === 0 ? '<div class="card" style="text-align:center;color:var(--text-light);font-size:.88em">نمره‌ای ثبت نشده</div>' :
     l.slice().reverse().map(g => {
       const col = g.value >= 17 ? 'var(--success)' : g.value >= 14 ? 'var(--accent)' : 'var(--danger)';
-      return `<div class="item" style="border-right-color:${col}"><div style="flex:1"><b>${g.subject}</b> — ${g.title}<div style="font-size:.75em;color:var(--text-light)">${g.date}</div></div><div style="display:flex;gap:8px;align-items:center"><span style="font-weight:900;color:${col};font-size:1.1em">${fa(g.value)}</span><button class="x-btn" onclick="delGrade(${g.id})">✕</button></div></div>`;
+      return `<div class="item" style="border-right-color:${col}"><div style="flex:1"><b>${esc(g.subject)}</b> — ${esc(g.title)}<div style="font-size:.75em;color:var(--text-light)">${esc(g.date)}</div></div><div style="display:flex;gap:8px;align-items:center"><span style="font-weight:900;color:${col};font-size:1.1em">${fa(g.value)}</span><button class="x-btn" onclick="delGrade(${g.id})">✕</button></div></div>`;
     }).join('');
   const sv = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = fa(v); };
   if (l.length) { const avg = l.reduce((s,g) => s+g.value, 0)/l.length; sv('avgAll', avg.toFixed(2)); sv('maxG', Math.max(...l.map(g => g.value))); sv('minG', Math.min(...l.map(g => g.value))); sv('cntG', l.length); }
@@ -1901,60 +2346,114 @@ function renderGrades() {
 }
 function delGrade(id) { setData(GRK, getData(GRK, []).filter(g => g.id !== id)); renderGrades(); }
 
-// ============= کارها، اهداف، عادت‌ها، لایتنر، اشتباهات، یادداشت =============
+// ============= کارها =============
 const TK = 'ilia-todos';
-function addTodo() { const t = document.getElementById('tdT').value.trim(); const p = document.getElementById('tdP').value; if (!t) return; const l = getData(TK, []); l.push({id:Date.now(), text:t, priority:p, done:false}); setData(TK, l); document.getElementById('tdT').value = ''; renderTodo(); }
+function addTodo() {
+  const t = document.getElementById('tdT').value.trim();
+  const p = document.getElementById('tdP').value;
+  if (!t) return;
+  const l = getData(TK, []);
+  l.push({id:Date.now(), text:t, priority:p, done:false});
+  setData(TK, l);
+  document.getElementById('tdT').value = '';
+  renderTodo();
+  toast('✅ اضافه شد');
+}
 function renderTodo() {
   const l = getData(TK, []);
   const pend = l.filter(t => !t.done), done = l.filter(t => t.done);
   const pMap = {high:'فوری', med:'متوسط', low:'کم'};
   const pCls = {high:'p-high', med:'p-med', low:'p-low'};
   const el1 = document.getElementById('todoList');
-  if (el1) el1.innerHTML = pend.length === 0 ? '<p style="text-align:center;color:var(--text-light);font-size:.85em">کاری نیست 🎉</p>' : pend.map(t => `<div class="item ${pCls[t.priority]}"><input type="checkbox" onchange="toggleTodo(${t.id})"><span class="item-txt">${t.text}</span><span style="font-size:.72em;color:var(--text-light);background:var(--bg);padding:2px 8px;border-radius:10px">${pMap[t.priority]}</span><button class="x-btn" onclick="delTodo(${t.id})">✕</button></div>`).join('');
+  if (el1) el1.innerHTML = pend.length === 0 ? '<p style="text-align:center;color:var(--text-light);font-size:.85em">کاری نیست 🎉</p>' : pend.map(t => `<div class="item ${pCls[t.priority]}"><input type="checkbox" onchange="toggleTodo(${t.id})"><span class="item-txt">${esc(t.text)}</span><span style="font-size:.72em;color:var(--text-light);background:var(--bg);padding:2px 8px;border-radius:10px">${pMap[t.priority]}</span><button class="x-btn" onclick="delTodo(${t.id})">✕</button></div>`).join('');
   const el2 = document.getElementById('todoDone');
-  if (el2) el2.innerHTML = done.length === 0 ? '<p style="text-align:center;color:var(--text-light);font-size:.85em">هنوز تمومی نداشته</p>' : done.map(t => `<div class="item done"><input type="checkbox" checked onchange="toggleTodo(${t.id})"><span class="item-txt">${t.text}</span><button class="x-btn" onclick="delTodo(${t.id})">✕</button></div>`).join('');
+  if (el2) el2.innerHTML = done.length === 0 ? '<p style="text-align:center;color:var(--text-light);font-size:.85em">هنوز تمومی نداشته</p>' : done.map(t => `<div class="item done"><input type="checkbox" checked onchange="toggleTodo(${t.id})"><span class="item-txt">${esc(t.text)}</span><button class="x-btn" onclick="delTodo(${t.id})">✕</button></div>`).join('');
 }
 function toggleTodo(id) { const l = getData(TK, []); const i = l.find(x => x.id === id); if (i) i.done = !i.done; setData(TK, l); renderTodo(); }
 function delTodo(id) { setData(TK, getData(TK, []).filter(t => t.id !== id)); renderTodo(); }
 
+// ============= اهداف =============
 const GK = 'ilia-goals';
-function addGoal() { const t = document.getElementById('glT').value.trim(); const ty = document.getElementById('glTy').value; const tg = parseInt(document.getElementById('glTg').value) || 1; if (!t) return toast('عنوان رو بنویس'); const l = getData(GK, []); l.push({id:Date.now(), title:t, type:ty, target:tg, current:0, done:false}); setData(GK, l); document.getElementById('glT').value = ''; renderGoals(); }
+function addGoal() {
+  const t = document.getElementById('glT').value.trim();
+  const ty = document.getElementById('glTy').value;
+  const tg = parseInt(document.getElementById('glTg').value) || 1;
+  if (!t) return toast('عنوان رو بنویس');
+  const l = getData(GK, []);
+  l.push({id:Date.now(), title:t, type:ty, target:tg, current:0, done:false});
+  setData(GK, l);
+  document.getElementById('glT').value = '';
+  renderGoals();
+  toast('✅ هدف اضافه شد');
+}
 function renderGoals() {
   const l = getData(GK, []);
   const tMap = {short:'🎯 کوتاه‌مدت', mid:'🎯 میان‌مدت', long:'🎯 بلندمدت'};
-  const el = document.getElementById('goalsList');
-  if (!el) return;
+  const el = document.getElementById('goalsList'); if (!el) return;
   el.innerHTML = l.length === 0 ? '<div class="card" style="text-align:center;color:var(--text-light);font-size:.88em">هنوز هدفی نداری</div>' : l.map(g => {
     const pct = Math.min(100, (g.current/g.target)*100);
     const col = pct >= 100 ? 'pf-ok' : pct >= 50 ? '' : 'pf-warn';
-    return `<div class="card" style="border-right:4px solid var(--primary)"><div style="display:flex;justify-content:space-between;gap:6px;font-size:.9em;flex-wrap:wrap"><div style="flex:1"><b>${g.title}</b> <span style="font-size:.75em;color:var(--text-light)">${tMap[g.type]}</span></div><div style="display:flex;gap:4px"><button class="btn btn-sm btn-success" onclick="progGoal(${g.id})">+۱</button><button class="btn btn-sm btn-info" onclick="toggleGoalDone(${g.id})">${g.done?'↩':'✓'}</button><button class="btn btn-sm btn-danger" onclick="delGoal(${g.id})">✕</button></div></div><div class="pb" style="margin-top:10px"><div class="pf ${col}" style="width:${pct}%"></div></div><div style="font-size:.78em;color:var(--text-light);text-align:center">${fa(g.current)} از ${fa(g.target)}</div></div>`;
+    return `<div class="card" style="border-right:4px solid var(--primary)"><div style="display:flex;justify-content:space-between;gap:6px;font-size:.9em;flex-wrap:wrap"><div style="flex:1"><b>${esc(g.title)}</b> <span style="font-size:.75em;color:var(--text-light)">${tMap[g.type]}</span></div><div style="display:flex;gap:4px"><button class="btn btn-sm btn-success" onclick="progGoal(${g.id})">+۱</button><button class="btn btn-sm btn-info" onclick="toggleGoalDone(${g.id})">${g.done?'↩':'✓'}</button><button class="btn btn-sm btn-danger" onclick="delGoal(${g.id})">✕</button></div></div><div class="pb" style="margin-top:10px"><div class="pf ${col}" style="width:${pct}%"></div></div><div style="font-size:.78em;color:var(--text-light);text-align:center">${fa(g.current)} از ${fa(g.target)}</div></div>`;
   }).join('');
 }
 function progGoal(id) { const l = getData(GK, []); const g = l.find(x => x.id === id); if (g) g.current = Math.min(g.target, g.current+1); setData(GK, l); renderGoals(); }
 function toggleGoalDone(id) { const l = getData(GK, []); const g = l.find(x => x.id === id); if (g) g.done = !g.done; setData(GK, l); renderGoals(); }
 function delGoal(id) { setData(GK, getData(GK, []).filter(g => g.id !== id)); renderGoals(); }
 
+// ============= عادت‌ها =============
 const HK = 'ilia-habits';
-function addHabit() { const n = document.getElementById('hN').value.trim(); if (!n) return; const l = getData(HK, []); l.push({id:Date.now(), name:n, checks:{}}); setData(HK, l); document.getElementById('hN').value = ''; renderHabits(); }
+function addHabit() {
+  const n = document.getElementById('hN').value.trim();
+  if (!n) return;
+  const l = getData(HK, []);
+  l.push({id:Date.now(), name:n, checks:{}});
+  setData(HK, l);
+  document.getElementById('hN').value = '';
+  renderHabits();
+  toast('✅ عادت اضافه شد');
+}
 function renderHabits() {
   const h = getData(HK, []);
   const el = document.getElementById('habitsList');
   if (el) el.innerHTML = h.length === 0 ? '<p style="text-align:center;color:var(--text-light);font-size:.85em">عادتی نیست</p>' : h.map(x => {
     const done = x.checks && x.checks[today()];
-    return `<div class="item"><div style="flex:1;font-size:.88em"><b>${x.name}</b><div style="font-size:.75em;color:var(--text-light)">${done?'✅ امروز':'امروز نه'}</div></div><button class="btn btn-sm ${done?'btn-info':'btn-success'}" onclick="toggleHabit(${x.id})">${done?'↩':'✓'}</button><button class="x-btn" onclick="delHabit(${x.id})">✕</button></div>`;
+    return `<div class="item"><div style="flex:1;font-size:.88em"><b>${esc(x.name)}</b><div style="font-size:.75em;color:var(--text-light)">${done?'✅ امروز':'امروز نه'}</div></div><button class="btn btn-sm ${done?'btn-info':'btn-success'}" onclick="toggleHabit(${x.id})">${done?'↩':'✓'}</button><button class="x-btn" onclick="delHabit(${x.id})">✕</button></div>`;
   }).join('');
   const grid = document.getElementById('habitGrid');
   if (grid) {
     if (h.length === 0) grid.innerHTML = '<p style="text-align:center;color:var(--text-light);grid-column:1/-1;font-size:.85em">اول عادت اضافه کن</p>';
-    else { let html = ''; for (let i = 13; i >= 0; i--) { const dd = new Date(Date.now() - i*86400000); const ds = dd.toISOString().split('T')[0]; const dn = h.filter(x => x.checks && x.checks[ds]).length; const pct = h.length ? dn/h.length : 0; const bg = pct === 1 ? 'linear-gradient(135deg,var(--success),#1e8449)' : pct >= .5 ? 'linear-gradient(135deg,var(--accent),#d68910)' : 'var(--bg)'; const col = pct > 0 ? '#fff' : 'var(--text)'; const shd = getShamsi(dd); html += `<div style="text-align:center;padding:8px 4px;border-radius:10px;background:${bg};color:${col};border:1px solid var(--border);font-size:.75em"><b>${fa(shd.d)}</b><div style="font-size:.7em;opacity:.8">${fa(dn)}/${fa(h.length)}</div></div>`; } grid.innerHTML = html; }
+    else {
+      let html = '';
+      for (let i = 13; i >= 0; i--) {
+        const dd = new Date(); dd.setDate(dd.getDate() - i);
+        const ds = localDate(dd);
+        const dn = h.filter(x => x.checks && x.checks[ds]).length;
+        const pct = h.length ? dn/h.length : 0;
+        const bg = pct === 1 ? 'linear-gradient(135deg,var(--success),#1e8449)' : pct >= .5 ? 'linear-gradient(135deg,var(--accent),#d68910)' : 'var(--bg)';
+        const col = pct > 0 ? '#fff' : 'var(--text)';
+        const shd = getShamsi(dd);
+        html += `<div style="text-align:center;padding:8px 4px;border-radius:10px;background:${bg};color:${col};border:1px solid var(--border);font-size:.75em"><b>${fa(shd.d)}</b><div style="font-size:.7em;opacity:.8">${fa(dn)}/${fa(h.length)}</div></div>`;
+      }
+      grid.innerHTML = html;
+    }
   }
 }
 function toggleHabit(id) { const l = getData(HK, []); const h = l.find(x => x.id === id); if (h) { if (!h.checks) h.checks = {}; h.checks[today()] = !h.checks[today()]; } setData(HK, l); renderHabits(); }
 function delHabit(id) { setData(HK, getData(HK, []).filter(h => h.id !== id)); renderHabits(); }
 
+// ============= لایتنر =============
 const LK = 'ilia-leitner';
-let lIdx = 0;
-function addLeitner() { const f = document.getElementById('lf').value.trim(); const b = document.getElementById('lb').value.trim(); if (!f || !b) return toast('هر دو فیلد رو پر کن'); const l = getData(LK, []); l.push({id:Date.now(), front:f, back:b, box:1, next:today()}); setData(LK, l); document.getElementById('lf').value = ''; document.getElementById('lb').value = ''; renderLeitner(); toast('✅ کارت اضافه شد'); }
+function addLeitner() {
+  const f = document.getElementById('lf').value.trim();
+  const b = document.getElementById('lb').value.trim();
+  if (!f || !b) return toast('هر دو فیلد رو پر کن');
+  const l = getData(LK, []);
+  l.push({id:Date.now(), front:f, back:b, box:1, next:today()});
+  setData(LK, l);
+  document.getElementById('lf').value = ''; document.getElementById('lb').value = '';
+  renderLeitner();
+  toast('✅ کارت اضافه شد');
+}
 function renderLeitner() {
   const l = getData(LK, []);
   const stats = {1:0,2:0,3:0,4:0,5:0}; l.forEach(c => stats[c.box]++);
@@ -1963,67 +2462,181 @@ function renderLeitner() {
   const due = l.filter(c => c.next <= today());
   const card = document.getElementById('leitnerCard'); if (card) card.classList.remove('flipped');
   const cnt = document.getElementById('leitnerCounter');
-  if (l.length === 0) { document.getElementById('lv1').textContent = 'کارتی نیست'; document.getElementById('lv2').textContent = 'اضافه کن!'; if (cnt) cnt.textContent = '۰ کارت'; return; }
-  if (due.length === 0) { document.getElementById('lv1').textContent = '🎉 مرور تمومه!'; document.getElementById('lv2').textContent = 'فردا برگرد'; if (cnt) cnt.textContent = `کل: ${fa(l.length)} کارت`; return; }
-  if (lIdx >= due.length) lIdx = 0;
-  const c = due[lIdx];
+  if (l.length === 0) {
+    document.getElementById('lv1').textContent = 'کارتی نیست';
+    document.getElementById('lv2').textContent = 'اضافه کن!';
+    if (cnt) cnt.textContent = '۰ کارت';
+    return;
+  }
+  if (due.length === 0) {
+    document.getElementById('lv1').textContent = '🎉 مرور تمومه!';
+    document.getElementById('lv2').textContent = 'فردا برگرد';
+    if (cnt) cnt.textContent = `کل: ${fa(l.length)} کارت`;
+    return;
+  }
+  const c = due[0];
   document.getElementById('lv1').textContent = c.front;
   document.getElementById('lv2').textContent = c.back;
-  if (cnt) cnt.textContent = `${fa(lIdx+1)} از ${fa(due.length)}`;
+  if (cnt) cnt.textContent = `${fa(due.length)} کارت`;
 }
 function flipLeitner() { document.getElementById('leitnerCard').classList.toggle('flipped'); }
-function leitnerAnswer(knew) { const l = getData(LK, []); const due = l.filter(c => c.next <= today()); if (!due.length) return; const c = due[lIdx]; if (!c) return; const intervals = {1:1, 2:3, 3:7, 4:14, 5:30}; if (knew) c.box = Math.min(5, c.box+1); else c.box = 1; const nd = new Date(); nd.setDate(nd.getDate() + intervals[c.box]); c.next = nd.toISOString().split('T')[0]; setData(LK, l); lIdx = 0; renderLeitner(); }
+function leitnerAnswer(knew) {
+  const l = getData(LK, []);
+  const due = l.filter(c => c.next <= today());
+  if (!due.length) return;
+  const c = due[0];
+  const intervals = {1:1, 2:3, 3:7, 4:14, 5:30};
+  if (knew) c.box = Math.min(5, c.box+1);
+  else c.box = 1;
+  const nd = new Date(); nd.setDate(nd.getDate() + intervals[c.box]);
+  c.next = localDate(nd);
+  setData(LK, l);
+  renderLeitner();
+}
 
+// ============= اشتباهات =============
 const MK = 'ilia-mistakes';
-function addMistake() { const s = document.getElementById('mS').value.trim(); const q = document.getElementById('mQ').value.trim(); const r = document.getElementById('mR').value.trim(); if (!s || !q) return toast('درس و سوال اجباریه'); const l = getData(MK, []); l.push({id:Date.now(), subject:s, question:q, reason:r, date:today()}); setData(MK, l); document.getElementById('mS').value = ''; document.getElementById('mQ').value = ''; document.getElementById('mR').value = ''; renderMistakes(); toast('✅ ثبت شد'); }
+function addMistake() {
+  const s = document.getElementById('mS').value.trim();
+  const q = document.getElementById('mQ').value.trim();
+  const r = document.getElementById('mR').value.trim();
+  if (!s || !q) return toast('درس و سوال اجباریه');
+  const l = getData(MK, []);
+  l.push({id:Date.now(), subject:s, question:q, reason:r, date:today()});
+  setData(MK, l);
+  document.getElementById('mS').value = ''; document.getElementById('mQ').value = ''; document.getElementById('mR').value = '';
+  renderMistakes();
+  toast('✅ ثبت شد');
+}
 function renderMistakes() {
   const l = getData(MK, []);
-  const el = document.getElementById('mistakesList');
-  if (!el) return;
-  el.innerHTML = l.length === 0 ? '<div class="card" style="text-align:center;color:var(--text-light);font-size:.88em">هنوز اشتباهی ثبت نشده</div>' : l.slice().reverse().map(m => `<div class="card" style="border-right:4px solid var(--danger)"><div style="display:flex;justify-content:space-between;gap:6px;font-size:.88em"><div style="flex:1"><b style="color:var(--primary)">${m.subject}</b> — ${m.question}</div><button class="x-btn" onclick="delMistake(${m.id})">✕</button></div>${m.reason?`<div style="margin-top:6px;font-size:.82em;color:var(--text-light)">💡 ${m.reason}</div>`:''}<div style="font-size:.72em;color:var(--text-light);margin-top:4px">${m.date}</div></div>`).join('');
+  const el = document.getElementById('mistakesList'); if (!el) return;
+  el.innerHTML = l.length === 0 ? '<div class="card" style="text-align:center;color:var(--text-light);font-size:.88em">هنوز اشتباهی ثبت نشده</div>' :
+    l.slice().reverse().map(m => `<div class="card" style="border-right:4px solid var(--danger)"><div style="display:flex;justify-content:space-between;gap:6px;font-size:.88em"><div style="flex:1"><b style="color:var(--primary)">${esc(m.subject)}</b> — ${esc(m.question)}</div><button class="x-btn" onclick="delMistake(${m.id})">✕</button></div>${m.reason?`<div style="margin-top:6px;font-size:.82em;color:var(--text-light)">💡 ${esc(m.reason)}</div>`:''}<div style="font-size:.72em;color:var(--text-light);margin-top:4px">${esc(m.date)}</div></div>`).join('');
 }
 function delMistake(id) { setData(MK, getData(MK, []).filter(m => m.id !== id)); renderMistakes(); }
 
+// ============= یادداشت =============
 const NK = 'ilia-notes';
 const nA = document.getElementById('notesA');
-if (nA) { nA.value = localStorage.getItem(NK) || ''; let tm; nA.addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(() => localStorage.setItem(NK, nA.value), 700); }); }
-function saveNotes() { localStorage.setItem(NK, nA.value); toast('✅ ذخیره شد'); }
-function clearNotes() { if (confirm('پاک بشه؟')) { nA.value = ''; localStorage.removeItem(NK); } }
+if (nA) {
+  nA.value = localStorage.getItem(NK) || '';
+  let tm;
+  nA.addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(() => { try { localStorage.setItem(NK, nA.value); } catch(e) {} }, 700); });
+}
+function saveNotes() { if (!nA) return; try { localStorage.setItem(NK, nA.value); toast('✅ ذخیره شد'); } catch(e) { toast('خطا در ذخیره'); } }
+function clearNotes() { if (!nA) return; if (confirm('پاک بشه؟')) { nA.value = ''; localStorage.removeItem(NK); } }
 
 // ============= پومودورو =============
 let pT = 25*60, pTot = 25*60, pI = null, pR = false;
-function setPom(m, btn) { document.querySelectorAll('.pomo-mode').forEach(b => b.classList.remove('active')); btn.classList.add('active'); pTot = m*60; pT = pTot; updPom(); if (pR) { clearInterval(pI); pR = false; document.getElementById('startBtn').textContent = '▶ شروع'; } }
-function updPom() { const t = `${fa(pad2(Math.floor(pT/60)))}:${fa(pad2(pT%60))}`; document.getElementById('pomD').textContent = t; const ft = document.getElementById('focusTimer'); if (ft) ft.textContent = t; }
-function startPom() { const b = document.getElementById('startBtn'); if (pR) { clearInterval(pI); pR = false; b.textContent = '▶ ادامه'; } else { pR = true; b.textContent = '⏸ توقف'; pI = setInterval(() => { pT--; if (pT <= 0) { clearInterval(pI); pR = false; b.textContent = '▶ شروع'; const s = document.getElementById('pomSubj').value.trim(); alertTimerDone(s ? `درس: ${s}` : 'وقت پومودورو تموم شد'); autoLog(); pT = pTot; } updPom(); }, 1000); } }
-function resetPom() { clearInterval(pI); pR = false; pT = pTot; updPom(); document.getElementById('startBtn').textContent = '▶ شروع'; }
-function autoLog() { const s = document.getElementById('pomSubj').value.trim() || 'مطالعه'; const log = getData('ilia-log', []); log.push({date:today(), hours:pTot/3600, subject:s, ts:Date.now()}); setData('ilia-log', log); renderStats(); }
+function setPom(m, btn) {
+  document.querySelectorAll('.pomo-mode').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  pTot = m*60; pT = pTot; updPom();
+  if (pR) { clearInterval(pI); pR = false; document.getElementById('startBtn').textContent = '▶ شروع'; localStorage.removeItem('ilia-pom-end'); }
+}
+function updPom() {
+  const t = `${fa(pad2(Math.floor(pT/60)))}:${fa(pad2(pT%60))}`;
+  const pEl = document.getElementById('pomD'); if (pEl) pEl.textContent = t;
+  const ft = document.getElementById('focusTimer'); if (ft) ft.textContent = t;
+}
+function startPom() {
+  const b = document.getElementById('startBtn');
+  if (pR) { clearInterval(pI); pR = false; b.textContent = '▶ ادامه'; localStorage.removeItem('ilia-pom-end'); }
+  else {
+    pR = true; b.textContent = '⏸ توقف';
+    localStorage.setItem('ilia-pom-end', (Date.now() + pT*1000).toString());
+    pI = setInterval(() => {
+      pT--;
+      if (pT <= 0) {
+        clearInterval(pI); pR = false; b.textContent = '▶ شروع';
+        localStorage.removeItem('ilia-pom-end');
+        const s = document.getElementById('pomSubj').value.trim();
+        alertTimerDone(s ? `درس: ${s}` : 'وقت پومودورو تموم شد');
+        autoLog();
+        pT = pTot;
+      }
+      updPom();
+    }, 1000);
+  }
+}
+function resetPom() { clearInterval(pI); pR = false; pT = pTot; updPom(); document.getElementById('startBtn').textContent = '▶ شروع'; localStorage.removeItem('ilia-pom-end'); }
+function autoLog() {
+  if (!confirm('این جلسه به آمار اضافه بشه؟')) return;
+  const s = document.getElementById('pomSubj').value.trim() || 'مطالعه';
+  const log = getData('ilia-log', []);
+  log.push({date:today(), hours:pTot/3600, subject:s, ts:Date.now()});
+  setData('ilia-log', log);
+  renderStats();
+}
 let fT = 25*60, fI = null, fR = false;
-function startFocusMode() { document.getElementById('focusMode').classList.add('active'); document.getElementById('focusSubject').textContent = document.getElementById('pomSubj').value.trim() || 'حالت تمرکز'; fT = pTot; updF(); }
+function startFocusMode() {
+  document.getElementById('focusMode').classList.add('active');
+  document.getElementById('focusSubject').textContent = document.getElementById('pomSubj').value.trim() || 'حالت تمرکز';
+  fT = pTot; updF();
+}
 function exitFocus() { document.getElementById('focusMode').classList.remove('active'); clearInterval(fI); fR = false; document.getElementById('focusStartBtn').textContent = '▶ شروع'; }
 function updF() { document.getElementById('focusTimer').textContent = `${fa(pad2(Math.floor(fT/60)))}:${fa(pad2(fT%60))}`; }
-function toggleFocusTimer() { const b = document.getElementById('focusStartBtn'); if (fR) { clearInterval(fI); fR = false; b.textContent = '▶ ادامه'; } else { fR = true; b.textContent = '⏸ توقف'; fI = setInterval(() => { fT--; if (fT <= 0) { clearInterval(fI); fR = false; b.textContent = '▶ شروع'; alertTimerDone('حالت تمرکز تموم شد'); autoLog(); fT = pTot; } updF(); }, 1000); } }
+function toggleFocusTimer() {
+  const b = document.getElementById('focusStartBtn');
+  if (fR) { clearInterval(fI); fR = false; b.textContent = '▶ ادامه'; }
+  else {
+    fR = true; b.textContent = '⏸ توقف';
+    fI = setInterval(() => {
+      fT--;
+      if (fT <= 0) { clearInterval(fI); fR = false; b.textContent = '▶ شروع'; alertTimerDone('حالت تمرکز تموم شد'); autoLog(); fT = pTot; }
+      updF();
+    }, 1000);
+  }
+}
+(function restorePom() {
+  const end = parseInt(localStorage.getItem('ilia-pom-end') || '0');
+  if (end > Date.now()) {
+    pT = Math.round((end - Date.now())/1000);
+    if (pT > 0 && pT <= pTot) { setTimeout(() => startPom(), 500); }
+  } else if (end) localStorage.removeItem('ilia-pom-end');
+})();
 
 // ============= آمار =============
 function renderStats() {
   const log = getData('ilia-log', []);
   const t = today();
-  const wk = new Date(Date.now() - 7*86400000).toISOString().split('T')[0];
+  const wkDate = new Date(); wkDate.setDate(wkDate.getDate() - 7);
+  const wk = localDate(wkDate);
   const todayT = log.filter(e => e.date === t).reduce((s,e) => s+e.hours, 0);
   const weekT = log.filter(e => e.date >= wk).reduce((s,e) => s+e.hours, 0);
   const allT = log.reduce((s,e) => s+e.hours, 0);
-  let streak = 0; const ds = new Set(log.map(e => e.date)); let d = new Date();
-  while (ds.has(d.toISOString().split('T')[0])) { streak++; d.setDate(d.getDate()-1); }
+  let streak = 0;
+  const ds = new Set(log.map(e => e.date));
+  let d = new Date();
+  while (ds.has(localDate(d))) { streak++; d.setDate(d.getDate()-1); }
   const sv = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = fa(v); };
   sv('tT', todayT.toFixed(1)); sv('wT', weekT.toFixed(1)); sv('aT', allT.toFixed(1)); sv('stT', streak);
   sv('dbToday', todayT.toFixed(1)); sv('dbStreak', streak);
   const chart = document.getElementById('chart');
-  if (chart) { let html = ''; let max = .1; const days = []; for (let i = 6; i >= 0; i--) { const dd = new Date(Date.now() - i*86400000); const ds2 = dd.toISOString().split('T')[0]; const nm = WEEK_DAYS_SHORT[dd.getDay()]; const tot = log.filter(e => e.date === ds2).reduce((s,e) => s+e.hours, 0); days.push({n:nm, t:tot}); if (tot > max) max = tot; } days.forEach(dd => { const h = (dd.t/max)*100; html += `<div class="bar" style="height:${Math.max(4,h)}%"><div class="bar-v">${fa(dd.t.toFixed(1))}</div><div class="bar-lbl">${dd.n}</div></div>`; }); chart.innerHTML = html; }
+  if (chart) {
+    let html = ''; let max = .1; const days = [];
+    for (let i = 6; i >= 0; i--) {
+      const dd = new Date(); dd.setDate(dd.getDate() - i);
+      const ds2 = localDate(dd);
+      const nm = WEEK_DAYS_SHORT[dd.getDay()];
+      const tot = log.filter(e => e.date === ds2).reduce((s,e) => s+e.hours, 0);
+      days.push({n:nm, t:tot}); if (tot > max) max = tot;
+    }
+    days.forEach(dd => { const h = (dd.t/max)*100; html += `<div class="bar" style="height:${Math.max(4,h)}%"><div class="bar-v">${fa(dd.t.toFixed(1))}</div><div class="bar-lbl">${dd.n}</div></div>`; });
+    chart.innerHTML = html;
+  }
   const logEl = document.getElementById('logList');
-  if (logEl) logEl.innerHTML = log.length === 0 ? '<p style="text-align:center;color:var(--text-light);padding:16px;font-size:.85em">هنوز چیزی ثبت نشده</p>' : log.slice().reverse().slice(0, 20).map(e => `<div class="item"><span>${e.subject}</span><span style="color:var(--text-light);font-size:.85em">${fa(e.hours.toFixed(1))} ساعت — ${e.date}</span></div>`).join('');
+  if (logEl) logEl.innerHTML = log.length === 0 ? '<p style="text-align:center;color:var(--text-light);padding:16px;font-size:.85em">هنوز چیزی ثبت نشده</p>' :
+    log.slice().reverse().slice(0, 20).map(e => `<div class="item"><span>${esc(e.subject)}</span><span style="color:var(--text-light);font-size:.85em">${fa(e.hours.toFixed(1))} ساعت — ${esc(e.date)}</span></div>`).join('');
 }
 
 // ============= جبران =============
-function getDailyGoal(day = new Date().getDay()) { const goals = {6:2.5,0:3,1:2.5,2:3,3:2.5,4:4,5:3}; return goals[day] || 3; }
+function getDailyGoal(day = new Date().getDay()) {
+  const isOff = (SCHOOL_SCHEDULE[day] || []).length === 0;
+  if (isOff && isSchoolStarted()) return 1;
+  return {6:2.5, 0:3, 1:2.5, 2:3, 3:2.5, 4:4, 5:3}[day] || 3;
+}
 function getStudiedOn(dateStr) { const log = getData('ilia-log', []); return log.filter(e => e.date === dateStr).reduce((s,e) => s+e.hours, 0); }
 function getDeficitData() { return getData('ilia-deficit', { total: 0, history: [] }); }
 function addDeficit(hours, dateStr) { if (hours <= 0.25) return; const d = getDeficitData(); d.total = Math.min(50, (d.total || 0) + hours); d.history = d.history || []; d.history.push({date:dateStr, hours, ts:Date.now(), type:'add'}); d.history = d.history.slice(-90); setData('ilia-deficit', d); }
@@ -2036,7 +2649,7 @@ function getMakeupPlan() {
     const dt = new Date(); dt.setDate(dt.getDate() + i);
     const day = dt.getDay();
     const capacity = day === 4 ? 2 : day === 5 ? 1.5 : 1;
-    upcoming.push({date:dt.toISOString().split('T')[0], dayName:WEEK_DAYS_FA[day], dayIndex:day, capacity, extra:0});
+    upcoming.push({date:localDate(dt), dayName:WEEK_DAYS_FA[day], dayIndex:day, capacity, extra:0});
   }
   const sorted = [...upcoming].sort((a,b) => b.capacity - a.capacity);
   let remaining = total;
@@ -2050,39 +2663,38 @@ function getMakeupPlan() {
   return { total, days: upcoming.filter(d => d.extra > 0).sort((a,b) => a.date.localeCompare(b.date)) };
 }
 function getTodayExtra() { const plan = getMakeupPlan(); const d = plan.days.find(x => x.date === today()); return d ? d.extra : 0; }
+
 function scanDeficits() {
-  // فقط وقتی مدرسه شروع شده باشه
   if (!isSchoolStarted()) return;
-  const lastScan = localStorage.getItem('ilia-deficit-last-scan');
-  const todayStr = today();
-  if (lastScan === todayStr) return;
+  let installDate = localStorage.getItem('ilia-install-date');
+  if (!installDate) { installDate = today(); localStorage.setItem('ilia-install-date', installDate); }
   const processed = getData('ilia-deficit-processed', {});
   const log = getData('ilia-log', []);
-  for (let i = 1; i <= 7; i++) {
-    const dt = new Date(); dt.setDate(dt.getDate() - i);
-    const ds = dt.toISOString().split('T')[0];
-    if (processed[ds]) continue;
-    // فقط روزهایی که مدرسه بوده
-    if (dt < examDateToGregorian(EXAMS.schoolStart)) { processed[ds] = true; continue; }
-    const dayIdx = dt.getDay();
-    const studied = log.filter(e => e.date === ds).reduce((s,e) => s + e.hours, 0);
-    const goal = getDailyGoal(dayIdx);
-    const hasLog = log.some(e => e.date === ds);
-    if (hasLog && studied < goal - 0.25) addDeficit(goal - studied, ds);
-    processed[ds] = true;
+  const schoolStart = examDateToGregorian(EXAMS.schoolStart);
+  let d = new Date(); d.setDate(d.getDate() - 1);
+  let changed = false;
+  for (let i = 0; i < 30; i++) {
+    const ds = localDate(d);
+    if (ds < installDate) break;
+    if (!processed[ds] && d >= schoolStart) {
+      const studied = log.filter(e => e.date === ds).reduce((s,e) => s + e.hours, 0);
+      const goal = getDailyGoal(d.getDay());
+      if (studied < goal - 0.25) addDeficit(goal - studied, ds);
+      processed[ds] = true;
+      changed = true;
+    }
+    d.setDate(d.getDate() - 1);
   }
-  setData('ilia-deficit-processed', processed);
-  localStorage.setItem('ilia-deficit-last-scan', todayStr);
+  if (changed) setData('ilia-deficit-processed', processed);
 }
 function renderMakeupCard() {
-  const el = document.getElementById('makeupContainer');
-  if (!el) return;
+  const el = document.getElementById('makeupContainer'); if (!el) return;
   if (!isSchoolStarted()) { el.innerHTML = ''; return; }
   const plan = getMakeupPlan();
   if (plan.total <= 0.5) { el.innerHTML = ''; return; }
   const todayExtra = getTodayExtra();
   const todayGoal = getDailyGoal(new Date().getDay());
-  let html = `<div class="makeup-card"><div class="makeup-title">📊 برنامه جبران مطالعه</div><div class="makeup-total"><div><span class="label">بدهی کل:</span> <b>${fa(plan.total.toFixed(1))} ساعت</b></div>${todayExtra > 0 ? `<div><span class="label">اضافه امروز:</span> <b>+${fa(todayExtra.toFixed(1))} ساعت</b></div>` : ''}</div><div class="makeup-plan"><div style="font-size:.78em;color:var(--text-light);margin-bottom:8px;font-weight:700">📅 تقسیم روی روزها:</div>${plan.days.map(d => `<div class="makeup-day ${d.date === today() ? 'today' : ''}"><span class="makeup-day-name">${d.dayName}${d.date === today() ? ' (امروز)' : ''}</span><span class="makeup-day-amount">+${fa(d.extra.toFixed(1))} ساعت</span></div>`).join('')}</div><div class="makeup-tip">💡 هدف امروزت: <b>${fa((todayGoal + todayExtra).toFixed(1))} ساعت</b></div></div>`;
+  const html = `<div class="makeup-card"><div class="makeup-title">📊 برنامه جبران مطالعه</div><div class="makeup-total"><div><span class="label">بدهی کل:</span> <b>${fa(plan.total.toFixed(1))} ساعت</b></div>${todayExtra > 0 ? `<div><span class="label">اضافه امروز:</span> <b>+${fa(todayExtra.toFixed(1))} ساعت</b></div>` : ''}</div><div class="makeup-plan"><div style="font-size:.78em;color:var(--text-light);margin-bottom:8px;font-weight:700">📅 تقسیم روی روزها:</div>${plan.days.map(d => `<div class="makeup-day ${d.date === today() ? 'today' : ''}"><span class="makeup-day-name">${d.dayName}${d.date === today() ? ' (امروز)' : ''}</span><span class="makeup-day-amount">+${fa(d.extra.toFixed(1))} ساعت</span></div>`).join('')}</div><div class="makeup-tip">💡 هدف امروزت: <b>${fa((todayGoal + todayExtra).toFixed(1))} ساعت</b></div></div>`;
   el.innerHTML = html;
 }
 
@@ -2123,8 +2735,8 @@ function renderWeakness() {
     else weakEl.innerHTML = weak.map(a => {
       let desc = '';
       if (a.avg !== null) desc += `میانگین: <b>${fa(a.avg.toFixed(2))}</b><br>`;
-      desc += `پیشنهاد: <b>روزی ۳۰ دقیقه اختصاصی برای ${a.name}</b> + تمرین بیشتر`;
-      return `<div class="weakness-item"><div class="weakness-title">${SUBJECT_ICONS[a.name]||'📚'} ${a.name}</div><div class="weakness-desc">${desc}</div></div>`;
+      desc += `پیشنهاد: <b>روزی ۳۰ دقیقه اختصاصی برای ${esc(a.name)}</b> + تمرین بیشتر`;
+      return `<div class="weakness-item"><div class="weakness-title">${SUBJECT_ICONS[a.name]||'📚'} ${esc(a.name)}</div><div class="weakness-desc">${desc}</div></div>`;
     }).join('');
   }
   const trendEl = document.getElementById('gradeTrend');
@@ -2142,7 +2754,7 @@ function renderWeakness() {
       let arrow = '➡️', color = 'var(--text-light)', text = 'ثابت';
       if (diff > 0.5) { arrow = '📈'; color = 'var(--success)'; text = 'بهبود'; }
       else if (diff < -0.5) { arrow = '📉'; color = 'var(--danger)'; text = 'افت'; }
-      html += `<div class="item"><div style="flex:1"><b>${s}</b></div><span style="font-size:1.4em">${arrow}</span><span style="color:${color};font-weight:700;margin-right:8px">${text}</span></div>`;
+      html += `<div class="item"><div style="flex:1"><b>${esc(s)}</b></div><span style="font-size:1.4em">${arrow}</span><span style="color:${color};font-weight:700;margin-right:8px">${text}</span></div>`;
     });
     trendEl.innerHTML = html || '<p style="text-align:center;color:var(--text-light);font-size:.85em">برای تحلیل روند، حداقل ۲ آزمون لازمه</p>';
   }
@@ -2150,9 +2762,9 @@ function renderWeakness() {
 
 // ============= گزارش هفتگی =============
 function renderWeeklyReport() {
-  const el = document.getElementById('weeklyContent');
-  if (!el) return;
-  const wk = new Date(Date.now() - 7*86400000).toISOString().split('T')[0];
+  const el = document.getElementById('weeklyContent'); if (!el) return;
+  const wkDate = new Date(); wkDate.setDate(wkDate.getDate() - 7);
+  const wk = localDate(wkDate);
   const sessions = getData(SS_KEY, []).filter(s => s.date >= wk);
   const logs = getData('ilia-log', []).filter(l => l.date >= wk);
   const sleeps = (getData(HL_KEY, {sleep:[]}).sleep || []).filter(s => s.date >= wk);
@@ -2167,14 +2779,13 @@ function renderWeeklyReport() {
   const tagCounts = {};
   distractions.forEach(d => d.tags.forEach(t => tagCounts[t] = (tagCounts[t] || 0) + 1));
   const topDistract = Object.entries(tagCounts).sort((a,b) => b[1] - a[1]).slice(0, 3);
-
   let html = `<div class="phase-hero" style="background:linear-gradient(135deg,#27ae60,#16a085)"><div class="phase-month"><span>📅 هفته اخیر</span><span>${fa(sessions.length)} جلسه</span></div><div class="phase-title"><span>📊</span>گزارش هفتگی</div></div>`;
   html += `<div class="grid-2"><div class="stat"><div class="stat-v">${fa(totalHours.toFixed(1))}</div><div class="stat-l">ساعت</div></div><div class="stat"><div class="stat-v">${fa(totalTests)}</div><div class="stat-l">تست</div></div><div class="stat"><div class="stat-v">${fa(avgSleep.toFixed(1))}</div><div class="stat-l">خواب</div></div><div class="stat"><div class="stat-v">${fa(sessions.length)}</div><div class="stat-l">جلسه</div></div></div>`;
   if (perf === 'good') html += `<div class="analysis-box"><b>🎉 عملکرد عالی!</b><br>این هفته <b>${fa(totalHours.toFixed(1))} ساعت</b> خوندی.</div>`;
   else if (perf === 'bad') html += `<div class="analysis-box danger"><b>⚠️ عملکرد ضعیف</b><br>هدف ${fa(target)} ساعت بود ولی ${fa(totalHours.toFixed(1))} ساعت شد.</div>`;
   else html += `<div class="analysis-box warn"><b>📚 عملکرد متوسط</b><br>روزی ۳۰ دقیقه اضافه کن.</div>`;
   if (avgSleep > 0 && avgSleep < 6.5) html += `<div class="analysis-box danger"><b>😴 کم‌خوابی!</b><br>میانگین ${fa(avgSleep.toFixed(1))} ساعت. هدف: ۷-۸ ساعت.</div>`;
-  if (topDistract.length) html += `<div class="card"><h3>🧠 بیشترین حواس‌پرتی</h3>${topDistract.map(([tag, count]) => `<div class="item"><span>${tag}</span><span style="color:var(--danger);font-weight:700">${fa(count)} بار</span></div>`).join('')}</div>`;
+  if (topDistract.length) html += `<div class="card"><h3>🧠 بیشترین حواس‌پرتی</h3>${topDistract.map(([tag, count]) => `<div class="item"><span>${esc(tag)}</span><span style="color:var(--danger);font-weight:700">${fa(count)} بار</span></div>`).join('')}</div>`;
   el.innerHTML = html;
 }
 
@@ -2186,15 +2797,54 @@ function exportData() {
   data.exportDate = new Date().toISOString();
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = `backup-ilia-${today()}.json`; a.click();
+  const a = document.createElement('a');
+  a.href = url; a.download = `backup-ilia-${today()}.json`; a.click();
   URL.revokeObjectURL(url);
+  localStorage.setItem('ilia-last-backup', Date.now().toString());
+  renderBackupStatus();
   toast('✅ فایل ذخیره شد');
 }
-function importData(e) { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = (ev) => { try { const d = JSON.parse(ev.target.result); Object.entries(d).forEach(([k,v]) => { if (v !== undefined && v !== null) localStorage.setItem(k, v); }); toast('✅ بازگردانی شد'); setTimeout(() => location.reload(), 800); } catch(err) { toast('❌ فایل معتبر نیست'); } }; r.readAsText(f); }
-function resetAll() { if (!confirm('همه چیز پاک بشه؟')) return; if (!confirm('مطمئنی؟')) return; localStorage.clear(); location.reload(); }
+function renderBackupStatus() {
+  const el = document.getElementById('backupStatus'); if (!el) return;
+  const last = parseInt(localStorage.getItem('ilia-last-backup') || '0');
+  if (!last) { el.textContent = 'هنوز پشتیبان نگرفتی'; return; }
+  const days = Math.floor((Date.now() - last) / 86400000);
+  const d = new Date(last);
+  const j = getShamsi(d);
+  el.textContent = `آخرین پشتیبان: ${fa(j.d)} ${j.monthName} (${days === 0 ? 'امروز' : fa(days) + ' روز پیش'})`;
+}
+function importData(e) {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = (ev) => {
+    try {
+      const d = JSON.parse(ev.target.result);
+      if (!d.exportDate && !Object.keys(d).some(k => k.startsWith('ilia-'))) {
+        toast('❌ فایل معتبر نیست'); return;
+      }
+      Object.entries(d).forEach(([k, v]) => {
+        if ((k.startsWith('ilia-') || k === 'theme') && v != null) {
+          try { localStorage.setItem(k, v); } catch(e) {}
+        }
+      });
+      toast('✅ بازگردانی شد');
+      setTimeout(() => location.reload(), 800);
+    } catch(err) { toast('❌ فایل معتبر نیست'); }
+  };
+  r.readAsText(f);
+}
+function resetAll() {
+  if (!confirm('همه چیز پاک بشه؟')) return;
+  if (!confirm('مطمئنی؟')) return;
+  Object.keys(localStorage)
+    .filter(k => k.startsWith('ilia-') || k === 'theme')
+    .forEach(k => localStorage.removeItem(k));
+  location.reload();
+}
 
 // ============= مشاور =============
 let asst = {mode:null, step:0, school_subjects:[], school_missed:[], study_hours:0, study_subjects:[], study_quality:0};
+let asstPending = false;
 const ASSISTANT_CONFIG = {
   minCooldown: 45*60*1000,
   maxAsksPerDay: 4,
@@ -2208,16 +2858,38 @@ function todayStudyReportKey() { return 'ilia-study-report-' + today(); }
 function getTodaySchoolReport() { return getData(todaySchoolReportKey(), null); }
 function getTodayStudyReport() { return getData(todayStudyReportKey(), null); }
 function isInDNDBlock() { const cur = getCurrent(); if (!cur) return false; return ASSISTANT_CONFIG.doNotDisturbKinds.includes(cur.item.kind); }
-function isUserTyping() { const ae = document.activeElement; if (!ae) return false; const tag = ae.tagName; if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true; if (document.getElementById('focusMode').classList.contains('active')) return true; if (document.getElementById('assistantOverlay').classList.contains('active')) return true; return false; }
-function isInWindow(type) { const now = new Date(); const curMin = now.getHours()*60 + now.getMinutes(); const windows = type === 'school' ? ASSISTANT_CONFIG.schoolWindows : ASSISTANT_CONFIG.nightWindows; return windows.some(w => curMin >= w.start && curMin < w.end); }
+function isUserTyping() {
+  const ae = document.activeElement;
+  if (!ae) return false;
+  const tag = ae.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+  if (document.getElementById('focusMode').classList.contains('active')) return true;
+  if (document.getElementById('assistantOverlay').classList.contains('active')) return true;
+  if (document.getElementById('guideOverlay').classList.contains('active')) return true;
+  return false;
+}
+function isInWindow(type) {
+  const now = new Date();
+  const curMin = now.getHours()*60 + now.getMinutes();
+  const windows = type === 'school' ? ASSISTANT_CONFIG.schoolWindows : ASSISTANT_CONFIG.nightWindows;
+  return windows.some(w => curMin >= w.start && curMin < w.end);
+}
 function isCooldownOk() { const last = parseInt(localStorage.getItem('ilia-assistant-last-ask') || '0'); return (Date.now() - last) >= ASSISTANT_CONFIG.minCooldown; }
 function getTodayAskCount() { return parseInt(localStorage.getItem('ilia-assistant-asks-' + today()) || '0'); }
 function isDailyLimitOk() { return getTodayAskCount() < ASSISTANT_CONFIG.maxAsksPerDay; }
-function recordAsk() { localStorage.setItem('ilia-assistant-last-ask', Date.now().toString()); const key = 'ilia-assistant-asks-' + today(); const c = parseInt(localStorage.getItem(key) || '0'); localStorage.setItem(key, (c + 1).toString()); }
+function recordAsk() {
+  localStorage.setItem('ilia-assistant-last-ask', Date.now().toString());
+  const key = 'ilia-assistant-asks-' + today();
+  localStorage.setItem(key, (parseInt(localStorage.getItem(key) || '0') + 1).toString());
+}
 function isGoodTimeForReport(type) {
   if (type === 'school' && getTodaySchoolReport()) return false;
   if (type === 'night' && getTodayStudyReport()) return false;
   if (type === 'school' && !isSchoolStarted()) return false;
+  if (type === 'school') {
+    const day = new Date().getDay();
+    if ((SCHOOL_SCHEDULE[day] || []).length === 0) return false;
+  }
   if (!isInWindow(type)) return false;
   if (isInDNDBlock()) return false;
   if (isUserTyping()) return false;
@@ -2232,7 +2904,7 @@ function getSmartIntro(type) {
   else if (h < 17) timeGreeting = 'وقت بخیر';
   else if (h < 20) timeGreeting = 'عصر بخیر';
   else timeGreeting = 'شب بخیر';
-  const streak = (() => { const log = getData('ilia-log', []); let s = 0; const ds = new Set(log.map(e => e.date)); let d = new Date(); while (ds.has(d.toISOString().split('T')[0])) { s++; d.setDate(d.getDate()-1); } return s; })();
+  const streak = (() => { const log = getData('ilia-log', []); let s = 0; const ds = new Set(log.map(e => e.date)); let d = new Date(); while (ds.has(localDate(d))) { s++; d.setDate(d.getDate()-1); } return s; })();
   const deficitData = getDeficitData();
   const todayExtra = getTodayExtra();
   if (type === 'school') {
@@ -2248,21 +2920,35 @@ function getSmartIntro(type) {
   }
 }
 function checkAssistant() {
-  if (isUserTyping()) return;
-  if (isGoodTimeForReport('school')) { setTimeout(() => { if (!isUserTyping() && isGoodTimeForReport('school')) { recordAsk(); openAssistant('school'); } }, 2500); return; }
-  if (isGoodTimeForReport('night')) { setTimeout(() => { if (!isUserTyping() && isGoodTimeForReport('night')) { recordAsk(); openAssistant('night'); } }, 2500); return; }
+  if (asstPending || isUserTyping()) return;
+  const mode = isGoodTimeForReport('school') ? 'school' : isGoodTimeForReport('night') ? 'night' : null;
+  if (!mode) return;
+  asstPending = true;
+  setTimeout(() => {
+    asstPending = false;
+    if (isUserTyping()) return;
+    if (isGoodTimeForReport(mode)) { recordAsk(); openAssistant(mode); }
+  }, 2500);
 }
-function openAssistant(mode) { asst = {mode, step:0, school_subjects:[], school_missed:[], study_hours:0, study_subjects:[], study_quality:0}; document.getElementById('assistantOverlay').classList.add('active'); renderAsst(); }
-function closeAssistant() { document.getElementById('assistantOverlay').classList.remove('active'); localStorage.setItem('ilia-assistant-last-ask', Date.now().toString()); renderTodayReports(); renderMakeupCard(); renderAlert(); }
+function openAssistant(mode) {
+  asst = {mode, step:0, school_subjects:[], school_missed:[], study_hours:0, study_subjects:[], study_quality:0};
+  document.getElementById('assistantOverlay').classList.add('active');
+  renderAsst();
+}
+function closeAssistant() {
+  document.getElementById('assistantOverlay').classList.remove('active');
+  localStorage.setItem('ilia-assistant-last-ask', Date.now().toString());
+  renderTodayReports(); renderMakeupCard(); renderAlert();
+}
 function snoozeAssistant() { localStorage.setItem('ilia-assistant-last-ask', Date.now().toString()); document.getElementById('assistantOverlay').classList.remove('active'); toast('⏰ بعداً یادت میندازم'); }
 function openAssistantManual(mode) { if (!mode) { const h = new Date().getHours(); mode = h < 19 ? 'school' : 'night'; } openAssistant(mode); }
 function asstMsg(t, w) { return `<div class="msg ${w==='user'?'msg-user':'msg-bot'}">${t}</div>`; }
+function scrollAsstToBottom() { const body = document.getElementById('assistantBody'); if (body) setTimeout(() => body.scrollTop = body.scrollHeight, 50); }
 
 function renderAsst() {
   const body = document.getElementById('assistantBody');
   const footer = document.getElementById('assistantFooter');
   if (!body || !footer) return;
-
   if (asst.mode === 'school') {
     if (asst.step === 0) {
       body.innerHTML = asstMsg(getSmartIntro('school'));
@@ -2271,20 +2957,20 @@ function renderAsst() {
       const day = new Date().getDay();
       const dayClasses = SCHOOL_SCHEDULE[day] || [];
       if (asst.school_subjects.length === 0) asst.school_subjects = [...dayClasses];
-      const opts = dayClasses.map(s => `<button class="opt ${asst.school_subjects.includes(s)?'selected':''}" onclick="toggleSchoolSubj('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${s}</button>`).join('');
+      const opts = dayClasses.map(s => `<button class="opt ${asst.school_subjects.includes(s)?'selected':''}" onclick="toggleSchoolSubj('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${esc(s)}</button>`).join('');
       body.innerHTML = asstMsg('امروز معلم‌ها چه درس‌هایی دادن؟') + '<div class="opt-list">' + opts + '</div>';
       footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">ادامه</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>';
     } else if (asst.step === 2) {
       let html = asstMsg('کدوم رو <b>کامل نفهمیدی</b>؟');
-      const opts = asst.school_subjects.map(s => `<button class="opt ${asst.school_missed.includes(s)?'selected':''}" onclick="toggleSchoolMissed('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${s}</button>`).join('');
+      const opts = asst.school_subjects.map(s => `<button class="opt ${asst.school_missed.includes(s)?'selected':''}" onclick="toggleSchoolMissed('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${esc(s)}</button>`).join('');
       html += '<div class="opt-list">' + (opts || '<p style="text-align:center;font-size:.85em;color:var(--text-light)">اول درس انتخاب کن</p>') + '</div>';
       body.innerHTML = html;
       footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">تحلیل کن</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>';
     } else if (asst.step === 3) {
       setData(todaySchoolReportKey(), {subjects:asst.school_subjects, missed:asst.school_missed, date:today(), ts:Date.now()});
       let html = asstMsg('گزارش ثبت شد 🌱');
-      html += `<div class="summary-box"><b>📖 امروز داشتی:</b><br>${asst.school_subjects.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + s).join(' • ')}</div>`;
-      if (asst.school_missed.length) html += `<div class="analysis-box warn"><b>⚠️ تمرکز امشب:</b><br>${asst.school_missed.map(s => '• ' + (SUBJECT_ICONS[s]||'📚') + ' ' + s).join('<br>')}</div>`;
+      html += `<div class="summary-box"><b>📖 امروز داشتی:</b><br>${asst.school_subjects.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + esc(s)).join(' • ')}</div>`;
+      if (asst.school_missed.length) html += `<div class="analysis-box warn"><b>⚠️ تمرکز امشب:</b><br>${asst.school_missed.map(s => '• ' + (SUBJECT_ICONS[s]||'📚') + ' ' + esc(s)).join('<br>')}</div>`;
       else html += `<div class="analysis-box"><b>🎉 آفرین!</b></div>`;
       body.innerHTML = html;
       footer.innerHTML = '<button class="btn btn-primary" onclick="closeAssistant()">باشه</button>';
@@ -2294,12 +2980,13 @@ function renderAsst() {
       body.innerHTML = asstMsg(getSmartIntro('night'));
       footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">شروع کن</button><button class="btn btn-secondary" onclick="snoozeAssistant()">⏰ بعداً</button>';
     } else if (asst.step === 1) {
-      body.innerHTML = asstMsg('امروز <b>چند ساعت</b> مطالعه کردی؟');
+      const todayLogged = getData('ilia-log', []).filter(e => e.date === today()).reduce((s,e) => s+e.hours, 0);
+      body.innerHTML = asstMsg('امروز <b>چند ساعت</b> مطالعه کردی؟' + (todayLogged > 0 ? `<br><span style="font-size:.85em;color:var(--text-light)">(تا الان ${fa(todayLogged.toFixed(1))} ساعت ثبت شده)</span>` : ''));
       footer.innerHTML = '<input type="number" class="asst-input" id="asstHours" min="0" max="16" step="0.5" placeholder="۲.۵"><button class="btn btn-primary" onclick="asstSubmitHours()">ادامه</button>';
       setTimeout(() => { const el = document.getElementById('asstHours'); if (el) el.focus(); }, 100);
     } else if (asst.step === 2) {
       let html = asstMsg(`ثبت شد: <b>${fa(asst.study_hours)} ساعت</b> 🌟`);
-      const opts = ALL_SUBJECTS.map(s => `<button class="opt ${asst.study_subjects.includes(s)?'selected':''}" onclick="toggleStudySubj('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${s}</button>`).join('');
+      const opts = ALL_SUBJECTS.map(s => `<button class="opt ${asst.study_subjects.includes(s)?'selected':''}" onclick="toggleStudySubj('${s}',this)"><span class="opt-check"></span>${SUBJECT_ICONS[s]||'📚'} ${esc(s)}</button>`).join('');
       html += '<div class="opt-list">' + opts + '</div>';
       body.innerHTML = html;
       footer.innerHTML = '<button class="btn btn-primary" onclick="asstNext()">ادامه</button><button class="btn btn-secondary" onclick="closeAssistant()">بستن</button>';
@@ -2321,9 +3008,8 @@ function renderAsst() {
       const todayExcess = Math.max(0, asst.study_hours - todayGoal);
       if (todayDeficit > 0.25) addDeficit(todayDeficit, today());
       else if (todayExcess > 0.25) reduceDeficit(todayExcess);
-
       let html = asstMsg('گزارش شب ثبت شد ✅');
-      html += `<div class="summary-box"><b>⏱:</b> ${fa(asst.study_hours)} ساعت<br><b>📚:</b> ${asst.study_subjects.length ? asst.study_subjects.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + s).join('، ') : 'ثبت نشده'}<br><b>⭐:</b> ${fa(asst.study_quality)} از ۵</div>`;
+      html += `<div class="summary-box"><b>⏱:</b> ${fa(asst.study_hours)} ساعت<br><b>📚:</b> ${asst.study_subjects.length ? asst.study_subjects.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + esc(s)).join('، ') : 'ثبت نشده'}<br><b>⭐:</b> ${fa(asst.study_quality)} از ۵</div>`;
       const goal = todayGoal;
       let cls = '', msg = '';
       if (asst.study_hours >= goal) { cls = ''; msg = `🎉 <b>آفرین!</b> به هدف رسیدی.`; }
@@ -2331,7 +3017,6 @@ function renderAsst() {
       else if (asst.study_hours > 0) { cls = 'danger'; msg = `😐 <b>کم بود.</b>`; }
       else { cls = 'danger'; msg = `😢 <b>امروز نخوندی.</b>`; }
       html += `<div class="analysis-box ${cls}">${msg}</div>`;
-
       const plan = getMakeupPlan();
       if (plan.total > 0.5) {
         html += `<div class="analysis-box warn"><b>📊 برنامه جبران</b><br>بدهی: <b>${fa(plan.total.toFixed(1))} ساعت</b><br><br>${plan.days.map(d => `• ${d.dayName}: <b>+${fa(d.extra.toFixed(1))} ساعت</b>`).join('<br>')}</div>`;
@@ -2341,59 +3026,69 @@ function renderAsst() {
       footer.innerHTML = '<button class="btn btn-primary" onclick="closeAssistant()">شب بخیر</button>';
     }
   }
+  scrollAsstToBottom();
 }
 function asstNext() { asst.step++; renderAsst(); }
 function toggleSchoolSubj(s, el) { const i = asst.school_subjects.indexOf(s); if (i >= 0) asst.school_subjects.splice(i, 1); else asst.school_subjects.push(s); el.classList.toggle('selected'); }
 function toggleSchoolMissed(s, el) { const i = asst.school_missed.indexOf(s); if (i >= 0) asst.school_missed.splice(i, 1); else asst.school_missed.push(s); el.classList.toggle('selected'); }
 function toggleStudySubj(s, el) { const i = asst.study_subjects.indexOf(s); if (i >= 0) asst.study_subjects.splice(i, 1); else asst.study_subjects.push(s); el.classList.toggle('selected'); }
 function setStudyQuality(n) { asst.study_quality = n; document.querySelectorAll('#asstStars .star').forEach((el, i) => el.classList.toggle('active', i < n)); }
-function asstSubmitHours() { const v = parseFloat(document.getElementById('asstHours').value); if (isNaN(v) || v < 0 || v > 16) { toast('عدد درست وارد کن'); return; } asst.study_hours = v; asstNext(); }
+function asstSubmitHours() {
+  const v = parseFloat(document.getElementById('asstHours').value);
+  if (isNaN(v) || v < 0 || v > 16) { toast('عدد درست وارد کن'); return; }
+  asst.study_hours = v; asstNext();
+}
 function renderTodayReports() {
-  const el = document.getElementById('todayReportsContainer');
-  if (!el) return;
+  const el = document.getElementById('todayReportsContainer'); if (!el) return;
   const sr = getTodaySchoolReport();
   const nr = getTodayStudyReport();
   if (!sr && !nr) { el.innerHTML = ''; return; }
   let html = '<div class="today-reports"><div class="tr-title">📋 گزارش امروز</div>';
-  if (sr) { html += `<div class="tr-line"><b>🏫:</b> ${sr.subjects.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + s).join('، ')}</div>`; if (sr.missed && sr.missed.length) html += `<div class="tr-line" style="color:var(--danger)"><b>⚠️:</b> ${sr.missed.join('، ')}</div>`; }
-  if (nr) { html += `<div class="tr-line"><b>⏱:</b> ${fa(nr.hours)} ساعت</div>`; if (nr.subjects && nr.subjects.length) html += `<div class="tr-line"><b>📚:</b> ${nr.subjects.join('، ')}</div>`; }
+  if (sr) {
+    html += `<div class="tr-line"><b>🏫:</b> ${sr.subjects.map(s => (SUBJECT_ICONS[s]||'📚') + ' ' + esc(s)).join('، ')}</div>`;
+    if (sr.missed && sr.missed.length) html += `<div class="tr-line" style="color:var(--danger)"><b>⚠️:</b> ${sr.missed.map(esc).join('، ')}</div>`;
+  }
+  if (nr) {
+    html += `<div class="tr-line"><b>⏱:</b> ${fa(nr.hours)} ساعت</div>`;
+    if (nr.subjects && nr.subjects.length) html += `<div class="tr-line"><b>📚:</b> ${nr.subjects.map(esc).join('، ')}</div>`;
+  }
   html += '</div>';
   el.innerHTML = html;
 }
 
 // ============= هشدار =============
 function renderAlert() {
-  const el = document.getElementById('alertContainer');
-  if (!el) return;
-  // اگه مدرسه شروع نشده، هشدار نشون نده
+  const el = document.getElementById('alertContainer'); if (!el) return;
   if (!isSchoolStarted()) { el.innerHTML = ''; return; }
   const log = getData('ilia-log', []);
   let badDays = 0;
   for (let i = 1; i <= 3; i++) {
     const d = new Date(); d.setDate(d.getDate() - i);
-    const ds = d.toISOString().split('T')[0];
-    // فقط روزهایی که مدرسه بوده
+    if ((SCHOOL_SCHEDULE[d.getDay()] || []).length === 0) continue;
     if (d < examDateToGregorian(EXAMS.schoolStart)) continue;
+    const ds = localDate(d);
     const goal = getDailyGoal(d.getDay());
     const studied = log.filter(e => e.date === ds).reduce((s,e) => s+e.hours, 0);
     if (studied < goal * 0.5) badDays++;
   }
-  if (badDays >= 3) {
-    el.innerHTML = `<div class="alert-card"><div class="alert-title">🔔 هشدار افت</div><div class="alert-text">۳ روز اخیر کم خوندی. امروز فقط <b>۲۰ دقیقه</b> شروع کن.</div></div>`;
-  } else {
-    el.innerHTML = '';
-  }
+  if (badDays >= 3) el.innerHTML = `<div class="alert-card"><div class="alert-title">🔔 هشدار افت</div><div class="alert-text">۳ روز اخیر کم خوندی. امروز فقط <b>۲۰ دقیقه</b> شروع کن.</div></div>`;
+  else el.innerHTML = '';
 }
 
 // ============= کیبورد =============
 document.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-  const fa_ = document.getElementById('focusMode').classList.contains('active');
-  if (e.key === 'Escape' && fa_) { exitFocus(); return; }
+  const focusOn = document.getElementById('focusMode').classList.contains('active');
+  const guideOn = document.getElementById('guideOverlay').classList.contains('active');
+  if (e.key === 'Escape' && guideOn) { closeGuide(); return; }
+  if (e.key === 'Escape' && focusOn) { exitFocus(); return; }
   if (e.key === 'Escape' && document.getElementById('assistantOverlay').classList.contains('active')) { closeAssistant(); return; }
-  if (e.key === 'f' || e.key === 'F') { e.preventDefault(); fa_ ? exitFocus() : startFocusMode(); return; }
+  if (e.key === 'f' || e.key === 'F') { e.preventDefault(); focusOn ? exitFocus() : startFocusMode(); return; }
   if (e.key === 't' || e.key === 'T') { toggleTheme(); return; }
-  if (e.key === ' ') { if (document.getElementById('pomodoro').classList.contains('active')) { e.preventDefault(); startPom(); } else if (fa_) { e.preventDefault(); toggleFocusTimer(); } }
+  if (e.key === ' ') {
+    if (document.getElementById('pomodoro').classList.contains('active')) { e.preventDefault(); startPom(); }
+    else if (focusOn) { e.preventDefault(); toggleFocusTimer(); }
+  }
 });
 
 // ============= Init =============
@@ -2428,6 +3123,7 @@ renderDistractionPage();
 scanDeficits();
 renderMakeupCard();
 renderAlert();
+renderBackupStatus();
 requestNotifPermission();
 
 setInterval(updateClock, 1000);
@@ -2439,6 +3135,19 @@ setInterval(renderClasses, 3600000);
 setTimeout(checkAssistant, ASSISTANT_CONFIG.bootDelay);
 setInterval(checkAssistant, 90000);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) setTimeout(checkAssistant, 3000); });
+
+setTimeout(() => {
+  const last = parseInt(localStorage.getItem('ilia-last-backup') || '0');
+  if (last && Date.now() - last > 7*86400000) {
+    if (confirm('📤 یه هفته از پشتیبان گذشته. الان بگیری؟')) exportData();
+  }
+}, 8000);
+
+window.addEventListener('storage', (e) => {
+  if (e.key && e.key.startsWith('ilia-')) {
+    renderStats(); renderTodo(); renderGoals();
+  }
+});
 
 let lastActivity = null;
 setInterval(() => {
