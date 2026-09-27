@@ -228,7 +228,7 @@ h3{font-size:1em;margin:10px 0 8px}
 .rule{display:flex;align-items:center;padding:12px 14px;margin:7px 0;background:var(--bg-card);border-right:4px solid var(--danger);border-radius:11px;font-size:.88em}
 .rule-n{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-left:10px;font-weight:bold;font-size:.78em;flex-shrink:0}
 
-.toast{position:fixed;bottom:calc(var(--nav-h) + 16px);left:50%;transform:translateX(-50%) translateY(100px);background:var(--text);color:var(--bg);padding:12px 22px;border-radius:24px;font-size:.85em;font-weight:700;z-index:200;transition:transform .3s;box-shadow:var(--shadow-lg);max-width:90%;text-align:center}
+.toast{position:fixed;bottom:calc(var(--nav-h) + 16px);left:50%;transform:translateX(-50%) translateY(120px);background:var(--text);color:var(--bg);padding:14px 22px;border-radius:24px;font-size:.88em;font-weight:700;z-index:200;transition:transform .3s;box-shadow:var(--shadow-lg);max-width:90%;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
 .week-tabs{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:12px}
@@ -454,10 +454,46 @@ h3{font-size:1em;margin:10px 0 8px}
 .guide-stat-v{font-size:1.05em;font-weight:800;color:var(--primary)}
 .guide-stat-l{font-size:.66em;color:var(--text-light);margin-top:2px}
 
+/* ============ Today Total Card ============ */
+.today-total-card{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 8px 24px rgba(102,126,234,.35);position:relative;overflow:hidden}
+.today-total-card::before{content:'';position:absolute;top:-40%;right:-30%;width:160%;height:180%;background:radial-gradient(circle,rgba(255,255,255,.15),transparent 60%);animation:rot 20s linear infinite;pointer-events:none}
+.today-total-card.done{background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 8px 24px rgba(16,185,129,.4)}
+.today-total-card.done::before{animation:none}
+.tt-header{position:relative;z-index:1;display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05em;margin-bottom:12px}
+.tt-icon{font-size:1.6em;line-height:1}
+.tt-title{flex:1;opacity:.95}
+.tt-val{font-size:1.3em;font-weight:900;font-variant-numeric:tabular-nums}
+.tt-progress{position:relative;z-index:1;height:12px;background:rgba(255,255,255,.25);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.tt-fill{height:100%;background:#fff;border-radius:10px;transition:width .6s ease}
+.tt-meta{position:relative;z-index:1;display:flex;justify-content:space-between;font-size:.82em;opacity:.95;gap:8px;flex-wrap:wrap}
+.tt-meta b{font-weight:900}
+.tt-extra{position:relative;z-index:1;font-size:.76em;opacity:.92;margin-top:8px;text-align:center;padding-top:8px;border-top:1px solid rgba(255,255,255,.2)}
+
+/* ============ Tomorrow Prep Card ============ */
+.tomorrow-card{background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 8px 24px rgba(139,92,246,.35);position:relative;overflow:hidden}
+.tomorrow-card::before{content:'';position:absolute;top:-40%;right:-30%;width:160%;height:180%;background:radial-gradient(circle,rgba(255,255,255,.15),transparent 60%);animation:rot 20s linear infinite;pointer-events:none}
+.tomorrow-card.off{background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 8px 24px rgba(16,185,129,.4)}
+.tomorrow-card.off::before{animation:none}
+.tmr-title{position:relative;z-index:1;font-weight:800;font-size:1.05em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.tmr-subtitle{position:relative;z-index:1;font-size:.82em;opacity:.92;font-weight:700;margin:12px 0 8px;padding-top:10px;border-top:1px solid rgba(255,255,255,.2)}
+.tmr-subtitle:first-of-type{border-top:none;padding-top:0;margin-top:0}
+.tmr-classes{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:6px}
+.tmr-class-chip{background:rgba(255,255,255,.22);padding:6px 12px;border-radius:20px;font-size:.82em;font-weight:600}
+.tmr-checklist{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.tmr-check{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);padding:9px 11px;border-radius:10px;cursor:pointer;font-size:.83em;font-weight:600;user-select:none;transition:all .15s}
+.tmr-check:active{transform:scale(.97)}
+.tmr-check input{display:none}
+.tmr-box{width:18px;height:18px;border-radius:6px;border:2px solid rgba(255,255,255,.7);flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.1);transition:all .15s}
+.tmr-check input:checked + .tmr-box{background:#fff;border-color:#fff}
+.tmr-check input:checked + .tmr-box::after{content:'\2713';color:#6d28d9;font-weight:900;font-size:.75em}
+.tmr-check input:checked ~ span:last-child{text-decoration:line-through;opacity:.6}
+.tmr-study{position:relative;z-index:1}
+.tmr-study-item{background:rgba(255,255,255,.12);padding:7px 11px;border-radius:8px;margin:5px 0;font-size:.83em;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.tmr-off{position:relative;z-index:1;font-size:.9em;text-align:center;padding:6px 0}
 @media print{
   body{background:#fff;color:#000;padding:0}
   header{background:#333!important;-webkit-print-color-adjust:exact}
-  .bottom-nav,.more-menu,.theme-toggle,.pomodoro,.btn,.focus-mode,.toast,.chart,.now-card,.next-card,.install-btn,.assistant-overlay,.asst-open-btn,.makeup-card,.alert-card,.apk-banner,.guide-overlay{display:none!important}
+  .bottom-nav,.more-menu,.theme-toggle,.pomodoro,.btn,.focus-mode,.toast,.chart,.now-card,.next-card,.install-btn,.assistant-overlay,.asst-open-btn,.makeup-card,.alert-card,.apk-banner,.guide-overlay,.today-total-card{display:none!important}
   section{display:block!important;page-break-after:always}
   section:last-child{page-break-after:auto}
   .card,.tech,.item,.today-item{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
@@ -492,7 +528,9 @@ h3{font-size:1em;margin:10px 0 8px}
   <div id="alertContainer"></div>
   <div id="phaseContainer"></div>
   <div id="classesContainer"></div>
+  <div id="tomorrowContainer"></div>
   <div id="todayReportsContainer"></div>
+  <div id="todayTotalContainer"></div>
   <div id="makeupContainer"></div>
   <div id="nowContainer"></div>
 
@@ -1173,39 +1211,88 @@ function timeToMin(t) {
 function toast(msg) {
   const t = document.getElementById('toast');
   if (!t) return;
-  t.textContent = msg; t.classList.add('show');
+  t.innerHTML = `<span>${msg}</span>`;
+  t.classList.add('show');
   clearTimeout(t._tm);
-  t._tm = setTimeout(() => t.classList.remove('show'), 1800);
+  t._tm = setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// ============= هشدار تایمر =============
+// ============= هشدار تایمر — بلند و طولانی =============
+let _alarmSound = null;
+let _alarmInterval = null;
+
+function stopAlarmSound() {
+  if (_alarmInterval) { clearInterval(_alarmInterval); _alarmInterval = null; }
+  if (_alarmSound) { try { _alarmSound.close(); } catch(e) {} _alarmSound = null; }
+  const t = document.getElementById('toast');
+  if (t) { clearTimeout(t._tm); t.classList.remove('show'); }
+}
+
 function alertTimerDone(title) {
-  try { if ('vibrate' in navigator) navigator.vibrate([500, 200, 500, 200, 800]); } catch(e) {}
+  const msg = title || 'وقت تموم شد';
+
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const playTone = (freq, start, dur) => {
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.frequency.value = freq; o.type = 'sine';
-      g.gain.setValueAtTime(0.35, start);
-      g.gain.exponentialRampToValueAtTime(0.001, start + dur);
-      o.start(start); o.stop(start + dur);
-    };
-    const t = ctx.currentTime;
-    playTone(880, t, 0.4); playTone(660, t + 0.5, 0.4);
-    playTone(880, t + 1.0, 0.4); playTone(660, t + 1.5, 0.4);
-    playTone(880, t + 2.0, 0.6);
+    if ('vibrate' in navigator) navigator.vibrate([
+      1000, 400, 1000, 400, 1000, 400, 1500, 600, 1500, 600, 2000
+    ]);
   } catch(e) {}
+
+  stopAlarmSound();
+  try {
+    _alarmSound = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = _alarmSound;
+
+    const playSequence = () => {
+      try {
+        const t = ctx.currentTime;
+        const playTone = (freq, start, dur, vol) => {
+          const o = ctx.createOscillator(), g = ctx.createGain();
+          o.connect(g); g.connect(ctx.destination);
+          o.frequency.value = freq;
+          o.type = 'square';
+          g.gain.setValueAtTime(vol, start);
+          g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+          o.start(start); o.stop(start + dur);
+        };
+        for (let i = 0; i < 3; i++) {
+          const base = t + i * 1.4;
+          playTone(1200, base, 0.18, 0.5);
+          playTone(900, base + 0.2, 0.18, 0.5);
+          playTone(1200, base + 0.4, 0.18, 0.5);
+          playTone(900, base + 0.6, 0.18, 0.5);
+          playTone(1400, base + 0.8, 0.5, 0.6);
+        }
+      } catch(e) {}
+    };
+
+    playSequence();
+    _alarmInterval = setInterval(playSequence, 4500);
+  } catch(e) {}
+
   try {
     if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification('⏰ وقت تموم شد', {
-        body: title || 'وقت استراحت یا شروع کار بعدیه!',
-        icon: './icon-192.png', vibrate: [500, 200, 500],
-        tag: 'timer-done', requireInteraction: true
+      new Notification('⏰ ' + msg, {
+        body: 'برای قطع صدا روی اپ کلیک کن',
+        icon: './icon-192.png',
+        vibrate: [1000, 400, 1000, 400, 2000],
+        tag: 'timer-done',
+        requireInteraction: true
       });
     }
   } catch(e) {}
-  toast('⏰ وقت تموم شد! ' + (title || ''));
+
+  const t = document.getElementById('toast');
+  if (t) {
+    t.innerHTML = `<div style="display:flex;align-items:center;gap:10px;justify-content:center">
+      <span>⏰ ${esc(msg)}</span>
+      <button onclick="stopAlarmSound()" style="background:#ef4444;color:#fff;border:none;padding:8px 16px;border-radius:10px;font-family:inherit;font-size:.9em;font-weight:800;cursor:pointer">⏹ قطع</button>
+    </div>`;
+    t.classList.add('show');
+    clearTimeout(t._tm);
+    t._tm = setTimeout(() => stopAlarmSound(), 60000);
+  }
+
+  try { window.focus(); } catch(e) {}
 }
 
 function requestNotifPermission() {
@@ -2033,7 +2120,7 @@ function go(id) {
   else document.querySelector('.bottom-nav button[data-t="more"]').classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   const render = {
-    dashboard: () => { renderNow(); renderTodaySchedule(); renderTodayReports(); renderMakeupCard(); renderAlert(); renderCountdown(); },
+    dashboard: () => { renderTodayTotal(); renderTomorrowPrep(); renderNow(); renderTodaySchedule(); renderTodayReports(); renderMakeupCard(); renderAlert(); renderCountdown(); },
     schedule: () => { renderWeekTabs(); renderFullSchedule(); renderSchoolGrid(); },
     profile: renderProfile,
     checklist: renderChecklists,
@@ -2144,7 +2231,7 @@ function addSession() {
   const log = getData('ilia-log', []);
   log.push({date:today(), hours:min/60, subject:subj, ts:Date.now()});
   setData('ilia-log', log);
-  renderStats();
+  renderStats(); renderTodayTotal();
   ['ssMin','ssTopic','ssSource','ssPages','ssTests'].forEach(id => document.getElementById(id).value = '');
   renderSessions();
   toast('✅ جلسه ثبت شد');
@@ -2567,7 +2654,7 @@ function autoLog() {
   const log = getData('ilia-log', []);
   log.push({date:today(), hours:pTot/3600, subject:s, ts:Date.now()});
   setData('ilia-log', log);
-  renderStats();
+  renderStats(); renderTodayTotal();
 }
 let fT = 25*60, fI = null, fR = false;
 function startFocusMode() {
@@ -2664,21 +2751,47 @@ function getMakeupPlan() {
 }
 function getTodayExtra() { const plan = getMakeupPlan(); const d = plan.days.find(x => x.date === today()); return d ? d.extra : 0; }
 
+// ⭐ اسکن بدهی با دوره رحمت و فقط روزهای مدرسه
 function scanDeficits() {
   if (!isSchoolStarted()) return;
+
+  // Migration
+  const v = localStorage.getItem('ilia-deficit-version');
+  if (v !== '3') {
+    localStorage.removeItem('ilia-deficit');
+    localStorage.removeItem('ilia-deficit-processed');
+    localStorage.setItem('ilia-deficit-version', '3');
+  }
+
   let installDate = localStorage.getItem('ilia-install-date');
   if (!installDate) { installDate = today(); localStorage.setItem('ilia-install-date', installDate); }
+
+  const schoolStartStr = localDate(examDateToGregorian(EXAMS.schoolStart));
+  // دوره رحمت ۳ روز
+  const graceDate = new Date(schoolStartStr + 'T00:00:00');
+  graceDate.setDate(graceDate.getDate() + 3);
+  const graceStr = localDate(graceDate);
+
   const processed = getData('ilia-deficit-processed', {});
   const log = getData('ilia-log', []);
-  const schoolStart = examDateToGregorian(EXAMS.schoolStart);
   let d = new Date(); d.setDate(d.getDate() - 1);
   let changed = false;
+
   for (let i = 0; i < 30; i++) {
     const ds = localDate(d);
     if (ds < installDate) break;
-    if (!processed[ds] && d >= schoolStart) {
+
+    if (ds < schoolStartStr) { processed[ds] = true; changed = true; d.setDate(d.getDate() - 1); continue; }
+    if (ds < graceStr) { processed[ds] = true; changed = true; d.setDate(d.getDate() - 1); continue; }
+
+    const dayIdx = d.getDay();
+    if ((SCHOOL_SCHEDULE[dayIdx] || []).length === 0) {
+      processed[ds] = true; changed = true; d.setDate(d.getDate() - 1); continue;
+    }
+
+    if (!processed[ds]) {
       const studied = log.filter(e => e.date === ds).reduce((s,e) => s + e.hours, 0);
-      const goal = getDailyGoal(d.getDay());
+      const goal = getDailyGoal(dayIdx);
       if (studied < goal - 0.25) addDeficit(goal - studied, ds);
       processed[ds] = true;
       changed = true;
@@ -2687,6 +2800,34 @@ function scanDeficits() {
   }
   if (changed) setData('ilia-deficit-processed', processed);
 }
+
+// ⭐ کارت هدف امروز
+function renderTodayTotal() {
+  const el = document.getElementById('todayTotalContainer');
+  if (!el) return;
+  if (!isSchoolStarted()) { el.innerHTML = ''; return; }
+  const todayGoal = getDailyGoal(new Date().getDay());
+  const todayExtra = getTodayExtra();
+  const totalGoal = todayGoal + todayExtra;
+  const studied = getStudiedOn(today());
+  const remaining = Math.max(0, totalGoal - studied);
+  const pct = Math.min(100, (studied / totalGoal) * 100);
+  const done = studied >= totalGoal && totalGoal > 0;
+  el.innerHTML = `<div class="today-total-card ${done ? 'done' : ''}">
+    <div class="tt-header">
+      <span class="tt-icon">${done ? '🎉' : '📚'}</span>
+      <span class="tt-title">هدف امروز</span>
+      <span class="tt-val">${fa(totalGoal.toFixed(1))} ساعت</span>
+    </div>
+    <div class="tt-progress"><div class="tt-fill" style="width:${pct}%"></div></div>
+    <div class="tt-meta">
+      <span>خوندی: <b>${fa(studied.toFixed(1))}</b></span>
+      <span>${done ? '✅ هدف زده شد!' : 'مونده: <b>' + fa(remaining.toFixed(1)) + '</b>'}</span>
+    </div>
+    ${todayExtra > 0 ? `<div class="tt-extra">💡 شامل <b>${fa(todayExtra.toFixed(1))} ساعت</b> جبران بدهی (${fa(todayGoal.toFixed(1))} عادی + ${fa(todayExtra.toFixed(1))} جبران)</div>` : ''}
+  </div>`;
+}
+
 function renderMakeupCard() {
   const el = document.getElementById('makeupContainer'); if (!el) return;
   if (!isSchoolStarted()) { el.innerHTML = ''; return; }
@@ -2696,6 +2837,59 @@ function renderMakeupCard() {
   const todayGoal = getDailyGoal(new Date().getDay());
   const html = `<div class="makeup-card"><div class="makeup-title">📊 برنامه جبران مطالعه</div><div class="makeup-total"><div><span class="label">بدهی کل:</span> <b>${fa(plan.total.toFixed(1))} ساعت</b></div>${todayExtra > 0 ? `<div><span class="label">اضافه امروز:</span> <b>+${fa(todayExtra.toFixed(1))} ساعت</b></div>` : ''}</div><div class="makeup-plan"><div style="font-size:.78em;color:var(--text-light);margin-bottom:8px;font-weight:700">📅 تقسیم روی روزها:</div>${plan.days.map(d => `<div class="makeup-day ${d.date === today() ? 'today' : ''}"><span class="makeup-day-name">${d.dayName}${d.date === today() ? ' (امروز)' : ''}</span><span class="makeup-day-amount">+${fa(d.extra.toFixed(1))} ساعت</span></div>`).join('')}</div><div class="makeup-tip">💡 هدف امروزت: <b>${fa((todayGoal + todayExtra).toFixed(1))} ساعت</b></div></div>`;
   el.innerHTML = html;
+}
+
+// ============= زنگ خودکار برنامه =============
+let alarmTimers = [];
+
+function clearAlarms() {
+  alarmTimers.forEach(t => clearTimeout(t));
+  alarmTimers = [];
+}
+
+function scheduleAlarms() {
+  clearAlarms();
+  const now = new Date();
+  const day = now.getDay();
+  let list = SCHEDULE[day] || [];
+  if (!isSchoolStarted()) list = list.filter(x => x[3] !== 'school');
+
+  const importantKinds = ['study', 'school', 'wake', 'sport'];
+
+  list.forEach(([st, en, task, kind, icon]) => {
+    const [sh, sm] = st.split(':').map(Number);
+    const start = new Date();
+    start.setHours(sh, sm, 0, 0);
+    const ms = start - now;
+    if (ms > 1000 && ms < 24*3600*1000) {
+      const isImportant = importantKinds.includes(kind);
+      const timer = setTimeout(() => {
+        if (isImportant) {
+          alertTimerDone(`وقت ${task}`);
+        } else {
+          toast(`⏰ ${icon || ''} ${task}`);
+          try { if ('vibrate' in navigator) navigator.vibrate([400, 200, 400]); } catch(e) {}
+        }
+      }, ms);
+      alarmTimers.push(timer);
+    }
+  });
+
+  // بیداری فردا
+  const tomorrow = (day + 1) % 7;
+  const tomorrowList = SCHEDULE[tomorrow] || [];
+  if (tomorrowList[0]) {
+    const [st, , task] = tomorrowList[0];
+    const [sh, sm] = st.split(':').map(Number);
+    const start = new Date();
+    start.setDate(start.getDate() + 1);
+    start.setHours(sh, sm, 0, 0);
+    const ms = start - now;
+    if (ms > 0) {
+      const timer = setTimeout(() => alertTimerDone(`⏰ بیدار شو! ${task}`), ms);
+      alarmTimers.push(timer);
+    }
+  }
 }
 
 // ============= تحلیل ضعف =============
@@ -2938,7 +3132,7 @@ function openAssistant(mode) {
 function closeAssistant() {
   document.getElementById('assistantOverlay').classList.remove('active');
   localStorage.setItem('ilia-assistant-last-ask', Date.now().toString());
-  renderTodayReports(); renderMakeupCard(); renderAlert();
+  renderTodayReports(); renderTodayTotal(); renderTomorrowPrep(); renderMakeupCard(); renderAlert();
 }
 function snoozeAssistant() { localStorage.setItem('ilia-assistant-last-ask', Date.now().toString()); document.getElementById('assistantOverlay').classList.remove('active'); toast('⏰ بعداً یادت میندازم'); }
 function openAssistantManual(mode) { if (!mode) { const h = new Date().getHours(); mode = h < 19 ? 'school' : 'night'; } openAssistant(mode); }
@@ -3001,7 +3195,7 @@ function renderAsst() {
         const log = getData('ilia-log', []);
         log.push({date:today(), hours:asst.study_hours, subject:asst.study_subjects.join('، ') || 'مطالعه', ts:Date.now()});
         setData('ilia-log', log);
-        renderStats();
+        renderStats(); renderTodayTotal();
       }
       const todayGoal = getDailyGoal(new Date().getDay());
       const todayDeficit = Math.max(0, todayGoal - asst.study_hours);
@@ -3091,6 +3285,57 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// ============= آماده‌سازی فردا =============
+function renderTomorrowPrep() {
+  const el = document.getElementById('tomorrowContainer');
+  if (!el) return;
+  if (!isSchoolStarted()) { el.innerHTML = ''; return; }
+
+  const tomorrowDate = new Date();
+  tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+  const tomorrowDay = tomorrowDate.getDay();
+  const tomorrowName = WEEK_DAYS_FA[tomorrowDay];
+  const tomorrowKey = localDate(tomorrowDate);
+  const classes = SCHOOL_SCHEDULE[tomorrowDay] || [];
+
+  if (classes.length === 0) {
+    el.innerHTML = `<div class="tomorrow-card off"><div class="tmr-title">🎒 آماده‌سازی فردا</div><div class="tmr-off">فردا (${tomorrowName}) تعطیله — کیف لازم نداری 🎉</div></div>`;
+    return;
+  }
+
+  const checks = getData('ilia-tomorrow-checks', {});
+  const todayChecks = checks[tomorrowKey] || {};
+
+  const items = [];
+  classes.forEach(c => { items.push({ id: 'book-' + c, icon: SUBJECT_ICONS[c] || '📚', label: 'کتاب ' + c }); });
+  items.push({ id: 'notebook', icon: '📓', label: 'دفتر مشق' });
+  items.push({ id: 'pencilcase', icon: '✏️', label: 'جامدادی' });
+  if (classes.includes('ورزش')) items.push({ id: 'sport', icon: '👟', label: 'لباس ورزشی' });
+  if (classes.includes('آزمایشگاه')) items.push({ id: 'lab', icon: '🥼', label: 'روپوش آزمایشگاه' });
+
+  const studyList = (SCHEDULE[tomorrowDay] || []).filter(x => x[3] === 'study');
+  const doneCount = items.filter(it => todayChecks[it.id]).length;
+  const allDone = doneCount === items.length;
+
+  el.innerHTML = `<div class="tomorrow-card">
+    <div class="tmr-title">🎒 آماده‌سازی فردا — ${tomorrowName} ${allDone ? '✅' : ''}</div>
+    <div class="tmr-subtitle">📚 کلاس‌های فردا (${fa(classes.length)} درس):</div>
+    <div class="tmr-classes">${classes.map(c => `<span class="tmr-class-chip">${SUBJECT_ICONS[c]||'📚'} ${esc(c)}</span>`).join('')}</div>
+    <div class="tmr-subtitle">✅ چک‌لیست وسایل (${fa(doneCount)}/${fa(items.length)}):</div>
+    <div class="tmr-checklist">${items.map(it => `<label class="tmr-check"><input type="checkbox" ${todayChecks[it.id]?'checked':''} onchange="toggleTomorrowCheck('${it.id}', this.checked)"><span class="tmr-box"></span><span>${it.icon} ${esc(it.label)}</span></label>`).join('')}</div>
+    ${studyList.length ? `<div class="tmr-subtitle">📖 مطالعه فردا:</div><div class="tmr-study">${studyList.map(s => `<div class="tmr-study-item"><span>${s[4]} ${esc(s[2])}</span><span style="opacity:.8;font-size:.9em">${fa(s[0])}–${fa(s[1])}</span></div>`).join('')}</div>` : ''}
+  </div>`;
+}
+
+function toggleTomorrowCheck(id, val) {
+  const checks = getData('ilia-tomorrow-checks', {});
+  const tomorrowKey = localDate(new Date(Date.now() + 86400000));
+  if (!checks[tomorrowKey]) checks[tomorrowKey] = {};
+  checks[tomorrowKey][id] = val;
+  setData('ilia-tomorrow-checks', checks);
+  renderTomorrowPrep();
+}
+
 // ============= Init =============
 renderApkBanner();
 renderStats();
@@ -3121,16 +3366,20 @@ renderWeakness();
 renderWeeklyReport();
 renderDistractionPage();
 scanDeficits();
+renderTodayTotal();
+renderTomorrowPrep();
 renderMakeupCard();
 renderAlert();
 renderBackupStatus();
 requestNotifPermission();
+scheduleAlarms();
 
 setInterval(updateClock, 1000);
 setInterval(renderCountdown, 1000);
-setInterval(() => { renderNow(); renderTodaySchedule(); renderMakeupCard(); renderAlert(); }, 30000);
+setInterval(() => { renderTodayTotal(); renderTomorrowPrep(); renderNow(); renderTodaySchedule(); renderMakeupCard(); renderAlert(); }, 30000);
 setInterval(renderPhase, 3600000);
 setInterval(renderClasses, 3600000);
+setInterval(scheduleAlarms, 30*60*1000);
 
 setTimeout(checkAssistant, ASSISTANT_CONFIG.bootDelay);
 setInterval(checkAssistant, 90000);
@@ -3145,7 +3394,7 @@ setTimeout(() => {
 
 window.addEventListener('storage', (e) => {
   if (e.key && e.key.startsWith('ilia-')) {
-    renderStats(); renderTodo(); renderGoals();
+    renderStats(); renderTodo(); renderGoals(); renderTodayTotal();
   }
 });
 
