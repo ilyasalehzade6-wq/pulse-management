@@ -2719,10 +2719,17 @@ function renderStats() {
 }
 
 // ============= جبران =============
+// getDailyGoal — dynamic v2 (از جدول برنامه محاسبه میشه)
 function getDailyGoal(day = new Date().getDay()) {
-  const isOff = (SCHOOL_SCHEDULE[day] || []).length === 0;
-  if (isOff && isSchoolStarted()) return 1;
-  return {6:2.5, 0:3, 1:2.5, 2:3, 3:2.5, 4:4, 5:3}[day] || 3;
+  let list = SCHEDULE[day] || [];
+  if (!isSchoolStarted()) list = list.filter(x => x[3] !== 'school');
+  const studyBlocks = list.filter(x => x[3] === 'study');
+  let totalMin = 0;
+  studyBlocks.forEach(([st, en]) => {
+    const s = timeToMin(st), e = timeToMin(en);
+    if (e > s) totalMin += (e - s);
+  });
+  return Math.round((totalMin / 60) * 10) / 10;
 }
 function getStudiedOn(dateStr) { const log = getData('ilia-log', []); return log.filter(e => e.date === dateStr).reduce((s,e) => s+e.hours, 0); }
 function getDeficitData() { return getData('ilia-deficit', { total: 0, history: [] }); }
