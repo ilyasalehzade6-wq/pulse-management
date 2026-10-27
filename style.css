@@ -1786,3 +1786,38 @@ body {
     position: absolute; top: -20px; font-size: 0.65em; color: #fff; font-weight: 800;
     background: rgba(16,185,129,0.9); padding: 2px 6px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 3;
 }
+
+
+/* ============ MODAL & LEAGUE TABS ============ */
+.modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+    z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.modal-overlay.active { display: flex; }
+.modal-box {
+    background: var(--bg-card); width: 100%; max-width: 400px;
+    border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    animation: slideUp 0.3s ease;
+}
+.modal-header {
+    padding: 15px 20px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+}
+.modal-header h3 { margin: 0; font-size: 1.1em; color: var(--text); }
+.modal-close { background: none; border: none; font-size: 1.2em; cursor: pointer; color: var(--text-light); }
+.modal-body { padding: 20px; }
+.modal-body label { display: block; font-size: 0.85em; font-weight: 700; margin: 10px 0 5px; color: var(--text-light); }
+
+/* League Tabs */
+.league-tabs {
+    display: flex; gap: 8px; margin-bottom: 15px; background: var(--bg-card);
+    padding: 5px; border-radius: 14px; border: 1px solid var(--border);
+}
+.lt-btn {
+    flex: 1; padding: 10px 5px; border: none; background: transparent;
+    border-radius: 10px; font-family: inherit; font-size: 0.85em; font-weight: 700;
+    color: var(--text-light); cursor: pointer; transition: all 0.2s;
+}
+.lt-btn.active {
+    background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(0,150,136,0.3);
+}

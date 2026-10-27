@@ -6615,3 +6615,319 @@ setTimeout(() => {
         renderGardenPage();
     }
 }, 1000);
+
+
+// ============ STUDY EDITOR ============
+
+
+// ============ LEAGUE LOGIC (UPDATED) ============
+window.GardenPro = window.GardenPro || {};
+GardenPro.currentTab = 'weekly';
+GardenPro.leagues = [
+    { name: 'لیگ برنز', icon: '🥉', minAvg: 0, color: '#cd7f32' },
+    { name: 'لیگ نقره', icon: '🥈', minAvg: 1, color: '#c0c0c0' },
+    { name: 'لیگ طلا', icon: '🥇', minAvg: 2, color: '#ffd700' },
+    { name: 'لیگ الماس', icon: '💎', minAvg: 3, color: '#b9f2ff' },
+    { name: 'لیگ استاد', icon: '👑', minAvg: 4, color: '#f59e0b' },
+    { name: 'لیگ افسانه', icon: '🌌', minAvg: 5, color: '#8b5cf6' }
+];
+
+GardenPro.switchLeagueTab = function(tab, btn) {
+    this.currentTab = tab;
+    document.querySelectorAll('.lt-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    this.renderLeaguePage();
+};
+
+GardenPro.getLeagueData = function() {
+    const log = getData('ilia-log', []);
+    if (log.length === 0) return { avg: 0, type: this.currentTab };
+    
+    log.sort((a,b) => a.date.localeCompare(b.date));
+    const firstDate = new Date(log[0].date);
+    const todayDate = new Date(today());
+    
+    let totalHours = 0;
+    let daysCount = 1;
+    
+    if (this.currentTab === 'weekly') {
+        // 7 روز اخیر
+        const sevenDaysAgo = new Date(); sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+        const startStr = localDate(sevenDaysAgo);
+        log.forEach(e => { if (e.date >= startStr) totalHours += e.hours; });
+        daysCount = 7;
+    } 
+    else if (this.currentTab === 'monthly') {
+        // اول ماه شمسی تا امروز
+        const sh = getShamsi();
+        const monthStartG = jalaliToGregorian(sh.y, sh.m, 1);
+        const monthStartStr = localDate(new Date(monthStartG[0], monthStartG[1]-1, monthStartG[2]));
+        log.forEach(e => { if (e.date >= monthStartStr) totalHours += e.hours; });
+        daysCount = sh.d; // روزهای گذشته از ماه
+    } 
+    else { // alltime
+        log.forEach(e => totalHours += e.hours);
+        const diffTime = Math.abs(todayDate - firstDate);
+        daysCount = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        if (daysCount < 1) daysCount = 1;
+    }
+    
+    return { avg: totalHours / daysCount, type: this.currentTab };
+};
+
+GardenPro.renderLeaguePage = function() {
+    const { avg } = this.getLeagueData();
+    
+    let currentIdx = 0;
+    for (let i = 0; i < this.leagues.length; i++) {
+        if (avg >= this.leagues[i].minAvg) currentIdx = i;
+    }
+    const current = this.leagues[currentIdx];
+    const next = this.leagues[currentIdx + 1];
+
+    const card = document.getElementById('leagueCurrentCard');
+    if (card) {
+        let typeLabel = this.currentTab === 'weekly' ? 'میانگین هفتگی' : this.currentTab === 'monthly' ? 'میانگین ماهانه' : 'میانگین کل';
+        card.innerHTML = `
+            <div class="lc-icon">${current.icon}</div>
+            <div class="lc-name" style="color:${current.color}">${current.name}</div>
+            <div class="lc-avg">${typeLabel}: ${fa(avg.toFixed(2))} ساعت در روز</div>
+            ${next ? `<div style="font-size:0.75em; margin-top:10px; opacity:0.8;">برای رسیدن به ${next.name}، روزانه ${fa((next.minAvg - avg).toFixed(1))} ساعت بیشتر بخوان</div>` : '<div style="font-size:0.75em; margin-top:10px; color:#fbbf24;">تو در بالاترین سطح ممکن هستی! 🎉</div>'}
+        `;
+    }
+
+    const list = document.getElementById('leagueList');
+    if (list) {
+        list.innerHTML = this.leagues.map((l, i) => {
+            const isUnlocked = i <= currentIdx;
+            const isActive = i === currentIdx;
+            return `
+                <div class="league-item ${isActive ? 'active' : ''} ${isUnlocked ? 'unlocked' : ''}">
+                    <div class="li-icon">${l.icon}</div>
+                    <div class="li-info">
+                        <div class="li-name" style="${isActive ? 'color:' + l.color : ''}">${l.name}</div>
+                        <div class="li-req">حداقل میانگین: ${fa(l.minAvg)} ساعت در روز</div>
+                    </div>
+                    <div class="li-check">✓</div>
+                </div>
+            `;
+        }).join('');
+    }
+};
+
+// اطمینان از اینکه go لیگ رو رندر میکنه
+if (typeof go !== 'undefined') {
+    const originalGoFinal = go;
+    window.go = function(id) {
+        originalGoFinal(id);
+        if (id === 'league') setTimeout(() => { GardenPro.renderLeaguePage(); }, 50);
+    };
+}
+
+
+// ============ BIND CLICK TO WIDGET ============
+setTimeout(() => {
+    const widget = document.getElementById('launcherWidget');
+    if (widget) {
+        widget.style.cursor = 'pointer';
+        widget.onclick = function(e) {
+            // جلوگیری از باز شدن اگر روی دکمه‌های خاصی کلیک شد (در صورت وجود)
+            e.preventDefault();
+            if (typeof StudyEditor !== 'undefined') {
+                StudyEditor.open();
+            } else {
+                console.error('StudyEditor is not defined!');
+            }
+        };
+    }
+}, 1000);
+
+
+// ============ JALALI MODAL & EDITOR FIX ============
+window.StudyEditor = {
+    open: function() {
+        document.getElementById('studyEditorModal').classList.add('active');
+        const dateInput = document.getElementById('editDate');
+        const t = today();
+        const sh = getShamsi(new Date());
+        
+        // نمایش تاریخ شمسی در فیلد
+        dateInput.value = sh.y + '/' + pad2(sh.m) + '/' + pad2(sh.d);
+        // ذخیره تاریخ میلادی در پس‌زمینه برای دیتابیس
+        dateInput.dataset.gregorian = t;
+        
+        document.getElementById('editMinutes').value = '';
+        document.getElementById('editMinutes').focus();
+    },
+    close: function() {
+        document.getElementById('studyEditorModal').classList.remove('active');
+    },
+    save: function() {
+        const dateInput = document.getElementById('editDate');
+        const date = dateInput.dataset.gregorian || today();
+        const subj = document.getElementById('editSubject').value;
+        const min = parseInt(document.getElementById('editMinutes').value);
+        
+        if (!min || min <= 0) return toast('لطفاً دقیقه معتبر وارد کنید');
+        
+        const log = getData('ilia-log', []);
+        log.push({ date, hours: min / 60, subject: subj, ts: Date.now() });
+        setData('ilia-log', log);
+        
+        const sessions = getData('ilia-sessions', []);
+        sessions.push({ id: Date.now(), date, subj, min, topic: 'ثبت سریع', pages: 0, tests: 0, ts: Date.now() });
+        setData('ilia-sessions', sessions);
+        
+        this.close();
+        toast('✅ مطالعه برای تاریخ ' + dateInput.value + ' ثبت شد');
+        
+        // رفرش همه بخش‌ها
+        if (typeof refreshAppData === 'function') refreshAppData();
+        if (typeof updateLauncherWidget === 'function') updateLauncherWidget();
+        if (typeof GardenPro !== 'undefined' && GardenPro.renderGarden) GardenPro.renderGarden();
+        if (typeof GardenPro !== 'undefined' && GardenPro.renderLeaguePage) GardenPro.renderLeaguePage();
+        if (typeof renderStats === 'function') renderStats();
+        if (typeof renderSessions === 'function') renderSessions();
+    }
+};
+
+// بازنویسی انتخاب تاریخ در تقویم شمسی
+window.JalaliPicker.select = function(d) {
+    const jDateStr = this.currentY + '/' + pad2(this.currentM) + '/' + pad2(d);
+    if (this.targetInput) {
+        this.targetInput.value = jDateStr;
+        
+        // تبدیل به میلادی برای ذخیره در دیتابیس
+        const g = jalaliToGregorian(this.currentY, this.currentM, d);
+        const gStr = g[0] + '-' + pad2(g[1]) + '-' + pad2(g[2]);
+        this.targetInput.dataset.gregorian = gStr;
+    }
+    this.close();
+};
+
+// بازنویسی رندر تقویم برای هایلایت درست روز انتخاب شده
+window.JalaliPicker.render = function() {
+    const months = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+    document.getElementById('jpTitle').textContent = months[this.currentM - 1] + ' ' + fa(this.currentY);
+    
+    const daysInMonth = jalaliDaysInMonth(this.currentY, this.currentM);
+    const firstDayG = jalaliToGregorian(this.currentY, this.currentM, 1);
+    const firstDayDate = new Date(firstDayG[0], firstDayG[1]-1, firstDayG[2]);
+    const startDayOfWeek = (firstDayDate.getDay() + 1) % 7; 
+    
+    let html = '';
+    const wDays = ['ش','ی','د','س','چ','پ','ج'];
+    wDays.forEach(d => html += '<div class="jp-day-name">' + d + '</div>');
+    
+    for (let i = 0; i < startDayOfWeek; i++) html += '<div class="jp-day empty"></div>';
+    
+    const todaySh = getShamsi();
+    let selectedStr = this.targetInput ? this.targetInput.value : '';
+    
+    // اگر input تاریخ شمسی ندارد، از تاریخ میلادی ذخیره شده آن را تبدیل کن
+    if (this.targetInput && this.targetInput.dataset.gregorian) {
+        const gParts = this.targetInput.dataset.gregorian.split('-');
+        const sh = getShamsi(new Date(gParts[0], gParts[1]-1, gParts[2]));
+        selectedStr = sh.y + '/' + pad2(sh.m) + '/' + pad2(sh.d);
+    }
+    
+    for (let d = 1; d <= daysInMonth; d++) {
+        let cls = 'jp-day';
+        if (this.currentY === todaySh.y && this.currentM === todaySh.m && d === todaySh.d) cls += ' today';
+        
+        const thisDateStr = this.currentY + '/' + pad2(this.currentM) + '/' + pad2(d);
+        if (selectedStr === thisDateStr) cls += ' selected';
+        
+        html += '<div class="' + cls + '" onclick="JalaliPicker.select(' + d + ')">' + fa(d) + '</div>';
+    }
+    document.getElementById('jpGrid').innerHTML = html;
+};
+
+
+// اضافه کردن متدهای ناوبری تاریخ به StudyEditor
+StudyEditor.changeDate = function(delta) {
+    const dateInput = document.getElementById('editDate');
+    let currentGreg = dateInput.dataset.gregorian || today();
+    
+    // تبدیل رشته میلادی به آبجکت Date
+    let d = new Date(currentGreg + 'T00:00:00');
+    d.setDate(d.getDate() + delta);
+    
+    const todayStr = today();
+    const newGregStr = localDate(d);
+    
+    // جلوگیری از رفتن به آینده
+    if (newGregStr > todayStr) {
+        return;
+    }
+    
+    // آپدیت دیتاست و UI
+    dateInput.dataset.gregorian = newGregStr;
+    const sh = getShamsi(d);
+    dateInput.value = sh.y + '/' + pad2(sh.m) + '/' + pad2(sh.d);
+    
+    // چک کردن وضعیت دکمه روز بعد
+    this.updateNextButton(newGregStr);
+};
+
+StudyEditor.updateNextButton = function(gregStr) {
+    const btn = document.getElementById('btnNextDay');
+    if (btn) {
+        if (gregStr === today()) {
+            btn.disabled = true;
+            btn.style.opacity = '0.3';
+            btn.style.cursor = 'not-allowed';
+        } else {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
+        }
+    }
+};
+
+// بازنویسی تابع open برای آپدیت اولیه دکمه‌ها
+const originalEditorOpen = StudyEditor.open;
+StudyEditor.open = function() {
+    originalEditorOpen();
+    const dateInput = document.getElementById('editDate');
+    // اگر تاریخ تنظیم نشده بود، امروز را ست کن
+    if (!dateInput.dataset.gregorian) {
+        dateInput.dataset.gregorian = today();
+        const sh = getShamsi();
+        dateInput.value = sh.y + '/' + pad2(sh.m) + '/' + pad2(sh.d);
+    }
+    this.updateNextButton(dateInput.dataset.gregorian);
+};
+
+// بازنویسی انتخاب تقویم برای آپدیت دکمه‌ها پس از انتخاب
+const originalPickerSelect = window.JalaliPicker.select;
+window.JalaliPicker.select = function(d) {
+    originalPickerSelect.call(this, d);
+    if (this.targetInput && this.targetInput.id === 'editDate') {
+        setTimeout(() => {
+            StudyEditor.updateNextButton(this.targetInput.dataset.gregorian);
+        }, 100);
+    }
+};
+
+
+// ============ GARDEN RENDER FIX ============
+// اطمینان از اینکه هر دو نام render و renderGarden کار می‌کنند
+if (typeof GardenPro !== 'undefined') {
+    GardenPro.render = function() {
+        if (typeof GardenPro.renderGarden === 'function') {
+            GardenPro.renderGarden();
+        }
+    };
+}
+
+// اطمینان از اینکه صفحه باغ همیشه به درستی باز می‌شود
+window.renderGardenPage = function() {
+    if (typeof GardenPro !== 'undefined') {
+        if (typeof GardenPro.renderGarden === 'function') {
+            GardenPro.renderGarden();
+        } else if (typeof GardenPro.render === 'function') {
+            GardenPro.render();
+        }
+    }
+};

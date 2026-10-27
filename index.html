@@ -726,7 +726,14 @@
             با افزایش میانگین مطالعه روزانه (در ۷ روز اخیر)، در لیگ‌های بالاتر قرار می‌گیری. هر لیگ نشان‌دهنده تعهد و تلاش توست!
         </p>
         
-        <div class="league-current-card" id="leagueCurrentCard">
+        
+<div class="league-tabs">
+    <button class="lt-btn active" onclick="GardenPro.switchLeagueTab('weekly', this)">هفتگی</button>
+    <button class="lt-btn" onclick="GardenPro.switchLeagueTab('monthly', this)">ماهانه</button>
+    <button class="lt-btn" onclick="GardenPro.switchLeagueTab('alltime', this)">کلی (از ابتدا)</button>
+</div>
+
+<div class="league-current-card" id="leagueCurrentCard">
             <!-- لیگ فعلی اینجا لود می‌شود -->
         </div>
 
@@ -1079,6 +1086,41 @@
             <!-- نتیجه اینجا نمایش داده می‌شود -->
         </div>
         <button style="margin-top:20px; background:transparent; border:1px solid #fff; color:#fff; padding:8px 16px; border-radius:20px; cursor:pointer;" onclick="document.getElementById('moodModal').style.display='none'">بستن</button>
+    </div>
+</div>
+
+
+<div class="modal-overlay" id="studyEditorModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3>📝 ثبت / ویرایش مطالعه</h3>
+            <button class="modal-close" onclick="StudyEditor.close()">✕</button>
+        </div>
+        <div class="modal-body">
+            
+            <label>تاریخ ثبت</label>
+            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 15px;">
+                <button type="button" class="btn btn-secondary" onclick="StudyEditor.changeDate(-1)" style="padding: 10px; font-size: 1.2em; flex: 0 0 auto; border-radius: 12px;">❮</button>
+                <input type="text" id="editDate" class="inp" readonly onclick="if(typeof JalaliPicker !== 'undefined') JalaliPicker.open(this)" placeholder="انتخاب تاریخ" style="margin-bottom: 0; text-align: center; font-weight: bold; font-size: 1.1em;">
+                <button type="button" class="btn btn-secondary" id="btnNextDay" onclick="StudyEditor.changeDate(1)" style="padding: 10px; font-size: 1.2em; flex: 0 0 auto; border-radius: 12px;">❯</button>
+            </div>
+
+            
+            <label>درس</label>
+            <select id="editSubject" class="inp">
+                <option value="ریاضی">ریاضی</option><option value="فیزیک">فیزیک</option>
+                <option value="هندسه">هندسه</option><option value="شیمی">شیمی</option>
+                <option value="عربی">عربی</option><option value="زبان">زبان</option>
+                <option value="فارسی">فارسی</option><option value="دینی">دینی</option>
+                <option value="جغرافیا">جغرافیا</option><option value="نگارش">نگارش</option>
+                <option value="مطالعه آزاد">مطالعه آزاد</option>
+            </select>
+
+            <label>مدت زمان (دقیقه)</label>
+            <input type="number" id="editMinutes" class="inp" placeholder="مثلاً ۴۵" min="1">
+            
+            <button class="btn btn-primary btn-block" onclick="StudyEditor.save()" style="margin-top:15px;">💾 ثبت اطلاعات</button>
+        </div>
     </div>
 </div>
 
