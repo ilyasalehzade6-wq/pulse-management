@@ -1,7 +1,7 @@
 :root {
-  --primary:#667eea; --primary-dark:#5568d3; --secondary:#764ba2;
+  --primary:#009688; --primary-dark:#00796b; --secondary:#00897b;
   --accent:#f39c12; --success:#27ae60; --danger:#e74c3c; --info:#3498db;
-  --bg:#f7fafc; --bg-card:#fff; --text:#2d3748; --text-light:#718096;
+  --bg:#f4f6f8; --bg-card:#fff; --text:#2d3748; --text-light:#718096;
   --border:#e2e8f0; --shadow:0 2px 12px rgba(0,0,0,0.06);
   --shadow-lg:0 10px 40px rgba(0,0,0,0.12);
   --nav-h:68px;
@@ -18,7 +18,7 @@ html,body{overflow-x:hidden;width:100%;max-width:100vw;position:relative}
 body{font-family:'Vazirmatn',Tahoma,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;padding-bottom:calc(var(--nav-h) + 20px);transition:background .3s,color .3s}
 .container{max-width:900px;margin:0 auto;padding:0 2px}
 
-header{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;padding:18px;text-align:center;position:relative;overflow:hidden}
+header{background:var(--primary);color:#fff;padding:16px;text-align:center;position:relative;overflow:hidden}
 header::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.1),transparent 70%);animation:rot 25s linear infinite}
 @keyframes rot{to{transform:rotate(360deg)}}
 header h1{font-size:1.1em;font-weight:700;position:relative;z-index:1;margin-bottom:8px}
@@ -906,3 +906,416 @@ body.simple-mode .simple-indicator { display: block; }
   .tech-body{display:block!important}
   .week-tabs{display:none!important}
 }
+
+/* ============ NIMKAT STYLE GRID ============ */
+.nimkat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 16px 12px;
+  margin-bottom: 12px;
+}
+@media (min-width: 600px) {
+  .nimkat-grid { grid-template-columns: repeat(4, 1fr); }
+}
+.nimkat-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid rgba(0,0,0,0.02);
+}
+.nimkat-card:active {
+  transform: scale(0.95);
+  box-shadow: 0 1px 5px rgba(0,0,0,0.02);
+}
+.nimkat-icon {
+  font-size: 2em;
+  line-height: 1;
+}
+.nimkat-title {
+  font-size: 0.75em;
+  font-weight: 700;
+  color: #334155;
+  text-align: center;
+}
+[data-theme="dark"] .nimkat-card { background: #1e293b; border-color: #334155; }
+[data-theme="dark"] .nimkat-title { color: #cbd5e1; }
+
+
+/* ============ HIDE OLD DASHBOARD ELEMENTS ============ */
+#dashboard > div:not(.nimkat-grid):not(#apkBanner),
+#dashboard > h3,
+#dashboard > .card,
+#dashboard > .grid-2,
+#dashboard > .grid-3,
+#dashboard > .action-tile {
+  display: none !important;
+}
+#dashboard .nimkat-grid {
+  display: grid !important;
+  margin-top: 10px;
+}
+
+
+/* ============ LAUNCHER MODE ============ */
+header, .bottom-nav, .more-menu, .wizard-fab { display: none !important; }
+body { padding-bottom: 20px !important; margin: 0; background: var(--bg); }
+.container { padding-top: 20px; }
+.nimkat-grid { margin-top: 15px; gap: 15px; padding: 10px; }
+.nimkat-card { padding: 20px 10px; border-radius: 16px; }
+
+/* دکمه شناور بازگشت به خانه */
+.floating-back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 20px;
+    font-family: inherit;
+    font-size: 0.9em;
+    font-weight: 800;
+    cursor: pointer;
+    z-index: 10000;
+    box-shadow: 0 4px 15px rgba(0,150,136,0.4);
+    display: none;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s;
+}
+.floating-back-btn:active { transform: scale(0.95); }
+
+
+/* ============ FINAL LAUNCHER FIX ============ */
+#dashboard > *:not(.nimkat-grid) {
+    display: none !important;
+}
+
+
+/* ============ ULTIMATE LAUNCHER CSS ============ */
+header, .bottom-nav, .more-menu, .wizard-fab { display: none !important; }
+body { padding: 0 !important; background: var(--bg); }
+
+#dashboard > * { display: none !important; } /* مخفی کردن همه چیز در داشبورد */
+#dashboard > .nimkat-grid { 
+    display: grid !important; 
+    grid-template-columns: repeat(3, 1fr) !important; 
+    gap: 12px !important; 
+    padding: 20px 15px !important; 
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.nimkat-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #fff !important;
+    padding: 15px 5px !important;
+    border-radius: 14px !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
+    cursor: pointer !important;
+    aspect-ratio: 1 / 1 !important; /* دکمه‌ها مربع می‌شن */
+    min-width: 0 !important;
+    border: 1px solid rgba(0,0,0,0.03) !important;
+    transition: transform 0.1s !important;
+}
+.nimkat-card:active { transform: scale(0.95) !important; }
+.nimkat-icon { font-size: 2.2em !important; margin-bottom: 10px !important; line-height: 1 !important; }
+.nimkat-title { font-size: 0.75em !important; font-weight: 800 !important; text-align: center !important; color: #334155 !important; }
+
+/* استایل دکمه بازگشت */
+.floating-back-btn {
+    position: fixed; top: 15px; left: 15px;
+    background: var(--primary); color: #fff;
+    border: none; border-radius: 50px;
+    padding: 10px 18px; font-family: inherit;
+    font-size: 0.85em; font-weight: bold;
+    cursor: pointer; z-index: 10000;
+    box-shadow: 0 4px 15px rgba(0,150,136,0.4);
+    display: none; align-items: center; gap: 8px;
+}
+
+[data-theme="dark"] .nimkat-card { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .nimkat-title { color: #cbd5e1 !important; }
+
+
+/* ============ LAUNCHER FAB ============ */
+.wizard-fab {
+    display: flex !important; /* بازگرداندن دکمه مخفی شده */
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 150, 136, 0.4);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.wizard-fab:active { transform: scale(0.9); }
+
+
+/* ============ V2 LAUNCHER STYLES ============ */
+.category-title {
+    font-size: 1em;
+    font-weight: 800;
+    color: var(--text-light);
+    margin: 25px 20px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.category-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    margin-right: 10px;
+}
+
+/* ویجت هدف امروز */
+.launcher-widget {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #fff;
+    margin: 15px;
+    padding: 18px 20px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0, 150, 136, 0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+}
+.launcher-widget::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 60%);
+    animation: rot 20s linear infinite;
+}
+.lw-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    font-weight: 800;
+    font-size: 1.05em;
+}
+.lw-progress-bg {
+    background: rgba(255,255,255,0.25);
+    height: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+.lw-progress-fill {
+    height: 100%;
+    background: #fff;
+    border-radius: 10px;
+    transition: width 0.8s ease;
+}
+.lw-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82em;
+    opacity: 0.95;
+    position: relative;
+    z-index: 1;
+}
+
+/* اصلاح حالت تاریک برای کارت‌ها */
+[data-theme="dark"] .category-title { color: #94a3b8; }
+[data-theme="dark"] .nimkat-card { background: #1e293b !important; border: 1px solid #334155 !important; }
+[data-theme="dark"] .nimkat-title { color: #e2e8f0 !important; }
+
+
+/* ============ V3 FIX: LAUNCHER WIDGET & SIZES ============ */
+/* 1. اجازه دادن به ویجت و عنوان‌ها برای نمایش */
+#dashboard > .launcher-widget { display: flex !important; }
+#dashboard > .category-title { display: flex !important; }
+
+/* 2. اصلاح سایز دکمه‌ها در دسکتاپ (تا دیگه غول‌پیکر نشن) */
+.nimkat-grid {
+    max-width: 800px !important;
+    margin: 0 auto !important;
+}
+.nimkat-card {
+    max-width: 140px !important;
+    max-height: 140px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+}
+/* در موبایل دکمه‌ها تمام عرض رو بگیرن */
+@media (max-width: 768px) {
+    .nimkat-card { 
+        max-width: none !important; 
+        max-height: none !important; 
+    }
+}
+
+
+/* ============ V4 FORCE SHOW WIDGET & CATEGORIES ============ */
+/* 1. اجازه دادن به ویجت، عنوان‌ها و شبکه دکمه‌ها برای نمایش */
+#dashboard {
+    display: block !important;
+}
+#dashboard > .launcher-widget,
+#dashboard > .category-title {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+#dashboard > .nimkat-grid {
+    display: grid !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* 2. مخفی کردن دقیق و امن فقط المان‌های قدیمی (اگر هنوز در HTML وجود دارند) */
+#dashboard > #nowContainer,
+#dashboard > #todayTotalContainer,
+#dashboard > #tomorrowContainer,
+#dashboard > #reviewContainer,
+#dashboard > #autoPlanContainer,
+#dashboard > #makeupContainer,
+#dashboard > #fridayContainer,
+#dashboard > #chaptersDashContainer,
+#dashboard > #alertContainer,
+#dashboard > #phaseContainer,
+#dashboard > #classesContainer,
+#dashboard > #todayReportsContainer,
+#dashboard > #countdownGrid,
+#dashboard > #todaySchedule,
+#dashboard > #apkBanner,
+#dashboard > .card,
+#dashboard > .grid-2,
+#dashboard > .action-tile,
+#dashboard > h3 {
+    display: none !important;
+}
+
+
+/* ============ ABSOLUTE FINAL FIX ============ */
+/* 1. فقط صفحه فعال دیده شود، بقیه کاملاً مخفی شوند */
+section { display: none !important; }
+section.active { display: block !important; }
+
+/* 2. استایل ویجت */
+.launcher-widget { display: flex !important; margin-bottom: 20px; }
+.category-title { display: flex !important; }
+.nimkat-grid { display: grid !important; }
+
+/* 3. اصلاح سایز دکمه‌ها در دسکتاپ */
+.nimkat-grid { max-width: 800px !important; margin: 0 auto !important; }
+.nimkat-card { 
+    max-width: 140px !important; 
+    max-height: 140px !important; 
+    margin: 0 auto !important; 
+    width: 100% !important; 
+    aspect-ratio: 1/1 !important;
+}
+@media (max-width: 768px) {
+    .nimkat-card { max-width: none !important; max-height: none !important; }
+}
+
+
+/* ============ FIX: DASHBOARD VISIBILITY ============ */
+/* زورگویی قبلی رو خنثی می‌کنیم تا وقتی صفحه فعال نیست، کاملاً مخفی بشه */
+#dashboard:not(.active) {
+    display: none !important;
+}
+#dashboard.active {
+    display: block !important;
+}
+
+
+/* ============ V3 NATIVE FEEL & ANIMATIONS ============ */
+/* 1. انیمیشن ورود صفحات */
+section.active {
+    animation: slideUpFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 2. افکت لمس دکمه‌ها (Hover و Active) */
+.nimkat-card {
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s ease !important;
+}
+.nimkat-card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
+}
+.nimkat-card:active {
+    transform: scale(0.94) !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 3. انیمیشن دکمه شناور (FAB) */
+.wizard-fab {
+    animation: fabPulse 2s infinite !important;
+}
+@keyframes fabPulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 150, 136, 0.5); }
+    70% { box-shadow: 0 0 0 12px rgba(0, 150, 136, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 150, 136, 0); }
+}
+
+/* 4. نرم شدن تغییر تم تاریک/روشن */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+/* ============ MODERN UI & JALALI PICKER ============ */
+/* ظاهر مدرن فرم‌ها و کارت‌ها */
+.inp, .set-input, select.inp {
+    border-radius: 12px !important;
+    border: 1.5px solid var(--border) !important;
+    background: var(--bg-card) !important;
+    padding: 12px 16px !important;
+    font-size: 0.95em !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02) !important;
+}
+.inp:focus { border-color: var(--primary) !important; box-shadow: 0 0 0 4px rgba(0, 150, 136, 0.15) !important; outline: none !important; }
+.card { border-radius: 18px !important; box-shadow: 0 8px 30px rgba(0,0,0,0.06) !important; border: 1px solid rgba(0,0,0,0.03) !important; }
+.btn { border-radius: 12px !important; padding: 14px 20px !important; font-weight: 800 !important; letter-spacing: 0.3px; }
+.btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important; border: none !important; }
+
+/* استایل تقویم شمسی */
+.jalali-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 99999; display: none; align-items: center; justify-content: center; }
+.jalali-modal.active { display: flex; animation: fadeIn 0.2s ease; }
+.jalali-box { background: var(--bg-card); width: 90%; max-width: 340px; border-radius: 20px; padding: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.3); }
+.jp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-weight: 800; color: var(--primary); font-size: 1.1em; }
+.jp-nav { background: transparent; border: none; font-size: 1.2em; cursor: pointer; color: var(--text); width: 32px; height: 32px; border-radius: 50%; }
+.jp-nav:hover { background: var(--bg); }
+.jp-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
+.jp-day-name { font-size: 0.75em; color: var(--text-light); font-weight: 700; margin-bottom: 5px; }
+.jp-day { padding: 8px 0; border-radius: 8px; cursor: pointer; font-size: 0.9em; transition: all 0.2s; font-variant-numeric: tabular-nums; }
+.jp-day:hover { background: var(--bg); }
+.jp-day.today { border: 1.5px solid var(--primary); color: var(--primary); font-weight: bold; }
+.jp-day.selected { background: var(--primary); color: #fff; font-weight: bold; }
+.jp-day.empty { cursor: default; }

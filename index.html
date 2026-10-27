@@ -16,6 +16,12 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<!-- Global Back Button -->
+<button class="floating-back-btn" id="globalBackBtn" onclick="go('dashboard')">
+    <span>⬅</span> بازگشت به خانه
+</button>
+
 <a href="#dashboard" class="skip-link">پرش به محتوا</a>
 
 <header>
@@ -38,42 +44,64 @@
 <div class="container">
 <div class="content">
 
+
+
 <section id="dashboard" class="active">
-  <div id="apkBanner"></div>
-  <div id="alertContainer"></div>
-  <div id="phaseContainer"></div>
-  <div id="classesContainer"></div>
-  <div id="tomorrowContainer"></div>
-  <div id="todayReportsContainer"></div>
-  <div id="todayTotalContainer"></div>
-  <div id="reviewContainer"></div>
-  <div id="autoPlanContainer"></div>
-  <div id="makeupContainer"></div>
-  <div id="nowContainer"></div>
-  <div id="fridayContainer"></div>
-  <div id="chaptersDashContainer"></div>
+    <div class="launcher-widget" id="launcherWidget" style="display:flex !important;">
+        <div class="lw-header">
+            <span>🎯 هدف امروز</span>
+            <span id="lw-percent">۰٪</span>
+        </div>
+        <div class="lw-progress-bg">
+            <div class="lw-progress-fill" id="lw-fill" style="width: 0%"></div>
+        </div>
+        <div class="lw-meta">
+            <span>خوندی: <b id="lw-hours">۰</b> ساعت</span>
+            <span>هدف: <b id="lw-goal">۰</b> ساعت</span>
+        </div>
+    </div>
 
-  <h3 style="margin:16px 0 8px;font-size:.95em;color:var(--text-light)">⏳ شمارش معکوس</h3>
-  <div class="countdown-grid" id="countdownGrid"></div>
+    <div class="category-title" style="display:flex !important;">📚 برنامه و مطالعه</div>
+    <div class="nimkat-grid">
+    <div class="nimkat-card" onclick="go('schedule')"><div class="nimkat-icon">📅</div><div class="nimkat-title">برنامه هفتگی</div></div>
+    <div class="nimkat-card" onclick="go('pomodoro')"><div class="nimkat-icon">⏱</div><div class="nimkat-title">پومودورو</div></div>
+    <div class="nimkat-card" onclick="startFocusMode()"><div class="nimkat-icon">🎯</div><div class="nimkat-title">حالت تمرکز</div></div>
+    <div class="nimkat-card" onclick="go('sourceguide')"><div class="nimkat-icon">📖</div><div class="nimkat-title">راهنمای منبع</div></div>
+    <div class="nimkat-card" onclick="go('summary')"><div class="nimkat-icon">📝</div><div class="nimkat-title">خلاصه‌نویسی</div></div>
+    <div class="nimkat-card" onclick="go('sessions')"><div class="nimkat-icon">✍️</div><div class="nimkat-title">جلسات مطالعه</div></div>
+</div>
 
-  <div class="card">
-    <h3>📋 برنامه امروز — <span id="todayName" style="color:var(--primary)"></span></h3>
-    <p style="font-size:.75em;color:var(--text-light);margin-bottom:8px">👆 روی هر مورد بزن تا راهنمای کاملش رو ببینی</p>
-    <div id="todaySchedule"></div>
-  </div>
+    <div class="category-title" style="display:flex !important;">📊 ثبت و تحلیل</div>
+    <div class="nimkat-grid">
+    <div class="nimkat-card" onclick="go('mistakes')"><div class="nimkat-icon">📕</div><div class="nimkat-title">دفتر اشتباهات</div></div>
+    <div class="nimkat-card" onclick="go('exams')"><div class="nimkat-icon">📊</div><div class="nimkat-title">تحلیل آزمون</div></div>
+    <div class="nimkat-card" onclick="go('leitner')"><div class="nimkat-icon">🗂</div><div class="nimkat-title">جعبه لایتنر</div></div>
+    <div class="nimkat-card" onclick="go('chapters')"><div class="nimkat-icon">📚</div><div class="nimkat-title">پیشرفت کتاب</div></div>
+    <div class="nimkat-card" onclick="go('weakness')"><div class="nimkat-icon">💡</div><div class="nimkat-title">تحلیل ضعف</div></div>
+    <div class="nimkat-card" onclick="go('weekly')"><div class="nimkat-icon">📈</div><div class="nimkat-title">گزارش هفتگی</div></div>
+    <div class="nimkat-card" onclick="go('todo')"><div class="nimkat-icon">✔️</div><div class="nimkat-title">کارها</div></div>
+    <div class="nimkat-card" onclick="go('goals')"><div class="nimkat-icon">🏆</div><div class="nimkat-title">اهداف</div></div>
+    <div class="nimkat-card" onclick="go('habits')"><div class="nimkat-icon">🔥</div><div class="nimkat-title">عادت‌ها</div></div>
+    <div class="nimkat-card" onclick="go('stats')"><div class="nimkat-icon">📈</div><div class="nimkat-title">آمار کلی</div></div>
+    <div class="nimkat-card" onclick="go('heatmap')"><div class="nimkat-icon">🗓</div><div class="nimkat-title">تقویم مطالعه</div></div>
+</div>
 
-  <div class="grid-2 hide-in-simple">
-    <div class="stat"><div class="stat-v" id="dbToday">۰</div><div class="stat-l">ساعت امروز</div></div>
-    <div class="stat"><div class="stat-v" id="dbStreak">۰</div><div class="stat-l">روز پیوسته</div></div>
-  </div>
-
-  <div class="grid-2">
-    <button class="action-tile" onclick="startFocusMode()"><span class="tile-icon">🎯</span><span class="tile-label">حالت تمرکز</span></button>
-    <button class="action-tile" onclick="go('pomodoro')"><span class="tile-icon">⏱</span><span class="tile-label">پومودورو</span></button>
-    <button class="action-tile" onclick="go('sourceguide')"><span class="tile-icon">📖</span><span class="tile-label">راهنمای منبع</span></button>
-    <button class="action-tile" onclick="go('summary')"><span class="tile-icon">📝</span><span class="tile-label">خلاصه‌نویسی</span></button>
-  </div>
+    <div class="category-title" style="display:flex !important;">⚙️ ابزار و تنظیمات</div>
+    <div class="nimkat-grid">
+    <div class="nimkat-card" onclick="go('health')"><div class="nimkat-icon">🛌</div><div class="nimkat-title">خواب و سلامت</div></div>
+    <div class="nimkat-card" onclick="go('rules')"><div class="nimkat-icon">⭐</div><div class="nimkat-title">قوانین</div></div>
+    <div class="nimkat-card" onclick="go('notes')"><div class="nimkat-icon">📝</div><div class="nimkat-title">یادداشت‌ها</div></div>
+    <div class="nimkat-card" onclick="go('profile')"><div class="nimkat-icon">🪪</div><div class="nimkat-title">پرونده</div></div>
+    <div class="nimkat-card" onclick="go('distraction')"><div class="nimkat-icon">🧠</div><div class="nimkat-title">حواس‌پرتی</div></div>
+    <div class="nimkat-card" onclick="go('checklist')"><div class="nimkat-icon">✅</div><div class="nimkat-title">چک‌لیست</div></div>
+    <div class="nimkat-card" onclick="go('techniques')"><div class="nimkat-icon">💡</div><div class="nimkat-title">تکنیک‌ها</div></div>
+    <div class="nimkat-card" onclick="go('backup')"><div class="nimkat-icon">💾</div><div class="nimkat-title">پشتیبان</div></div>
+    <div class="nimkat-card" onclick="go('settings')"><div class="nimkat-icon">⚙️</div><div class="nimkat-title">تنظیمات</div></div>
+    <div class="nimkat-card" onclick="openAssistantManual()"><div class="nimkat-icon">🎓</div><div class="nimkat-title">مشاور</div></div>
+</div>
 </section>
+
+
 
 <section id="sourceguide">
   <h2>📖 راهنمای منبع</h2>
@@ -323,6 +351,7 @@
 <section id="sessions">
   <h2>📝 جلسات مطالعه</h2>
   <div class="card">
+    <input class="inp" id="ssDate" type="text" placeholder="انتخاب تاریخ (پیش‌فرض: امروز)" readonly onclick="JalaliPicker.open(this)">
     <div class="inp-row">
       <select class="inp" id="ssSubj">
         <option>ریاضی</option><option>هندسه</option><option>فیزیک</option>
@@ -373,10 +402,11 @@
 
 <section id="exams">
   <h2>📝 تحلیل آزمون‌ها</h2>
+  <p style="font-size:0.8em; color:var(--text-light); margin-bottom:10px;">💡 محاسبه درصد با نمره منفی (هر ۳ غلط = ۱ درست)</p>
   <div class="card">
     <div class="inp-row">
       <input class="inp" id="exTitle" placeholder="عنوان">
-      <input class="inp" id="exDate" type="date">
+      <input class="inp" id="exDate" type="text" placeholder="انتخاب تاریخ (شمسی)" readonly onclick="JalaliPicker.open(this)">
     </div>
     <div class="inp-row">
       <input class="inp" id="exTotal" type="number" placeholder="کل" min="1">
@@ -437,29 +467,62 @@
   <div id="techniquesList"></div>
 </section>
 
+
 <section id="leitner">
-  <h2>🗂 جعبه لایتنر</h2>
-  <div class="card">
-    <input class="inp" id="lf" placeholder="سوال / لغت">
-    <input class="inp" id="lb" placeholder="پاسخ / معنی">
-    <button class="btn btn-success btn-block" onclick="addLeitner()">➕ اضافه</button>
-  </div>
-  <div class="card"><h3>📊 وضعیت</h3><div id="leitnerStats" style="text-align:center"></div></div>
-  <div class="card">
-    <h3>🎴 کارت امروز</h3>
-    <div class="flashcard" id="leitnerCard" onclick="flipLeitner()">
-      <div class="fc-inner">
-        <div class="fc-front" id="lv1">کارتی نیست</div>
-        <div class="fc-back" id="lv2">اضافه کن!</div>
+  <div class="container" style="padding-top:20px;">
+    <h2>🗂 جعبه لایتنر</h2>
+    <div class="card">
+      <div class="inp-row">
+        <input class="inp" id="lf" placeholder="سوال / لغت">
+        <input class="inp" id="lb" placeholder="پاسخ / معنی">
+      </div>
+      <div class="inp-row">
+        <select class="inp" id="leitnerSubject">
+          <option value="ریاضی">ریاضی</option><option value="فیزیک">فیزیک</option>
+          <option value="هندسه">هندسه</option><option value="شیمی">شیمی</option>
+          <option value="عربی">عربی</option><option value="زبان">زبان</option>
+          <option value="فارسی">فارسی</option><option value="دینی">دینی</option>
+          <option value="جغرافیا">جغرافیا</option><option value="نگارش">نگارش</option>
+        </select>
+        <button class="btn btn-success" onclick="addLeitner()">➕ اضافه</button>
       </div>
     </div>
-    <div class="btn-group" style="margin-top:10px">
-      <button class="btn btn-danger" onclick="leitnerAnswer(false)">❌ نمی‌دونستم</button>
-      <button class="btn btn-success" onclick="leitnerAnswer(true)">✅ می‌دونستم</button>
+    
+    <div class="card">
+      <div style="text-align:center; margin-bottom: 10px;">
+        <label style="font-size:0.9em; font-weight:bold; margin-bottom:5px; display:block;">درس مورد نظر را انتخاب کنید:</label>
+        <select class="inp" id="filterLeitnerSubject" onchange="renderLeitner()" style="max-width:200px; margin:0 auto;">
+          <option value="all">همه درس‌ها</option>
+          <option value="ریاضی">ریاضی</option><option value="فیزیک">فیزیک</option>
+          <option value="هندسه">هندسه</option><option value="شیمی">شیمی</option>
+          <option value="عربی">عربی</option><option value="زبان">زبان</option>
+          <option value="فارسی">فارسی</option><option value="دینی">دینی</option>
+          <option value="جغرافیا">جغرافیا</option><option value="نگارش">نگارش</option>
+        </select>
+      </div>
+
+      <div class="flashcard" id="leitnerCard" onclick="flipLeitner()">
+        <div class="fc-inner">
+          <div class="fc-front" id="lv1">کارتی نیست</div>
+          <div class="fc-back" id="lv2">اضافه کن!</div>
+        </div>
+      </div>
+      
+      <div id="leitnerActions" style="margin-top:15px;">
+        <div class="btn-group" id="leitnerMainBtns">
+          <button class="btn btn-danger" onclick="leitnerAnswer(false)">❌ نمی‌دونستم</button>
+          <button class="btn btn-success" onclick="leitnerAnswer(true)">✅ می‌دونستم</button>
+        </div>
+        <div class="btn-group" id="leitnerResultBtns" style="display:none;">
+          <button class="btn btn-info" onclick="editLeitnerCard()">✏️ ویرایش</button>
+          <button class="btn btn-primary" onclick="nextLeitnerCard()">بعدی ➡</button>
+        </div>
+      </div>
+      <p style="text-align:center;color:var(--text-light);margin-top:10px;font-size:.82em" id="leitnerCounter"></p>
     </div>
-    <p style="text-align:center;color:var(--text-light);margin-top:10px;font-size:.82em" id="leitnerCounter"></p>
   </div>
 </section>
+
 
 <section id="mistakes">
   <h2>📕 دفتر اشتباهات</h2>
@@ -825,39 +888,9 @@
 </div>
 </div>
 
-<nav class="bottom-nav">
-  <button class="active" data-t="dashboard" aria-label="خانه" onclick="go('dashboard')"><span class="ico">🏠</span><span>خانه</span></button>
-  <button data-t="schedule" aria-label="برنامه" onclick="go('schedule')"><span class="ico">📅</span><span>برنامه</span></button>
-  <button data-t="health" aria-label="سلامت" onclick="go('health')"><span class="ico">🛌</span><span>سلامت</span></button>
-  <button data-t="weakness" data-adv="1" aria-label="تحلیل" onclick="go('weakness')"><span class="ico">💡</span><span>تحلیل</span></button>
-  <button data-t="more" aria-label="منوی بیشتر" onclick="toggleMore()"><span class="ico">⋯</span><span>بیشتر</span></button>
-</nav>
+<!-- Bottom Nav Removed for Launcher Mode -->
 
-<div class="more-menu" id="moreMenu">
-  <button onclick="go('sourceguide');closeMore()" data-adv="1"><span class="ico">📖</span>منبع</button>
-  <button onclick="go('summary');closeMore()" data-adv="1"><span class="ico">📝</span>خلاصه</button>
-  <button onclick="go('checklist');closeMore()" data-adv="1"><span class="ico">✅</span>چک‌لیست</button>
-  <button onclick="go('sessions');closeMore()"><span class="ico">📝</span>جلسات</button>
-  <button onclick="go('distraction');closeMore()" data-adv="1"><span class="ico">🧠</span>حواس‌پرتی</button>
-  <button onclick="go('exams');closeMore()" data-adv="1"><span class="ico">📝</span>آزمون‌ها</button>
-  <button onclick="go('journal');closeMore()" data-adv="1"><span class="ico">🌙</span>ژورنال</button>
-  <button onclick="go('weekly');closeMore()" data-adv="1"><span class="ico">📊</span>گزارش</button>
-  <button onclick="go('techniques');closeMore()" data-adv="1"><span class="ico">🧠</span>تکنیک</button>
-  <button onclick="go('leitner');closeMore()" data-adv="1"><span class="ico">🗂</span>لایتنر</button>
-  <button onclick="go('mistakes');closeMore()" data-adv="1"><span class="ico">📕</span>اشتباهات</button>
-  <button onclick="go('grades');closeMore()" data-adv="1"><span class="ico">📊</span>نمرات</button>
-  <button onclick="go('todo');closeMore()" data-adv="1"><span class="ico">✔️</span>کارها</button>
-  <button onclick="go('goals');closeMore()" data-adv="1"><span class="ico">🎯</span>اهداف</button>
-  <button onclick="go('habits');closeMore()" data-adv="1"><span class="ico">🔥</span>عادت‌ها</button>
-  <button onclick="go('stats');closeMore()" data-adv="1"><span class="ico">📈</span>آمار</button>
-  <button onclick="go('profile');closeMore()" data-adv="1"><span class="ico">🪪</span>پرونده</button>
-  <button onclick="go('rules');closeMore()" data-adv="1"><span class="ico">⭐</span>قوانین</button>
-  <button onclick="go('notes');closeMore()"><span class="ico">📝</span>یادداشت</button>
-  <button onclick="go('backup');closeMore()"><span class="ico">💾</span>پشتیبان</button>
-  <button onclick="go('settings');closeMore()"><span class="ico">⚙️</span>تنظیمات</button>
-  <button onclick="go('chapters');closeMore()" data-adv="1"><span class="ico">📚</span>پیشرفت کتاب</button>
-  <button onclick="go('heatmap');closeMore()" data-adv="1"><span class="ico">📅</span>تقویم</button>
-</div>
+<!-- More Menu Removed -->
 
 <div class="assistant-overlay" id="assistantOverlay" role="dialog" aria-modal="true" aria-label="مشاور تحصیلی" onclick="if(event.target===this)closeAssistant()">
   <div class="assistant-modal">
@@ -889,7 +922,7 @@
   </div>
 </div>
 
-<button class="wizard-fab" id="wizardFab" aria-label="ثبت سریع" onclick="WIZARD.open()" title="ثبت سریع">📝</button>
+<!-- Wizard FAB Removed -->
 <div class="wizard-overlay" id="wizardOverlay" role="dialog" aria-modal="true" aria-label="ثبت سریع" onclick="if(event.target===this)WIZARD.close()">
   <div class="wizard-modal">
     <div class="wizard-header">
@@ -907,6 +940,25 @@
 </div>
 <div class="toast" id="toast" aria-live="polite" aria-atomic="true"></div>
 
+<script src="db.js"></script>
 <script src="app.js"></script>
+
+    <!-- Quick Add FAB -->
+    <button class="wizard-fab" id="fabBtn" onclick="WIZARD.open()" title="ثبت سریع">
+        <span style="font-size: 1.5em; font-weight: bold;">+</span>
+    </button>
+    
+
+<div class="jalali-modal" id="jalaliModal" onclick="if(event.target===this)JalaliPicker.close()">
+  <div class="jalali-box">
+    <div class="jp-header">
+      <button class="jp-nav" onclick="JalaliPicker.prevMonth()">❯</button>
+      <span id="jpTitle">مهر ۱۴۰۵</span>
+      <button class="jp-nav" onclick="JalaliPicker.nextMonth()">❮</button>
+    </div>
+    <div class="jp-grid" id="jpGrid"></div>
+  </div>
+</div>
+
 </body>
 </html>

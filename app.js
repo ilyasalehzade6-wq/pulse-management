@@ -254,20 +254,198 @@ function getShamsi(d) {
   return {y: jy, m: jm, d: jd, monthName: JALALI_MONTHS[jm-1], dayName: WEEK_DAYS_FA[dt.getDay()], jsDay: dt.getDay()};
 }
 
+
+// ============ CUSTOM JALALI DATE PICKER ============
+window.JalaliPicker = {
+    currentY: 0, currentM: 0,
+    targetInput: null,
+    open: function(inputEl) {
+        this.targetInput = inputEl;
+        const todaySh = getShamsi();
+        this.currentY = todaySh.y;
+        this.currentM = todaySh.m;
+        document.getElementById('jalaliModal').classList.add('active');
+        this.render();
+    },
+    close: function() { document.getElementById('jalaliModal').classList.remove('active'); },
+    prevMonth: function() {
+        this.currentM--;
+        if (this.currentM < 1) { this.currentM = 12; this.currentY--; }
+        this.render();
+    },
+    nextMonth: function() {
+        this.currentM++;
+        if (this.currentM > 12) { this.currentM = 1; this.currentY++; }
+        this.render();
+    },
+    render: function() {
+        const months = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+        document.getElementById('jpTitle').textContent = months[this.currentM - 1] + ' ' + fa(this.currentY);
+        
+        const daysInMonth = jalaliDaysInMonth(this.currentY, this.currentM);
+        // پیدا کردن روز هفته اول ماه
+        const firstDayG = jalaliToGregorian(this.currentY, this.currentM, 1);
+        const firstDayDate = new Date(firstDayG[0], firstDayG[1]-1, firstDayG[2]);
+        const startDayOfWeek = (firstDayDate.getDay() + 1) % 7; // شنبه=0، یکشنبه=1 ...
+        
+        let html = '';
+        const wDays = ['ش','ی','د','س','چ','پ','ج'];
+        wDays.forEach(d => html += '<div class="jp-day-name">' + d + '</div>');
+        
+        for (let i = 0; i < startDayOfWeek; i++) html += '<div class="jp-day empty"></div>';
+        
+        const today = getShamsi();
+        let selectedStr = this.targetInput ? this.targetInput.value : '';
+        
+        for (let d = 1; d <= daysInMonth; d++) {
+            let cls = 'jp-day';
+            if (this.currentY === today.y && this.currentM === today.m && d === today.d) cls += ' today';
+            
+            // بررسی انتخاب شده بودن
+            const thisDateStr = this.currentY + '-' + pad2(this.currentM) + '-' + pad2(d);
+            if (selectedStr === thisDateStr) cls += ' selected';
+            
+            html += '<div class="' + cls + '" onclick="JalaliPicker.select(' + d + ')">' + fa(d) + '</div>';
+        }
+        document.getElementById('jpGrid').innerHTML = html;
+    },
+    select: function(d) {
+        const dateStr = this.currentY + '-' + pad2(this.currentM) + '-' + pad2(d);
+        if (this.targetInput) this.targetInput.value = dateStr;
+        this.close();
+        // اگر ورودی مربوط به جلسات است، تاریخ پیش‌فرض رو ست کن
+        if (this.targetInput.id === 'exDate') document.getElementById('exDate').focus();
+    }
+};
+
+// ============ GLOBAL REFRESH (اتصال همه بخش‌ها) ============
+function refreshAppData() {
+    try { if (typeof renderTodayTotal === 'function') renderTodayTotal(); } catch(e){}
+    try { if (typeof updateLauncherWidget === 'function') updateLauncherWidget(); } catch(e){}
+    try { if (typeof scanDeficits === 'function') scanDeficits(); } catch(e){}
+    try { if (typeof renderMakeupCard === 'function') renderMakeupCard(); } catch(e){}
+    try { if (typeof renderStats === 'function') renderStats(); } catch(e){}
+    try { if (typeof renderNow === 'function') renderNow(); } catch(e){}
+    try { if (typeof renderTodaySchedule === 'function') renderTodaySchedule(); } catch(e){}
+    try { if (typeof renderExams === 'function') renderExams(); } catch(e){}
+    try { if (typeof renderSessions === 'function') renderSessions(); } catch(e){}
+    console.log('🔄 تمام داده‌ها و ویجت‌ها آپدیت شدند.');
+}
+
 // ============= داده‌ها =============
-const SCHOOL_SCHEDULE = { 6:['هندسه','دفاعی','فارسی','شیمی'],0:['فیزیک','نگارش','ریاضی','جغرافیا'],1:['دینی','زبان','شیمی','آزمایشگاه'],2:['فیزیک','زبان','عربی','ریاضی'],3:['ورزش','ریاضی','تفکر'],4:[],5:[] };
+
+
+const SCHOOL_SCHEDULE = { 
+  6: ['آمادگی دفاعی', 'فارسی', 'نگارش', 'شیمی'],
+  0: ['ریاضی', 'تفکر', 'فیزیک', 'جغرافیا'],
+  1: ['دینی', 'شیمی', 'زبان', 'آزمایشگاه'],
+  2: ['فیزیک', 'هندسه', 'عربی', 'ریاضی'],
+  3: [], // چهارشنبه تعطیل
+  4: [], 
+  5: [] 
+};
 const SUBJECT_ICONS = {'هندسه':'📏','دفاعی':'🛡','فارسی':'📜','شیمی':'🧪','آزمایشگاه':'🔬','فیزیک':'⚛️','نگارش':'✍️','ریاضی':'📐','جغرافیا':'🌍','دینی':'📖','زبان':'🌐','عربی':'🕌','ورزش':'⚽','تفکر':'💭','انگلیسی':'🌐'};
 const ALL_SUBJECTS = ['ریاضی','فیزیک','هندسه','شیمی','عربی','زبان','فارسی','نگارش','جغرافیا','دینی','تفکر','دفاعی','آزمایشگاه'];
 
-const SCHEDULE = {
-  6:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور لغت","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور هندسه","study","📏"],["21:30","22:15","مرور شیمی","study","🧪"],["22:30","23:59","خواب","sleep","😴"]],
-  0:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور کوتاه","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","15:30","استراحت","rest","☕"],["15:30","17:00","ریاضی","study","📐"],["17:00","17:15","استراحت","rest","☕"],["17:15","18:15","عربی","study","🕌"],["18:15","18:45","استراحت","rest","☕"],["18:45","20:00","فیزیک","study","⚛️"],["20:00","20:45","شام","rest","🍽"],["20:45","21:30","تکالیف","study","✍️"],["21:30","22:15","مرور روز","study","📓"],["22:30","23:59","خواب","sleep","😴"]],
-  1:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور زبان","study","🌐"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور شیمی","study","🧪"],["21:30","22:15","زبان","study","🌐"],["22:30","23:59","خواب","sleep","😴"]],
-  2:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","15:30","استراحت","rest","☕"],["15:30","17:00","ریاضی","study","📐"],["17:00","17:15","استراحت","rest","☕"],["17:15","18:15","عربی","study","🕌"],["18:15","18:45","استراحت","rest","☕"],["18:45","20:00","فیزیک","study","⚛️"],["20:00","20:45","شام","rest","🍽"],["20:45","21:30","زبان","study","🌐"],["21:30","22:15","مرور","study","📓"],["22:30","23:59","خواب","sleep","😴"]],
-  3:[["06:00","06:30","بیداری، صبحانه","wake","🌅"],["06:30","07:00","مرور","study","📖"],["07:00","14:00","مدرسه","school","🏫"],["14:00","15:00","ناهار","rest","🍽"],["15:00","16:00","استراحت","rest","☕"],["16:00","16:30","آماده باشگاه","rest","👕"],["16:30","20:00","باشگاه","sport","🥊"],["20:00","20:45","دوش، شام","rest","🍽"],["20:45","21:30","مرور ریاضی","study","📐"],["21:30","22:15","هندسه","study","📏"],["22:30","23:59","خواب","sleep","😴"]],
-  4:[["08:00","08:30","بیداری، صبحانه","wake","🌅"],["08:30","10:00","ریاضی","study","📐"],["10:00","10:30","استراحت","rest","☕"],["10:30","12:00","فیزیک","study","⚛️"],["12:00","14:00","ناهار","rest","🍽"],["14:00","15:30","عربی","study","🕌"],["15:30","16:00","استراحت","rest","☕"],["16:00","17:30","زبان","study","🌐"],["17:30","19:00","شیمی یا هندسه","study","🧪"],["19:00","22:30","آزاد","rest","🎮"],["22:30","23:59","خواب","sleep","😴"]],
-  5:[["08:00","09:00","بیداری، صبحانه","wake","🌅"],["09:00","10:30","مرور کل هفته","study","📖"],["10:30","11:00","دفتر اشتباهات","study","📓"],["11:00","11:30","برنامه هفته بعد","study","📝"],["11:30","22:30","استراحت","rest","🎮"],["22:30","23:59","خواب","sleep","😴"]]
-};
+
+
+
+
+const SCHOOL_SUBJECTS = SCHOOL_SCHEDULE;
+const ALL_SUBJECTS_LIST = ['ریاضی', 'فیزیک', 'هندسه', 'شیمی', 'عربی', 'زبان', 'فارسی', 'نگارش', 'جغرافیا', 'دینی', 'تفکر', 'آمادگی دفاعی', 'آزمایشگاه'];
+
+const SCHEDULE = (function() {
+  const sched = {};
+  const minToTime = (m) => String(Math.floor(m/60)).padStart(2,'0') + ':' + String(m%60).padStart(2,'0');
+
+  // تابع پر کردن بلوک‌های ۴۰-۲۰
+  function fillStudyBlocks(daySched, startMin, endMin, queue) {
+      let cur = startMin;
+      let qIdx = 0;
+      while (cur + 40 <= endMin) {
+          const subj = queue[qIdx % queue.length];
+          qIdx++;
+          const icon = (typeof SUBJECT_ICONS !== 'undefined' && SUBJECT_ICONS[subj]) ? SUBJECT_ICONS[subj] : '📖';
+          daySched.push([minToTime(cur), minToTime(cur + 40), 'مطالعه ' + subj, "study", icon]);
+          cur += 40;
+          if (cur + 20 <= endMin) {
+              daySched.push([minToTime(cur), minToTime(cur + 20), 'استراحت', "rest", "☕"]);
+              cur += 20;
+          }
+      }
+  }
+
+  for (let day = 0; day <= 6; day++) {
+    sched[day] = [];
+    const isSchool = [6, 0, 1, 2].includes(day); // شنبه تا سه‌شنبه
+    const hasGym = [6, 1, 3].includes(day); // شنبه، دوشنبه، چهارشنبه
+    const todaySubs = SCHOOL_SUBJECTS[day] || [];
+    const tomorrowSubs = SCHOOL_SUBJECTS[(day + 1) % 7] || [];
+
+    // ساخت صف دروس (مرور امروز، پیش‌خوانی فردا، و بقیه دروس)
+    let queue = [];
+    todaySubs.forEach(s => queue.push(s));
+    tomorrowSubs.forEach(s => { if(!queue.includes(s)) queue.push(s); });
+    ALL_SUBJECTS_LIST.forEach(s => { if(!queue.includes(s)) queue.push(s); });
+
+    if (day === 3) { // چهارشنبه
+       queue = ['ریاضی', 'فیزیک', 'شیمی', 'هندسه', ...ALL_SUBJECTS_LIST.filter(s => !['ریاضی','فیزیک','شیمی','هندسه'].includes(s))];
+    }
+    if (day === 5) { // جمعه
+       queue = ['مرور آزمون', 'تحلیل آزمون', ...ALL_SUBJECTS_LIST];
+    }
+
+    if (isSchool) {
+       sched[day].push(["06:30","07:00","بیداری، صبحانه","wake","🌅"]);
+       sched[day].push(["07:00","14:00","مدرسه","school","🏫"]);
+       sched[day].push(["14:00","15:00","ناهار و استراحت","rest","🍽"]);
+
+       if (hasGym) {
+           fillStudyBlocks(sched[day], 15*60, 17*60, queue);
+           sched[day].push(["17:00","20:00","باشگاه","sport","🥊"]);
+           sched[day].push(["20:00","20:45","شام","rest","🍽"]);
+           fillStudyBlocks(sched[day], 20*60 + 45, 22*60, queue);
+       } else {
+           fillStudyBlocks(sched[day], 15*60, 20*60, queue);
+           sched[day].push(["20:00","20:45","شام","rest","🍽"]);
+           fillStudyBlocks(sched[day], 20*60 + 45, 22*60, queue);
+       }
+       sched[day].push(["22:00","23:59","خواب","sleep","😴"]);
+
+    } else {
+       if (day === 5) { // جمعه (آزمون ماز)
+           sched[day].push(["06:30","07:00","آماده‌سازی آزمون","wake","🌅"]);
+           sched[day].push(["07:00","11:00","آزمون ماز","school","📝"]);
+           sched[day].push(["11:00","13:00","استراحت","rest","☕"]);
+           sched[day].push(["13:00","14:00","ناهار","rest","🍽"]);
+           fillStudyBlocks(sched[day], 14*60, 20*60, queue);
+           sched[day].push(["20:00","20:45","شام","rest","🍽"]);
+           fillStudyBlocks(sched[day], 20*60 + 45, 22*60, queue);
+       } 
+       else if (day === 3) { // چهارشنبه (رباتیک + باشگاه)
+           sched[day].push(["08:00","09:00","بیداری، صبحانه","wake","🌅"]);
+           fillStudyBlocks(sched[day], 9*60, 13*60, queue);
+           sched[day].push(["13:00","14:00","ناهار","rest","🍽"]);
+           fillStudyBlocks(sched[day], 14*60, 16*60, queue);
+           sched[day].push(["16:00","17:30","کلاس رباتیک","study","🤖"]);
+           sched[day].push(["17:30","20:00","باشگاه","sport","🥊"]);
+           sched[day].push(["20:00","20:45","شام","rest","🍽"]);
+           fillStudyBlocks(sched[day], 20*60 + 45, 22*60, queue);
+       } 
+       else { // پنجشنبه (تعطیل)
+           sched[day].push(["08:00","09:00","بیداری، صبحانه","wake","🌅"]);
+           fillStudyBlocks(sched[day], 9*60, 13*60, queue);
+           sched[day].push(["13:00","14:00","ناهار","rest","🍽"]);
+           fillStudyBlocks(sched[day], 14*60, 20*60, queue);
+           sched[day].push(["20:00","20:45","شام","rest","🍽"]);
+           fillStudyBlocks(sched[day], 20*60 + 45, 22*60, queue);
+       }
+       sched[day].push(["22:00","23:59","خواب","sleep","😴"]);
+    }
+  }
+  return sched;
+})();
+
 
 const PHASES = {
   1:{title:'جلو افتادن',icon:'⚡',goals:['تعطیلات: ۳ تا ۴ ساعت','پیش‌خوانی نیمسال دوم','مرور سبک نیمسال اول','از مدرسه جلوتری']},
@@ -989,7 +1167,8 @@ function go(id) {
   sec.classList.add('active');
   const btn = document.querySelector(`.bottom-nav button[data-t="${id}"]`);
   if (btn) btn.classList.add('active');
-  else document.querySelector('.bottom-nav button[data-t="more"]').classList.add('active');
+  else { const moreBtn = document.querySelector('.bottom-nav button[data-t="more"]'); if (moreBtn) moreBtn.classList.add('active'); }
+  const backBtn = document.getElementById('globalBackBtn'); if (backBtn) { if (id === 'dashboard') backBtn.style.display = 'none'; else backBtn.style.display = 'flex'; }
   window.scrollTo({top:0,behavior:'smooth'});
   const render = {
     dashboard: () => { renderTodayTotal(); renderTomorrowPrep(); if (typeof renderReviewQueue === "function") renderReviewQueue(); if (typeof renderAutoPlan === "function") renderAutoPlan(); renderNow(); renderTodaySchedule(); renderTodayReports(); renderMakeupCard(); renderAlert(); renderCountdown(); },
@@ -1092,26 +1271,37 @@ function toggleCheck(key, i, val) { const data = getData(CL_KEY, {}); if (!data[
 
 // ============= جلسات =============
 const SS_KEY = 'ilia-sessions';
+
 function addSession() {
   const subj = document.getElementById('ssSubj').value;
+  const dateInput = document.getElementById('ssDate');
+  const selectedDate = dateInput && dateInput.value ? dateInput.value : today();
+  
   const min = parseInt(document.getElementById('ssMin').value);
   const topic = document.getElementById('ssTopic').value.trim();
   const source = document.getElementById('ssSource').value.trim();
   const pages = parseInt(document.getElementById('ssPages').value) || 0;
   const tests = parseInt(document.getElementById('ssTests').value) || 0;
+  
   if (!min || min <= 0) return toast('دقیقه رو وارد کن');
   if (!topic) return toast('مبحث رو وارد کن');
+  
   const sessions = getData(SS_KEY, []);
-  sessions.push({id:Date.now(), date:today(), subj, min, topic, source, pages, tests, ts:Date.now()});
+  sessions.push({id:Date.now(), date:selectedDate, subj, min, topic, source, pages, tests, ts:Date.now()});
   setData(SS_KEY, sessions);
+  
   const log = getData('ilia-log', []);
-  log.push({date:today(), hours:min/60, subject:subj, ts:Date.now()});
+  log.push({date:selectedDate, hours:min/60, subject:subj, ts:Date.now()});
   setData('ilia-log', log);
+  
   renderStats(); renderTodayTotal();
   ['ssMin','ssTopic','ssSource','ssPages','ssTests'].forEach(id => document.getElementById(id).value = '');
+  if (dateInput) dateInput.value = '';
   renderSessions();
-  toast('✅ جلسه ثبت شد');
+  toast('✅ جلسه برای تاریخ ' + selectedDate + ' ثبت شد');
+  refreshAppData();
 }
+
 function renderSessions() {
   const sessions = getData(SS_KEY, []);
   const t = today();
@@ -1124,7 +1314,7 @@ function renderSessions() {
   sv('ssWeekPages', weekSessions.reduce((s,x) => s+x.pages, 0));
   sv('ssWeekTests', weekSessions.reduce((s,x) => s+x.tests, 0));
   sv('ssWeekSess', weekSessions.length);
-  const fmt = (s) => `<div class="session-item"><div class="session-head"><span class="session-subj">${SUBJECT_ICONS[s.subj]||'📚'} ${esc(s.subj)}</span><span class="session-hrs">${fa(s.min)} دقیقه</span></div><div class="session-meta">${esc(s.topic)}${s.source?` — ${esc(s.source)}`:''}${s.pages?` — ${fa(s.pages)} صفحه`:''}${s.tests?` — ${fa(s.tests)} تست`:''}</div></div>`;
+  const fmt = (s) => `<div class="session-item"><div class="session-head"><span class="session-subj">${SUBJECT_ICONS[s.subj]||'📚'} ${esc(s.subj)}</span><span class="session-hrs">${fa(s.min)} دقیقه <button class="btn btn-sm btn-secondary" style="margin-right:8px; padding:2px 8px; font-size:0.7em" onclick="editSession(${s.id})">✏️ ویرایش</button></span></div><div class="session-meta">${esc(s.topic)}${s.source?` — ${esc(s.source)}`:''}${s.pages?` — ${fa(s.pages)} صفحه`:''}${s.tests?` — ${fa(s.tests)} تست`:''}</div></div>`;
   const tl = document.getElementById('ssTodayList');
   if (tl) tl.innerHTML = todaySessions.length ? todaySessions.map(fmt).join('') : '<p style="text-align:center;color:var(--text-light);font-size:.85em">هنوز جلسه‌ای ثبت نکردی</p>';
 }
@@ -1220,6 +1410,7 @@ function renderDistractionPage() {
 
 // ============= آزمون =============
 const EX_KEY = 'ilia-exam-analysis';
+
 function addExam() {
   const title = document.getElementById('exTitle').value.trim();
   const date = document.getElementById('exDate').value || today();
@@ -1228,28 +1419,61 @@ function addExam() {
   const wrong = parseInt(document.getElementById('exWrong').value) || 0;
   const unans = parseInt(document.getElementById('exUnanswered').value) || 0;
   const subject = document.getElementById('exSubject').value.trim();
+  
   if (!title || !total) return toast('عنوان و تعداد کل رو وارد کن');
   if (correct + wrong + unans > total) return toast('جمع درست+غلط+نزده بیشتر از کل است');
+  
   const exams = getData(EX_KEY, []);
   exams.push({id:Date.now(), title, date, total, correct, wrong, unans, subject, ts:Date.now()});
   setData(EX_KEY, exams);
+  
   ['exTitle','exTotal','exCorrect','exWrong','exUnanswered','exSubject'].forEach(id => document.getElementById(id).value = '');
   renderExams();
   toast('✅ آزمون ثبت شد');
+  refreshAppData();
 }
+
 function renderExams() {
   const exams = getData(EX_KEY, []);
   const sv = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = fa(v); };
-  if (exams.length) { const avg = exams.reduce((s,e) => s + (e.correct/e.total)*100, 0) / exams.length; sv('exAvg', Math.round(avg)); sv('exCount', exams.length); }
+  
+  // محاسبه میانگین با نمره منفی
+  if (exams.length) { 
+    const avg = exams.reduce((s,e) => {
+        let score = (e.correct * 3) - e.wrong;
+        let pct = (score / (e.total * 3)) * 100;
+        return s + pct;
+    }, 0) / exams.length; 
+    sv('exAvg', Math.round(avg)); 
+    sv('exCount', exams.length); 
+  }
   else { sv('exAvg', 0); sv('exCount', 0); }
+  
   const el = document.getElementById('examsList'); if (!el) return;
   el.innerHTML = exams.length === 0 ? '<div class="card" style="text-align:center;color:var(--text-light);font-size:.88em">هنوز آزمونی ثبت نشده</div>' :
     exams.slice().reverse().map(e => {
-      const pct = Math.round((e.correct/e.total)*100);
+      // محاسبه درصد کنکوری (هر ۳ غلط = ۱ درست)
+      let score = (e.correct * 3) - e.wrong;
+      let pctRaw = (score / (e.total * 3)) * 100;
+      let pct = Math.max(0, Math.round(pctRaw)); // درصد منفی رو صفر نشون می‌دیم
+      
       const col = pct >= 75 ? 'var(--success)' : pct >= 50 ? 'var(--accent)' : 'var(--danger)';
-      return `<div class="exam-item"><div class="exam-head" onclick="toggleExamBody(${e.id})"><div class="exam-head-info"><div class="exam-title">${e.subject?SUBJECT_ICONS[e.subject]||'📚':''} ${esc(e.title)}</div><div class="exam-sub">${esc(e.date)} — ${fa(e.total)} سوال — ${fa(e.correct)} درست / ${fa(e.wrong)} غلط / ${fa(e.unans)} نزده</div></div><div class="exam-score" style="color:${col}">${fa(pct)}٪</div></div><div class="exam-body" id="eb-${e.id}"><b>تفکیک غلط‌ها:</b><br><span class="err-badge sci" onclick="tagErr(${e.id},'sci')">🔬 علمی</span><span class="err-badge care" onclick="tagErr(${e.id},'care')">🎯 بی‌دقتی</span><span class="err-badge time" onclick="tagErr(${e.id},'time')">⏰ زمان</span><span class="err-badge unk" onclick="tagErr(${e.id},'unk')">❓ نابلدی</span><br><br><input class="inp" placeholder="درس‌نامه" value="${esc(e.lesson||'')}" onchange="setExamLesson(${e.id}, this.value)"><button class="btn btn-sm btn-danger" onclick="delExam(${e.id})" style="margin-top:8px">🗑 حذف</button></div></div>`;
+      return `<div class="exam-item">
+        <div class="exam-head" onclick="toggleExamBody(${e.id})">
+            <div class="exam-head-info">
+                <div class="exam-title">${e.subject?SUBJECT_ICONS[e.subject]||'📚':''} ${esc(e.title)}</div>
+                <div class="exam-sub">${esc(e.date)} — ${fa(e.total)} سوال — ${fa(e.correct)} درست / ${fa(e.wrong)} غلط / ${fa(e.unans)} نزده</div>
+            </div>
+            <div class="exam-score" style="color:${col}">${fa(pct)}٪</div>
+        </div>
+        <div class="exam-body" id="eb-${e.id}">
+            <b>تراز کنکوری:</b> ${fa(score)} از ${fa(e.total * 3)}<br><br>
+            <button class="btn btn-sm btn-danger" onclick="delExam(${e.id})" style="margin-top:8px">🗑 حذف</button>
+        </div>
+      </div>`;
     }).join('');
 }
+
 function toggleExamBody(id) { const el = document.getElementById('eb-' + id); if (el) el.classList.toggle('open'); }
 function tagErr(id, tag) { const exams = getData(EX_KEY, []); const e = exams.find(x => x.id === id); if (!e) return; if (!e.errs) e.errs = {}; e.errs[tag] = (e.errs[tag] || 0) + 1; setData(EX_KEY, exams); toast('ثبت شد'); }
 function setExamLesson(id, val) { const exams = getData(EX_KEY, []); const e = exams.find(x => x.id === id); if (e) { e.lesson = val; setData(EX_KEY, exams); } }
@@ -1296,17 +1520,62 @@ function addGrade() {
   toast('✅ ثبت شد');
 }
 function renderGrades() {
-  const l = getData(GRK, []);
+  const list = getData(GRK, []);
+  const inputEl = document.getElementById('searchGrades');
+  const q = inputEl ? inputEl.value.trim() : '';
+  const qLow = q.toLowerCase();
+
+  const filtered = qLow ? list.filter(g => {
+    const hay = ((g.subject||'') + ' ' + (g.title||'')).toLowerCase();
+    return hay.includes(qLow);
+  }) : list;
+
   const el = document.getElementById('gradesList');
-  if (el) el.innerHTML = l.length === 0 ? '<div class="card" style="text-align:center;color:var(--text-light);font-size:.88em">نمره‌ای ثبت نشده</div>' :
-    l.slice().reverse().map(g => {
-      const col = g.value >= 17 ? 'var(--success)' : g.value >= 14 ? 'var(--accent)' : 'var(--danger)';
-      return `<div class="item" style="border-right-color:${col}"><div style="flex:1"><b>${esc(g.subject)}</b> — ${esc(g.title)}<div style="font-size:.75em;color:var(--text-light)">${esc(g.date)}</div></div><div style="display:flex;gap:8px;align-items:center"><span style="font-weight:900;color:${col};font-size:1.1em">${fa(g.value)}</span><button class="x-btn" onclick="delGrade(${g.id})">✕</button></div></div>`;
-    }).join('');
-  const sv = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = fa(v); };
-  if (l.length) { const avg = l.reduce((s,g) => s+g.value, 0)/l.length; sv('avgAll', avg.toFixed(2)); sv('maxG', Math.max(...l.map(g => g.value))); sv('minG', Math.min(...l.map(g => g.value))); sv('cntG', l.length); }
-  else { ['avgAll','maxG','minG','cntG'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '۰'; }); }
+  if (el) {
+    if (list.length === 0) {
+      el.innerHTML = '<div class="card search-empty"><span class="ico">📊</span>نمره‌ای ثبت نشده</div>';
+    } else if (filtered.length === 0) {
+      el.innerHTML = '<div class="card search-empty"><span class="ico">🔍</span>چیزی با «' + esc(q) + '» پیدا نشد</div>';
+    } else {
+      let info = '';
+      if (qLow) {
+        info = '<div class="search-result-info">🔍 <b>' + fa(filtered.length) + '</b> نتیجه از <b>' + fa(list.length) + '</b> نمره</div>';
+      }
+      el.innerHTML = info + filtered.slice().reverse().map(g => {
+        const col = g.value >= 17 ? 'var(--success)' : g.value >= 14 ? 'var(--accent)' : 'var(--danger)';
+        let subj = esc(g.subject);
+        let title = esc(g.title);
+        if (qLow) {
+          try {
+            const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+            subj = subj.replace(re, '<mark style="background:rgba(243,156,18,.35);color:inherit;padding:0 2px;border-radius:3px">$1</mark>');
+            title = title.replace(re, '<mark style="background:rgba(243,156,18,.35);color:inherit;padding:0 2px;border-radius:3px">$1</mark>');
+          } catch(e) {}
+        }
+
+        return '<div class="item" style="border-right-color:' + col + '">' +
+          '<div style="flex:1"><b>' + subj + '</b> — ' + title + '<div style="font-size:.75em;color:var(--text-light)">' + esc(g.date) + '</div></div>' +
+          '<div style="display:flex;gap:8px;align-items:center">' +
+            '<span style="font-weight:900;color:' + col + ';font-size:1.1em">' + fa(g.value) + '</span>' +
+            '<button class="x-btn" onclick="delGrade(' + g.id + ')">✕</button>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+  }
+
+  const sv = (id, v) => { const el2 = document.getElementById(id); if (el2) el2.textContent = fa(v); };
+  if (list.length) {
+    const avg = list.reduce((s,g) => s+g.value, 0)/list.length;
+    sv('avgAll', avg.toFixed(2));
+    sv('maxG', Math.max(...list.map(g => g.value)));
+    sv('minG', Math.min(...list.map(g => g.value)));
+    sv('cntG', list.length);
+  } else {
+    ['avgAll','maxG','minG','cntG'].forEach(id => { const el2 = document.getElementById(id); if (el2) el2.textContent = '۰'; });
+  }
 }
+
 function delGrade(id) { setData(GRK, getData(GRK, []).filter(g => g.id !== id)); renderGrades(); }
 
 // ============= کارها =============
@@ -1406,42 +1675,105 @@ function delHabit(id) { setData(HK, getData(HK, []).filter(h => h.id !== id)); r
 
 // ============= لایتنر =============
 const LK = 'ilia-leitner';
-function addLeitner() {
+
+let currentLeitnerCard = null;
+let isLeitnerAnswered = false;
+
+window.addLeitner = function() {
   const f = document.getElementById('lf').value.trim();
   const b = document.getElementById('lb').value.trim();
+  const subj = document.getElementById('leitnerSubject').value;
   if (!f || !b) return toast('هر دو فیلد رو پر کن');
   const l = getData(LK, []);
-  l.push({id:Date.now(), front:f, back:b, box:1, next:today()});
+  l.push({id: Date.now(), front: f, back: b, box: 1, next: today(), subject: subj});
   setData(LK, l);
   document.getElementById('lf').value = ''; document.getElementById('lb').value = '';
   renderLeitner();
   toast('✅ کارت اضافه شد');
-}
-function renderLeitner() {
+};
+
+window.renderLeitner = function() {
   const l = getData(LK, []);
-  const stats = {1:0,2:0,3:0,4:0,5:0}; l.forEach(c => stats[c.box]++);
+  const filter = document.getElementById('filterLeitnerSubject') ? document.getElementById('filterLeitnerSubject').value : 'all';
+  
+  let filtered = l;
+  if (filter !== 'all') filtered = l.filter(c => c.subject === filter);
+  
+  const stats = {1:0,2:0,3:0,4:0,5:0}; 
+  filtered.forEach(c => stats[c.box]++);
   const st = document.getElementById('leitnerStats');
-  if (st) st.innerHTML = Object.entries(stats).map(([b,n]) => `<span style="display:inline-block;padding:5px 10px;border-radius:8px;background:var(--bg);margin:3px;border:2px solid var(--border);font-size:.8em">جعبه ${fa(b)}: <b>${fa(n)}</b></span>`).join('');
-  const due = l.filter(c => c.next <= today());
+  
+  const due = filtered.filter(c => c.next <= today());
   const card = document.getElementById('leitnerCard'); if (card) card.classList.remove('flipped');
+  
+  document.getElementById('leitnerMainBtns').style.display = 'flex';
+  document.getElementById('leitnerResultBtns').style.display = 'none';
+  isLeitnerAnswered = false;
+
   const cnt = document.getElementById('leitnerCounter');
-  if (l.length === 0) {
+  if (filtered.length === 0) {
     document.getElementById('lv1').textContent = 'کارتی نیست';
     document.getElementById('lv2').textContent = 'اضافه کن!';
     if (cnt) cnt.textContent = '۰ کارت';
+    currentLeitnerCard = null;
     return;
   }
   if (due.length === 0) {
     document.getElementById('lv1').textContent = '🎉 مرور تمومه!';
     document.getElementById('lv2').textContent = 'فردا برگرد';
-    if (cnt) cnt.textContent = `کل: ${fa(l.length)} کارت`;
+    if (cnt) cnt.textContent = 'کل: ' + fa(filtered.length) + ' کارت';
+    currentLeitnerCard = null;
     return;
   }
-  const c = due[0];
-  document.getElementById('lv1').textContent = c.front;
-  document.getElementById('lv2').textContent = c.back;
-  if (cnt) cnt.textContent = `${fa(due.length)} کارت`;
-}
+  
+  currentLeitnerCard = due[0];
+  document.getElementById('lv1').textContent = currentLeitnerCard.front;
+  document.getElementById('lv2').textContent = currentLeitnerCard.back;
+  if (cnt) cnt.textContent = fa(due.length) + ' کارت آماده مرور';
+};
+
+window.leitnerAnswer = function(knew) {
+  if (!currentLeitnerCard || isLeitnerAnswered) return;
+  isLeitnerAnswered = true;
+  
+  // چرخش کارت برای نمایش جواب
+  document.getElementById('leitnerCard').classList.add('flipped');
+  
+  // مخفی کردن دکمه‌های اصلی و نمایش دکمه‌های بعدی/ویرایش
+  document.getElementById('leitnerMainBtns').style.display = 'none';
+  document.getElementById('leitnerResultBtns').style.display = 'flex';
+  
+  // آپدیت دیتابیس
+  const l = getData(LK, []);
+  const c = l.find(x => x.id === currentLeitnerCard.id);
+  const intervals = {1:1, 2:3, 3:7, 4:14, 5:30};
+  if (knew) c.box = Math.min(5, c.box+1);
+  else c.box = 1;
+  const nd = new Date(); nd.setDate(nd.getDate() + intervals[c.box]);
+  c.next = localDate(nd);
+  setData(LK, l);
+};
+
+window.nextLeitnerCard = function() {
+  renderLeitner();
+};
+
+window.editLeitnerCard = function() {
+  if (!currentLeitnerCard) return;
+  const l = getData(LK, []);
+  const c = l.find(x => x.id === currentLeitnerCard.id);
+  const nf = prompt('سوال جدید:', c.front);
+  if (nf === null) return;
+  const nb = prompt('پاسخ جدید:', c.back);
+  if (nb === null) return;
+  
+  c.front = nf.trim() || c.front;
+  c.back = nb.trim() || c.back;
+  setData(LK, l);
+  renderLeitner();
+  toast('✅ کارت ویرایش شد');
+};
+
 function flipLeitner() { document.getElementById('leitnerCard').classList.toggle('flipped'); }
 function leitnerAnswer(knew) {
   const l = getData(LK, []);
@@ -1472,11 +1804,61 @@ function addMistake() {
   toast('✅ ثبت شد');
 }
 function renderMistakes() {
-  const l = getData(MK, []);
-  const el = document.getElementById('mistakesList'); if (!el) return;
-  el.innerHTML = l.length === 0 ? '<div class="card" style="text-align:center;color:var(--text-light);font-size:.88em">هنوز اشتباهی ثبت نشده</div>' :
-    l.slice().reverse().map(m => `<div class="card" style="border-right:4px solid var(--danger)"><div style="display:flex;justify-content:space-between;gap:6px;font-size:.88em"><div style="flex:1"><b style="color:var(--primary)">${esc(m.subject)}</b> — ${esc(m.question)}</div><button class="x-btn" onclick="delMistake(${m.id})">✕</button></div>${m.reason?`<div style="margin-top:6px;font-size:.82em;color:var(--text-light)">💡 ${esc(m.reason)}</div>`:''}<div style="font-size:.72em;color:var(--text-light);margin-top:4px">${esc(m.date)}</div></div>`).join('');
+  const list = getData(MK, []);
+  const inputEl = document.getElementById('searchMistakes');
+  const q = inputEl ? inputEl.value.trim() : '';
+  const qLow = q.toLowerCase();
+
+  const filtered = qLow ? list.filter(m => {
+    const hay = ((m.subject||'') + ' ' + (m.question||'') + ' ' + (m.reason||'')).toLowerCase();
+    return hay.includes(qLow);
+  }) : list;
+
+  const el = document.getElementById('mistakesList');
+  if (!el) return;
+
+  if (list.length === 0) {
+    el.innerHTML = '<div class="card search-empty"><span class="ico">📕</span>هنوز اشتباهی ثبت نشده</div>';
+    return;
+  }
+
+  if (filtered.length === 0) {
+    el.innerHTML = '<div class="card search-empty"><span class="ico">🔍</span>چیزی با «' + esc(q) + '» پیدا نشد<div style="font-size:.85em;margin-top:8px;opacity:.7">یه کلمه دیگه امتحان کن</div></div>';
+    return;
+  }
+
+  let info = '';
+  if (qLow) {
+    info = '<div class="search-result-info">🔍 <b>' + fa(filtered.length) + '</b> نتیجه از <b>' + fa(list.length) + '</b> اشتباه</div>';
+  }
+
+  const cards = filtered.slice().reverse().map(m => {
+    let subj = esc(m.subject);
+    let quest = esc(m.question);
+    let reason = m.reason ? esc(m.reason) : '';
+
+    if (qLow) {
+      try {
+        const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+        subj = subj.replace(re, '<mark style="background:rgba(243,156,18,.35);color:inherit;padding:0 2px;border-radius:3px">$1</mark>');
+        quest = quest.replace(re, '<mark style="background:rgba(243,156,18,.35);color:inherit;padding:0 2px;border-radius:3px">$1</mark>');
+        if (reason) reason = reason.replace(re, '<mark style="background:rgba(243,156,18,.35);color:inherit;padding:0 2px;border-radius:3px">$1</mark>');
+      } catch(e) {}
+    }
+
+    return '<div class="card" style="border-right:4px solid var(--danger)">' +
+      '<div style="display:flex;justify-content:space-between;gap:6px;font-size:.88em">' +
+        '<div style="flex:1"><b style="color:var(--primary)">' + subj + '</b> — ' + quest + '</div>' +
+        '<button class="x-btn" onclick="delMistake(' + m.id + ')">✕</button>' +
+      '</div>' +
+      (reason ? '<div style="margin-top:6px;font-size:.82em;color:var(--text-light)">💡 ' + reason + '</div>' : '') +
+      '<div style="font-size:.72em;color:var(--text-light);margin-top:4px">' + esc(m.date) + '</div>' +
+    '</div>';
+  }).join('');
+
+  el.innerHTML = info + cards;
 }
+
 function delMistake(id) { setData(MK, getData(MK, []).filter(m => m.id !== id)); renderMistakes(); }
 
 // ============= یادداشت =============
@@ -5394,6 +5776,15 @@ window.jsq = function(s) {
   console.log('✅ SIMPLE_MODE_V1 loaded');
 })();
 
+
+// ============ LIVE SCHEDULE UPDATER ============
+setInterval(() => {
+    try {
+        if (typeof renderNow === 'function') renderNow();
+        if (typeof renderTodaySchedule === 'function') renderTodaySchedule();
+    } catch(e) {}
+}, 30000);
+
 // ============= Init =============
 renderApkBanner();
 renderStats();
@@ -5485,3 +5876,132 @@ setInterval(() => {
   }
   lastActivity = currentTask;
 }, 60000);
+
+function updateLauncherWidget() {
+    const widget = document.getElementById('launcherWidget');
+    if (!widget) return;
+    
+    // گرفتن ساعت مطالعه امروز
+    const log = getData('ilia-log', []);
+    const todayHours = log.filter(e => e.date === today()).reduce((s,e) => s + e.hours, 0);
+    
+    // گرفتن هدف
+    let goal = 2;
+    if (typeof getDailyGoal === 'function') {
+        goal = getDailyGoal(new Date().getDay());
+    }
+    
+    const pct = goal > 0 ? Math.min(100, Math.round((todayHours / goal) * 100)) : 0;
+    
+    // آپدیت DOM
+    const elPct = document.getElementById('lw-percent');
+    const elHours = document.getElementById('lw-hours');
+    const elGoal = document.getElementById('lw-goal');
+    const elFill = document.getElementById('lw-fill');
+    
+    if (elPct) elPct.textContent = fa(pct) + '٪';
+    if (elHours) elHours.textContent = fa(todayHours.toFixed(1));
+    if (elGoal) elGoal.textContent = fa(goal.toFixed(1));
+    if (elFill) elFill.style.width = pct + '%';
+    
+    // تغییر رنگ اگر به هدف رسید
+    if (pct >= 100) {
+        widget.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+    } else {
+        widget.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
+    }
+}
+
+// اجرای خودکار ویجت با هر بار لود یا تغییر
+setTimeout(updateLauncherWidget, 1000);
+setInterval(updateLauncherWidget, 60000); // هر دقیقه
+
+
+// ============ V3 HAPTIC FEEDBACK ============
+// افزودن لرزش گوشی هنگام کلیک روی دکمه‌ها (فقط در موبایل کار می‌کند)
+document.addEventListener('click', function(e) {
+    const interactiveElement = e.target.closest('.nimkat-card, .btn, .set-btn, .bottom-nav button, .nimkat-card div');
+    if (interactiveElement) {
+        if ('vibrate' in navigator) {
+            try { navigator.vibrate(30); } catch(err) {}
+        }
+    }
+});
+
+
+window.CH.editPages = function(s, i) {
+  var all = getAll();
+  if (!all[s] || !all[s][i]) return;
+  var c = all[s][i];
+  
+  var total = prompt('کل صفحات این فصل چند صفحه است؟', c.totalPages || '');
+  if (total === null) return;
+  var read = prompt('چند صفحه از این فصل را خوانده‌اید؟', c.readPages || '');
+  if (read === null) return;
+
+  c.totalPages = parseInt(total) || 0;
+  c.readPages = parseInt(read) || 0;
+  
+  if (c.readPages >= c.totalPages && c.totalPages > 0) {
+    c.done = true;
+  } else {
+    c.done = false;
+  }
+  
+  save(all);
+  renderChapters(); renderDash();
+  toast('✅ پیشرفت صفحه ذخیره شد');
+};
+
+const originalRenderChapters = renderChapters;
+window.renderChapters = function() {
+    originalRenderChapters();
+    // اپدیت UI برای نمایش درصد صفحات
+    document.querySelectorAll('.ch-subject').forEach(subjEl => {
+        const subjName = subjEl.dataset.subj;
+        const all = getAll();
+        const list = all[subjName] || [];
+        let totalP = 0, readP = 0;
+        list.forEach(c => {
+            totalP += (c.totalPages || 0);
+            readP += (c.readPages || 0);
+        });
+        if (totalP > 0) {
+            const pct = Math.round((readP / totalP) * 100);
+            const metaEl = subjEl.querySelector('.ch-subject-meta');
+            if (metaEl) {
+                metaEl.innerHTML += ` | صفحات: ${fa(readP)} از ${fa(totalP)} (${fa(pct)}٪)`;
+            }
+        }
+    });
+};
+
+
+window.editSession = function(id) {
+    const sessions = getData(SS_KEY, []);
+    const s = sessions.find(x => x.id === id);
+    if (!s) return;
+    const newMin = prompt('دقیقه مطالعه جدید برای ' + s.topic + ' را وارد کنید:', s.min);
+    if (newMin === null) return;
+    const val = parseInt(newMin);
+    if (isNaN(val) || val <= 0) return toast('عدد معتبر وارد کنید');
+    
+    const diffMin = val - s.min;
+    s.min = val;
+    setData(SS_KEY, sessions);
+    
+    // آپدیت لاگ برای هماهنگی با ویجت‌ها
+    const log = getData('ilia-log', []);
+    const logEntry = log.find(l => l.date === s.date && l.subject === s.subj && Math.abs(l.hours - (s.min - diffMin)/60) < 0.01);
+    if (logEntry) {
+        logEntry.hours = val / 60;
+        setData('ilia-log', log);
+    } else {
+        log.push({date: s.date, hours: val/60, subject: s.subj, ts: Date.now()});
+        setData('ilia-log', log);
+    }
+    
+    if (typeof refreshAppData === 'function') refreshAppData();
+    renderSessions();
+    toast('✅ جلسه ویرایش شد');
+};
