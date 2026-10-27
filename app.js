@@ -5829,6 +5829,7 @@ setInterval(() => {
 }, 30000);
 
 // ============= Init =============
+setTimeout(() => { if(typeof renderGarden === "function") renderGarden(); }, 1000);
 renderApkBanner();
 renderStats();
 renderTodo();
@@ -5921,52 +5922,41 @@ setInterval(() => {
 }, 60000);
 
 
+
 function updateLauncherWidget() {
     const widget = document.getElementById('launcherWidget');
     if (!widget) return;
-    
-    // گرفتن داده‌های امروز و دیروز
     const log = getData('ilia-log', []);
     const t = today();
     const d = new Date(); d.setDate(d.getDate() - 1);
     const yesterday = localDate(d);
-
     const todayHours = log.filter(e => e.date === t).reduce((s,e) => s + e.hours, 0);
     const yesterdayHours = log.filter(e => e.date === yesterday).reduce((s,e) => s + e.hours, 0);
     
-    // محاسبه درصد نسبت به دیروز (اگر دیروز صفر بوده، یک پایه ۱ ساعته در نظر می‌گیریم)
     let pct = 0;
-    if (yesterdayHours > 0) {
-        pct = Math.min(100, Math.round((todayHours / yesterdayHours) * 100));
-    } else {
-        pct = todayHours > 0 ? 100 : 0;
-    }
+    if (yesterdayHours > 0) pct = Math.min(100, Math.round((todayHours / yesterdayHours) * 100));
+    else pct = todayHours > 0 ? 100 : 0;
     
     const elPct = document.getElementById('lw-percent');
     const elHours = document.getElementById('lw-hours');
     const elGoal = document.getElementById('lw-goal');
     const elFill = document.getElementById('lw-fill');
     
-    // تغییر متن‌ها از "هدف" به "مقایسه با دیروز"
     const headerEl = widget.querySelector('.lw-header span:first-child');
-    if(headerEl) headerEl.textContent = '📊 عملکرد امروز';
+    if(headerEl && headerEl.textContent.includes('هدف')) headerEl.textContent = '📊 عملکرد امروز';
     
     if (elPct) elPct.textContent = fa(pct) + '٪';
     if (elHours) elHours.textContent = fa(todayHours.toFixed(1));
     if (elGoal) elGoal.textContent = fa(yesterdayHours.toFixed(1));
-    if (elFill) elFill.style.width = pct + '%';
+    if (elFill) elFill.style.fill = pct + '%', elFill.style.width = pct + '%';
     
-    // رنگ‌بندی بر اساس عملکرد
-    if (todayHours > yesterdayHours && todayHours > 0) {
-        widget.style.background = 'linear-gradient(135deg, #10b981, #059669)'; // سبز: بهتر از دیروز
-    } else if (todayHours === 0) {
-        widget.style.background = 'linear-gradient(135deg, #64748b, #475569)'; // خاکستری: هنوز شروع نکردی
-    } else {
-        widget.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))'; // آبی: در حال تلاش
-    }
+    if (todayHours > yesterdayHours && todayHours > 0) widget.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+    else if (todayHours === 0) widget.style.background = 'linear-gradient(135deg, #64748b, #475569)';
+    else widget.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
 }
 setTimeout(updateLauncherWidget, 1000);
 setInterval(updateLauncherWidget, 60000);
+
  // هر دقیقه
 
 
@@ -6058,3 +6048,570 @@ window.editSession = function(id) {
     renderSessions();
     toast('✅ جلسه ویرایش شد');
 };
+
+
+
+
+// ============ PSYCHOLOGY LOGIC (FIXED) ============
+
+window.MoodCheck = {
+    selected: null,
+    open: function() {
+        document.getElementById('moodModal').style.display = 'flex';
+        document.getElementById('moodResult').style.display = 'none';
+        document.getElementById('moodResult').innerHTML = '';
+    },
+    select: function(mood) {
+        this.selected = mood;
+        const result = document.getElementById('moodResult');
+        result.style.display = 'block';
+        
+        if (mood === 'focused') {
+            result.innerHTML = '🧠 <b>عالیه!</b> الان بهترین زمان برای درس‌های سخت مثل ریاضی و فیزیکه.';
+            setTimeout(() => { document.getElementById('moodModal').style.display = 'none'; }, 2000);
+        } 
+        else if (mood === 'tired') {
+            result.innerHTML = `
+                😴 <b>خسته‌ای؟</b> بیا بریم فلش‌کارت‌های لایتنر رو مرور کنیم. کار سبکیه.<br><br>
+                <button class="btn btn-sm btn-primary" onclick="document.getElementById('moodModal').style.display='none'; go('leitner')">بریم لایتنر</button>
+            `;
+        } 
+        else if (mood === 'stressed') {
+            result.innerHTML = `
+                😰 <b>آرام باش.</b> ۴ ثانیه نفس بکش، ۴ ثانیه نگه دار، ۴ ثانیه بده بیرون.<br>
+                <div class="breathing-circle"></div>
+                <div style="font-size:0.8em; margin-top:10px;">با دایره نفس بکش...</div>
+            `;
+            setTimeout(() => { 
+                result.innerHTML += `
+                    <br><button class="btn btn-sm btn-primary" onclick="document.getElementById('moodModal').style.display='none'">حالم بهتر شد، بریم درس</button>
+                `;
+            }, 12000);
+        }
+    }
+};
+
+window.ParkingLot = {
+    save: function() {
+        const input = document.getElementById('parkingInput');
+        const val = input.value.trim();
+        if (!val) return;
+        
+        const list = getData('ilia-parking-lot', []);
+        list.push({ text: val, date: today(), ts: Date.now() });
+        setData('ilia-parking-lot', list);
+        
+        input.value = '';
+        toast('🧠 فکرت ثبت شد. بعداً بررسی می‌کنیم.');
+    },
+    checkAfterSession: function() {
+        const list = getData('ilia-parking-lot', []);
+        const todayList = list.filter(x => x.date === today());
+        if (todayList.length > 0) {
+            setTimeout(() => {
+                toast('📝 ' + fa(todayList.length) + ' فکر مزاحم پارک شده داری. وقتشه بررسیشون کنی.');
+            }, 3000);
+        }
+    }
+};
+
+window.start2MinRule = function() {
+    pTot = 5 * 60; 
+    pT = pTot; 
+    updPom();
+    document.getElementById('pomSubj').value = 'شروع ۵ دقیقه‌ای';
+    startPom();
+    toast('🌱 فقط ۵ دقیقه! اگه خواستی بعدش ادامه بده.');
+};
+
+const originalRenderStats = renderStats;
+window.renderStats = function() {
+    originalRenderStats();
+    const log = getData('ilia-log', []);
+    let streak = 0;
+    const ds = new Set(log.map(e => e.date));
+    let d = new Date();
+    while (ds.has(localDate(d))) { streak++; d.setDate(d.getDate()-1); }
+    
+    const y = new Date(); y.setDate(y.getDate() - 1);
+    if (!ds.has(localDate(y)) && streak > 0) {
+        const stEl = document.getElementById('stT');
+        if (stEl) stEl.textContent = fa(streak) + ' (استراحت)';
+    }
+};
+
+if (typeof startFocusMode !== 'undefined') {
+    const originalStartFocus = startFocusMode;
+    window.startFocusMode = function() {
+        MoodCheck.open();
+        setTimeout(() => {
+            const btn = document.querySelector('.mood-btn');
+            if (btn) {
+                btn.onclick = function() {
+                    MoodCheck.select('focused');
+                    setTimeout(() => {
+                        originalStartFocus();
+                        ParkingLot.checkAfterSession();
+                    }, 500);
+                };
+            }
+        }, 100);
+    };
+}
+
+
+// ============ STUDY GARDEN ============
+window.renderGarden = function() {
+    const grid = document.getElementById('gardenGrid');
+    if (!grid) return;
+    
+    const log = getData('ilia-log', []);
+    const days = [];
+    const dayNames = ['ی', 'د', 'س', 'چ', 'پ', 'ج', 'ش'];
+    
+    // گرفتن ۷ روز اخیر
+    for (let i = 6; i >= 0; i--) {
+        const d = new Date(); d.setDate(d.getDate() - i);
+        const dateStr = localDate(d);
+        const hours = log.filter(e => e.date === dateStr).reduce((s,e) => s + e.hours, 0);
+        
+        let icon = '🟫'; // خاک
+        if (hours > 0 && hours <= 2) icon = '🌱'; // جوانه
+        else if (hours > 2 && hours <= 4) icon = '🌿'; // گیاه
+        else if (hours > 4) icon = '🌳'; // درخت
+        
+        const isToday = i === 0;
+        days.push({ icon, label: dayNames[d.getDay()], isToday });
+    }
+    
+    grid.innerHTML = days.map(d => `
+        <div class="sg-item" style="${d.isToday ? 'transform: scale(1.2); filter: drop-shadow(0 0 5px #10b981);' : ''}">
+            ${d.icon}
+            <span class="sg-label">${d.label}</span>
+        </div>
+    `).join('');
+};
+
+// Override renderTodayTotal to also update garden
+const originalRenderTodayTotal = renderTodayTotal;
+window.renderTodayTotal = function() {
+    originalRenderTodayTotal();
+    renderGarden();
+};
+
+// ============ SOUND ENGINE (Web Audio API) ============
+window.SoundEngine = {
+    ctx: null,
+    nodes: {},
+    isPlaying: { rain: false, cafe: false, noise: false },
+    
+    init: function() {
+        if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    },
+
+    toggle: function(type, btn) {
+        this.init();
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        if (this.isPlaying[type]) {
+            // Stop
+            if (this.nodes[type]) {
+                this.nodes[type].stop();
+                this.nodes[type] = null;
+            }
+            this.isPlaying[type] = false;
+            btn.classList.remove('active');
+        } else {
+            // Play
+            this.isPlaying[type] = true;
+            btn.classList.add('active');
+            
+            const bufferSize = this.ctx.sampleRate * 2; 
+            const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            
+            if (type === 'noise') {
+                for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+            } else if (type === 'rain') {
+                // فیلتر کردن نویز برای شبیه شدن به باران
+                let lastOut = 0.0;
+                for (let i = 0; i < bufferSize; i++) {
+                    let white = Math.random() * 2 - 1;
+                    data[i] = (lastOut + (0.02 * white)) / 1.02;
+                    lastOut = data[i];
+                    data[i] *= 3.5; 
+                }
+            } else if (type === 'cafe') {
+                // نویز صورتی برای شبیه شدن به همهمه
+                let b0, b1, b2, b3, b4, b5, b6;
+                b0 = b1 = b2 = b3 = b4 = b5 = b6 = 0.0;
+                for (let i = 0; i < bufferSize; i++) {
+                    let white = Math.random() * 2 - 1;
+                    b0 = 0.99886 * b0 + white * 0.0555179;
+                    b1 = 0.99332 * b1 + white * 0.0750759;
+                    b2 = 0.96900 * b2 + white * 0.1538520;
+                    b3 = 0.86650 * b3 + white * 0.3104856;
+                    b4 = 0.55000 * b4 + white * 0.5329522;
+                    b5 = -0.7616 * b5 - white * 0.0168980;
+                    data[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+                    data[i] *= 0.11;
+                    b6 = white * 0.115926;
+                }
+            }
+
+            const source = this.ctx.createBufferSource();
+            source.buffer = buffer;
+            source.loop = true;
+            
+            // کم کردن صدا که آزاردهنده نباشه
+            const gain = this.ctx.createGain();
+            gain.gain.value = 0.3; 
+            
+            source.connect(gain);
+            gain.connect(this.ctx.destination);
+            source.start();
+            
+            this.nodes[type] = source;
+        }
+    }
+};
+
+// ============ ONE THING RULE ============
+// Override startFocusMode to ask for "One Thing" first
+if (typeof startFocusMode !== 'undefined') {
+    const originalStartFocus2 = startFocusMode;
+    window.startFocusMode = function() {
+        const box = document.getElementById('oneThingBox');
+        const input = document.getElementById('oneThingInput');
+        const display = document.getElementById('focusOneThing');
+        
+        if (box && box.style.display === 'none') {
+            box.style.display = 'block';
+            input.focus();
+            input.onkeydown = function(e) {
+                if (e.key === 'Enter') {
+                    box.style.display = 'none';
+                    if (display) display.textContent = '🎯 هدف: ' + input.value;
+                    originalStartFocus2();
+                }
+            };
+            return;
+        }
+        originalStartFocus2();
+    };
+}
+
+// Override startPom to get micro-goal
+const originalStartPom = startPom;
+window.startPom = function() {
+    const input = document.getElementById('oneThingInput');
+    if (input && input.value.trim() !== '') {
+        document.getElementById('pomSubj').value = input.value;
+    }
+    originalStartPom();
+};
+
+
+
+
+
+
+
+
+window.GardenPro = {
+    weekOffset: 0,
+    leagues: [
+        { name: 'لیگ برنز', icon: '🥉', minAvg: 0, color: '#cd7f32' },
+        { name: 'لیگ نقره', icon: '🥈', minAvg: 1, color: '#c0c0c0' },
+        { name: 'لیگ طلا', icon: '🥇', minAvg: 2, color: '#ffd700' },
+        { name: 'لیگ الماس', icon: '💎', minAvg: 3, color: '#b9f2ff' },
+        { name: 'لیگ استاد', icon: '👑', minAvg: 4, color: '#f59e0b' },
+        { name: 'لیگ افسانه', icon: '🌌', minAvg: 5, color: '#8b5cf6' }
+    ],
+
+    getLeagueInfo: function() {
+        const log = getData('ilia-log', []);
+        let last7DaysHours = 0;
+        for (let i = 0; i < 7; i++) {
+            const d = new Date(); d.setDate(d.getDate() - i);
+            const dateStr = localDate(d);
+            last7DaysHours += log.filter(e => e.date === dateStr).reduce((s,e) => s + e.hours, 0);
+        }
+        const dailyAvg = last7DaysHours / 7;
+        
+        let currentIdx = 0;
+        for (let i = 0; i < this.leagues.length; i++) {
+            if (dailyAvg >= this.leagues[i].minAvg) currentIdx = i;
+        }
+        return { dailyAvg, currentIdx, last7DaysHours };
+    },
+
+    changeWeek: function(dir) {
+        this.weekOffset += dir;
+        if (this.weekOffset < 0) this.weekOffset = 0;
+        this.renderGarden();
+    },
+
+    getStartOfWeek: function(offset) {
+        const now = new Date();
+        const day = now.getDay(); 
+        const diff = (day + 1) % 7; 
+        const start = new Date(now);
+        start.setDate(start.getDate() - diff - (offset * 7));
+        start.setHours(0,0,0,0);
+        return start;
+    },
+
+    getSvgPlant: function(hours) {
+        if (hours <= 0) return '<div class="svg-empty"></div>';
+        
+        if (hours > 0 && hours < 1) {
+            // جوانه
+            return `<svg class="svg-plant" viewBox="0 0 50 50"><path d="M25,50 Q25,30 25,20" stroke="#4ade80" stroke-width="3" fill="none"/><path d="M25,30 Q15,25 10,35 Q20,35 25,30" fill="#22c55e"/><path d="M25,25 Q35,20 40,30 Q30,30 25,25" fill="#16a34a"/></svg>`;
+        }
+        if (hours >= 1 && hours < 2) {
+            // نهال
+            return `<svg class="svg-plant" viewBox="0 0 50 50"><rect x="23" y="25" width="4" height="25" fill="#78350f"/><circle cx="25" cy="20" r="12" fill="#22c55e"/><circle cx="15" cy="25" r="8" fill="#16a34a"/><circle cx="35" cy="25" r="8" fill="#15803d"/></svg>`;
+        }
+        if (hours >= 2 && hours < 3) {
+            // درخت متوسط (بدون میوه)
+            return `<svg class="svg-plant" viewBox="0 0 50 50"><path d="M22,50 L28,50 L27,25 L23,25 Z" fill="#451a03"/><path d="M25,10 L10,30 L15,30 L5,45 L45,45 L35,30 L40,30 Z" fill="#22c55e"/><path d="M25,15 L15,35 L35,35 Z" fill="#16a34a"/></svg>`;
+        }
+        if (hours >= 3 && hours < 4.5) {
+            // درخت بزرگ با چند سیب
+            return `<svg class="svg-plant" viewBox="0 0 50 50">
+                <path d="M21,50 L29,50 L28,20 L22,20 Z" fill="#451a03"/>
+                <circle cx="25" cy="15" r="15" fill="#22c55e"/>
+                <circle cx="12" cy="25" r="12" fill="#16a34a"/>
+                <circle cx="38" cy="25" r="12" fill="#15803d"/>
+                <circle cx="25" cy="30" r="10" fill="#166534"/>
+                <circle cx="18" cy="18" r="2.5" fill="#ef4444"/>
+                <circle cx="32" cy="22" r="2.5" fill="#ef4444"/>
+                <circle cx="25" cy="28" r="2.5" fill="#ef4444"/>
+            </svg>`;
+        }
+        // درخت غول‌پیکر پر از میوه
+        return `<svg class="svg-plant" viewBox="0 0 50 50">
+            <path d="M20,50 L30,50 L28,15 L22,15 Z" fill="#451a03"/>
+            <circle cx="25" cy="12" r="18" fill="#22c55e"/>
+            <circle cx="10" cy="25" r="14" fill="#16a34a"/>
+            <circle cx="40" cy="25" r="14" fill="#15803d"/>
+            <circle cx="25" cy="30" r="12" fill="#166534"/>
+            <circle cx="15" cy="15" r="3" fill="#ef4444"/>
+            <circle cx="35" cy="18" r="3" fill="#ef4444"/>
+            <circle cx="20" cy="28" r="3" fill="#ef4444"/>
+            <circle cx="30" cy="32" r="3" fill="#ef4444"/>
+            <circle cx="25" cy="10" r="3" fill="#ef4444"/>
+            <circle cx="10" cy="25" r="3" fill="#ef4444"/>
+            <circle cx="40" cy="25" r="3" fill="#ef4444"/>
+        </svg>`;
+    },
+
+    renderGarden: function() {
+        const grid = document.getElementById('gardenGridLarge');
+        if (!grid) return;
+        
+        const log = getData('ilia-log', []);
+        const dayNames = ['ی', 'د', 'س', 'چ', 'پ', 'ج', 'ش'];
+        const weekStart = this.getStartOfWeek(this.weekOffset);
+        
+        const titleEl = document.getElementById('weekTitle');
+        const btnNext = document.getElementById('btnNextWeek');
+        
+        if (titleEl) {
+            if (this.weekOffset === 0) titleEl.textContent = 'این هفته';
+            else if (this.weekOffset === 1) titleEl.textContent = 'هفته گذشته';
+            else titleEl.textContent = this.weekOffset + ' هفته پیش';
+        }
+        if (btnNext) btnNext.disabled = (this.weekOffset === 0);
+
+        let html = '';
+        let weekTotalHours = 0;
+        
+        for (let i = 0; i < 7; i++) {
+            const d = new Date(weekStart);
+            d.setDate(d.getDate() + i);
+            const dateStr = localDate(d);
+            const dayLogs = log.filter(e => e.date === dateStr);
+            const hours = dayLogs.reduce((s,e) => s + e.hours, 0);
+            
+            weekTotalHours += hours;
+            const subjects = [...new Set(dayLogs.map(e => e.subject))].join('، ');
+            const tooltipText = hours > 0 ? `${hours.toFixed(1)} ساعت مطالعه\n📚 ${subjects || 'نامشخص'}` : 'این روز مطالعه‌ای ثبت نشده';
+            
+            const dayName = dayNames[d.getDay()];
+            const svg = this.getSvgPlant(hours);
+
+            html += `
+                <div class="gd-cell-real" 
+                     onclick="GardenPro.showTooltip(event, '${tooltipText}')"
+                     onmouseenter="GardenPro.showTooltip(event, '${tooltipText}')"
+                     onmouseleave="GardenPro.hideTooltip()">
+                    ${hours > 0 ? `<div class="gd-hours-real">${fa(hours.toFixed(1))}س</div>` : ''}
+                    ${svg}
+                    <div class="gd-day-real">${dayName}</div>
+                </div>
+            `;
+        }
+        grid.innerHTML = html;
+
+        const skyEl = document.getElementById('gardenSky');
+        const sceneEl = document.getElementById('gardenScene');
+        if (skyEl && sceneEl) {
+            const hour = new Date().getHours();
+            if (hour >= 19 || hour < 6) {
+                skyEl.textContent = '🌙'; sceneEl.classList.add('night');
+            } else {
+                skyEl.textContent = '☀️'; sceneEl.classList.remove('night');
+            }
+        }
+
+        if (this.weekOffset === 0) {
+            let last7 = 0;
+            for(let i=0; i<7; i++) {
+                const d = new Date(); d.setDate(d.getDate() - i);
+                last7 += log.filter(e => e.date === localDate(d)).reduce((s,e) => s + e.hours, 0);
+            }
+            let total = 0; log.forEach(e => total += e.hours);
+            
+            const sD = document.getElementById('statDaily'); if(sD) sD.textContent = fa((last7/7).toFixed(1));
+            const sW = document.getElementById('statWeekly'); if(sW) sW.textContent = fa(weekTotalHours.toFixed(1));
+            const sM = document.getElementById('statMonthly'); if(sM) sM.textContent = fa(total.toFixed(1));
+        } else {
+            const sD = document.getElementById('statDaily'); if(sD) sD.textContent = '-';
+            const sW = document.getElementById('statWeekly'); if(sW) sW.textContent = fa(weekTotalHours.toFixed(1));
+            const sM = document.getElementById('statMonthly'); if(sM) sM.textContent = '-';
+        }
+
+        const msg = document.getElementById('gardenMessage');
+        if (msg) {
+            if (weekTotalHours === 0) msg.textContent = 'این هفته هنوز چیزی نکاشتی! با ۱۰ دقیقه مطالعه شروع کن.';
+            else if (weekTotalHours > 15) msg.textContent = 'وای چه جنگل پرمیوه‌ای! تو این هفته واقعاً درخشیدی. 🍎🌳✨';
+            else msg.textContent = 'گیاهانت در حال رشد هستند. با تلاش بیشتر، درخت‌هایت میوه‌دار می‌شوند! 🍎';
+        }
+    },
+
+    renderLeaguePage: function() {
+        const { dailyAvg, currentIdx } = this.getLeagueInfo();
+        const current = this.leagues[currentIdx];
+        const next = this.leagues[currentIdx + 1];
+
+        const card = document.getElementById('leagueCurrentCard');
+        if (card) {
+            card.innerHTML = `
+                <div class="lc-icon">${current.icon}</div>
+                <div class="lc-name" style="color:${current.color}">${current.name}</div>
+                <div class="lc-avg">میانگین ۷ روز اخیر: ${fa(dailyAvg.toFixed(1))} ساعت</div>
+                ${next ? `<div style="font-size:0.75em; margin-top:10px; opacity:0.8;">برای رسیدن به ${next.name}، روزانه ${fa((next.minAvg - dailyAvg).toFixed(1))} ساعت بیشتر بخوان</div>` : '<div style="font-size:0.75em; margin-top:10px; color:#fbbf24;">تو در بالاترین سطح ممکن هستی! 🎉</div>'}
+            `;
+        }
+
+        const list = document.getElementById('leagueList');
+        if (list) {
+            list.innerHTML = this.leagues.map((l, i) => {
+                const isUnlocked = i <= currentIdx;
+                const isActive = i === currentIdx;
+                return `
+                    <div class="league-item ${isActive ? 'active' : ''} ${isUnlocked ? 'unlocked' : ''}">
+                        <div class="li-icon">${l.icon}</div>
+                        <div class="li-info">
+                            <div class="li-name" style="${isActive ? 'color:' + l.color : ''}">${l.name}</div>
+                            <div class="li-req">حداقل میانگین: ${fa(l.minAvg)} ساعت در روز</div>
+                        </div>
+                        <div class="li-check">✓</div>
+                    </div>
+                `;
+            }).join('');
+        }
+    },
+
+    showTooltip: function(e, text) {
+        const tooltip = document.getElementById('gardenTooltip');
+        if (!tooltip) return;
+        tooltip.innerHTML = text.replace(/\n/g, '<br>');
+        tooltip.classList.add('show');
+        let x = e.pageX; let y = e.pageY - 40;
+        if (x > window.innerWidth - 150) x = window.innerWidth - 150;
+        if (y < 50) y = e.pageY + 20;
+        tooltip.style.left = x + 'px'; tooltip.style.top = y + 'px';
+    },
+
+    hideTooltip: function() {
+        const tooltip = document.getElementById('gardenTooltip');
+        if (tooltip) tooltip.classList.remove('show');
+    }
+};
+
+window.renderGardenPage = function() { GardenPro.renderGarden(); };
+window.renderLeaguePage = function() { GardenPro.renderLeaguePage(); };
+
+if (typeof go !== 'undefined') {
+    const originalGoFinal = go;
+    window.go = function(id) {
+        originalGoFinal(id);
+        if (id === 'garden') setTimeout(() => { GardenPro.renderGarden(); }, 50);
+        if (id === 'league') setTimeout(() => { GardenPro.renderLeaguePage(); }, 50);
+    };
+}
+
+// اجرای خودکار در صورت باز بودن صفحه
+setTimeout(() => {
+    const gardenSec = document.getElementById('garden');
+    const leagueSec = document.getElementById('league');
+    if (gardenSec && gardenSec.classList.contains('active')) GardenPro.renderGarden();
+    if (leagueSec && leagueSec.classList.contains('active')) GardenPro.renderLeaguePage();
+}, 1000);
+
+window.renderGardenPage = function() { GardenPro.renderGarden(); };
+
+if (typeof go !== 'undefined') {
+    const originalGo5 = go;
+    window.go = function(id) {
+        originalGo5(id);
+        if (id === 'garden') setTimeout(() => { GardenPro.renderGarden(); }, 50);
+    };
+}
+
+if (typeof go !== 'undefined') {
+    const originalGo4 = go;
+    window.go = function(id) {
+        originalGo4(id);
+        if (id === 'garden') setTimeout(() => { GardenPro.renderGarden(); }, 50);
+        if (id === 'league') setTimeout(() => { GardenPro.renderLeaguePage(); }, 50);
+    };
+}
+
+// بازنویسی renderGardenPage برای استفاده از GardenPro
+window.renderGardenPage = function() {
+    GardenPro.render();
+};
+
+// اتصال به سیستم ناوبری
+if (typeof go !== 'undefined') {
+    const originalGo2 = go;
+    window.go = function(id) {
+        originalGo2(id);
+        if (id === 'garden') {
+            setTimeout(() => { GardenPro.render(); }, 50);
+        }
+    };
+}
+
+
+// اتصال به تابع go
+if (typeof go !== 'undefined') {
+    const originalGo = go;
+    window.go = function(id) {
+        originalGo(id);
+        if (id === 'garden') {
+            setTimeout(renderGardenPage, 50);
+        }
+    };
+}
+
+// رندر اولیه در صورت لود مستقیم
+setTimeout(() => {
+    if (document.getElementById('garden') && document.getElementById('garden').classList.contains('active')) {
+        renderGardenPage();
+    }
+}, 1000);

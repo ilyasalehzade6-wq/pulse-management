@@ -37,7 +37,20 @@
 <div class="focus-mode" id="focusMode">
   <button class="focus-exit" onclick="exitFocus()">✕ خروج</button>
   <h2 id="focusSubject">حالت تمرکز</h2>
+<div id="focusOneThing" style="color:#fff; font-size:0.9em; margin-bottom:10px; font-weight:bold;"></div>
+
+    <div class="one-thing-box" id="oneThingBox" style="display:none;">
+        <input type="text" id="oneThingInput" placeholder="توی این زمان دقیقاً چه کاری رو تموم می‌کنی؟" class="one-thing-input">
+    </div>
+    <div class="sound-controls" id="soundControls">
+        <button class="sound-btn" onclick="SoundEngine.toggle('rain', this)" title="صدای باران">🌧️</button>
+        <button class="sound-btn" onclick="SoundEngine.toggle('cafe', this)" title="صدای کافه">☕</button>
+        <button class="sound-btn" onclick="SoundEngine.toggle('noise', this)" title="نویز سفید">📻</button>
+    </div>
+
   <div class="focus-timer" id="focusTimer">۲۵:۰۰</div>
+   <input type="text" id="parkingInput" class="parking-input" placeholder="فکر مزاحم؟ اینجا بنویس تا بعداً بررسی کنی..." onkeydown="if(event.key==='Enter')ParkingLot.save()">
+   <div style="font-size:0.75em; color:#aaa; margin-top:5px; text-align:center;">با زدن Enter ذخیره می‌شود</div>
   <button class="btn btn-primary" onclick="toggleFocusTimer()" id="focusStartBtn" style="padding:14px 36px;font-size:1em">▶ شروع</button>
 </div>
 
@@ -61,9 +74,17 @@
         </div>
     </div>
 
+    
+    
     <div class="category-title" style="display:flex !important;">📚 برنامه و مطالعه</div>
+
     <div class="nimkat-grid">
+    
+    
+    <div class="nimkat-card" onclick="go('league')"><div class="nimkat-icon">🏆</div><div class="nimkat-title">لیگ مطالعه</div></div>
+<div class="nimkat-card" onclick="go('garden')"><div class="nimkat-icon">🌳</div><div class="nimkat-title">باغ مطالعه</div></div>
     <div class="nimkat-card" onclick="go('schedule')"><div class="nimkat-icon">📅</div><div class="nimkat-title">برنامه هفتگی</div></div>
+
     <div class="nimkat-card" onclick="go('pomodoro')"><div class="nimkat-icon">⏱</div><div class="nimkat-title">پومودورو</div></div>
     <div class="nimkat-card" onclick="startFocusMode()"><div class="nimkat-icon">🎯</div><div class="nimkat-title">حالت تمرکز</div></div>
     <div class="nimkat-card" onclick="go('sourceguide')"><div class="nimkat-icon">📖</div><div class="nimkat-title">راهنمای منبع</div></div>
@@ -610,10 +631,21 @@
     <div class="pomodoro-timer" id="pomD">۲۵:۰۰</div>
     <div class="btn-group-3">
       <button class="btn btn-primary" onclick="startPom()" id="startBtn">▶ شروع</button>
+   <button class="btn btn-success" onclick="start2MinRule()" style="font-size:0.8em; padding:8px;">🌱 فقط ۵ دقیقه شروع می‌کنم</button>
       <button class="btn btn-secondary" onclick="resetPom()">🔄</button>
       <button class="btn btn-info" onclick="startFocusMode()">🎯 تمرکز</button>
     </div>
-    <input class="inp" id="pomSubj" placeholder="درس (اختیاری)" style="margin-top:14px;text-align:center">
+    
+    <div class="one-thing-box" id="oneThingBox" style="display:none;">
+        <input type="text" id="oneThingInput" placeholder="توی این زمان دقیقاً چه کاری رو تموم می‌کنی؟" class="one-thing-input">
+    </div>
+    <div class="sound-controls" id="soundControls">
+        <button class="sound-btn" onclick="SoundEngine.toggle('rain', this)" title="صدای باران">🌧️</button>
+        <button class="sound-btn" onclick="SoundEngine.toggle('cafe', this)" title="صدای کافه">☕</button>
+        <button class="sound-btn" onclick="SoundEngine.toggle('noise', this)" title="نویز سفید">📻</button>
+    </div>
+
+<input class="inp" id="pomSubj" placeholder="درس (اختیاری)" style="margin-top:14px;text-align:center">
   </div>
 </section>
 
@@ -681,6 +713,80 @@
   <p style="color:var(--text-light);font-size:.85em;margin-bottom:14px;line-height:1.9">نگاه یک‌نگاهی به ۹۰ روز اخیر — هر خونه یه روزه، پررنگ‌تر = بیشتر خوندی.</p>
   <div id="heatmapContent"></div>
 </section>
+
+
+
+
+
+
+<section id="league">
+    <div class="container" style="padding-top:20px;">
+        <h2>🏆 لیگ‌های مطالعه</h2>
+        <p style="color:var(--text-light); font-size:0.85em; margin-bottom:15px; line-height:1.8;">
+            با افزایش میانگین مطالعه روزانه (در ۷ روز اخیر)، در لیگ‌های بالاتر قرار می‌گیری. هر لیگ نشان‌دهنده تعهد و تلاش توست!
+        </p>
+        
+        <div class="league-current-card" id="leagueCurrentCard">
+            <!-- لیگ فعلی اینجا لود می‌شود -->
+        </div>
+
+        <h3 style="margin-top:20px; font-size:1em; color:var(--text-light);">مسیر پیشرفت لیگ‌ها</h3>
+        <div class="league-list" id="leagueList">
+            <!-- لیست لیگ‌ها اینجا لود می‌شود -->
+        </div>
+    </div>
+</section>
+
+
+
+<section id="garden">
+    <div class="container" style="padding-top:20px;">
+        <h2>🌳 باغ مطالعه‌ی من</h2>
+        
+        <!-- ناوبری هفته -->
+        <div class="week-navigator">
+            <button class="wn-btn" onclick="GardenPro.changeWeek(1)">هفته قبل ❯</button>
+            <div class="wn-title" id="weekTitle">این هفته</div>
+            <button class="wn-btn" onclick="GardenPro.changeWeek(-1)" id="btnNextWeek">❮ هفته بعد</button>
+        </div>
+
+        <!-- آمار -->
+        <div class="garden-stats-grid">
+            <div class="gs-box">
+                <div class="gs-icon">📅</div>
+                <div class="gs-val" id="statDaily">۰</div>
+                <div class="gs-label">میانگین روزانه</div>
+            </div>
+            <div class="gs-box">
+                <div class="gs-icon">📆</div>
+                <div class="gs-val" id="statWeekly">۰</div>
+                <div class="gs-label">کل هفته</div>
+            </div>
+            <div class="gs-box">
+                <div class="gs-icon">🗓️</div>
+                <div class="gs-val" id="statMonthly">۰</div>
+                <div class="gs-label">کل ماه</div>
+            </div>
+        </div>
+
+        <!-- باغ واقعی -->
+        <div class="garden-scene-realistic" id="gardenScene">
+            <div class="sky-realistic" id="gardenSky"></div>
+            <div class="garden-grid-realistic" id="gardenGridLarge"></div>
+            <div class="soil-bed"></div>
+        </div>
+        
+        <div class="garden-tips">
+            <div class="gt-icon">💡</div>
+            <div class="gt-text" id="gardenMessage">...</div>
+        </div>
+
+        <div id="gardenTooltip" class="garden-tooltip"></div>
+    </div>
+</section>
+
+
+
 
 <section id="settings">
   <h2>⚙️ تنظیمات</h2>
@@ -958,6 +1064,22 @@
     </div>
     <div class="jp-grid" id="jpGrid"></div>
   </div>
+</div>
+
+
+<div class="mood-modal" id="moodModal">
+    <div style="text-align:center; width: 100%; max-width: 400px; padding:20px;">
+        <h2 style="color:#fff; margin-bottom:20px; font-size:1.2em;">الان چه حسی داری؟</h2>
+        <div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
+            <button class="mood-btn" onclick="MoodCheck.select('focused')">🧠<br><span style="font-size:.3em; display:block; margin-top:10px; color:var(--text)">سرحال</span></button>
+            <button class="mood-btn" onclick="MoodCheck.select('tired')">😴<br><span style="font-size:.3em; display:block; margin-top:10px; color:var(--text)">خسته</span></button>
+            <button class="mood-btn" onclick="MoodCheck.select('stressed')">😰<br><span style="font-size:.3em; display:block; margin-top:10px; color:var(--text)">مضطرب</span></button>
+        </div>
+        <div id="moodResult" style="display:none; color:#fff; margin-top:20px; background:rgba(255,255,255,0.1); padding:15px; border-radius:12px;">
+            <!-- نتیجه اینجا نمایش داده می‌شود -->
+        </div>
+        <button style="margin-top:20px; background:transparent; border:1px solid #fff; color:#fff; padding:8px 16px; border-radius:20px; cursor:pointer;" onclick="document.getElementById('moodModal').style.display='none'">بستن</button>
+    </div>
 </div>
 
 </body>
