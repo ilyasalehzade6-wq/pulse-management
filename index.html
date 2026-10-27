@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#667eea">
+<title>مرکز مطالعه ایلیا</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="مطالعه">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a href="#dashboard" class="skip-link">پرش به محتوا</a>
+
+<header>
+<div class="simple-indicator">✨ حالت ساده</div>
+  <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="تغییر تم">🌙</button>
+  <button class="install-btn" id="installBtn" aria-label="نصب اپلیکیشن" onclick="installPWA()" title="نصب PWA">📲</button>
+  <button class="asst-open-btn" aria-label="باز کردن مشاور تحصیلی" onclick="openAssistantManual()" title="مشاور">🎓</button>
+  <h1>📚 مرکز مطالعه ایلیا</h1>
+  <div class="live-clock"><span class="clock-time" id="liveTime">۰۰:۰۰:۰۰</span></div>
+  <div class="live-date" id="liveDate">—</div>
+</header>
+
+<div class="focus-mode" id="focusMode">
+  <button class="focus-exit" onclick="exitFocus()">✕ خروج</button>
+  <h2 id="focusSubject">حالت تمرکز</h2>
+  <div class="focus-timer" id="focusTimer">۲۵:۰۰</div>
+  <button class="btn btn-primary" onclick="toggleFocusTimer()" id="focusStartBtn" style="padding:14px 36px;font-size:1em">▶ شروع</button>
+</div>
+
+<div class="container">
+<div class="content">
+
+<section id="dashboard" class="active">
+  <div id="apkBanner"></div>
+  <div id="alertContainer"></div>
+  <div id="phaseContainer"></div>
+  <div id="classesContainer"></div>
+  <div id="tomorrowContainer"></div>
+  <div id="todayReportsContainer"></div>
+  <div id="todayTotalContainer"></div>
+  <div id="reviewContainer"></div>
+  <div id="autoPlanContainer"></div>
+  <div id="makeupContainer"></div>
+  <div id="nowContainer"></div>
+  <div id="fridayContainer"></div>
+  <div id="chaptersDashContainer"></div>
+
+  <h3 style="margin:16px 0 8px;font-size:.95em;color:var(--text-light)">⏳ شمارش معکوس</h3>
+  <div class="countdown-grid" id="countdownGrid"></div>
+
+  <div class="card">
+    <h3>📋 برنامه امروز — <span id="todayName" style="color:var(--primary)"></span></h3>
+    <p style="font-size:.75em;color:var(--text-light);margin-bottom:8px">👆 روی هر مورد بزن تا راهنمای کاملش رو ببینی</p>
+    <div id="todaySchedule"></div>
+  </div>
+
+  <div class="grid-2 hide-in-simple">
+    <div class="stat"><div class="stat-v" id="dbToday">۰</div><div class="stat-l">ساعت امروز</div></div>
+    <div class="stat"><div class="stat-v" id="dbStreak">۰</div><div class="stat-l">روز پیوسته</div></div>
+  </div>
+
+  <div class="grid-2">
+    <button class="action-tile" onclick="startFocusMode()"><span class="tile-icon">🎯</span><span class="tile-label">حالت تمرکز</span></button>
+    <button class="action-tile" onclick="go('pomodoro')"><span class="tile-icon">⏱</span><span class="tile-label">پومودورو</span></button>
+    <button class="action-tile" onclick="go('sourceguide')"><span class="tile-icon">📖</span><span class="tile-label">راهنمای منبع</span></button>
+    <button class="action-tile" onclick="go('summary')"><span class="tile-icon">📝</span><span class="tile-label">خلاصه‌نویسی</span></button>
+  </div>
+</section>
+
+<section id="sourceguide">
+  <h2>📖 راهنمای منبع</h2>
+  <p style="color:var(--text-light);font-size:.88em;margin-bottom:14px;line-height:1.9">
+    برای هر درس، <b>از کتاب بخون یا از ویدیو ببین</b> — با نسبت و ترتیب درست.
+  </p>
+
+  <div class="source-card">
+    <div class="source-header">
+      <div class="source-icon" style="background:rgba(231,76,60,.15);color:#e74c3c">📐</div>
+      <div><div class="source-name">ریاضی</div><div class="source-sub">اول کتاب، بعد ویدیو</div></div>
+    </div>
+    <div class="source-guide"><b>ترتیب:</b> کتاب → ویدیو (اگه نفهمیدی) → تمرین<br><b>دلیل:</b> ریاضی با تمرین یاد می‌گیری</div>
+    <div class="ratio-bar"><div class="ratio-video" style="width:30%">ویدیو ۳۰٪</div><div class="ratio-book" style="width:70%">کتاب ۷۰٪</div></div>
+    <div class="source-order"><span class="step-num">۱</span><span>کتاب رو ۵ دقیقه ورق بزن</span></div>
+    <div class="source-order"><span class="step-num">۲</span><span>تمرین‌های آخر فصل رو ببین</span></div>
+    <div class="source-order"><span class="step-num">۳</span><span>اگه نفهمیدی، ویدیو ببین</span></div>
+    <div class="source-order"><span class="step-num">۴</span><span>۳-۵ تمرین حل کن</span></div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-header">
+      <div class="source-icon" style="background:rgba(52,152,219,.15);color:#3498db">⚛️</div>
+      <div><div class="source-name">فیزیک</div><div class="source-sub">اول ویدیو، بعد کتاب</div></div>
+    </div>
+    <div class="source-guide"><b>ترتیب:</b> ویدیو → کتاب → تمرین<br><b>دلیل:</b> فیزیک مفهومی‌ست، تصویر کمک می‌کنه</div>
+    <div class="ratio-bar"><div class="ratio-video" style="width:50%">ویدیو ۵۰٪</div><div class="ratio-book" style="width:50%">کتاب ۵۰٪</div></div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-header">
+      <div class="source-icon" style="background:rgba(155,89,182,.15);color:#9b59b6">📏</div>
+      <div><div class="source-name">هندسه</div><div class="source-sub">اول کتاب، بعد ویدیو</div></div>
+    </div>
+    <div class="source-guide"><b>ترتیب:</b> کتاب → ویدیو → تمرین<br><b>دلیل:</b> هندسه با شکل کشیدن یاد می‌گیری</div>
+    <div class="ratio-bar"><div class="ratio-video" style="width:40%">ویدیو ۴۰٪</div><div class="ratio-book" style="width:60%">کتاب ۶۰٪</div></div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-header">
+      <div class="source-icon" style="background:rgba(22,160,133,.15);color:#16a085">🧪</div>
+      <div><div class="source-name">شیمی</div><div class="source-sub">اول ویدیو، بعد کتاب</div></div>
+    </div>
+    <div class="source-guide"><b>ترتیب:</b> ویدیو → کتاب → تمرین<br><b>دلیل:</b> واکنش‌ها با تصویر بهتر جا میفتن</div>
+    <div class="ratio-bar"><div class="ratio-video" style="width:40%">ویدیو ۴۰٪</div><div class="ratio-book" style="width:60%">کتاب ۶۰٪</div></div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-header">
+      <div class="source-icon" style="background:rgba(243,156,18,.15);color:#f39c12">🕌</div>
+      <div><div class="source-name">عربی</div><div class="source-sub">کتاب برای متن، ویدیو برای گرامر</div></div>
+    </div>
+    <div class="source-guide"><b>ترتیب:</b> کتاب → ویدیو (قواعد) → تمرین</div>
+    <div class="ratio-bar"><div class="ratio-video" style="width:25%">ویدیو ۲۵٪</div><div class="ratio-book" style="width:75%">کتاب ۷۵٪</div></div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-header">
+      <div class="source-icon" style="background:rgba(39,174,96,.15);color:#27ae60">🌐</div>
+      <div><div class="source-name">انگلیسی</div><div class="source-sub">کتاب برای متن، ویدیو برای گرامر</div></div>
+    </div>
+    <div class="source-guide"><b>ترتیب:</b> کتاب → ویدیو → Writing</div>
+    <div class="ratio-bar"><div class="ratio-video" style="width:25%">ویدیو ۲۵٪</div><div class="ratio-book" style="width:75%">کتاب ۷۵٪</div></div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-header">
+      <div class="source-icon" style="background:rgba(192,57,43,.15);color:#c0392b">📜</div>
+      <div><div class="source-name">فارسی</div><div class="source-sub">فقط کتاب</div></div>
+    </div>
+    <div class="ratio-bar"><div class="ratio-book" style="width:100%">کتاب ۱۰۰٪</div></div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-header">
+      <div class="source-icon" style="background:rgba(127,140,141,.15);color:#7f8c8d">📖</div>
+      <div><div class="source-name">دینی، جغرافیا، تفکر</div><div class="source-sub">فقط کتاب</div></div>
+    </div>
+    <div class="ratio-bar"><div class="ratio-book" style="width:100%">کتاب ۱۰۰٪</div></div>
+  </div>
+
+  <div class="card" style="background:linear-gradient(135deg,rgba(102,126,234,.1),rgba(118,75,162,.05));border-color:var(--primary)">
+    <h3>💡 ۴ قانون طلایی</h3>
+    <div style="font-size:.88em;line-height:2">
+      <div style="margin:8px 0"><b>۱.</b> ویدیو رو جای کتاب نذار</div>
+      <div style="margin:8px 0"><b>۲.</b> بعد هر ویدیو، تمرین حل کن</div>
+      <div style="margin:8px 0"><b>۳.</b> اگه سر کلاس فهمیدی، ویدیو نبین</div>
+      <div style="margin:8px 0"><b>۴.</b> برای ۳۰ دقیقه ویدیو، ۶۰ دقیقه تمرین</div>
+    </div>
+  </div>
+</section>
+
+<section id="summary">
+  <h2>📝 خلاصه‌نویسی</h2>
+
+  <div class="card" style="background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(239,68,68,.03));border-color:var(--danger)">
+    <h3 style="color:var(--danger)">⚠️ اشتباه بزرگ</h3>
+    <div class="method-example bad">
+      <span class="label">❌ کپی از کتاب</span>
+      «مشتق تابع f در نقطه x به صورت حد نسبت تغییر تابع به تغییر متغیر تعریف می‌شود.»
+    </div>
+    <div class="method-example good">
+      <span class="label">✅ با زبان خودت</span>
+      «مشتق = سرعت تغییر. مثل کیلومترشمار ماشین که سرعت لحظه‌ای رو نشون میده.»
+    </div>
+  </div>
+
+  <h3 style="margin:20px 0 10px">📘 روش ۱: یادداشت کورنل</h3>
+
+  <div class="summary-method">
+    <h4>📐 تقسیم دفتر</h4>
+    <div class="cornell-demo">
+      <div class="cornell-top">
+        <div class="cornell-key"><b>🔑 کلیدواژه‌ها</b><br><br>(بعد از کلاس)<br>• Δ چیه؟<br>• کی دو جواب داره؟</div>
+        <div class="cornell-notes"><b>📝 یادداشت</b><br><br>(سر کلاس)<br>معادله درجه دو: ax² + bx + c = 0<br>روش‌ها: تجزیه، فرمول Δ، مربع کامل<br>Δ = b² - 4ac</div>
+      </div>
+      <div class="cornell-summary"><b>📌 خلاصه:</b> معادله درجه دو رو با ۳ روش میشه حل کرد. سریع‌ترین راه، فرمول Δ هست.</div>
+    </div>
+    <div class="source-order"><span class="step-num">۱</span><span>صفحه رو ۴ بخش کن</span></div>
+    <div class="source-order"><span class="step-num">۲</span><span>سر کلاس تو بخش راست بنویس</span></div>
+    <div class="source-order"><span class="step-num">۳</span><span>بعد کلاس تو بخش چپ سوال بنویس</span></div>
+    <div class="source-order"><span class="step-num">۴</span><span>آخر شب خلاصه بنویس</span></div>
+  </div>
+
+  <h3 style="margin:20px 0 10px">🗺 روش ۲: نقشه ذهنی</h3>
+
+  <div class="summary-method">
+    <h4>🎯 برای مرور کل فصل</h4>
+    <div class="mindmap-demo">        تجزیه
+         │
+فرمول Δ ──── معادله درجه دو ──── مربع کامل
+         │
+   ax² + bx + c = 0</div>
+    <div style="font-size:.85em;line-height:2;margin-top:10px">
+      <b>چطور؟</b><br>
+      ۱. موضوع اصلی وسط<br>
+      ۲. شاخه‌ها دورش<br>
+      ۳. با رنگ‌های مختلف<br>
+      ۴. آخرش از حفظ بکش
+    </div>
+  </div>
+
+  <h3 style="margin:20px 0 10px">🎴 روش ۳: فلش‌کارت</h3>
+
+  <div class="summary-method">
+    <h4>✨ برای لغت و فرمول</h4>
+    <div class="method-example good">
+      <span class="label">روی کارت:</span>
+      ترجمه: ذَهَبَ الطّالِبُ إلَی المَدرَسَة
+    </div>
+    <div class="method-example good">
+      <span class="label">پشت کارت:</span>
+      دانش‌آموز به مدرسه رفت
+    </div>
+    <div class="source-order"><span class="step-num">۱</span><span>کارت ۱۰×۱۵</span></div>
+    <div class="source-order"><span class="step-num">۲</span><span>یه طرف سوال، یه طرف جواب</span></div>
+    <div class="source-order"><span class="step-num">۳</span><span>روزی ۱۰-۱۵ کارت</span></div>
+  </div>
+
+  <h3 style="margin:20px 0 10px">📋 هر درس چطور خلاصه بشه؟</h3>
+
+  <div class="card">
+    <div style="font-size:.88em;line-height:2.2">
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>📐 ریاضی:</b> نقشه ذهنی فصل + فلش‌کارت فرمول</div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>⚛️ فیزیک:</b> نقشه ذهنی + دفتر فرمول</div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>📏 هندسه:</b> هر قضیه با شکل</div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>🧪 شیمی:</b> جدول واکنش‌ها</div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>🕌 عربی:</b> فلش‌کارت لغت + کورنل قواعد</div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)"><b>🌐 انگلیسی:</b> فلش‌کارت لغت + کورنل گرامر</div>
+      <div style="padding:8px 0"><b>📜 فارسی:</b> نقشه ذهنی آرایه + کورنل دستور</div>
+    </div>
+  </div>
+
+  <div class="card" style="background:linear-gradient(135deg,rgba(39,174,96,.1),rgba(39,174,96,.03));border-color:var(--success)">
+    <h3 style="color:var(--success)">🎯 قانون طلایی</h3>
+    <div style="font-size:.9em;line-height:2;text-align:center;padding:10px">
+      <b>اگه نتونی بدون کتاب با زبان خودت توضیح بدی،</b><br>
+      <b style="color:var(--danger);font-size:1.1em">یعنی هنوز یاد نگرفتی.</b>
+    </div>
+  </div>
+</section>
+
+<section id="profile">
+  <h2>🪪 پرونده دانش‌آموز</h2>
+  <div id="profileHeader"></div>
+  <div class="card">
+    <h3>👤 اطلاعات پایه</h3>
+    <input class="inp" id="pfName" placeholder="نام کامل">
+    <input class="inp" id="pfSchool" placeholder="مدرسه">
+    <div class="inp-row">
+      <input class="inp" id="pfAvg9" type="number" step="0.25" min="0" max="20" placeholder="معدل نهم">
+      <input class="inp" id="pfAvgTarget" type="number" step="0.25" min="0" max="20" placeholder="هدف معدل دهم">
+    </div>
+    <button class="btn btn-primary btn-block" onclick="saveProfile()">💾 ذخیره</button>
+  </div>
+  <div class="card">
+    <h3>📊 سطح‌سنجی درس‌ها</h3>
+    <div id="levelAssess"></div>
+  </div>
+  <div class="card">
+    <h3>🧠 سبک یادگیری</h3>
+    <div class="btn-group">
+      <button class="btn btn-secondary btn-sm" onclick="setLearningStyle('visual')" id="ls-visual">👁 بصری</button>
+      <button class="btn btn-secondary btn-sm" onclick="setLearningStyle('auditory')" id="ls-auditory">👂 شنیداری</button>
+      <button class="btn btn-secondary btn-sm" onclick="setLearningStyle('kinesthetic')" id="ls-kinesthetic">✋ جنبشی</button>
+      <button class="btn btn-secondary btn-sm" onclick="setLearningStyle('reading')" id="ls-reading">📖 خواندنی</button>
+    </div>
+    <p style="font-size:.82em;color:var(--text-light);margin-top:10px" id="lsResult">—</p>
+  </div>
+</section>
+
+<section id="checklist">
+  <h2>✅ چک‌لیست روزانه</h2>
+  <div class="card">
+    <div class="checklist-title">📅 امروز — <span id="clTodayDate"></span></div>
+    <div id="clToday"></div>
+    <div class="checklist-progress" id="clTodayProgress" style="text-align:center;margin-top:8px"></div>
+  </div>
+</section>
+
+<section id="health">
+  <h2>🛌 خواب و سلامت</h2>
+  <div class="card">
+    <h3>ثبت خواب دیشب</h3>
+    <div class="inp-row">
+      <input class="inp" id="slSleep" type="time" value="22:30">
+      <input class="inp" id="slWake" type="time" value="06:00">
+    </div>
+    <p style="font-size:.82em;color:var(--text-light);margin-bottom:10px">کیفیت خواب:</p>
+    <div class="sleep-stars" id="slStars">
+      <span class="sleep-star" onclick="setSleepQuality(1)">⭐</span>
+      <span class="sleep-star" onclick="setSleepQuality(2)">⭐</span>
+      <span class="sleep-star" onclick="setSleepQuality(3)">⭐</span>
+      <span class="sleep-star" onclick="setSleepQuality(4)">⭐</span>
+      <span class="sleep-star" onclick="setSleepQuality(5)">⭐</span>
+    </div>
+    <button class="btn btn-primary btn-block" onclick="logSleep()">💾 ثبت خواب</button>
+  </div>
+  <div class="grid-2">
+    <div class="stat"><div class="stat-v" id="slToday">۰</div><div class="stat-l">خواب دیشب</div></div>
+    <div class="stat"><div class="stat-v" id="slWeek">۰</div><div class="stat-l">میانگین هفته</div></div>
+  </div>
+  <div class="card"><h3>📊 نمودار ۷ روز</h3><div class="chart" id="sleepChart"></div></div>
+  <div class="card"><h3>📋 تاریخچه</h3><div id="sleepHistory" style="max-height:300px;overflow-y:auto"></div></div>
+</section>
+
+<section id="sessions">
+  <h2>📝 جلسات مطالعه</h2>
+  <div class="card">
+    <div class="inp-row">
+      <select class="inp" id="ssSubj">
+        <option>ریاضی</option><option>هندسه</option><option>فیزیک</option>
+        <option>شیمی</option><option>عربی</option><option>زبان</option>
+        <option>فارسی</option><option>دینی</option><option>جغرافیا</option><option>نگارش</option>
+      </select>
+      <input class="inp" id="ssMin" type="number" placeholder="دقیقه" min="1" max="300" step="5">
+    </div>
+    <input class="inp" id="ssTopic" placeholder="مبحث">
+    <input class="inp" id="ssSource" placeholder="منبع">
+    <div class="inp-row">
+      <input class="inp" id="ssPages" type="number" placeholder="صفحه" min="0">
+      <input class="inp" id="ssTests" type="number" placeholder="تست" min="0">
+    </div>
+    <button class="btn btn-success btn-block" onclick="addSession()">➕ ثبت</button>
+  </div>
+  <div class="card">
+    <h3>📊 این هفته</h3>
+    <div class="grid-2">
+      <div class="stat"><div class="stat-v" id="ssWeekMin">۰</div><div class="stat-l">دقیقه</div></div>
+      <div class="stat"><div class="stat-v" id="ssWeekPages">۰</div><div class="stat-l">صفحه</div></div>
+      <div class="stat"><div class="stat-v" id="ssWeekTests">۰</div><div class="stat-l">تست</div></div>
+      <div class="stat"><div class="stat-v" id="ssWeekSess">۰</div><div class="stat-l">جلسه</div></div>
+    </div>
+  </div>
+  <div class="card"><h3>📋 امروز</h3><div id="ssTodayList"></div></div>
+</section>
+
+<section id="distraction">
+  <h2>🧠 حواس‌پرتی</h2>
+  <div class="card">
+    <p style="font-size:.85em;color:var(--text-light);margin-bottom:10px">چی باعث شد پرت شی؟</p>
+    <div id="distractTags">
+      <span class="distract-tag" onclick="toggleDistractTag('گوشی',this)">📱 گوشی</span>
+      <span class="distract-tag" onclick="toggleDistractTag('فکر مزاحم',this)">💭 فکر مزاحم</span>
+      <span class="distract-tag" onclick="toggleDistractTag('خستگی',this)">😴 خستگی</span>
+      <span class="distract-tag" onclick="toggleDistractTag('گرسنگی',this)">🍽 گرسنگی</span>
+      <span class="distract-tag" onclick="toggleDistractTag('سر و صدا',this)">🔊 سر و صدا</span>
+      <span class="distract-tag" onclick="toggleDistractTag('بی‌انگیزگی',this)">😐 بی‌انگیزگی</span>
+      <span class="distract-tag" onclick="toggleDistractTag('فضای مجازی',this)">🌐 فضای مجازی</span>
+      <span class="distract-tag" onclick="toggleDistractTag('دوست',this)">👥 دوست</span>
+    </div>
+    <input class="inp" id="distractNote" placeholder="توضیح (اختیاری)" style="margin-top:10px">
+    <button class="btn btn-primary btn-block" onclick="logDistraction()">💾 ثبت</button>
+  </div>
+  <div class="card"><h3>📊 تحلیل ۷ روز</h3><div id="distractAnalysis"></div></div>
+</section>
+
+<section id="exams">
+  <h2>📝 تحلیل آزمون‌ها</h2>
+  <div class="card">
+    <div class="inp-row">
+      <input class="inp" id="exTitle" placeholder="عنوان">
+      <input class="inp" id="exDate" type="date">
+    </div>
+    <div class="inp-row">
+      <input class="inp" id="exTotal" type="number" placeholder="کل" min="1">
+      <input class="inp" id="exCorrect" type="number" placeholder="درست" min="0">
+    </div>
+    <div class="inp-row">
+      <input class="inp" id="exWrong" type="number" placeholder="غلط" min="0">
+      <input class="inp" id="exUnanswered" type="number" placeholder="نزده" min="0">
+    </div>
+    <input class="inp" id="exSubject" placeholder="درس">
+    <button class="btn btn-success btn-block" onclick="addExam()">➕ ثبت</button>
+  </div>
+  <div class="grid-2">
+    <div class="stat"><div class="stat-v" id="exAvg">۰</div><div class="stat-l">میانگین %</div></div>
+    <div class="stat"><div class="stat-v" id="exCount">۰</div><div class="stat-l">تعداد</div></div>
+  </div>
+  <div id="examsList"></div>
+</section>
+
+<section id="journal">
+  <h2>🌙 ژورنال شبانه</h2>
+  <div class="card">
+    <div class="journal-q"><label>✅ امروز چی یاد گرفتم؟</label><textarea id="jq1"></textarea></div>
+    <div class="journal-q"><label>⚠️ چی برام سخت بود؟</label><textarea id="jq2"></textarea></div>
+    <div class="journal-q"><label>🎯 فردا میخوام چیکار کنم؟</label><textarea id="jq3"></textarea></div>
+    <button class="btn btn-success btn-block" onclick="saveJournal()">💾 ذخیره</button>
+  </div>
+  <div class="card"><h3>📖 قبلی</h3><div id="journalList" style="max-height:400px;overflow-y:auto"></div></div>
+</section>
+
+<section id="weakness">
+  <h2>💡 تحلیل نقاط ضعف</h2>
+  <div id="weakPlanContainer"></div>
+  <div class="card"><h3>🎯 خلاصه هوشمند</h3><div id="weaknessSummary"></div></div>
+  <div class="card"><h3>📉 نیازمند توجه</h3><div id="weakSubjectsList"></div></div>
+  <div class="card"><h3>📈 روند نمرات</h3><div id="gradeTrend"></div></div>
+</section>
+
+<section id="weekly">
+  <h2>📊 گزارش هفتگی</h2>
+  <div id="weeklyContent"></div>
+  <div id="weeklyGoalsContainer"></div>
+</section>
+
+<section id="schedule">
+  <h2>📅 برنامه هفتگی</h2>
+  <div class="card"><h3>🏫 کلاس‌های مدرسه</h3><div class="school-grid" id="schoolGrid"></div></div>
+  <h3 style="margin:16px 0 8px;font-size:.95em;color:var(--text-light)">📖 برنامه مطالعه</h3>
+  <div class="week-tabs" id="weekTabs"></div>
+  <div id="fullSchedule"></div>
+</section>
+
+<section id="techniques">
+  <h2>🧠 تکنیک‌ها</h2>
+  <p style="font-size:.85em;color:var(--text-light);margin-bottom:14px;line-height:1.9">
+    روی هر تکنیک بزن تا باز شه، بعد دکمه‌ی <b>اجرا</b> رو بزن تا مستقیم ببرتت سر کار.
+  </p>
+  <div id="techniquesList"></div>
+</section>
+
+<section id="leitner">
+  <h2>🗂 جعبه لایتنر</h2>
+  <div class="card">
+    <input class="inp" id="lf" placeholder="سوال / لغت">
+    <input class="inp" id="lb" placeholder="پاسخ / معنی">
+    <button class="btn btn-success btn-block" onclick="addLeitner()">➕ اضافه</button>
+  </div>
+  <div class="card"><h3>📊 وضعیت</h3><div id="leitnerStats" style="text-align:center"></div></div>
+  <div class="card">
+    <h3>🎴 کارت امروز</h3>
+    <div class="flashcard" id="leitnerCard" onclick="flipLeitner()">
+      <div class="fc-inner">
+        <div class="fc-front" id="lv1">کارتی نیست</div>
+        <div class="fc-back" id="lv2">اضافه کن!</div>
+      </div>
+    </div>
+    <div class="btn-group" style="margin-top:10px">
+      <button class="btn btn-danger" onclick="leitnerAnswer(false)">❌ نمی‌دونستم</button>
+      <button class="btn btn-success" onclick="leitnerAnswer(true)">✅ می‌دونستم</button>
+    </div>
+    <p style="text-align:center;color:var(--text-light);margin-top:10px;font-size:.82em" id="leitnerCounter"></p>
+  </div>
+</section>
+
+<section id="mistakes">
+  <h2>📕 دفتر اشتباهات</h2>
+  <div class="search-bar" id="searchBarMistakes">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchMistakes" placeholder="جستجو در درس، سوال، یا دلیل..." oninput="onSearchMistakesInput(this)">
+    <button class="search-clear" aria-label="پاک کردن جستجو" onclick="clearSearchMistakes()">✕</button>
+  </div>
+  <div class="card">
+    <input class="inp" id="mS" placeholder="درس">
+    <input class="inp" id="mQ" placeholder="سوال">
+    <input class="inp" id="mR" placeholder="چرا غلط زدم؟">
+    <button class="btn btn-success btn-block" onclick="addMistake()">➕ ثبت</button>
+  </div>
+  <div id="mistakesList"></div>
+</section>
+
+<section id="grades">
+  <h2>📊 نمرات</h2>
+  <div class="search-bar" id="searchBarGrades">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchGrades" placeholder="جستجو در درس یا عنوان آزمون..." oninput="onSearchGradesInput(this)">
+    <button class="search-clear" aria-label="پاک کردن جستجو" onclick="clearSearchGrades()">✕</button>
+  </div>
+  <div class="card">
+    <input class="inp" id="gS" placeholder="درس">
+    <div class="inp-row">
+      <input class="inp" id="gV" type="number" placeholder="نمره" min="0" max="20" step="0.25">
+      <input class="inp" id="gT" placeholder="عنوان آزمون">
+    </div>
+    <button class="btn btn-success btn-block" onclick="addGrade()">➕ ثبت</button>
+  </div>
+  <div class="grid-2">
+    <div class="stat"><div class="stat-v" id="avgAll">۰</div><div class="stat-l">معدل</div></div>
+    <div class="stat"><div class="stat-v" id="maxG">۰</div><div class="stat-l">بالاترین</div></div>
+    <div class="stat"><div class="stat-v" id="minG">۰</div><div class="stat-l">پایین‌ترین</div></div>
+    <div class="stat"><div class="stat-v" id="cntG">۰</div><div class="stat-l">تعداد</div></div>
+  </div>
+  <div id="gradesList"></div>
+</section>
+
+<section id="todo">
+  <h2>✔️ کارها</h2>
+  <div class="card">
+    <input class="inp" id="tdT" placeholder="کار جدید">
+    <div class="inp-row">
+      <select class="inp" id="tdP">
+        <option value="high">🔴 فوری</option>
+        <option value="med" selected>🟡 متوسط</option>
+        <option value="low">🟢 کم</option>
+      </select>
+      <button class="btn btn-success" onclick="addTodo()" style="flex:0 0 auto">➕</button>
+    </div>
+  </div>
+  <div class="card"><h3>در انتظار</h3><div id="todoList"></div></div>
+  <div class="card"><h3>انجام‌شده</h3><div id="todoDone"></div></div>
+</section>
+
+<section id="goals">
+  <h2>🎯 اهداف</h2>
+  <div class="card">
+    <input class="inp" id="glT" placeholder="عنوان هدف">
+    <div class="inp-row">
+      <select class="inp" id="glTy">
+        <option value="short">کوتاه‌مدت</option>
+        <option value="mid" selected>میان‌مدت</option>
+        <option value="long">بلندمدت</option>
+      </select>
+      <input class="inp" id="glTg" type="number" min="1" value="10">
+    </div>
+    <button class="btn btn-success btn-block" onclick="addGoal()">➕ اضافه</button>
+  </div>
+  <div id="goalsList"></div>
+</section>
+
+<section id="pomodoro">
+  <h2>⏱ پومودورو</h2>
+  <div class="pomodoro">
+    <div class="pomo-modes">
+      <button class="pomo-mode active" data-m="25" onclick="setPom(25,this)">۲۵</button>
+      <button class="pomo-mode" data-m="45" onclick="setPom(45,this)">۴۵</button>
+      <button class="pomo-mode" data-m="50" onclick="setPom(50,this)">۵۰</button>
+      <button class="pomo-mode" data-m="5" onclick="setPom(5,this)">۵ استراحت</button>
+    </div>
+    <div class="pomodoro-timer" id="pomD">۲۵:۰۰</div>
+    <div class="btn-group-3">
+      <button class="btn btn-primary" onclick="startPom()" id="startBtn">▶ شروع</button>
+      <button class="btn btn-secondary" onclick="resetPom()">🔄</button>
+      <button class="btn btn-info" onclick="startFocusMode()">🎯 تمرکز</button>
+    </div>
+    <input class="inp" id="pomSubj" placeholder="درس (اختیاری)" style="margin-top:14px;text-align:center">
+  </div>
+</section>
+
+<section id="stats">
+  <h2>📈 آمار</h2>
+  <div class="grid-2">
+    <div class="stat"><div class="stat-v" id="tT">۰</div><div class="stat-l">امروز</div></div>
+    <div class="stat"><div class="stat-v" id="wT">۰</div><div class="stat-l">هفته</div></div>
+    <div class="stat"><div class="stat-v" id="aT">۰</div><div class="stat-l">کل</div></div>
+    <div class="stat"><div class="stat-v" id="stT">۰</div><div class="stat-l">پیوسته</div></div>
+  </div>
+  <div class="card"><h3>📊 نمودار ۷ روز</h3><div class="chart" id="chart"></div></div>
+  <div class="card"><h3>📋 گزارش</h3><div id="logList" style="max-height:280px;overflow-y:auto"></div></div>
+</section>
+
+<section id="habits">
+  <h2>🔥 عادت‌ها</h2>
+  <div class="card">
+    <div class="inp-row">
+      <input class="inp" id="hN" placeholder="عادت جدید">
+      <button class="btn btn-success" onclick="addHabit()" style="flex:0 0 auto">➕</button>
+    </div>
+    <div id="habitsList"></div>
+  </div>
+  <div class="card"><h3>۱۴ روز</h3><div id="habitGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:6px"></div></div>
+</section>
+
+<section id="notes">
+  <h2>📝 یادداشت‌ها</h2>
+  <textarea class="inp" id="notesA" style="min-height:300px" placeholder="بنویس..."></textarea>
+  <div class="btn-group">
+    <button class="btn btn-success" onclick="saveNotes()">💾 ذخیره</button>
+    <button class="btn btn-danger" onclick="clearNotes()">🗑 پاک کردن</button>
+  </div>
+</section>
+
+<section id="rules">
+  <h2>⭐ قوانین</h2>
+  <div class="card" style="background:linear-gradient(135deg,rgba(102,126,234,.08),rgba(118,75,162,.03));border-color:var(--primary)">
+    <p style="font-size:.85em;color:var(--text-light);margin-bottom:10px;line-height:1.9">
+      📌 هر روز که قانونی رو رعایت کردی، روی شماره‌ش بزن تا سبز شه.<br>
+      ✏️ هر قانونی رو می‌تونی ویرایش کنی (فقط روش کلیک کن و تایپ کن).<br>
+      ➕ قانون جدید اضافه کن، 🗑 حذف کن.
+    </p>
+    <div class="inp-row" style="margin:0">
+      <input class="inp" id="newRuleInput" placeholder="قانون جدید..." style="margin:0">
+      <button class="btn btn-success" onclick="addRule()" style="flex:0 0 auto">➕ اضافه</button>
+    </div>
+  </div>
+  <div class="card">
+    <div id="rulesTodayInfo" style="text-align:center;font-size:.85em;color:var(--text-light);margin-bottom:10px"></div>
+    <ul style="list-style:none;padding:0" id="rulesList"></ul>
+  </div>
+</section>
+
+<section id="chapters">
+  <h2>📚 پیشرفت کتاب</h2>
+  <p style="color:var(--text-light);font-size:.85em;margin-bottom:14px;line-height:1.9">فصل‌های هر کتاب رو مدیریت کن، تعداد صفحات رو وارد کن، و ببین کجای کتابی.</p>
+  <div id="chHero"></div>
+  <div id="chContent"></div>
+</section>
+
+<section id="heatmap">
+  <h2>📅 تقویم مطالعه</h2>
+  <p style="color:var(--text-light);font-size:.85em;margin-bottom:14px;line-height:1.9">نگاه یک‌نگاهی به ۹۰ روز اخیر — هر خونه یه روزه، پررنگ‌تر = بیشتر خوندی.</p>
+  <div id="heatmapContent"></div>
+</section>
+
+<section id="settings">
+  <h2>⚙️ تنظیمات</h2>
+
+  <div class="set-group">
+    <div class="set-group-title">🔔 اعلان و هشدار</div>
+    <div class="set-row">
+      <div class="set-row-info">
+        <div class="set-row-title">صدای تایمر</div>
+        <div class="set-row-help">وقتی تایمر تموم شد، زنگ بزنه</div>
+      </div>
+      <label class="set-switch"><input type="checkbox" id="set-sound" onchange="SETTINGS.toggle('sound', this.checked)"><span class="set-slider"></span></label>
+    </div>
+    <div class="set-row">
+      <div class="set-row-info">
+        <div class="set-row-title">لرزش</div>
+        <div class="set-row-help">گوشی بلرزه وقتی تایمر تموم شد</div>
+      </div>
+      <label class="set-switch"><input type="checkbox" id="set-vibrate" onchange="SETTINGS.toggle('vibrate', this.checked)"><span class="set-slider"></span></label>
+    </div>
+    <div class="set-row">
+      <div class="set-row-info">
+        <div class="set-row-title">پیگیری مشاور</div>
+        <div class="set-row-help">مشاور خودکار پیگیر کارها بشه</div>
+      </div>
+      <label class="set-switch"><input type="checkbox" id="set-assistant" onchange="SETTINGS.toggle('assistant', this.checked)"><span class="set-slider"></span></label>
+    </div>
+  </div>
+
+  <div class="set-group">
+    <div class="set-group-title">📅 برنامه و هدف</div>
+    <div class="set-row">
+      <div class="set-row-info">
+        <div class="set-row-title">فاز عادت‌سازی</div>
+        <div class="set-row-help">۴ هفته اول مدرسه، سقف مطالعه کم باشه</div>
+      </div>
+      <label class="set-switch"><input type="checkbox" id="set-habit" onchange="SETTINGS.toggle('habitPhase', this.checked)"><span class="set-slider"></span></label>
+    </div>
+    <div class="set-row">
+      <div class="set-row-info">
+        <div class="set-row-title">هدفی روزانه</div>
+        <div class="set-row-help">خودکار از جدول برنامه محاسبه شه یا دستی</div>
+      </div>
+      <select class="set-select" id="set-goal-mode" onchange="SETTINGS.setGoalMode(this.value)">
+        <option value="auto">🤖 خودکار</option>
+        <option value="manual">✋ دستی</option>
+      </select>
+    </div>
+    <div class="set-row" id="manualGoalRow" style="display:none">
+      <div class="set-row-info">
+        <div class="set-row-title">هدف روزانه (دستی)</div>
+        <div class="set-row-help">چند ساعت در روز بخونی؟</div>
+      </div>
+      <input type="number" class="set-num" id="set-manual-goal" min="0.5" max="12" step="0.5" onchange="SETTINGS.setManualGoal(this.value)">
+    </div>
+  </div>
+
+  <div class="set-group">
+<div class="set-group">
+  <div class="set-group-title">🎯 حالت ساده</div>
+  <div class="set-row">
+    <div class="set-row-info">
+      <div class="set-row-title">حالت ساده</div>
+      <div class="set-row-help">فقط چیزهای ضروری، دکمه‌های بزرگ، فونت بزرگ</div>
+    </div>
+    <label class="set-switch"><input type="checkbox" id="set-simple"><span class="set-slider"></span></label>
+  </div>
+</div>
+
+    <div class="set-group-title">🎨 ظاهر</div>
+    <div class="set-row">
+      <div class="set-row-info">
+        <div class="set-row-title">حالت شب خودکار</div>
+        <div class="set-row-help">بعد از ساعت ۱۹ خودکار تاریک شه</div>
+      </div>
+      <label class="set-switch"><input type="checkbox" id="set-auto-dark" onchange="SETTINGS.toggle('autoDark', this.checked)"><span class="set-slider"></span></label>
+    </div>
+  </div>
+
+  <div class="set-group">
+    <div class="set-group-title">📊 آمار حافظه</div>
+    <div class="set-stats" id="setStats"></div>
+    <div class="set-row">
+      <div class="set-row-info">
+        <div class="set-row-title">کلیدهای پاک‌شدنی</div>
+        <div class="set-row-help">داده‌های قدیمی که می‌تونن پاک شن</div>
+      </div>
+      <button class="set-btn set-btn-secondary" onclick="SETTINGS.cleanup()">🧹 پاک‌سازی</button>
+    </div>
+  </div>
+
+  <div class="set-group set-danger-zone">
+    <div class="set-group-title">⚠️ ناحیه خطر</div>
+    <div class="set-row">
+      <div class="set-row-info">
+        <div class="set-row-title">پاک کردن یک بخش</div>
+        <div class="set-row-help">فقط یه بخش رو ریست کن، بقیه بمونن</div>
+      </div>
+      <select class="set-select" id="set-reset-section" style="min-width:140px">
+        <option value="">— انتخاب —</option>
+        <option value="ilia-log">📈 آمار مطالعه</option>
+        <option value="ilia-sessions">📝 جلسات</option>
+        <option value="ilia-health">🛌 خواب</option>
+        <option value="ilia-mistakes">📕 اشتباهات</option>
+        <option value="ilia-exam-analysis">📝 آزمون‌ها</option>
+        <option value="ilia-grades">📊 نمرات</option>
+        <option value="ilia-reviews">📖 مرورهای فاصله‌دار</option>
+        <option value="ilia-todos">✔️ کارها</option>
+        <option value="ilia-goals">🎯 اهداف</option>
+        <option value="ilia-habits">🔥 عادت‌ها</option>
+        <option value="ilia-leitner">🗂 لایتنر</option>
+        <option value="ilia-journal">🌙 ژورنال</option>
+        <option value="ilia-distraction">🧠 حواس‌پرتی</option>
+        <option value="ilia-tomorrow-checks">🎒 چک‌لیست فردا</option>
+        <option value="ilia-rules-checks">⭐ تیک قوانین</option>
+      </select>
+      <button class="set-btn set-btn-danger" onclick="SETTINGS.resetSection()">🗑</button>
+    </div>
+    <div class="set-row">
+      <div class="set-row-info">
+        <div class="set-row-title">پاک کردن همه چیز</div>
+        <div class="set-row-help">فقط داده‌های اپ پاک میشه، تنظیمات می‌مونه</div>
+      </div>
+      <button class="set-btn set-btn-danger" onclick="resetAll()">⚠️ همه</button>
+    </div>
+  </div>
+
+  <div class="set-group">
+    <div class="set-group-title">💾 پشتیبان</div>
+    <div class="set-row">
+      <div class="set-row-info">
+        <div class="set-row-title">خروجی بگیر</div>
+        <div class="set-row-help" id="setLastBackup">—</div>
+      </div>
+      <button class="set-btn set-btn-primary" onclick="exportData()">📤</button>
+    </div>
+    <div class="set-row">
+      <div class="set-row-info">
+        <div class="set-row-title">بازگردانی</div>
+        <div class="set-row-help">از فایل پشتیبان قبلی</div>
+      </div>
+      <label class="set-btn set-btn-success" style="cursor:pointer">
+        📥 <input type="file" id="importF2" accept=".json" onchange="importData(event)" style="display:none">
+      </label>
+    </div>
+  </div>
+
+  <div class="set-group">
+<div class="set-group" id="reminderSettings">
+  <div class="set-group-title">⏰ یادآورهای هوشمند</div>
+  <div class="set-row"><div class="set-row-info"><div class="set-row-title">یادآور صبح</div><div class="set-row-help">چک‌لیست دیشب + برنامه امروز</div></div><input type="time" class="set-time-input" id="rem-morning" value="06:30"><label class="set-switch"><input type="checkbox" id="rem-morning-on"><span class="set-slider"></span></label></div>
+  <div class="set-row"><div class="set-row-info"><div class="set-row-title">یادآور بعد مدرسه</div><div class="set-row-help">گزارش روز + تکالیف</div></div><input type="time" class="set-time-input" id="rem-school" value="14:30"><label class="set-switch"><input type="checkbox" id="rem-school-on"><span class="set-slider"></span></label></div>
+  <div class="set-row"><div class="set-row-info"><div class="set-row-title">یادآور بلوک مطالعه</div><div class="set-row-help">۵ دقیقه قبل از هر بلوک</div></div><label class="set-switch"><input type="checkbox" id="rem-study-on"><span class="set-slider"></span></label></div>
+  <div class="set-row"><div class="set-row-info"><div class="set-row-title">یادآور مرور عقب‌افتاده</div><div class="set-row-help">هر ۲ ساعت چک می‌کنه</div></div><label class="set-switch"><input type="checkbox" id="rem-review-on"><span class="set-slider"></span></label></div>
+  <div class="set-row"><div class="set-row-info"><div class="set-row-title">یادآور شب (ژورنال)</div><div class="set-row-help">یادت بندازه بنویسی</div></div><input type="time" class="set-time-input" id="rem-night" value="21:30"><label class="set-switch"><input type="checkbox" id="rem-night-on"><span class="set-slider"></span></label></div>
+  <div class="set-row"><div class="set-row-info"><div class="set-row-title">یادآور خواب</div><div class="set-row-help">آماده‌سازی فردا + خواب</div></div><input type="time" class="set-time-input" id="rem-sleep" value="22:15"><label class="set-switch"><input type="checkbox" id="rem-sleep-on"><span class="set-slider"></span></label></div>
+  <div class="set-row"><div class="set-row-info"><div class="set-row-title">🔔 نوتیفیکیشن سیستمی</div><div class="set-row-help">اجازه بده تا خارج از اپ هم خبر بدم</div></div><button class="set-btn set-btn-secondary" onclick="REM.askNotif()">🔔 فعال‌سازی</button></div>
+  <div class="set-row"><div class="set-row-info"><div class="set-row-title">🧪 تست یادآور</div><div class="set-row-help">یه یادآور نمونه نشون بده</div></div><button class="set-btn set-btn-primary" onclick="REM.test()">▶ تست</button></div>
+</div>
+
+    <div class="set-group-title">ℹ️ درباره</div>
+    <div class="set-row">
+      <div class="set-row-info">
+        <div class="set-row-title">مرکز مطالعه ایلیا</div>
+        <div class="set-row-help">نسخه ۲.۰ — ساخته‌شده با ❤️ برای ایلیا</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+<section id="backup">
+  <h2>💾 پشتیبان و نصب</h2>
+
+  <div class="card" style="background:linear-gradient(135deg,rgba(102,126,234,.15),rgba(118,75,162,.08));border:2px solid var(--primary)">
+    <h3>📲 دانلود نسخه اندروید</h3>
+    <p style="font-size:.85em;color:var(--text-light);margin-bottom:12px;line-height:1.9">
+      نسخه اندروید اپ رو دانلود کن و مثل یه اپ معمولی روی گوشیت نصب کن.
+    </p>
+    <a href="./study-app.apk" download="study-app.apk" class="btn btn-primary btn-block">
+      <span style="font-size:1.1em">⬇️</span>
+      <span>دانلود APK (نسخه اندروید)</span>
+    </a>
+    <div style="background:var(--bg);border-radius:10px;padding:12px;margin-top:12px;font-size:.82em;line-height:1.9">
+      <b>📋 راهنمای نصب:</b><br>
+      ۱. فایل رو دانلود کن<br>
+      ۲. از Files گوشی بازش کن<br>
+      ۳. اگه پرسید «نصب از منابع نامشخص» اجازه بده<br>
+      ۴. روی <b>Install</b> بزن<br>
+      ۵. آیکون اپ روی صفحه اصلی میاد
+    </div>
+  </div>
+
+  <div class="card"><h3>📤 خروجی داده‌ها</h3><button class="btn btn-primary btn-block" onclick="exportData()">⬇️ دانلود فایل پشتیبان</button>
+    <p style="font-size:.78em;color:var(--text-light);margin-top:8px" id="backupStatus"></p>
+  </div>
+  <div class="card"><h3>📥 بازگردانی</h3><input type="file" id="importF" accept=".json" onchange="importData(event)" class="inp"></div>
+  <div class="card"><h3>📲 نصب PWA</h3><button class="btn btn-info btn-block" onclick="installPWA()">📲 نصب PWA</button>
+    <p style="font-size:.78em;color:var(--text-light);margin-top:10px;line-height:1.8" id="pwaStatus">وضعیت: در حال بررسی...</p>
+    <button class="btn btn-secondary btn-block" onclick="checkPwaStatus()" style="margin-top:8px">🔄 بررسی دوباره</button>
+  </div>
+  <div class="card"><h3>🎓 مشاور</h3><div class="btn-group"><button class="btn btn-primary" onclick="openAssistantManual('school')">🏫 مدرسه</button><button class="btn btn-info" onclick="openAssistantManual('night')">🌙 شب</button></div></div>
+  <div class="card"><h3>⚠️ پاک کردن</h3><button class="btn btn-danger btn-block" onclick="resetAll()">🗑 پاک کردن همه</button></div>
+</section>
+
+</div>
+</div>
+
+<nav class="bottom-nav">
+  <button class="active" data-t="dashboard" aria-label="خانه" onclick="go('dashboard')"><span class="ico">🏠</span><span>خانه</span></button>
+  <button data-t="schedule" aria-label="برنامه" onclick="go('schedule')"><span class="ico">📅</span><span>برنامه</span></button>
+  <button data-t="health" aria-label="سلامت" onclick="go('health')"><span class="ico">🛌</span><span>سلامت</span></button>
+  <button data-t="weakness" data-adv="1" aria-label="تحلیل" onclick="go('weakness')"><span class="ico">💡</span><span>تحلیل</span></button>
+  <button data-t="more" aria-label="منوی بیشتر" onclick="toggleMore()"><span class="ico">⋯</span><span>بیشتر</span></button>
+</nav>
+
+<div class="more-menu" id="moreMenu">
+  <button onclick="go('sourceguide');closeMore()" data-adv="1"><span class="ico">📖</span>منبع</button>
+  <button onclick="go('summary');closeMore()" data-adv="1"><span class="ico">📝</span>خلاصه</button>
+  <button onclick="go('checklist');closeMore()" data-adv="1"><span class="ico">✅</span>چک‌لیست</button>
+  <button onclick="go('sessions');closeMore()"><span class="ico">📝</span>جلسات</button>
+  <button onclick="go('distraction');closeMore()" data-adv="1"><span class="ico">🧠</span>حواس‌پرتی</button>
+  <button onclick="go('exams');closeMore()" data-adv="1"><span class="ico">📝</span>آزمون‌ها</button>
+  <button onclick="go('journal');closeMore()" data-adv="1"><span class="ico">🌙</span>ژورنال</button>
+  <button onclick="go('weekly');closeMore()" data-adv="1"><span class="ico">📊</span>گزارش</button>
+  <button onclick="go('techniques');closeMore()" data-adv="1"><span class="ico">🧠</span>تکنیک</button>
+  <button onclick="go('leitner');closeMore()" data-adv="1"><span class="ico">🗂</span>لایتنر</button>
+  <button onclick="go('mistakes');closeMore()" data-adv="1"><span class="ico">📕</span>اشتباهات</button>
+  <button onclick="go('grades');closeMore()" data-adv="1"><span class="ico">📊</span>نمرات</button>
+  <button onclick="go('todo');closeMore()" data-adv="1"><span class="ico">✔️</span>کارها</button>
+  <button onclick="go('goals');closeMore()" data-adv="1"><span class="ico">🎯</span>اهداف</button>
+  <button onclick="go('habits');closeMore()" data-adv="1"><span class="ico">🔥</span>عادت‌ها</button>
+  <button onclick="go('stats');closeMore()" data-adv="1"><span class="ico">📈</span>آمار</button>
+  <button onclick="go('profile');closeMore()" data-adv="1"><span class="ico">🪪</span>پرونده</button>
+  <button onclick="go('rules');closeMore()" data-adv="1"><span class="ico">⭐</span>قوانین</button>
+  <button onclick="go('notes');closeMore()"><span class="ico">📝</span>یادداشت</button>
+  <button onclick="go('backup');closeMore()"><span class="ico">💾</span>پشتیبان</button>
+  <button onclick="go('settings');closeMore()"><span class="ico">⚙️</span>تنظیمات</button>
+  <button onclick="go('chapters');closeMore()" data-adv="1"><span class="ico">📚</span>پیشرفت کتاب</button>
+  <button onclick="go('heatmap');closeMore()" data-adv="1"><span class="ico">📅</span>تقویم</button>
+</div>
+
+<div class="assistant-overlay" id="assistantOverlay" role="dialog" aria-modal="true" aria-label="مشاور تحصیلی" onclick="if(event.target===this)closeAssistant()">
+  <div class="assistant-modal">
+    <div class="assistant-header">
+      <div class="assistant-avatar">🎓</div>
+      <div>
+        <div class="assistant-name">مشاور تحصیلی</div>
+        <div class="assistant-status">آنلاین</div>
+      </div>
+      <button class="assistant-close" aria-label="بستن مشاور" onclick="closeAssistant()">✕</button>
+    </div>
+    <div class="assistant-body" id="assistantBody"></div>
+    <div class="assistant-footer" id="assistantFooter"></div>
+  </div>
+</div>
+
+<div class="guide-overlay" id="guideOverlay" role="dialog" aria-modal="true" aria-label="راهنما" onclick="if(event.target===this)closeGuide()">
+  <div class="guide-modal">
+    <div class="guide-header">
+      <div class="guide-icon" id="guideIcon">📚</div>
+      <div style="flex:1">
+        <div class="guide-title" id="guideTitle">راهنمای مطالعه</div>
+        <div class="guide-sub" id="guideSubtitle">—</div>
+      </div>
+      <button class="guide-close" aria-label="بستن راهنما" onclick="closeGuide()">✕</button>
+    </div>
+    <div class="guide-body" id="guideBody"></div>
+    <div class="guide-footer" id="guideFooter"></div>
+  </div>
+</div>
+
+<button class="wizard-fab" id="wizardFab" aria-label="ثبت سریع" onclick="WIZARD.open()" title="ثبت سریع">📝</button>
+<div class="wizard-overlay" id="wizardOverlay" role="dialog" aria-modal="true" aria-label="ثبت سریع" onclick="if(event.target===this)WIZARD.close()">
+  <div class="wizard-modal">
+    <div class="wizard-header">
+      <div class="wizard-header-icon" id="wizardIcon">🎓</div>
+      <div class="wizard-step-info">
+        <div class="wizard-step-title" id="wizardTitle">ثبت سریع</div>
+        <div class="wizard-step-sub" id="wizardSub">—</div>
+      </div>
+      <button class="wizard-close" onclick="WIZARD.close()">✕</button>
+    </div>
+    <div class="wizard-progress"><div class="wizard-progress-fill" id="wizardProgress"></div></div>
+    <div class="wizard-body" id="wizardBody"></div>
+    <div class="wizard-footer" id="wizardFooter"></div>
+  </div>
+</div>
+<div class="toast" id="toast" aria-live="polite" aria-atomic="true"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
