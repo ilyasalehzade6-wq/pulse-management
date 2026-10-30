@@ -2112,3 +2112,716 @@ body {
     background: var(--danger) !important;
     color: #fff !important;
 }
+
+
+/* ============ STUDY PLAN TABS ============ */
+.sp-tabs {
+    display: flex; gap: 10px; margin-bottom: 20px; background: var(--bg-card);
+    padding: 5px; border-radius: 14px; border: 1px solid var(--border);
+}
+.sp-tab {
+    flex: 1; padding: 12px; border: none; background: transparent; border-radius: 10px;
+    font-family: inherit; font-size: 0.9em; font-weight: 800; color: var(--text-light); cursor: pointer; transition: all 0.3s;
+}
+.sp-tab.active { background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(0,150,136,0.2); }
+
+/* ============ EXAMS LIST ============ */
+.sp-exam-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.sp-exam-title { font-size: 1.1em; font-weight: 800; color: var(--text); }
+.sp-exam-list { display: flex; flex-direction: column; gap: 10px; }
+.exam-card {
+    background: var(--bg-card); border-radius: 14px; padding: 15px;
+    border: 1px solid var(--border); border-right: 4px solid var(--primary);
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03); cursor: pointer;
+}
+.exam-card-info { display: flex; flex-direction: column; gap: 5px; }
+.exam-card-title { font-weight: 800; font-size: 0.95em; color: var(--text); }
+.exam-card-sub { font-size: 0.75em; color: var(--text-light); }
+.exam-card-score { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.exam-card-pct { font-size: 1.4em; font-weight: 900; color: var(--success); }
+.exam-card-detail { font-size: 0.65em; color: var(--text-light); font-weight: 700; }
+
+/* ============ EXAM MODAL PREVIEW ============ */
+.ee-preview {
+    background: var(--bg); border-radius: 12px; padding: 15px; text-align: center;
+    margin-top: 15px; border: 1px dashed var(--primary);
+}
+
+
+/* ============ EXAM EDITOR ============ */
+.ee-subject-row {
+    background: var(--bg); border-radius: 12px; padding: 12px; border: 1px solid var(--border);
+    position: relative; animation: slideUp 0.2s ease;
+}
+.ee-del-row {
+    position: absolute; top: -8px; left: -8px; background: var(--danger); color: #fff;
+    border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 0.8em;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.ee-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+.ee-grid-4 input { text-align: center; padding: 8px !important; font-size: 0.9em !important; margin-bottom: 0 !important; }
+.ee-summary {
+    margin-top: 20px; padding: 15px; background: var(--bg-card);
+    border-radius: 14px; border: 1px dashed var(--primary);
+}
+
+/* ============ EXAM VIEWER (REPORT CARD) ============ */
+.ev-header-score {
+    text-align: center; background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(5,150,105,0.05));
+    border: 1px solid var(--success); border-radius: 16px; padding: 20px; margin-bottom: 20px;
+}
+.ev-total-pct { font-size: 3em; font-weight: 900; color: var(--success); line-height: 1; }
+.ev-subtitle { font-size: 0.85em; color: var(--text-light); margin-top: 5px; font-weight: 700; }
+
+.ev-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+.ev-table { width: 100%; border-collapse: collapse; font-size: 0.85em; text-align: center; }
+.ev-table th, .ev-table td { padding: 12px 8px; border-bottom: 1px solid var(--border); }
+.ev-table th { background: var(--bg-card); font-weight: 800; color: var(--text-light); white-space: nowrap; }
+.ev-table tr:last-child td { border-bottom: none; }
+.ev-table td { font-weight: 700; color: var(--text); }
+
+
+/* ============ EXAM EDITOR UX ============ */
+.ee-section-title {
+    font-size: 0.9em; font-weight: 800; color: var(--primary);
+    margin-bottom: 10px; display: flex; align-items: center; gap: 5px;
+}
+.ee-section-title::after {
+    content: ''; flex: 1; height: 1px; background: var(--border); margin-right: 10px;
+}
+
+.ee-subject-row {
+    background: var(--bg-card); border-radius: 14px; padding: 15px; 
+    border: 1px solid var(--border); position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    display: flex; flex-direction: column; gap: 12px;
+}
+.ee-del-row {
+    position: absolute; top: -10px; left: -10px; 
+    background: rgba(239, 68, 68, 0.1); color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; 
+    width: 28px; height: 28px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 1em;
+    transition: all 0.2s;
+}
+.ee-del-row:hover { background: var(--danger); color: #fff; }
+
+.ee-row-top { display: flex; align-items: center; gap: 10px; }
+.ee-row-top select { flex: 1; margin-bottom: 0 !important; font-weight: 800; }
+
+.ee-inputs-grid { 
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; 
+}
+.ee-input-box { display: flex; flex-direction: column; gap: 4px; }
+.ee-input-box label { font-size: 0.7em; font-weight: 700; text-align: center; }
+.ee-input-box input { 
+    text-align: center; padding: 10px 5px !important; font-size: 1em !important; 
+    font-weight: 800; margin-bottom: 0 !important; border-radius: 8px !important;
+}
+
+.ee-summary-box {
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(135deg, rgba(0,150,136,0.08), rgba(118,75,162,0.05));
+    border-top: 2px dashed var(--primary);
+    padding: 15px 20px;
+}
+.ee-summary-box.empty { opacity: 0.7; }
+.ees-left { text-align: right; }
+.ees-right { text-align: left; }
+
+
+/* ============ EXAM ANALYSIS ============ */
+.ea-stats-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;
+}
+.ea-stat-card {
+    background: var(--bg-card); border-radius: 16px; padding: 15px 10px;
+    text-align: center; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+.ea-stat-icon { font-size: 1.5em; margin-bottom: 5px; }
+.ea-stat-val { font-size: 1.3em; font-weight: 900; color: var(--primary); line-height: 1.2; }
+.ea-stat-label { font-size: 0.7em; color: var(--text-light); font-weight: 700; margin-top: 4px; }
+
+.ea-card {
+    background: var(--bg-card); border-radius: 16px; padding: 18px;
+    border: 1px solid var(--border); box-shadow: var(--shadow); margin-bottom: 15px;
+}
+.ea-card-title {
+    font-size: 1em; font-weight: 800; margin-bottom: 15px; 
+    display: flex; align-items: center; gap: 8px; color: var(--text);
+}
+
+.ea-subjects-list { display: flex; flex-direction: column; gap: 12px; }
+.ea-subj-item { display: flex; flex-direction: column; gap: 5px; }
+.ea-subj-head { display: flex; justify-content: space-between; align-items: center; font-size: 0.85em; font-weight: 700; }
+.ea-subj-bar-bg { height: 8px; background: var(--bg); border-radius: 10px; overflow: hidden; }
+.ea-subj-bar-fill { height: 100%; border-radius: 10px; transition: width 0.5s ease; }
+
+/* کیفیت پاسخ‌دهی (نمودار دونات ساده) */
+.ea-quality-wrap { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+.ea-donut {
+    width: 100px; height: 100px; border-radius: 50%; position: relative;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.ea-donut-inner {
+    width: 70px; height: 70px; background: var(--bg-card); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1em; font-weight: 900; color: var(--text);
+}
+.ea-legend { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.ea-legend-item { display: flex; align-items: center; justify-content: space-between; font-size: 0.85em; font-weight: 700; }
+.ea-legend-color { width: 12px; height: 12px; border-radius: 4px; margin-left: 8px; }
+.ea-legend-val { color: var(--text-light); font-size: 0.9em; }
+
+
+/* ============ LEITNER MANAGER ============ */
+.lm-stats-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 15px;
+}
+.lm-stat-box {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+    padding: 8px 5px; text-align: center;
+}
+.lm-stat-box .num { font-size: 1.2em; font-weight: 900; color: var(--primary); }
+.lm-stat-box .lbl { font-size: 0.65em; color: var(--text-light); font-weight: 700; }
+
+.lm-list { display: flex; flex-direction: column; gap: 8px; }
+.lm-item {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px; display: flex; justify-content: space-between; align-items: center;
+}
+.lm-item-info { flex: 1; }
+.lm-item-front { font-weight: 800; font-size: 0.9em; color: var(--text); margin-bottom: 3px; }
+.lm-item-back { font-size: 0.8em; color: var(--text-light); }
+.lm-item-meta { font-size: 0.7em; color: var(--primary); margin-top: 5px; font-weight: 700; }
+.lm-item-actions { display: flex; gap: 5px; }
+.lm-btn-edit, .lm-btn-del {
+    width: 32px; height: 32px; border-radius: 8px; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 1em;
+}
+.lm-btn-edit { background: rgba(52, 152, 219, 0.1); color: var(--info); }
+.lm-btn-del { background: rgba(231, 76, 60, 0.1); color: var(--danger); }
+
+
+.tts-btn {
+    position: absolute; top: 15px; left: 15px;
+    background: rgba(255,255,255,0.2); border: none; border-radius: 50%;
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    font-size: 1.2em; cursor: pointer; transition: 0.2s; z-index: 10;
+}
+.tts-btn:hover { background: rgba(255,255,255,0.4); transform: scale(1.1); }
+
+
+/* ============ NOTES HUB ============ */
+.notes-filter {
+    display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin: 15px 0;
+    scrollbar-width: none;
+}
+.notes-filter::-webkit-scrollbar { display: none; }
+.nf-btn {
+    padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border);
+    background: var(--bg-card); font-family: inherit; font-weight: 700; font-size: 0.85em;
+    color: var(--text-light); cursor: pointer; white-space: nowrap;
+}
+.nf-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+.notes-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px;
+}
+.note-item {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+    overflow: hidden; position: relative; display: flex; flex-direction: column;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.note-preview {
+    height: 100px; background: var(--bg); display: flex; align-items: center; justify-content: center;
+    font-size: 2.5em; border-bottom: 1px solid var(--border);
+}
+.note-preview img { width: 100%; height: 100%; object-fit: cover; }
+.note-info { padding: 10px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.note-title { font-size: 0.75em; font-weight: 800; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 5px; }
+.note-subj { font-size: 0.65em; color: var(--primary); font-weight: 700; background: rgba(0,150,136,0.1); padding: 2px 6px; border-radius: 6px; display: inline-block; align-self: flex-start; }
+.note-del {
+    position: absolute; top: 5px; left: 5px; background: rgba(239,68,68,0.9); color: #fff;
+    border: none; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; font-size: 0.8em;
+    display: flex; align-items: center; justify-content: center; z-index: 2;
+}
+
+
+/* ============ SMART ANALYZER ============ */
+.sa-summary-box {
+    background: var(--bg-card); border-radius: 14px; padding: 15px;
+    border: 1px solid var(--border); text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+.sa-summary-title { font-size: 1.1em; font-weight: 800; margin-bottom: 5px; }
+.sa-summary-text { font-size: 0.85em; color: var(--text-light); line-height: 1.7; }
+
+.sa-card {
+    background: var(--bg-card); border-radius: 14px; padding: 15px;
+    border: 1px solid var(--border); border-right: 5px solid var(--border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+.sa-card.critical { border-right-color: var(--danger); }
+.sa-card.warning { border-right-color: var(--accent); }
+.sa-card.good { border-right-color: var(--success); }
+
+.sa-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.sa-card-title { font-size: 1em; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.sa-card-status { font-size: 0.75em; font-weight: 700; padding: 4px 10px; border-radius: 8px; }
+.sa-card-status.critical { background: rgba(239,68,68,0.1); color: var(--danger); }
+.sa-card-status.warning { background: rgba(245,158,11,0.1); color: var(--accent); }
+.sa-card-status.good { background: rgba(16,185,129,0.1); color: var(--success); }
+
+.sa-card-reasons { font-size: 0.85em; color: var(--text); line-height: 1.8; margin-bottom: 12px; }
+.sa-card-reasons span { display: inline-block; background: var(--bg); padding: 3px 8px; border-radius: 6px; margin: 2px; border: 1px solid var(--border); }
+
+.sa-card-advice {
+    font-size: 0.85em; background: rgba(139, 92, 246, 0.05); border: 1px dashed #8b5cf6;
+    border-radius: 10px; padding: 10px 12px; color: var(--text); line-height: 1.7;
+}
+.sa-card-advice b { color: #8b5cf6; }
+
+
+/* ============ SMART ANALYZER FULL PAGE ============ */
+.sa-hero {
+    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    color: #fff; padding: 40px 20px; text-align: center;
+    border-radius: 0 0 30px 30px; box-shadow: 0 10px 30px rgba(139,92,246,0.3);
+    margin-bottom: 25px; position: relative; overflow: hidden;
+}
+.sa-hero::before {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 60%);
+    animation: rot 20s linear infinite; pointer-events: none;
+}
+.sa-hero-icon { font-size: 3.5em; margin-bottom: 10px; position: relative; z-index: 1; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2)); }
+.sa-hero h2 { font-size: 1.6em; margin: 0 0 10px; font-weight: 900; position: relative; z-index: 1; color: #fff; }
+.sa-hero p { font-size: 0.9em; opacity: 0.9; margin: 0; position: relative; z-index: 1; }
+
+.sa-page-summary {
+    background: var(--bg-card); border-radius: 18px; padding: 20px;
+    border: 1px solid var(--border); text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.05); margin-bottom: 25px;
+    border-top: 5px solid var(--primary);
+}
+.sa-page-summary.critical { border-top-color: var(--danger); }
+.sa-page-summary.warning { border-top-color: var(--accent); }
+.sa-page-summary.good { border-top-color: var(--success); }
+
+.sa-ps-title { font-size: 1.3em; font-weight: 900; margin-bottom: 8px; }
+.sa-ps-text { font-size: 0.95em; color: var(--text-light); line-height: 1.8; }
+
+.sa-page-list { display: flex; flex-direction: column; gap: 20px; }
+.sa-page-card {
+    background: var(--bg-card); border-radius: 20px; padding: 25px;
+    border: 1px solid var(--border); border-right: 6px solid var(--border);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.04); position: relative;
+}
+.sa-page-card.critical { border-right-color: var(--danger); }
+.sa-page-card.warning { border-right-color: var(--accent); }
+.sa-page-card.good { border-right-color: var(--success); }
+
+.sa-pc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.sa-pc-title { font-size: 1.2em; font-weight: 900; display: flex; align-items: center; gap: 10px; color: var(--text); }
+.sa-pc-status { font-size: 0.85em; font-weight: 800; padding: 6px 14px; border-radius: 12px; }
+.sa-pc-status.critical { background: rgba(239,68,68,0.15); color: var(--danger); }
+.sa-pc-status.warning { background: rgba(245,158,11,0.15); color: var(--accent); }
+.sa-pc-status.good { background: rgba(16,185,129,0.15); color: var(--success); }
+
+.sa-pc-issues { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.sa-pc-issues span { background: var(--bg); padding: 6px 12px; border-radius: 10px; font-size: 0.85em; font-weight: 700; border: 1px solid var(--border); color: var(--text); }
+
+.sa-pc-advice {
+    background: rgba(139, 92, 246, 0.05); border: 1.5px dashed #8b5cf6;
+    border-radius: 14px; padding: 15px 20px; font-size: 0.95em; line-height: 1.8; color: var(--text);
+}
+.sa-pc-advice b { color: #8b5cf6; font-size: 1.05em; display: block; margin-bottom: 5px; }
+
+
+/* ============ SMART ANALYZER SAAS DESIGN ============ */
+#smart-analyzer-page {
+    background: #0f1115; /* پس‌زمینه تیره و مدرن */
+    min-height: 100vh;
+}
+
+/* هدر تمیز */
+.sa-header {
+    border-bottom: 1px solid #2a2e37;
+    background: rgba(15, 17, 21, 0.8);
+    backdrop-filter: blur(12px);
+    position: sticky; top: 0; z-index: 50;
+    padding: 0 20px; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.sa-header-title { display: flex; align-items: center; gap: 12px; }
+.sa-header-title h1 { font-size: 1.2em; font-weight: 800; color: #fff; margin: 0; letter-spacing: -0.5px; }
+.sa-back-btn {
+    display: flex; align-items: center; gap: 6px;
+    background: #1a1d24; border: 1px solid #2a2e37; color: #9ca3af;
+    padding: 8px 16px; border-radius: 8px; font-family: inherit; font-size: 0.85em; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+}
+.sa-back-btn:hover { color: #fff; border-color: #4b5563; }
+
+/* کانتینر اصلی */
+.sa-main { max-width: 1200px; margin: 0 auto; padding: 32px 20px 100px; }
+
+/* باکس هشدار (Alert) */
+.sa-alert {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 12px; padding: 16px; margin-bottom: 32px;
+    display: flex; align-items: flex-start; gap: 12px;
+}
+.sa-alert-icon { color: #ef4444; margin-top: 2px; }
+.sa-alert-title { font-size: 0.9em; font-weight: 700; color: #ef4444; margin-bottom: 4px; }
+.sa-alert-text { font-size: 0.9em; color: #9ca3af; line-height: 1.6; }
+.sa-alert-text strong { color: #fff; }
+
+/* گرید 3 ستونه */
+.sa-grid {
+    display: grid; grid-template-columns: 1fr; gap: 20px;
+}
+@media (min-width: 768px) { .sa-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .sa-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* کارت‌های کوچک و تمیز */
+.sa-card {
+    background: #1a1d24; border: 1px solid #2a2e37; border-radius: 16px;
+    padding: 20px; display: flex; flex-direction: column;
+    transition: border-color 0.2s, transform 0.2s;
+}
+.sa-card:hover { border-color: #4b5563; transform: translateY(-2px); }
+
+.sa-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.sa-card-title-wrap { display: flex; align-items: center; gap: 12px; }
+.sa-icon-box {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+}
+.sa-icon-box.critical { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+.sa-icon-box.warning { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.sa-icon-box.good { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+
+.sa-card-title { font-size: 1.05em; font-weight: 700; color: #fff; }
+.sa-badge {
+    font-size: 0.75em; font-weight: 700; padding: 4px 10px; border-radius: 20px;
+    border: 1px solid transparent;
+}
+.sa-badge.critical { background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.2); }
+.sa-badge.warning { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.2); }
+.sa-badge.good { background: rgba(16, 185, 129, 0.1); color: #10b981; border-color: rgba(16, 185, 129, 0.2); }
+
+.sa-card-desc { font-size: 0.85em; color: #9ca3af; line-height: 1.6; margin-bottom: 20px; flex: 1; }
+.sa-card-desc b { color: #d1d5db; }
+
+/* نوار پیشرفت (Progress) */
+.sa-progress-wrap { margin-top: auto; }
+.sa-progress-labels { display: flex; justify-content: space-between; font-size: 0.75em; font-weight: 600; margin-bottom: 8px; }
+.sa-progress-labels span:first-child { color: #9ca3af; }
+.sa-progress-bar { width: 100%; height: 6px; background: #2a2e37; border-radius: 10px; overflow: hidden; }
+.sa-progress-fill { height: 100%; border-radius: 10px; transition: width 1s ease; }
+.sa-progress-fill.critical { background: #ef4444; }
+.sa-progress-fill.warning { background: #f59e0b; }
+.sa-progress-fill.good { background: #10b981; }
+
+
+/* ============ FINAL POLISH ============ */
+/* مخفی کردن دکمه شناور و دکمه بازگشت بیرونی در صفحه تحلیلگر */
+body:has(#smart-analyzer-page.active) .wizard-fab,
+body:has(#smart-analyzer-page.active) .floating-back-btn {
+    display: none !important;
+}
+
+/* دکمه Ghost (بدون پس‌زمینه) */
+.sa-ghost-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; margin-top: 16px; padding: 10px 12px;
+    background: transparent; border: 1px solid #2a2e37;
+    color: #d1d5db; border-radius: 10px; font-family: inherit;
+    font-size: 0.85em; font-weight: 600; cursor: pointer;
+    transition: all 0.2s ease;
+}
+.sa-ghost-btn:hover {
+    background: #232730; border-color: #4b5563; color: #fff;
+}
+
+/* اصلاح متن‌های داخل کارت */
+.sa-card-desc {
+    font-size: 0.9em; color: #d1d5db; line-height: 1.6; margin-bottom: 12px; flex: 1;
+}
+.sa-card-issues {
+    font-size: 0.75em; color: #6b7280; margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px;
+}
+.sa-card-issues span {
+    background: #232730; padding: 4px 8px; border-radius: 6px; border: 1px solid #2a2e37;
+}
+
+
+/* ============ NEURAL ENGINE INSIGHTS ============ */
+.sa-insights-box {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(109, 40, 217, 0.05));
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 16px; padding: 20px; margin-bottom: 24px;
+    position: relative; overflow: hidden;
+}
+.sa-insights-box::before {
+    content: '🧠'; position: absolute; left: -10px; bottom: -20px; font-size: 6em; opacity: 0.05; pointer-events: none;
+}
+.sa-insights-title { font-size: 0.95em; font-weight: 800; color: #a78bfa; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.sa-insights-text { font-size: 0.9em; color: #d1d5db; line-height: 1.8; }
+.sa-insights-text b { color: #fff; }
+
+/* کارت‌های با اولویت */
+.sa-card.priority-high { border-right: 4px solid #ef4444; }
+.sa-card.priority-med { border-right: 4px solid #f59e0b; }
+.sa-card.priority-low { border-right: 4px solid #10b981; }
+
+.sa-trend-badge {
+    font-size: 0.65em; font-weight: 800; padding: 2px 8px; border-radius: 6px; margin-right: 6px; display: inline-block;
+}
+.sa-trend-badge.down { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+.sa-trend-badge.up { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+
+
+/* ============ ULTIMATE NEURAL ENGINE CSS ============ */
+.sa-top-actions {
+    display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
+}
+.sa-action-btn {
+    flex: 1; min-width: 150px; display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: #1a1d24; border: 1px solid #2a2e37; color: #d1d5db;
+    padding: 12px; border-radius: 12px; font-family: inherit; font-size: 0.9em; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+}
+.sa-action-btn:hover { background: #232730; color: #fff; border-color: #4b5563; }
+.sa-action-btn.primary { background: rgba(139, 92, 246, 0.1); border-color: #8b5cf6; color: #a78bfa; }
+.sa-action-btn.primary:hover { background: #8b5cf6; color: #fff; }
+
+/* Radar Chart Container */
+.sa-radar-wrap {
+    background: #1a1d24; border: 1px solid #2a2e37; border-radius: 16px;
+    padding: 20px; margin-bottom: 24px; display: flex; flex-direction: column; align-items: center;
+}
+.sa-radar-title { font-size: 0.95em; font-weight: 800; color: #d1d5db; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+.sa-radar-svg { width: 100%; max-width: 300px; height: auto; overflow: visible; }
+
+/* XP Bar */
+.sa-xp-bar-wrap { margin-top: 10px; }
+.sa-xp-bar { height: 8px; background: #2a2e37; border-radius: 10px; overflow: hidden; position: relative; }
+.sa-xp-fill { height: 100%; background: linear-gradient(90deg, #8b5cf6, #a78bfa); border-radius: 10px; transition: width 1s ease; }
+.sa-xp-text { display: flex; justify-content: space-between; font-size: 0.75em; font-weight: 700; color: #9ca3af; margin-bottom: 6px; }
+
+/* Print Styles */
+@media print {
+    body { background: #fff !important; color: #000 !important; padding: 0 !important; }
+    .sa-header, .sa-top-actions, .sa-alert, .sa-ghost-btn, .sa-card-issues, .sa-xp-bar-wrap, .bottom-nav, .floating-back-btn { display: none !important; }
+    .sa-card { border: 1px solid #ccc !important; background: #fff !important; color: #000 !important; page-break-inside: avoid; box-shadow: none !important; }
+    .sa-card-title, .sa-card-desc, .sa-progress-labels span { color: #000 !important; }
+    .sa-main { padding: 0 !important; }
+    .sa-grid { display: block !important; }
+    .sa-card { margin-bottom: 20px !important; }
+    .sa-insights-box { border: 1px solid #ccc !important; background: #f9f9f9 !important; color: #000 !important; }
+    .sa-insights-text, .sa-insights-title { color: #000 !important; }
+}
+
+
+/* ============ DASHBOARD SAAS DESIGN ============ */
+/* 1. حذف دکمه شناور فقط در صفحه داشبورد */
+body:has(#dashboard.active) .wizard-fab {
+    display: none !important;
+}
+
+/* 2. ویجت عملکرد امروز (تیره و مدرن) */
+.launcher-widget {
+    background: #1a1d24 !important;
+    background-image: none !important;
+    border: 1px solid #2a2e37 !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2) !important;
+    border-radius: 16px !important;
+    padding: 20px !important;
+    animation: none !important; /* حذف انیمیشن چرخش قبلی */
+}
+.launcher-widget::before { display: none !important; }
+.lw-header { color: #fff !important; font-weight: 800; font-size: 1.1em; margin-bottom: 15px !important; }
+.lw-progress-bg { background: #2a2e37 !important; height: 8px !important; border-radius: 8px !important; }
+.lw-progress-fill { border-radius: 8px !important; transition: width 0.8s ease, background-color 0.3s ease !important; }
+.lw-meta { color: #9ca3af !important; font-size: 0.85em !important; margin-top: 12px !important; }
+.lw-meta b { color: #fff !important; }
+
+/* 3. عنوان بخش‌ها (بدون ایموجی، با خط ظریف) */
+.category-title {
+    font-size: 0.95em !important;
+    font-weight: 700 !important;
+    color: #9ca3af !important;
+    margin: 25px 0 15px 0 !important;
+    padding-bottom: 8px !important;
+    border-bottom: 1px solid #2a2e37 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+.category-title::after { display: none !important; } /* حذف خط قبلی */
+
+/* 4. گرید و کارت‌ها (جمع‌وجورتر، تیره‌تر با Hover) */
+.nimkat-grid {
+    gap: 10px !important; /* کاهش فاصله برای تراکم بیشتر */
+}
+.nimkat-card {
+    background: #1a1d24 !important;
+    border: 1px solid #2a2e37 !important;
+    border-radius: 14px !important;
+    padding: 16px 8px !important; /* کاهش پدینگ */
+    box-shadow: none !important;
+    transition: all 0.2s ease !important;
+}
+.nimkat-card:hover {
+    border-color: #4b5563 !important;
+    transform: translateY(-2px) !important;
+    background: #232730 !important;
+}
+.nimkat-card:active {
+    transform: scale(0.96) !important;
+}
+
+/* آیکون‌های SVG داخل کارت */
+.nimkat-icon {
+    font-size: 1.6em !important;
+    margin-bottom: 12px !important;
+    color: #a78bfa; /* رنگ آیکون‌ها */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.nimkat-icon svg {
+    width: 26px !important;
+    height: 26px !important;
+    stroke-width: 1.8 !important;
+}
+.nimkat-title {
+    font-size: 0.8em !important;
+    font-weight: 700 !important;
+    color: #d1d5db !important;
+    text-align: center !important;
+    line-height: 1.4 !important;
+}
+
+/* اصلاح حالت دارک برای کارت‌ها */
+[data-theme="dark"] .nimkat-card { background: #1a1d24 !important; border-color: #2a2e37 !important; }
+[data-theme="dark"] .nimkat-card:hover { background: #232730 !important; border-color: #4b5563 !important; }
+
+
+/* ============ DASHBOARD DYNAMIC VISUALS ============ */
+
+/* 1. هاله نور پس‌زمینه */
+#dashboard {
+    position: relative;
+}
+#dashboard::before {
+    content: ''; position: absolute;
+    top: -100px; left: 50%; transform: translateX(-50%);
+    width: 80%; height: 400px;
+    background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, rgba(139,92,246,0) 70%);
+    pointer-events: none; z-index: 0;
+}
+
+/* 2. گرادیانت تیره برای کارت‌ها */
+.nimkat-card, .launcher-widget {
+    background: linear-gradient(145deg, #1c2028, #13161b) !important;
+    border: 1px solid #2a2e37 !important;
+    position: relative; z-index: 1;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+}
+
+/* 3. افکت Hover کارت‌ها */
+.nimkat-card {
+    transition: all 0.25s ease !important;
+}
+.nimkat-card:hover {
+    border-color: #8b5cf6 !important;
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.15) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* 4. آیکون‌های دایره‌ای */
+.nimkat-icon {
+    width: 50px !important; height: 50px !important;
+    border-radius: 50% !important;
+    background: rgba(139, 92, 246, 0.08) !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    margin: 0 auto 12px auto !important;
+    transition: all 0.3s ease !important;
+    color: #a78bfa !important;
+}
+.nimkat-card:hover .nimkat-icon {
+    background: rgba(139, 92, 246, 0.2) !important;
+    transform: scale(1.1) !important;
+    color: #c4b5fd !important;
+}
+
+/* 5. ویجت عملکرد امروز (دایره‌ای) */
+.launcher-widget {
+    background: linear-gradient(145deg, #1c2028, #171423) !important; /* گرادیانت با کمی بنفش */
+    display: flex !important; align-items: center !important; justify-content: space-between !important;
+    padding: 24px 30px !important;
+    border-radius: 20px !important;
+}
+.lw-content { flex: 1; }
+.lw-header { color: #fff !important; font-weight: 800; font-size: 1.15em; margin-bottom: 8px !important; }
+.lw-meta { color: #d1d5db !important; font-size: 0.95em !important; display: flex; flex-direction: column; gap: 4px; }
+.lw-meta b { color: #fff !important; font-size: 1.2em; }
+
+.lw-circle-wrap { position: relative; width: 90px; height: 90px; }
+.lw-circle-svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+.lw-circle-bg { fill: none; stroke: #2a2e37; stroke-width: 8; }
+.lw-circle-fill { 
+    fill: none; stroke: #8b5cf6; stroke-width: 8; stroke-linecap: round; 
+    transition: stroke-dashoffset 1s ease, stroke 0.3s ease; 
+}
+.lw-circle-text {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 1.3em; font-weight: 900; color: #fff;
+    text-shadow: 0 0 10px rgba(139,92,246,0.5);
+}
+
+
+/* ============ CARD DESCRIPTIONS ============ */
+.nimkat-desc {
+    font-size: 0.65em;
+    color: #9ca3af;
+    text-align: center;
+    margin-top: 6px;
+    line-height: 1.4;
+    font-weight: 500;
+    padding: 0 4px;
+}
+[data-theme="dark"] .nimkat-desc { color: #94a3b8; }
+
+
+/* ============ FINAL INJECTION CSS ============ */
+.launcher-widget {
+    width: 100% !important;
+    background: linear-gradient(145deg, #1c2028, #171423) !important;
+    border: 1px solid #2a2e37 !important;
+    border-radius: 16px !important;
+    padding: 20px !important;
+    margin-bottom: 20px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+}
+.lw-circle-wrap { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+.lw-circle-svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+.lw-circle-bg { fill: none; stroke: #2a2e37; stroke-width: 8; }
+.lw-circle-fill { 
+    fill: none; stroke: #8b5cf6; stroke-width: 8; stroke-linecap: round; 
+    transition: stroke-dashoffset 1s ease, stroke 0.3s ease; 
+}
+.lw-circle-text {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 1.2em; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(139,92,246,0.5);
+}

@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" href="./icon-192.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=1793386051819">
+<link rel="stylesheet" href="style.css?v=1793392628183">
 </head>
 <body>
 
@@ -60,66 +60,73 @@
 
 
 <section id="dashboard" class="active">
-    <div class="launcher-widget" id="launcherWidget" style="display:flex !important;">
-        <div class="lw-header">
-            <span>📊 عملکرد امروز</span>
-            <span id="lw-percent">۰٪</span>
-        </div>
-        <div class="lw-progress-bg">
-            <div class="lw-progress-fill" id="lw-fill" style="width: 0%"></div>
-        </div>
+
+<div class="launcher-widget" id="launcherWidget" onclick="StudyEditor.open()" style="cursor:pointer;">
+    <div class="lw-content">
+        <div class="lw-header"><span>عملکرد امروز</span></div>
         <div class="lw-meta">
-            <span>امروز: <b id="lw-hours">۰</b> ساعت</span>
-            <span>دیروز: <b id="lw-goal">۰</b> ساعت</span>
+            <span>امروز: <b id="lw-hours">۰.۰</b> ساعت</span>
+            <span style="font-size: 0.85em; color: #9ca3af; margin-top: 4px; display:block;">دیروز: <span id="lw-goal">۰.۰</span> ساعت</span>
         </div>
     </div>
+    <div class="lw-circle-wrap">
+        <svg class="lw-circle-svg" viewBox="0 0 100 100">
+            <circle class="lw-circle-bg" cx="50" cy="50" r="42"></circle>
+            <circle class="lw-circle-fill" id="lw-fill" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+        </svg>
+        <div class="lw-circle-text" id="lw-percent">۰٪</div>
+    </div>
+</div>
 
     
     
-    <div class="category-title" style="display:flex !important;">📚 برنامه و مطالعه</div>
+
+
+    
+    
+    <div class="category-title" style="display:flex !important;">برنامه و مطالعه</div>
 
     <div class="nimkat-grid">
-    
-    
-    <div class="nimkat-card" onclick="go('league')"><div class="nimkat-icon">🏆</div><div class="nimkat-title">لیگ مطالعه</div></div>
-<div class="nimkat-card" onclick="go('garden')"><div class="nimkat-icon">🌳</div><div class="nimkat-title">باغ مطالعه</div></div>
-    <div class="nimkat-card" onclick="go('schedule')"><div class="nimkat-icon">📅</div><div class="nimkat-title">برنامه هفتگی</div></div>
-
-    <div class="nimkat-card" onclick="go('pomodoro')"><div class="nimkat-icon">⏱</div><div class="nimkat-title">پومودورو</div></div>
-    <div class="nimkat-card" onclick="startFocusMode()"><div class="nimkat-icon">🎯</div><div class="nimkat-title">حالت تمرکز</div></div>
-    <div class="nimkat-card" onclick="go('study-plan')"><div class="nimkat-icon">📝</div><div class="nimkat-title">برنامه مطالعاتی</div></div>
-<div class="nimkat-card" onclick="go('sourceguide')"><div class="nimkat-icon">📖</div><div class="nimkat-title">راهنمای منبع</div></div>
-    <div class="nimkat-card" onclick="go('summary')"><div class="nimkat-icon">📝</div><div class="nimkat-title">خلاصه‌نویسی</div></div>
-    <div class="nimkat-card" onclick="go('sessions')"><div class="nimkat-icon">✍️</div><div class="nimkat-title">جلسات مطالعه</div></div>
+<div class="nimkat-card" onclick="go('schedule')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="nimkat-title">برنامه هفتگی</div><div class="nimkat-desc">مدیریت زمان و کلاس‌ها</div></div>
+<div class="nimkat-card" onclick="go('garden')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22v-7l-2-2"/><path d="M12 15l2-2"/><path d="M17 14l-5-5-5 5"/><path d="M19 9l-7-7-7 7"/></svg></div><div class="nimkat-title">باغ مطالعه</div><div class="nimkat-desc">رشد درختان با تلاش</div></div>
+<div class="nimkat-card" onclick="go('league')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></div><div class="nimkat-title">لیگ مطالعه</div><div class="nimkat-desc">رقابت و ارتقای سطح</div></div>
+<div class="nimkat-card" onclick="go('study-plan')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div><div class="nimkat-title">برنامه مطالعاتی</div><div class="nimkat-desc">ثبت و ویرایش جلسات</div></div>
+<div class="nimkat-card" onclick="startFocusMode()"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div><div class="nimkat-title">حالت تمرکز</div><div class="nimkat-desc">مطالعه بدون حواس‌پرتی</div></div>
+<div class="nimkat-card" onclick="go('pomodoro')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="nimkat-title">پومودورو</div><div class="nimkat-desc">تایمر ۲۵ دقیقه‌ای</div></div>
+<div class="nimkat-card" onclick="go('sessions')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><div class="nimkat-title">جلسات مطالعه</div><div class="nimkat-desc">تاریخچه زمان‌های مطالعه</div></div>
+<div class="nimkat-card" onclick="go('summary')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="nimkat-title">خلاصه‌نویسی</div><div class="nimkat-desc">آموزش روش‌های خلاصه</div></div>
+<div class="nimkat-card" onclick="go('sourceguide')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><div class="nimkat-title">راهنمای منبع</div><div class="nimkat-desc">انتخاب بهترین منابع</div></div>
 </div>
 
     <div class="category-title" style="display:flex !important;">📊 ثبت و تحلیل</div>
     <div class="nimkat-grid">
-    <div class="nimkat-card" onclick="go('mistakes')"><div class="nimkat-icon">📕</div><div class="nimkat-title">دفتر اشتباهات</div></div>
-    <div class="nimkat-card" onclick="go('exams')"><div class="nimkat-icon">📊</div><div class="nimkat-title">تحلیل آزمون</div></div>
-    <div class="nimkat-card" onclick="go('leitner')"><div class="nimkat-icon">🗂</div><div class="nimkat-title">جعبه لایتنر</div></div>
-    <div class="nimkat-card" onclick="go('chapters')"><div class="nimkat-icon">📚</div><div class="nimkat-title">پیشرفت کتاب</div></div>
-    <div class="nimkat-card" onclick="go('weakness')"><div class="nimkat-icon">💡</div><div class="nimkat-title">تحلیل ضعف</div></div>
-    <div class="nimkat-card" onclick="go('weekly')"><div class="nimkat-icon">📈</div><div class="nimkat-title">گزارش هفتگی</div></div>
-    <div class="nimkat-card" onclick="go('todo')"><div class="nimkat-icon">✔️</div><div class="nimkat-title">کارها</div></div>
-    <div class="nimkat-card" onclick="go('goals')"><div class="nimkat-icon">🏆</div><div class="nimkat-title">اهداف</div></div>
-    <div class="nimkat-card" onclick="go('habits')"><div class="nimkat-icon">🔥</div><div class="nimkat-title">عادت‌ها</div></div>
-    <div class="nimkat-card" onclick="go('stats')"><div class="nimkat-icon">📈</div><div class="nimkat-title">آمار کلی</div></div>
-    <div class="nimkat-card" onclick="go('heatmap')"><div class="nimkat-icon">🗓</div><div class="nimkat-title">تقویم مطالعه</div></div>
+<div class="nimkat-card" onclick="go('mistakes')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg></div><div class="nimkat-title">دفتر اشتباهات</div><div class="nimkat-desc">تحلیل خطاهای درسی</div></div>
+<div class="nimkat-card" onclick="go('exam-analysis')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div><div class="nimkat-title">تحلیل آزمون</div><div class="nimkat-desc">کارنامه و نمودار درصد</div></div>
+<div class="nimkat-card" onclick="go('smart-analyzer-page')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg></div><div class="nimkat-title">تحلیلگر هوشمند</div><div class="nimkat-desc">مشاور و آنالیز AI</div></div>
+<div class="nimkat-card" onclick="go('weakness')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg></div><div class="nimkat-title">تحلیل ضعف</div><div class="nimkat-desc">شناسایی نقاط ضعف</div></div>
+<div class="nimkat-card" onclick="go('chapters')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><div class="nimkat-title">پیشرفت کتاب</div><div class="nimkat-desc">درصد خوانده‌شده</div></div>
+<div class="nimkat-card" onclick="go('leitner')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div><div class="nimkat-title">جعبه لایتنر</div><div class="nimkat-desc">مرور فاصله‌دار فلش‌کارت</div></div>
+<div class="nimkat-card" onclick="go('goals')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div><div class="nimkat-title">اهداف</div><div class="nimkat-desc">تعیین هدف و پیگیری</div></div>
+<div class="nimkat-card" onclick="go('todo')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div class="nimkat-title">کارها</div><div class="nimkat-desc">لیست وظایف روزانه</div></div>
+<div class="nimkat-card" onclick="go('weekly')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="nimkat-title">گزارش هفتگی</div><div class="nimkat-desc">خلاصه عملکرد هفته</div></div>
+<div class="nimkat-card" onclick="go('heatmap')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg></div><div class="nimkat-title">تقویم مطالعه</div><div class="nimkat-desc">نقشه حرارتی تلاش</div></div>
+<div class="nimkat-card" onclick="go('stats')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="nimkat-title">آمار کلی</div><div class="nimkat-desc">نمودارهای بلندمدت</div></div>
+<div class="nimkat-card" onclick="go('habits')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><div class="nimkat-title">عادت‌ها</div><div class="nimkat-desc">ساختن عادات مثبت</div></div>
 </div>
 
     <div class="category-title" style="display:flex !important;">⚙️ ابزار و تنظیمات</div>
     <div class="nimkat-grid">
-    <div class="nimkat-card" onclick="go('health')"><div class="nimkat-icon">🛌</div><div class="nimkat-title">خواب و سلامت</div></div>
-    <div class="nimkat-card" onclick="go('rules')"><div class="nimkat-icon">⭐</div><div class="nimkat-title">قوانین</div></div>
-    <div class="nimkat-card" onclick="go('notes')"><div class="nimkat-icon">📝</div><div class="nimkat-title">یادداشت‌ها</div></div>
-    <div class="nimkat-card" onclick="go('profile')"><div class="nimkat-icon">🪪</div><div class="nimkat-title">پرونده</div></div>
-    <div class="nimkat-card" onclick="go('distraction')"><div class="nimkat-icon">🧠</div><div class="nimkat-title">حواس‌پرتی</div></div>
-    <div class="nimkat-card" onclick="go('checklist')"><div class="nimkat-icon">✅</div><div class="nimkat-title">چک‌لیست</div></div>
-    <div class="nimkat-card" onclick="go('techniques')"><div class="nimkat-icon">💡</div><div class="nimkat-title">تکنیک‌ها</div></div>
-    <div class="nimkat-card" onclick="go('backup')"><div class="nimkat-icon">💾</div><div class="nimkat-title">پشتیبان</div></div>
-    <div class="nimkat-card" onclick="go('settings')"><div class="nimkat-icon">⚙️</div><div class="nimkat-title">تنظیمات</div></div>
-    <div class="nimkat-card" onclick="openAssistantManual()"><div class="nimkat-icon">🎓</div><div class="nimkat-title">مشاور</div></div>
+<div class="nimkat-card" onclick="go('notes-hub')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg></div><div class="nimkat-title">جزوه‌ها و فایل‌ها</div><div class="nimkat-desc">آرشیو PDF و عکس</div></div>
+<div class="nimkat-card" onclick="go('rules')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="nimkat-title">قوانین</div><div class="nimkat-desc">قوانین شخصی طلایی</div></div>
+<div class="nimkat-card" onclick="go('health')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg></div><div class="nimkat-title">خواب و سلامت</div><div class="nimkat-desc">ثبت ساعت خواب</div></div>
+<div class="nimkat-card" onclick="go('distraction')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="12.41 6.75 13 2 10.57 4.92"/><polyline points="18.57 12.91 21 10 15.66 10"/><polyline points="8 8 3 14 12 14 11 22 16 16"/><line x1="1" y1="1" x2="23" y2="23"/></svg></div><div class="nimkat-title">حواس‌پرتی</div><div class="nimkat-desc">شناسایی عوامل حواس‌پرتی</div></div>
+<div class="nimkat-card" onclick="go('profile')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="nimkat-title">پرونده</div><div class="nimkat-desc">اطلاعات و سطح‌سنجی</div></div>
+<div class="nimkat-card" onclick="go('notes')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/><path d="M15 3v6h6"/></svg></div><div class="nimkat-title">یادداشت‌ها</div><div class="nimkat-desc">دفترچه یادداشت سریع</div></div>
+<div class="nimkat-card" onclick="go('backup')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg></div><div class="nimkat-title">پشتیبان</div><div class="nimkat-desc">بکاپ‌گیری از داده‌ها</div></div>
+<div class="nimkat-card" onclick="go('techniques')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-1 1.5-2.1 1.5-3.5A6 6 0 0 0 6 8c0 1.5.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></div><div class="nimkat-title">تکنیک‌ها</div><div class="nimkat-desc">روش‌های مطالعه</div></div>
+<div class="nimkat-card" onclick="go('checklist')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg></div><div class="nimkat-title">چک‌لیست</div><div class="nimkat-desc">کارهای روزانه</div></div>
+<div class="nimkat-card" onclick="openAssistantManual()"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div><div class="nimkat-title">مشاور</div><div class="nimkat-desc">گفتگو با دستیار</div></div>
+<div class="nimkat-card" onclick="go('settings')"><div class="nimkat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></div><div class="nimkat-title">تنظیمات</div><div class="nimkat-desc">شخصی‌سازی برنامه</div></div>
 </div>
 </section>
 
@@ -498,60 +505,67 @@
 </section>
 
 
-<section id="leitner">
-  <div class="container" style="padding-top:20px;">
-    <h2>🗂 جعبه لایتنر</h2>
-    <div class="card">
-      <div class="inp-row">
-        <input class="inp" id="lf" placeholder="سوال / لغت">
-        <input class="inp" id="lb" placeholder="پاسخ / معنی">
-      </div>
-      <div class="inp-row">
-        <select class="inp" id="leitnerSubject">
-          <option value="ریاضی">ریاضی</option><option value="فیزیک">فیزیک</option>
-          <option value="هندسه">هندسه</option><option value="شیمی">شیمی</option>
-          <option value="عربی">عربی</option><option value="زبان">زبان</option>
-          <option value="فارسی">فارسی</option><option value="دینی">دینی</option>
-          <option value="جغرافیا">جغرافیا</option><option value="نگارش">نگارش</option>
-        </select>
-        <button class="btn btn-success" onclick="addLeitner()">➕ اضافه</button>
-      </div>
-    </div>
-    
-    <div class="card">
-      <div style="text-align:center; margin-bottom: 10px;">
-        <label style="font-size:0.9em; font-weight:bold; margin-bottom:5px; display:block;">درس مورد نظر را انتخاب کنید:</label>
-        <select class="inp" id="filterLeitnerSubject" onchange="renderLeitner()" style="max-width:200px; margin:0 auto;">
-          <option value="all">همه درس‌ها</option>
-          <option value="ریاضی">ریاضی</option><option value="فیزیک">فیزیک</option>
-          <option value="هندسه">هندسه</option><option value="شیمی">شیمی</option>
-          <option value="عربی">عربی</option><option value="زبان">زبان</option>
-          <option value="فارسی">فارسی</option><option value="دینی">دینی</option>
-          <option value="جغرافیا">جغرافیا</option><option value="نگارش">نگارش</option>
-        </select>
-      </div>
 
-      <div class="flashcard" id="leitnerCard" onclick="flipLeitner()">
-        <div class="fc-inner">
+<section id="leitner">
+    <div class="container" style="padding-top:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <h2 style="margin:0;">🗂 جعبه لایتنر</h2>
+            <div style="display:flex; gap:8px;"><button class="btn btn-accent" onclick="startFreeStudy()" style="padding: 8px 15px; font-size: 0.85em; border-radius: 10px;">🎲 مطالعه آزاد</button><button class="btn btn-accent" onclick="SmartAnalyzer.open()" style="padding: 8px 15px; font-size: 0.85em; border-radius: 10px; background:linear-gradient(135deg,#8b5cf6,#6d28d9); border:none; color:#fff;">🧠 تحلیلگر هوشمند</button><button class="btn btn-info" onclick="LeitnerManager.open()" style="padding: 8px 15px; font-size: 0.85em; border-radius: 10px;">📋 مدیریت</button></div>
+        </div>
+        
+        <div class="card">
+            <div class="inp-row">
+                <input class="inp" id="lf" placeholder="سوال / لغت">
+                <input class="inp" id="lb" placeholder="پاسخ / معنی">
+            </div>
+            <div class="inp-row">
+                <select class="inp" id="leitnerSubject">
+                    <option value="ریاضی">ریاضی</option><option value="فیزیک">فیزیک</option>
+                    <option value="هندسه">هندسه</option><option value="شیمی">شیمی</option>
+                    <option value="عربی">عربی</option><option value="زبان">زبان</option>
+                    <option value="فارسی">فارسی</option><option value="دینی">دینی</option>
+                    <option value="جغرافیا">جغرافیا</option><option value="نگارش">نگارش</option>
+                </select>
+                <button class="btn btn-success" onclick="addLeitner()">➕ اضافه</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div style="text-align:center; margin-bottom: 10px;">
+                <label style="font-size:0.9em; font-weight:bold; margin-bottom:5px; display:block;">درس مورد نظر را انتخاب کنید:</label>
+                <select class="inp" id="filterLeitnerSubject" onchange="renderLeitner()" style="max-width:200px; margin:0 auto;">
+                    <option value="all">همه درس‌ها</option>
+                    <option value="ریاضی">ریاضی</option><option value="فیزیک">فیزیک</option>
+                    <option value="هندسه">هندسه</option><option value="شیمی">شیمی</option>
+                    <option value="عربی">عربی</option><option value="زبان">زبان</option>
+                    <option value="فارسی">فارسی</option><option value="دینی">دینی</option>
+                    <option value="جغرافیا">جغرافیا</option><option value="نگارش">نگارش</option>
+                </select>
+            </div>
+
+            <div class="flashcard" id="leitnerCard" onclick="flipLeitner()">
+                <div class="fc-inner">
+                    <button class="tts-btn" onclick="speakCurrentCard(event)" title="پخش صدا">🔊</button>
           <div class="fc-front" id="lv1">کارتی نیست</div>
-          <div class="fc-back" id="lv2">اضافه کن!</div>
+                    <div class="fc-back" id="lv2">اضافه کن!</div>
+                </div>
+            </div>
+            
+            <div id="leitnerActions" style="margin-top:15px;">
+                <div class="btn-group" id="leitnerMainBtns">
+                    <button class="btn btn-danger" onclick="leitnerAnswer(false)">❌ نمی‌دونستم</button>
+                    <button class="btn btn-success" onclick="leitnerAnswer(true)">✅ می‌دونستم</button>
+                </div>
+                <div class="btn-group" id="leitnerResultBtns" style="display:none;">
+                    <button class="btn btn-info" onclick="LeitnerManager.editCurrent()">✏️ ویرایش</button>
+                    <button class="btn btn-primary" onclick="nextLeitnerCard()">بعدی ➡</button>
+                </div>
+            </div>
+            <p style="text-align:center;color:var(--text-light);margin-top:10px;font-size:.82em" id="leitnerCounter"></p>
         </div>
-      </div>
-      
-      <div id="leitnerActions" style="margin-top:15px;">
-        <div class="btn-group" id="leitnerMainBtns">
-          <button class="btn btn-danger" onclick="leitnerAnswer(false)">❌ نمی‌دونستم</button>
-          <button class="btn btn-success" onclick="leitnerAnswer(true)">✅ می‌دونستم</button>
-        </div>
-        <div class="btn-group" id="leitnerResultBtns" style="display:none;">
-          <button class="btn btn-info" onclick="editLeitnerCard()">✏️ ویرایش</button>
-          <button class="btn btn-primary" onclick="nextLeitnerCard()">بعدی ➡</button>
-        </div>
-      </div>
-      <p style="text-align:center;color:var(--text-light);margin-top:10px;font-size:.82em" id="leitnerCounter"></p>
     </div>
-  </div>
 </section>
+
 
 
 <section id="mistakes">
@@ -755,6 +769,23 @@
 
 
 
+
+<section id="smart-analyzer-page">
+    <div class="sa-hero">
+        <div class="sa-hero-icon">🧠</div>
+        <h2>تحلیلگر هوشمند</h2>
+        <p>ارزیابی جامع تمام دروس بر اساس زمان، نمرات، آزمون‌ها و لایتنر</p>
+    </div>
+    
+    <div class="container" style="padding-bottom:100px;">
+        <!-- آمار کلی -->
+        <div id="saPageSummary" class="sa-page-summary"></div>
+        
+        <!-- لیست دروس -->
+        <div id="saPageList" class="sa-page-list"></div>
+    </div>
+</section>
+
 <section id="garden">
     <div class="container" style="padding-top:20px;">
         <h2>🌳 باغ مطالعه‌ی من</h2>
@@ -805,25 +836,125 @@
 
 
 
+
 <section id="study-plan">
     <div class="container" style="padding-top:20px; padding-bottom:100px;">
         <h2>📝 برنامه مطالعاتی</h2>
         
-        <!-- ناوبری تاریخ -->
-        <div class="sp-nav">
-            <button class="sp-nav-btn" onclick="StudyPlan.prevDay()">❮ روز قبل</button>
-            <div class="sp-date" id="spDate" onclick="StudyPlan.openDatePicker()">تاریخ</div>
-            <button class="sp-nav-btn" onclick="StudyPlan.nextDay()">روز بعد ❯</button>
+        <!-- تب‌ها -->
+        <div class="sp-tabs">
+            <button class="sp-tab active" id="tabStudy" onclick="StudyPlan.switchTab('study')">📖 مطالعه</button>
+            <button class="sp-tab" id="tabExam" onclick="StudyPlan.switchTab('exam')">📝 آزمون‌ها</button>
         </div>
 
-        <!-- مجموع زمان -->
-        <div class="sp-total" id="spTotal">مجموع: ۰ دقیقه</div>
+        <!-- بخش مطالعه -->
+        <div id="spStudySection">
+            <div class="sp-nav">
+                <button class="sp-nav-btn" onclick="StudyPlan.prevDay()">❮ روز قبل</button>
+                <div class="sp-date" id="spDate" onclick="StudyPlan.openDatePicker()">تاریخ</div>
+                <button class="sp-nav-btn" onclick="StudyPlan.nextDay()">روز بعد ❯</button>
+            </div>
+            <div class="sp-total" id="spTotal">مجموع: ۰ دقیقه</div>
+            <div class="sp-list" id="spList"></div>
+            <button class="sp-add-btn" onclick="StudyEditor.open()">+ ثبت مطالعه</button>
+        </div>
 
-        <!-- لیست مطالعات -->
-        <div class="sp-list" id="spList"></div>
+        <!-- بخش آزمون‌ها -->
+        <div id="spExamSection" style="display:none;">
+            <div class="sp-exam-header">
+                <div class="sp-exam-title">📊 کارنامه آزمون‌ها</div>
+                <button class="btn btn-primary" onclick="ExamEditor.open()" style="padding: 8px 15px; font-size: 0.85em; border-radius: 10px;">+ ثبت آزمون</button>
+            </div>
+            <div class="sp-exam-list" id="spExamList"></div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<section id="exam-analysis">
+    <div class="container" style="padding-top:20px; padding-bottom:100px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2 style="margin:0;">📊 تحلیل آزمون‌ها</h2>
+            <button class="btn btn-primary" onclick="ExamEditor.open()" style="padding: 8px 15px; font-size: 0.85em; border-radius: 10px;">+ ثبت آزمون</button>
+        </div>
         
-        <!-- دکمه شناور ثبت -->
-        <button class="sp-add-btn" onclick="StudyEditor.open()">+ ثبت مطالعه</button>
+        <div id="eaEmptyState" style="display:none; text-align:center; padding:40px 20px; color:var(--text-light);">
+            <div style="font-size:4em; margin-bottom:10px;">📉</div>
+            <div style="font-weight:800; font-size:1.2em; margin-bottom:10px;">هنوز آزمونی ثبت نکرده‌اید!</div>
+            <div style="font-size:0.9em; line-height:1.8; margin-bottom:20px;">با ثبت اولین آزمون، می‌توانید نقاط قوت و ضعف خود را دقیق بشناسید.</div>
+            <button class="btn btn-primary" onclick="ExamEditor.open()" style="padding:12px 25px; border-radius:12px;">ثبت اولین آزمون</button>
+        </div>
+
+        <div id="eaContent" style="display:none;">
+            <!-- آمار کلی -->
+            <div class="ea-stats-grid">
+                <div class="ea-stat-card">
+                    <div class="ea-stat-icon">📝</div>
+                    <div class="ea-stat-val" id="eaTotalExams">۰</div>
+                    <div class="ea-stat-label">تعداد آزمون</div>
+                </div>
+                <div class="ea-stat-card">
+                    <div class="ea-stat-icon">🎯</div>
+                    <div class="ea-stat-val" id="eaAvgPct">۰٪</div>
+                    <div class="ea-stat-label">میانگین درصد</div>
+                </div>
+                <div class="ea-stat-card">
+                    <div class="ea-stat-icon">📈</div>
+                    <div class="ea-stat-val" id="eaBestSubj">-</div>
+                    <div class="ea-stat-label">بهترین درس</div>
+                </div>
+            </div>
+
+            <!-- تحلیل درس به درس -->
+            <div class="ea-card">
+                <h3 class="ea-card-title">📚 عملکرد درس به درس</h3>
+                <div id="eaSubjectsList" class="ea-subjects-list"></div>
+            </div>
+
+            <!-- تحلیل نوع پاسخ‌ها -->
+            <div class="ea-card">
+                <h3 class="ea-card-title">🔍 استراتژی پاسخ‌دهی (کل آزمون‌ها)</h3>
+                <div id="eaQualityList"></div>
+            </div>
+
+            <!-- لیست آزمون‌های اخیر -->
+            <div class="ea-card">
+                <h3 class="ea-card-title" style="justify-content:space-between;">
+                    <span>🗓 آزمون‌های اخیر</span>
+                    <span style="font-size:0.7em; color:var(--text-light); font-weight:normal;">برای دیدن کارنامه کلیک کنید</span>
+                </h3>
+                <div id="eaRecentList" class="sp-exam-list"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section id="notes-hub">
+    <div class="container" style="padding-top:20px; padding-bottom:100px;">
+        <h2>📁 جزوه‌ها و فایل‌های من</h2>
+        <p style="color:var(--text-light); font-size:0.85em; margin-bottom:15px;">فایل‌های PDF یا عکس‌های جزوه‌هایت را اینجا آپلود کن تا همیشه در دسترس باشند.</p>
+        
+        <div class="card" style="text-align:center; border: 2px dashed var(--primary); background: rgba(0,150,136,0.05);">
+            <div style="font-size:2em; margin-bottom:10px;">☁️</div>
+            <div style="font-weight:800; margin-bottom:10px;">آپلود فایل جدید</div>
+            <input type="file" id="notesFileInput" accept="image/*,application/pdf" style="display:none" onchange="NotesHub.handleUpload(event)">
+            <button class="btn btn-primary" onclick="document.getElementById('notesFileInput').click()">انتخاب فایل از گوشی</button>
+        </div>
+
+        <div class="notes-filter">
+            <button class="nf-btn active" onclick="NotesHub.filter('all', this)">همه</button>
+            <button class="nf-btn" onclick="NotesHub.filter('ریاضی', this)">ریاضی</button>
+            <button class="nf-btn" onclick="NotesHub.filter('فیزیک', this)">فیزیک</button>
+            <button class="nf-btn" onclick="NotesHub.filter('شیمی', this)">شیمی</button>
+            <button class="nf-btn" onclick="NotesHub.filter('عربی', this)">عربی</button>
+            <button class="nf-btn" onclick="NotesHub.filter('زبان', this)">زبان</button>
+        </div>
+
+        <div id="notesGrid" class="notes-grid"></div>
     </div>
 </section>
 
@@ -1086,7 +1217,7 @@
 <div class="toast" id="toast" aria-live="polite" aria-atomic="true"></div>
 
 <script src="db.js"></script>
-<script src="app.js?v=1793386051819"></script>
+<script src="app.js?v=1793392628183"></script>
 
     <!-- Quick Add FAB -->
     <button class="wizard-fab" id="fabBtn" onclick="WIZARD.open()" title="ثبت سریع">
@@ -1172,6 +1303,19 @@
                 </div>
             </div>
 
+            
+            <div class="inp-group" id="seTestCountGroup" style="margin-top:15px; display:none;">
+                <div style="font-size:0.9em; font-weight:700; color:var(--text-light); margin-bottom:10px; text-align:center;">تعداد تست</div>
+                <input type="number" id="editTestCount" class="inp" placeholder="تعداد تست..." style="text-align:center; font-weight:800; font-size:1.2em; border-radius:12px;">
+                <div class="se-quick-times">
+                    <button onclick="StudyEditor.setTestCount(10)">۱۰</button>
+                    <button onclick="StudyEditor.setTestCount(20)">۲۰</button>
+                    <button onclick="StudyEditor.setTestCount(30)">۳۰</button>
+                    <button onclick="StudyEditor.setTestCount(40)">۴۰</button>
+                    <button onclick="StudyEditor.setTestCount(50)">۵۰</button>
+                </div>
+            </div>
+
             <div class="inp-group" style="margin-top:15px;">
                 <input type="text" id="editDesc" class="inp" placeholder="توضیحات (اختیاری)" style="border-radius:12px;">
             </div>
@@ -1181,6 +1325,179 @@
             <button id="seCancelBtn" onclick="StudyEditor.close()" style="background:transparent; color:var(--text-light); flex:1; font-weight:700;">انصراف</button>
             <button id="seDeleteBtn" onclick="StudyEditor.deleteCurrent()" style="background:#fee2e2; color:#ef4444; flex:1; font-weight:800; display:none;">حذف</button>
             <button id="seSaveBtn" onclick="StudyEditor.save()" class="btn btn-primary" style="flex:1; font-weight:800; border-radius:10px;">ثبت</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal-overlay" id="examEditorModal" onclick="if(event.target===this)ExamEditor.close()">
+    <div class="modal-box" style="max-width: 600px; border-radius: 20px; display: flex; flex-direction: column; max-height: 90vh;">
+        
+        <div class="modal-header" style="flex-shrink: 0;">
+            <div>
+                <h3 style="margin:0; font-size:1.2em;" id="eeTitle">ثبت آزمون جدید</h3>
+                <div style="font-size:0.75em; color:var(--text-light); margin-top:5px;">نتیجه آزمون‌های خود را با نمره منفی دقیق ثبت کنید.</div>
+            </div>
+            <button class="modal-close" onclick="ExamEditor.close()">✕</button>
+        </div>
+        
+        <div class="modal-body" style="flex: 1; overflow-y: auto; padding-bottom: 10px;">
+            <!-- اطلاعات کلی -->
+            <div class="ee-section-title">۱. اطلاعات کلی</div>
+            <div class="inp-row" style="margin-bottom: 20px;">
+                <div class="inp-group" style="flex:2;">
+                    <label>عنوان آزمون <span style="color:var(--danger)">*</span></label>
+                    <input type="text" id="eeTitleInput" class="inp" placeholder="مثلاً: آزمون جامع ماز مرحله ۱">
+                </div>
+                <div class="inp-group" style="flex:1;">
+                    <label>تاریخ</label>
+                    <input type="text" id="eeDate" class="inp" readonly onclick="JalaliPicker.open(this)" placeholder="تاریخ">
+                </div>
+            </div>
+
+            <!-- دروس -->
+            <div class="ee-section-title">۲. پاسخ‌نامه دروس</div>
+            <div id="eeSubjectsContainer" style="display:flex; flex-direction:column; gap:15px; margin-bottom: 15px;">
+                <!-- درس‌ها اینجا اضافه می‌شوند -->
+            </div>
+
+            <button class="btn btn-secondary btn-block" onclick="ExamEditor.addSubjectRow()" style="border: 2px dashed var(--primary); color:var(--primary); background:transparent; padding:12px; font-size:0.9em;">
+                ➕ افزودن درس دیگر
+            </button>
+
+        </div>
+
+        <!-- خلاصه و پیش‌نمایش (بخش ثابت پایین) -->
+        <div class="ee-summary-box">
+            <div class="ees-left">
+                <div style="font-size:0.8em; color:var(--text-light); margin-bottom:5px;">مجموع سوالات آزمون</div>
+                <div style="font-size:1.4em; font-weight:800; color:var(--text);" id="eeTotalQ">۰ سوال</div>
+            </div>
+            <div class="ees-right">
+                <div style="font-size:0.8em; color:var(--text-light); margin-bottom:5px;">درصد کل (با نمره منفی)</div>
+                <div style="font-size:2.2em; font-weight:900; color:var(--primary); line-height:1;" id="eePercent">۰٪</div>
+            </div>
+        </div>
+        
+        <div class="modal-footer" style="flex-shrink: 0;">
+            <button id="seCancelBtn" onclick="ExamEditor.close()" style="flex:1;">انصراف</button>
+            <button id="seSaveBtn" onclick="ExamEditor.save()" style="flex:2;">ثبت کارنامه</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="examViewerModal" onclick="if(event.target===this)ExamViewer.close()">
+    <div class="modal-box" style="max-width: 600px; border-radius: 20px; background:var(--bg);">
+        <div class="modal-header" style="background:var(--bg-card); border-radius:20px 20px 0 0;">
+            <div>
+                <h3 style="margin:0;" id="evTitle">کارنامه آزمون</h3>
+                <div style="font-size:0.8em; color:var(--text-light); margin-top:5px;" id="evDate">تاریخ</div>
+            </div>
+            <button class="modal-close" onclick="ExamViewer.close()">✕</button>
+        </div>
+        
+        <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+            <div class="ev-header-score">
+                <div class="ev-total-pct" id="evTotalPct">۰٪</div>
+                <div class="ev-subtitle">درصد کل آزمون (با نمره منفی)</div>
+            </div>
+            
+            <div class="ev-table-wrap">
+                <table class="ev-table">
+                    <thead>
+                        <tr>
+                            <th>درس</th>
+                            <th>کل</th>
+                            <th style="color:var(--success)">درست</th>
+                            <th style="color:var(--danger)">غلط</th>
+                            <th style="color:var(--text-light)">نزده</th>
+                            <th>درصد</th>
+                        </tr>
+                    </thead>
+                    <tbody id="evTableBody">
+                        <!-- سطرهای کارنامه -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="ExamViewer.close()" style="width:100%;">بستن کارنامه</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal-overlay" id="leitnerManagerModal" onclick="if(event.target===this)LeitnerManager.close()">
+    <div class="modal-box" style="max-width: 500px; border-radius: 20px; display:flex; flex-direction:column; max-height:85vh;">
+        <div class="modal-header">
+            <h3 style="margin:0;">📋 مدیریت کارت‌ها</h3>
+            <button class="modal-close" onclick="LeitnerManager.close()">✕</button>
+        </div>
+        
+        <div class="modal-body" style="flex:1; overflow-y:auto; padding:15px;">
+            <div id="lmStats" class="lm-stats-grid"></div>
+            <div id="lmList" class="lm-list"></div>
+        </div>
+        
+        <div class="modal-footer" style="padding:15px; border-top:1px solid var(--border);">
+            <button class="btn btn-secondary btn-block" onclick="LeitnerManager.close()">بستن</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal-overlay" id="pomoLogModal" onclick="if(event.target===this)PomodoroIntegration.close()">
+    <div class="modal-box" style="max-width: 400px; border-radius: 20px;">
+        <div class="modal-header">
+            <h3 style="margin:0;">🎉 پومودورو تمام شد!</h3>
+            <button class="modal-close" onclick="PomodoroIntegration.close()">✕</button>
+        </div>
+        <div class="modal-body" style="padding: 20px;">
+            <p style="text-align:center; margin-bottom:20px; font-size:0.9em; color:var(--text-light);">حالا که تمرکزت تموم شد، بگو چیکار کردی تا توی برنامه مطالعاتی ثبت شه.</p>
+            
+            <div class="inp-group">
+                <label>درس</label>
+                <select id="plSubject" class="inp">
+                    <option value="ریاضی">ریاضی</option><option value="فیزیک">فیزیک</option>
+                    <option value="هندسه">هندسه</option><option value="شیمی">شیمی</option>
+                    <option value="عربی">عربی</option><option value="زبان">زبان</option>
+                    <option value="فارسی">فارسی</option><option value="دینی">دینی</option>
+                </select>
+            </div>
+            
+            <div class="inp-group" style="margin-top:15px;">
+                <label>چند دقیقه بود؟</label>
+                <input type="number" id="plMinutes" class="inp" value="25">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="PomodoroIntegration.close()" style="flex:1;">نادیده بگیر</button>
+            <button class="btn btn-primary" onclick="PomodoroIntegration.save()" style="flex:2;">ثبت در برنامه</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal-overlay" id="smartAnalyzerModal" onclick="if(event.target===this)SmartAnalyzer.close()">
+    <div class="modal-box" style="max-width: 550px; border-radius: 20px; display:flex; flex-direction:column; max-height:90vh;">
+        <div class="modal-header" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #fff; border-bottom: none;">
+            <div>
+                <h3 style="margin:0; font-size:1.2em;">🧠 تحلیلگر هوشمند</h3>
+                <div style="font-size:0.75em; opacity:0.8; margin-top:5px;">ارزیابی جامع تمام دروس بر اساس زمان، نمرات، آزمون‌ها و لایتنر</div>
+            </div>
+            <button class="modal-close" style="background:rgba(255,255,255,0.2); color:#fff;" onclick="SmartAnalyzer.close()">✕</button>
+        </div>
+        
+        <div class="modal-body" style="flex:1; overflow-y:auto; padding:15px; background:var(--bg);">
+            <div id="saSummary" style="margin-bottom:15px;"></div>
+            <div id="saList" style="display:flex; flex-direction:column; gap:12px;"></div>
+        </div>
+        
+        <div class="modal-footer" style="padding:15px; border-top:1px solid var(--border); background:var(--bg-card);">
+            <button class="btn btn-secondary btn-block" onclick="SmartAnalyzer.close()">بستن تحلیل</button>
         </div>
     </div>
 </div>

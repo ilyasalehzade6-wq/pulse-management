@@ -1786,6 +1786,7 @@ window.leitnerAnswer = function(knew) {
   // مخفی کردن دکمه‌های اصلی و نمایش دکمه‌های بعدی/ویرایش
   document.getElementById('leitnerMainBtns').style.display = 'none';
   document.getElementById('leitnerResultBtns').style.display = 'flex';
+  window.currentLeitnerCard = currentLeitnerCard; // ذخیره برای ویرایش
   
   // آپدیت دیتابیس
   const l = getData(LK, []);
@@ -5924,6 +5925,8 @@ setInterval(() => {
 
 
 
+
+
 function updateLauncherWidget() {
     const widget = document.getElementById('launcherWidget');
     if (!widget) return;
@@ -5943,20 +5946,27 @@ function updateLauncherWidget() {
     const elGoal = document.getElementById('lw-goal');
     const elFill = document.getElementById('lw-fill');
     
-    const headerEl = widget.querySelector('.lw-header span:first-child');
-    if(headerEl && headerEl.textContent.includes('هدف')) headerEl.textContent = '📊 عملکرد امروز';
-    
     if (elPct) elPct.textContent = fa(pct) + '٪';
     if (elHours) elHours.textContent = fa(todayHours.toFixed(1));
     if (elGoal) elGoal.textContent = fa(yesterdayHours.toFixed(1));
-    if (elFill) elFill.style.fill = pct + '%', elFill.style.width = pct + '%';
     
-    if (todayHours > yesterdayHours && todayHours > 0) widget.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-    else if (todayHours === 0) widget.style.background = 'linear-gradient(135deg, #64748b, #475569)';
-    else widget.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
+    if (elFill) {
+        // شعاع 42 است، محیط = 2 * 3.14 * 42 = 263.89 (حدود 264)
+        const circumference = 264;
+        const offset = circumference - (pct / 100) * circumference;
+        elFill.style.strokeDashoffset = offset;
+        
+        // تغییر رنگ دایره
+        if (pct === 0) elFill.style.stroke = '#4b5563'; // خاکستری
+        else if (pct < 50) elFill.style.stroke = '#ef4444'; // قرمز
+        else if (pct < 75) elFill.style.stroke = '#f59e0b'; // نارنجی
+        else elFill.style.stroke = '#10b981'; // سبز
+    }
 }
 setTimeout(updateLauncherWidget, 1000);
 setInterval(updateLauncherWidget, 60000);
+
+
 
  // هر دقیقه
 
@@ -6839,6 +6849,7 @@ window.StudyPlan = {
                 <div class="sp-card" onclick="StudyEditor.openEdit(${l.ts})">
                     <div class="sp-card-info">
                         <div class="sp-card-subj">${icon} ${esc(l.subject)} (${act})</div>
+                        ${l.testCount ? `<div class="sp-card-desc">📝 ${fa(l.testCount)} تست</div>` : ''}
                         ${l.desc ? `<div class="sp-card-desc">${esc(l.desc)}</div>` : ''}
                     </div>
                     <div class="sp-card-time">${fa(mins)} دقیقه</div>
@@ -6863,6 +6874,8 @@ window.StudyEditor = {
         document.getElementById('seSaveBtn').textContent = 'ثبت';
         document.getElementById('editMinutes').value = '';
         document.getElementById('editDesc').value = '';
+        document.getElementById('editTestCount').value = '';
+        document.getElementById('seTestCountGroup').style.display = 'none';
         
         // تنظیم تاریخ‌های تب
         const t = getShamsi(new Date());
@@ -6894,6 +6907,9 @@ window.StudyEditor = {
         document.getElementById('editSubject').value = target.subject;
         document.getElementById('editMinutes').value = Math.round(target.hours * 60);
         document.getElementById('editDesc').value = target.desc || '';
+        document.getElementById('editTestCount').value = target.testCount || '';
+        if(target.activity === 'تست') document.getElementById('seTestCountGroup').style.display = 'block';
+        else document.getElementById('seTestCountGroup').style.display = 'none';
         
         // تنظیم تب تاریخ
         const t = getShamsi(new Date());
@@ -6942,6 +6958,7 @@ window.StudyEditor = {
         const subj = document.getElementById('editSubject').value;
         const min = parseInt(document.getElementById('editMinutes').value);
         const desc = document.getElementById('editDesc').value.trim();
+        const testCount = parseInt(document.getElementById('editTestCount').value) || 0;
         
         if (!min || min <= 0) return toast('لطفاً مدت زمان معتبر وارد کنید');
         
@@ -6956,6 +6973,7 @@ window.StudyEditor = {
                 log[logIdx].hours = min / 60;
                 log[logIdx].activity = this.activity;
                 log[logIdx].desc = desc;
+                log[logIdx].testCount = testCount;
                 log[logIdx].date = this.currentDate; // اجازه تغییر تاریخ هم بدهیم
             }
             
@@ -6965,14 +6983,15 @@ window.StudyEditor = {
                 sessions[sesIdx].min = min;
                 sessions[sesIdx].topic = this.activity;
                 sessions[sesIdx].desc = desc;
+                sessions[sesIdx].tests = testCount;
                 sessions[sesIdx].date = this.currentDate;
             }
             toast('✅ مطالعه ویرایش شد');
         } else {
             // ثبت جدید
             const newTs = Date.now();
-            log.push({ date: this.currentDate, hours: min / 60, subject: subj, activity: this.activity, desc: desc, ts: newTs });
-            sessions.push({ id: newTs, date: this.currentDate, subj: subj, min: min, topic: this.activity, desc: desc, pages: 0, tests: 0, ts: newTs });
+            log.push({ date: this.currentDate, hours: min / 60, subject: subj, activity: this.activity, desc: desc, testCount: testCount, ts: newTs });
+            sessions.push({ id: newTs, date: this.currentDate, subj: subj, min: min, topic: this.activity, desc: desc, pages: 0, tests: testCount, ts: newTs });
             toast('✅ مطالعه ثبت شد');
         }
         
@@ -7018,7 +7037,7 @@ if (typeof go !== 'undefined') {
     window.go = function(id) {
         originalGo(id);
         if (id === 'study-plan') {
-            setTimeout(() => StudyPlan.init(), 50);
+            setTimeout(() => { StudyPlan.init(); StudyPlan.switchTab('study'); }, 50);
         }
     };
 }
@@ -7034,3 +7053,1393 @@ setTimeout(() => {
         };
     }
 }, 1000);
+
+
+window.StudyEditor.setActivity = function(act, btn) {
+    this.activity = act;
+    document.querySelectorAll('.se-act-btn').forEach(b => b.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+    document.getElementById('seTestCountGroup').style.display = (act === 'تست') ? 'block' : 'none';
+};
+window.StudyEditor.setTestCount = function(c) {
+    document.getElementById('editTestCount').value = c;
+};
+
+
+// ============ EXAM MANAGER & TABS ============
+StudyPlan.currentTab = 'study';
+StudyPlan.switchTab = function(tab) {
+    this.currentTab = tab;
+    if (tab === 'study') {
+        document.getElementById('spStudySection').style.display = 'block';
+        document.getElementById('spExamSection').style.display = 'none';
+        document.getElementById('tabStudy').classList.add('active');
+        document.getElementById('tabExam').classList.remove('active');
+        this.render();
+    } else {
+        document.getElementById('spStudySection').style.display = 'none';
+        document.getElementById('spExamSection').style.display = 'block';
+        document.getElementById('tabStudy').classList.remove('active');
+        document.getElementById('tabExam').classList.add('active');
+        ExamEditor.renderExams();
+    }
+};
+
+
+
+// ============ COMPREHENSIVE EXAM SYSTEM ============
+window.ExamEditor = {
+    tempSubjects: [],
+
+    open: function() {
+        this.tempSubjects = [];
+        document.getElementById('examEditorModal').classList.add('active');
+        
+        const dateInput = document.getElementById('eeDate');
+        const sh = getShamsi();
+        dateInput.value = sh.y + '/' + pad2(sh.m) + '/' + pad2(sh.d);
+        dateInput.dataset.gregorian = today();
+        
+        document.getElementById('eeTitleInput').value = '';
+        document.getElementById('eeSubjectsContainer').innerHTML = '';
+        this.addSubjectRow();
+        this.updateSummary();
+    },
+    
+    close: function() {
+        document.getElementById('examEditorModal').classList.remove('active');
+    },
+    
+    addSubjectRow: function() {
+        const id = Date.now() + Math.random();
+        const rowHtml = `
+            <div class="ee-subject-row" id="row-${id}">
+                <button class="ee-del-row" onclick="ExamEditor.removeSubjectRow('${id}')">✕</button>
+                <select class="inp" id="subj-${id}" style="margin-bottom:0; font-weight:700;">
+                    <option value="ریاضی">ریاضی</option><option value="فیزیک">فیزیک</option>
+                    <option value="هندسه">هندسه</option><option value="شیمی">شیمی</option>
+                    <option value="عربی">عربی</option><option value="زبان">زبان</option>
+                    <option value="فارسی">فارسی</option><option value="دینی">دینی</option>
+                    <option value="جغرافیا">جغرافیا</option><option value="نگارش">نگارش</option>
+                </select>
+                <div class="ee-grid-4">
+                    <div><label style="font-size:0.7em; color:var(--text-light);">کل</label><input type="number" id="tot-${id}" class="inp" placeholder="۰" oninput="ExamEditor.updateSummary()"></div>
+                    <div><label style="font-size:0.7em; color:var(--success);">درست</label><input type="number" id="cor-${id}" class="inp" placeholder="۰" oninput="ExamEditor.updateSummary()"></div>
+                    <div><label style="font-size:0.7em; color:var(--danger);">غلط</label><input type="number" id="wr-${id}" class="inp" placeholder="۰" oninput="ExamEditor.updateSummary()"></div>
+                    <div><label style="font-size:0.7em; color:var(--text-light);">نزده</label><input type="number" id="un-${id}" class="inp" placeholder="۰" oninput="ExamEditor.updateSummary()"></div>
+                </div>
+            </div>
+        `;
+        document.getElementById('eeSubjectsContainer').insertAdjacentHTML('beforeend', rowHtml);
+    },
+    
+    removeSubjectRow: function(id) {
+        const el = document.getElementById('row-' + id);
+        if (el) el.remove();
+        this.updateSummary();
+    },
+    
+    updateSummary: function() {
+        let totalQ = 0;
+        let totalCorrect = 0;
+        let totalWrong = 0;
+        let totalScore = 0;
+        
+        const rows = document.querySelectorAll('.ee-subject-row');
+        rows.forEach(row => {
+            const id = row.id.replace('row-', '');
+            const t = parseInt(document.getElementById('tot-' + id).value) || 0;
+            const c = parseInt(document.getElementById('cor-' + id).value) || 0;
+            const w = parseInt(document.getElementById('wr-' + id).value) || 0;
+            
+            totalQ += t;
+            totalCorrect += c;
+            totalWrong += w;
+        });
+        
+        // محاسبه درصد کل
+        let pct = 0;
+        if (totalQ > 0) {
+            const score = (totalCorrect * 3) - totalWrong;
+            pct = Math.round((score / (totalQ * 3)) * 100);
+            if(pct < 0) pct = 0;
+        }
+        
+        document.getElementById('eeTotalQ').textContent = fa(totalQ);
+        document.getElementById('eePercent').textContent = fa(pct) + '٪';
+    },
+    
+    save: function() {
+        const title = document.getElementById('eeTitleInput').value.trim();
+        const date = document.getElementById('eeDate').dataset.gregorian || today();
+        
+        if (!title) return toast('عنوان آزمون را وارد کنید');
+        
+        const subjects = [];
+        let hasValid = false;
+        
+        document.querySelectorAll('.ee-subject-row').forEach(row => {
+            const id = row.id.replace('row-', '');
+            const subjName = document.getElementById('subj-' + id).value;
+            const t = parseInt(document.getElementById('tot-' + id).value) || 0;
+            const c = parseInt(document.getElementById('cor-' + id).value) || 0;
+            const w = parseInt(document.getElementById('wr-' + id).value) || 0;
+            const u = parseInt(document.getElementById('un-' + id).value) || 0;
+            
+            if (t > 0) {
+                if (c + w + u > t) {
+                    toast('⚠️ خطا: در درس ' + subjName + '، جمع درست+غلط+نزده (' + (c+w+u) + ') بیشتر از کل سوالات (' + t + ') است.');
+                    hasValid = false;
+                    return;
+                }
+                hasValid = true;
+                subjects.push({ name: subjName, total: t, correct: c, wrong: w, unans: u });
+            }
+        });
+        
+        if (!hasValid) return toast('حداقل یک درس با تعداد سوال معتبر وارد کنید');
+        
+        const exams = getData('ilia-exam-analysis', []);
+        exams.push({ id: Date.now(), title, date, subjects, ts: Date.now() });
+        setData('ilia-exam-analysis', exams);
+        
+        this.close();
+        toast('✅ آزمون جامع ثبت شد');
+        ExamEditor.renderExams();
+        if (typeof refreshAppData === 'function') refreshAppData();
+    },
+    
+    renderExams: function() {
+        const list = document.getElementById('spExamList');
+        if (!list) return;
+        
+        const exams = getData('ilia-exam-analysis', []);
+        if (exams.length === 0) {
+            list.innerHTML = '<div style="text-align:center; color:var(--text-light); padding:30px 10px; font-weight:700;">هنوز آزمونی ثبت نکرده‌اید.</div>';
+            return;
+        }
+        
+        exams.sort((a,b) => b.ts - a.ts);
+        
+        list.innerHTML = exams.map(e => {
+            // پشتیبانی از داده‌های قدیمی (تک درسی) و جدید (چند درسی)
+            let subjectsArray = e.subjects;
+            if (!subjectsArray) {
+                subjectsArray = [{ name: e.subject || 'نامشخص', total: e.total, correct: e.correct, wrong: e.wrong, unans: e.unans }];
+            }
+            
+            let totalQ = 0; let totalCorrect = 0; let totalWrong = 0;
+            subjectsArray.forEach(s => {
+                totalQ += s.total; totalCorrect += s.correct; totalWrong += s.wrong;
+            });
+            
+            const score = (totalCorrect * 3) - totalWrong;
+            let pct = Math.round((score / (totalQ * 3)) * 100);
+            if(pct < 0) pct = 0;
+            
+            let color = 'var(--success)';
+            if (pct < 50) color = 'var(--danger)';
+            else if (pct < 75) color = 'var(--accent)';
+            
+            let subjectsText = subjectsArray.map(s => s.name).join('، ');
+            if (subjectsText.length > 20) subjectsText = subjectsText.substring(0, 20) + '...';
+            
+            return `
+                <div class="exam-card" style="border-right-color:${color}" onclick="ExamViewer.open(${e.id})">
+                    <div class="exam-card-info">
+                        <div class="exam-card-title">${esc(e.title)}</div>
+                        <div class="exam-card-sub">${subjectsText} — ${fa(totalQ)} سوال</div>
+                        <div class="exam-card-sub" style="font-size:0.65em; margin-top:3px;">${esc(e.date)}</div>
+                    </div>
+                    <div class="exam-card-score">
+                        <div class="exam-card-pct" style="color:${color}">${fa(pct)}٪</div>
+                        <div class="exam-card-detail">${fa(totalCorrect)}✓ ${fa(totalWrong)}✗</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+};
+
+window.ExamViewer = {
+    open: function(examId) {
+        const exams = getData('ilia-exam-analysis', []);
+        const e = exams.find(x => x.id === examId);
+        if (!e) return;
+        
+        document.getElementById('examViewerModal').classList.add('active');
+        document.getElementById('evTitle').textContent = e.title;
+        document.getElementById('evDate').textContent = 'تاریخ ثبت: ' + e.date;
+        
+        let subjectsArray = e.subjects;
+        if (!subjectsArray) {
+            subjectsArray = [{ name: e.subject || 'نامشخص', total: e.total, correct: e.correct, wrong: e.wrong, unans: e.unans }];
+        }
+        
+        let totalQ = 0; let totalCorrect = 0; let totalWrong = 0;
+        let rowsHtml = '';
+        
+        subjectsArray.forEach(s => {
+            totalQ += s.total; totalCorrect += s.correct; totalWrong += s.wrong;
+            
+            const score = (s.correct * 3) - s.wrong;
+            let pct = Math.round((score / (s.total * 3)) * 100);
+            if(pct < 0) pct = 0;
+            
+            let color = 'var(--success)';
+            if (pct < 50) color = 'var(--danger)';
+            else if (pct < 75) color = 'var(--accent)';
+            
+            rowsHtml += `
+                <tr>
+                    <td style="text-align:right;">${(typeof SUBJECT_ICONS !== 'undefined' && SUBJECT_ICONS[s.name]) ? SUBJECT_ICONS[s.name] : ''} ${esc(s.name)}</td>
+                    <td>${fa(s.total)}</td>
+                    <td style="color:var(--success)">${fa(s.correct)}</td>
+                    <td style="color:var(--danger)">${fa(s.wrong)}</td>
+                    <td style="color:var(--text-light)">${fa(s.unans)}</td>
+                    <td style="color:${color}">${fa(pct)}٪</td>
+                </tr>
+            `;
+        });
+        
+        document.getElementById('evTableBody').innerHTML = rowsHtml;
+        
+        const totalScore = (totalCorrect * 3) - totalWrong;
+        let totalPct = Math.round((totalScore / (totalQ * 3)) * 100);
+        if(totalPct < 0) totalPct = 0;
+        
+        document.getElementById('evTotalPct').textContent = fa(totalPct) + '٪';
+        
+        // اضافه کردن دکمه حذف به مودال کارنامه
+        const footer = document.querySelector('#examViewerModal .modal-footer');
+        footer.innerHTML = `
+            <button class="btn" onclick="ExamEditor.deleteExam(${e.id})" style="background:rgba(239,68,68,0.1); color:var(--danger); flex:1; margin-right:10px; font-weight:800;">🗑 حذف آزمون</button>
+            <button class="btn btn-primary" onclick="ExamViewer.close()" style="flex:2;">بستن</button>
+        `;
+    },
+    
+    close: function() {
+        document.getElementById('examViewerModal').classList.remove('active');
+    }
+};
+
+// اضافه کردن تابع حذف
+ExamEditor.deleteExam = function(id) {
+    if (!confirm('آیا از حذف این آزمون مطمئن هستید؟')) return;
+    let exams = getData('ilia-exam-analysis', []);
+    exams = exams.filter(e => e.id !== id);
+    setData('ilia-exam-analysis', exams);
+    toast('🗑 آزمون حذف شد');
+    ExamViewer.close();
+    this.renderExams();
+    if (typeof refreshAppData === 'function') refreshAppData();
+};
+
+
+// ============ EXAM EDITOR (UX OPTIMIZED) ============
+ExamEditor.addSubjectRow = function() {
+    const id = Date.now() + Math.floor(Math.random() * 1000);
+    const rowHtml = `
+        <div class="ee-subject-row" id="row-${id}">
+            <button class="ee-del-row" onclick="ExamEditor.removeSubjectRow('${id}')" title="حذف این درس">🗑</button>
+            
+            <div class="ee-row-top">
+                <select class="inp" id="subj-${id}" onchange="ExamEditor.updateSummary()">
+                    <option value="ریاضی">ریاضی</option><option value="فیزیک">فیزیک</option>
+                    <option value="هندسه">هندسه</option><option value="شیمی">شیمی</option>
+                    <option value="عربی">عربی</option><option value="زبان">زبان</option>
+                    <option value="فارسی">فارسی</option><option value="دینی">دینی</option>
+                    <option value="جغرافیا">جغرافیا</option><option value="نگارش">نگارش</option>
+                </select>
+            </div>
+            
+            <div class="ee-inputs-grid">
+                <div class="ee-input-box">
+                    <label style="color:var(--text);">کل سوالات</label>
+                    <input type="number" id="tot-${id}" class="inp" placeholder="۱۰۰" oninput="ExamEditor.updateSummary()">
+                </div>
+                <div class="ee-input-box">
+                    <label style="color:var(--success);">درست</label>
+                    <input type="number" id="cor-${id}" class="inp" placeholder="۰" oninput="ExamEditor.updateSummary()">
+                </div>
+                <div class="ee-input-box">
+                    <label style="color:var(--danger);">غلط</label>
+                    <input type="number" id="wr-${id}" class="inp" placeholder="۰" oninput="ExamEditor.updateSummary()">
+                </div>
+                <div class="ee-input-box">
+                    <label style="color:var(--text-light);">نزده</label>
+                    <input type="number" id="un-${id}" class="inp" placeholder="۰" oninput="ExamEditor.updateSummary()">
+                </div>
+            </div>
+        </div>
+    `;
+    document.getElementById('eeSubjectsContainer').insertAdjacentHTML('beforeend', rowHtml);
+    this.updateSummary();
+};
+
+ExamEditor.updateSummary = function() {
+    let totalQ = 0;
+    let totalCorrect = 0;
+    let totalWrong = 0;
+    let hasData = false;
+    
+    document.querySelectorAll('.ee-subject-row').forEach(row => {
+        const id = row.id.replace('row-', '');
+        const t = parseInt(document.getElementById('tot-' + id).value) || 0;
+        const c = parseInt(document.getElementById('cor-' + id).value) || 0;
+        const w = parseInt(document.getElementById('wr-' + id).value) || 0;
+        
+        if (t > 0 || c > 0 || w > 0) hasData = true;
+        
+        totalQ += t;
+        totalCorrect += c;
+        totalWrong += w;
+    });
+    
+    const summaryBox = document.querySelector('.ee-summary-box');
+    if (!hasData) {
+        document.getElementById('eeTotalQ').textContent = '۰ سوال';
+        document.getElementById('eePercent').textContent = '۰٪';
+        document.getElementById('eePercent').style.color = 'var(--text-light)';
+        if (summaryBox) summaryBox.classList.add('empty');
+        return;
+    }
+    
+    if (summaryBox) summaryBox.classList.remove('empty');
+    
+    // محاسبه درصد کنکوری (هر ۳ غلط = ۱ درست)
+    let pct = 0;
+    if (totalQ > 0) {
+        const score = (totalCorrect * 3) - totalWrong;
+        pct = Math.round((score / (totalQ * 3)) * 100);
+        if(pct < 0) pct = 0;
+    }
+    
+    document.getElementById('eeTotalQ').textContent = fa(totalQ) + ' سوال';
+    
+    const pctEl = document.getElementById('eePercent');
+    pctEl.textContent = fa(pct) + '٪';
+    
+    if (pct >= 75) pctEl.style.color = 'var(--success)';
+    else if (pct >= 50) pctEl.style.color = 'var(--accent)';
+    else pctEl.style.color = 'var(--danger)';
+};
+
+
+// ============ EXAM ANALYSIS LOGIC ============
+// اتصال به go
+if (typeof go !== 'undefined') {
+    const originalGoExam = go;
+    window.go = function(id) {
+        originalGoExam(id);
+        if (id === 'exam-analysis') {
+            setTimeout(() => { if (typeof renderExamAnalysis === 'function') renderExamAnalysis(); }, 50);
+        }
+    };
+}
+
+// اجرای اولیه
+setTimeout(() => {
+    if (document.getElementById('exam-analysis') && document.getElementById('exam-analysis').classList.contains('active')) {
+        if (typeof renderExamAnalysis === 'function') renderExamAnalysis();
+    }
+}, 1500);
+
+
+// ============ EXAM ANALYSIS (FINAL UPGRADE) ============
+window.renderExamAnalysis = function() {
+    const exams = getData('ilia-exam-analysis', []);
+    const emptyState = document.getElementById('eaEmptyState');
+    const content = document.getElementById('eaContent');
+    
+    if (!exams || exams.length === 0) {
+        if(emptyState) emptyState.style.display = 'block';
+        if(content) content.style.display = 'none';
+        return;
+    }
+    
+    if(emptyState) emptyState.style.display = 'none';
+    if(content) content.style.display = 'block';
+    
+    let totalExams = exams.length;
+    let globalCorrect = 0, globalWrong = 0, globalUnans = 0, globalTotalQ = 0;
+    let subjectStats = {};
+    
+    // مرتب سازی از جدید به قدیم
+    exams.sort((a,b) => b.ts - a.ts);
+    
+    exams.forEach(e => {
+        let subs = e.subjects;
+        if (!subs) {
+            subs = [{ name: e.subject || 'نامشخص', total: e.total, correct: e.correct, wrong: e.wrong, unans: e.unans }];
+        }
+        
+        subs.forEach(s => {
+            globalCorrect += s.correct;
+            globalWrong += s.wrong;
+            globalUnans += s.unans;
+            globalTotalQ += s.total;
+            
+            if (!subjectStats[s.name]) {
+                subjectStats[s.name] = { totalQ: 0, correct: 0, wrong: 0, unans: 0, count: 0 };
+            }
+            subjectStats[s.name].totalQ += s.total;
+            subjectStats[s.name].correct += s.correct;
+            subjectStats[s.name].wrong += s.wrong;
+            subjectStats[s.name].unans += s.unans;
+            subjectStats[s.name].count++;
+        });
+    });
+    
+    // 1. آمار کلی
+    const globalScore = (globalCorrect * 3) - globalWrong;
+    let globalPct = 0;
+    if (globalTotalQ > 0) {
+        globalPct = Math.round((globalScore / (globalTotalQ * 3)) * 100);
+        if(globalPct < 0) globalPct = 0;
+    }
+    
+    document.getElementById('eaTotalExams').textContent = fa(totalExams);
+    document.getElementById('eaAvgPct').textContent = fa(globalPct) + '٪';
+    
+    // بهترین درس
+    let bestSubj = '-';
+    let bestPct = -1;
+    Object.keys(subjectStats).forEach(name => {
+        const st = subjectStats[name];
+        const score = (st.correct * 3) - st.wrong;
+        const pct = st.totalQ > 0 ? Math.round((score / (st.totalQ * 3)) * 100) : 0;
+        if (pct > bestPct) { bestPct = pct; bestSubj = name; }
+    });
+    document.getElementById('eaBestSubj').textContent = bestSubj;
+    
+    // 2. تحلیل درس به درس
+    const subjList = document.getElementById('eaSubjectsList');
+    let subjHtml = '';
+    
+    const sortedSubjs = Object.keys(subjectStats).map(name => {
+        const st = subjectStats[name];
+        const score = (st.correct * 3) - st.wrong;
+        const pct = st.totalQ > 0 ? Math.round((score / (st.totalQ * 3)) * 100) : 0;
+        return { name, pct, st };
+    }).sort((a,b) => b.pct - a.pct);
+    
+    sortedSubjs.forEach(item => {
+        let color = 'var(--success)';
+        if (item.pct < 50) color = 'var(--danger)';
+        else if (item.pct < 75) color = 'var(--accent)';
+        
+        const icon = (typeof SUBJECT_ICONS !== 'undefined' && SUBJECT_ICONS[item.name]) ? SUBJECT_ICONS[item.name] : '📚';
+        
+        subjHtml += `
+            <div class="ea-subj-item">
+                <div class="ea-subj-head">
+                    <span>${icon} ${esc(item.name)} <span style="font-size:0.8em; color:var(--text-light); font-weight:normal;">(${fa(item.st.count)} آزمون)</span></span>
+                    <span style="color:${color}">${fa(item.pct)}٪</span>
+                </div>
+                <div class="ea-subj-bar-bg">
+                    <div class="ea-subj-bar-fill" style="width:${item.pct}%; background:${color};"></div>
+                </div>
+            </div>
+        `;
+    });
+    subjList.innerHTML = subjHtml;
+    
+    // 3. کیفیت پاسخ‌دهی
+    const qualityWrap = document.getElementById('eaQualityList');
+    const totalAll = globalCorrect + globalWrong + globalUnans;
+    
+    if (totalAll > 0) {
+        const cShare = Math.round((globalCorrect / totalAll) * 100);
+        const wShare = Math.round((globalWrong / totalAll) * 100);
+        const uShare = Math.round((globalUnans / totalAll) * 100);
+        
+        qualityWrap.innerHTML = `
+            <div class="ea-quality-wrap">
+                <div class="ea-donut" style="background: conic-gradient(var(--success) 0% ${cShare}%, var(--danger) ${cShare}% ${cShare + wShare}%, var(--border) ${cShare + wShare}% 100%);">
+                    <div class="ea-donut-inner">${fa(cShare)}٪</div>
+                </div>
+                <div class="ea-legend">
+                    <div class="ea-legend-item">
+                        <div style="display:flex; align-items:center;"><div class="ea-legend-color" style="background:var(--success)"></div> درست</div>
+                        <div class="ea-legend-val">${fa(globalCorrect)}</div>
+                    </div>
+                    <div class="ea-legend-item">
+                        <div style="display:flex; align-items:center;"><div class="ea-legend-color" style="background:var(--danger)"></div> غلط</div>
+                        <div class="ea-legend-val">${fa(globalWrong)}</div>
+                    </div>
+                    <div class="ea-legend-item">
+                        <div style="display:flex; align-items:center;"><div class="ea-legend-color" style="background:var(--border)"></div> نزده</div>
+                        <div class="ea-legend-val">${fa(globalUnans)}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    // 4. آزمون‌های اخیر
+    const recentList = document.getElementById('eaRecentList');
+    let recentHtml = '';
+    
+    exams.slice(0, 5).forEach(e => {
+        let subs = e.subjects || [{ name: e.subject || 'نامشخص', total: e.total, correct: e.correct, wrong: e.wrong, unans: e.unans }];
+        let totalQ = 0, tCorrect = 0, tWrong = 0;
+        subs.forEach(s => { totalQ += s.total; tCorrect += s.correct; tWrong += s.wrong; });
+        
+        const score = (tCorrect * 3) - tWrong;
+        let pct = totalQ > 0 ? Math.round((score / (totalQ * 3)) * 100) : 0;
+        if(pct < 0) pct = 0;
+        
+        let color = pct >= 75 ? 'var(--success)' : pct >= 50 ? 'var(--accent)' : 'var(--danger)';
+        
+        recentHtml += `
+            <div class="exam-card" style="border-right-color:${color}" onclick="ExamViewer.open(${e.id})">
+                <div class="exam-card-info">
+                    <div class="exam-card-title">${esc(e.title)}</div>
+                    <div class="exam-card-sub">${fa(totalQ)} سوال — ${esc(e.date)}</div>
+                </div>
+                <div class="exam-card-score">
+                    <div class="exam-card-pct" style="color:${color}">${fa(pct)}٪</div>
+                </div>
+            </div>
+        `;
+    });
+    recentList.innerHTML = recentHtml;
+};
+
+// اتصال به go
+if (typeof go !== 'undefined') {
+    const originalGoExam2 = go;
+    window.go = function(id) {
+        originalGoExam2(id);
+        if (id === 'exam-analysis') {
+            setTimeout(() => { if (typeof renderExamAnalysis === 'function') renderExamAnalysis(); }, 50);
+        }
+    };
+}
+
+
+// ============ LEITNER MANAGER ============
+window.LeitnerManager = {
+    open: function() {
+        document.getElementById('leitnerManagerModal').classList.add('active');
+        this.render();
+    },
+    close: function() {
+        document.getElementById('leitnerManagerModal').classList.remove('active');
+    },
+    render: function() {
+        const cards = getData('ilia-leitner', []);
+        
+        // آمار جعبه‌ها
+        const stats = {1:0, 2:0, 3:0, 4:0, 5:0};
+        cards.forEach(c => {
+            const box = c.box || 1;
+            if(stats[box] !== undefined) stats[box]++;
+        });
+        
+        document.getElementById('lmStats').innerHTML = Object.keys(stats).map(box => `
+            <div class="lm-stat-box">
+                <div class="num">${fa(stats[box])}</div>
+                <div class="lbl">جعبه ${fa(box)}</div>
+            </div>
+        `).join('');
+        
+        // لیست کارت‌ها
+        const list = document.getElementById('lmList');
+        if (cards.length === 0) {
+            list.innerHTML = '<div style="text-align:center; color:var(--text-light); padding:20px;">هنوز کارتی ثبت نکرده‌اید.</div>';
+            return;
+        }
+        
+        // مرتب سازی بر اساس جعبه (از کم به زیاد) و سپس تاریخ
+        cards.sort((a,b) => (a.box||1) - (b.box||1));
+        
+        list.innerHTML = cards.map(c => {
+            const subj = c.subject || 'نامشخص';
+            const box = c.box || 1;
+            return `
+                <div class="lm-item">
+                    <div class="lm-item-info">
+                        <div class="lm-item-front">${esc(c.front)}</div>
+                        <div class="lm-item-back">${esc(c.back)}</div>
+                        <div class="lm-item-meta">درس: ${esc(subj)} | جعبه: ${fa(box)}</div>
+                    </div>
+                    <div class="lm-item-actions">
+                        <button class="lm-btn-edit" onclick="LeitnerManager.edit(${c.id})">✏️</button>
+                        <button class="lm-btn-del" onclick="LeitnerManager.delete(${c.id})">🗑</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    },
+    delete: function(id) {
+        if(!confirm('این کارت حذف شود؟')) return;
+        let cards = getData('ilia-leitner', []);
+        cards = cards.filter(c => c.id !== id);
+        setData('ilia-leitner', cards);
+        toast('🗑 کارت حذف شد');
+        this.render();
+        renderLeitner();
+    },
+    edit: function(id) {
+        let cards = getData('ilia-leitner', []);
+        let c = cards.find(x => x.id === id);
+        if (!c) return;
+        
+        const newFront = prompt('متن سوال (جلوی کارت):', c.front);
+        if (newFront === null) return;
+        const newBack = prompt('متن پاسخ (پشت کارت):', c.back);
+        if (newBack === null) return;
+        
+        c.front = newFront.trim() || c.front;
+        c.back = newBack.trim() || c.back;
+        setData('ilia-leitner', cards);
+        toast('✅ کارت ویرایش شد');
+        this.render();
+        renderLeitner();
+    },
+    editCurrent: function() {
+        if (!window.currentLeitnerCard) return;
+        this.edit(window.currentLeitnerCard.id);
+    }
+};
+
+// اطمینان از سازگاری با کارت‌های قدیمی (بدون فیلد subject)
+// این کار در تابع renderLeitner اصلی انجام می‌شود، اما یک Fallback هم اینجا می‌گذاریم.
+
+
+// ============ LEITNER FINAL FIXES & UPGRADES ============
+window.isFreeStudyMode = false;
+
+// تابع شروع مطالعه آزاد
+
+
+// ============ LEITNER QUEUE ENGINE ============
+window.LeitnerEngine = {
+    mainQueue: [],
+    retryQueue: [],
+    isInitialized: false,
+    currentFilter: 'all',
+
+    init: function(filter) {
+        const l = getData('ilia-leitner', []);
+        this.currentFilter = filter || 'all';
+        
+        let filtered = l;
+        if (this.currentFilter !== 'all') {
+            filtered = l.filter(c => c.subject === this.currentFilter);
+        }
+        
+        // فیلتر کارت‌های آماده مرور (تاریخ امروز یا گذشته)
+        const due = filtered.filter(c => c.next <= today());
+        
+        // حذف کارت‌های تکراری با استفاده از ID
+        const uniqueIds = new Set();
+        this.mainQueue = [];
+        due.forEach(c => {
+            if (!uniqueIds.has(c.id)) {
+                uniqueIds.add(c.id);
+                this.mainQueue.push(c);
+            }
+        });
+        
+        // اگر حالت مطالعه آزاد بود، همه کارت‌های درس انتخابی را در صف می‌گذاریم
+        if (window.isFreeStudyMode) {
+            this.mainQueue = [];
+            const allUniqueIds = new Set();
+            filtered.forEach(c => {
+                if (!allUniqueIds.has(c.id)) {
+                    allUniqueIds.add(c.id);
+                    this.mainQueue.push(c);
+                }
+            });
+        }
+        
+        // به هم زدن ترتیب برای تنوع (اختیاری)
+        this.mainQueue.sort(() => Math.random() - 0.5);
+        
+        this.retryQueue = [];
+        this.isInitialized = true;
+    },
+
+    getNextCard: function() {
+        if (this.mainQueue.length > 0) {
+            return { card: this.mainQueue[0], isRetry: false };
+        }
+        if (this.retryQueue.length > 0) {
+            // اگر صف اصلی خالی بود، از صف تلاش مجدد بیاور
+            return { card: this.retryQueue[0], isRetry: true };
+        }
+        return null;
+    },
+
+    processAnswer: function(knew) {
+        let currentSession = this.mainQueue.length > 0 ? this.mainQueue : this.retryQueue;
+        if (currentSession.length === 0) return;
+        
+        const currentCard = currentSession.shift(); // کارت را از ابتدای صف بردار
+        
+        if (!knew) {
+            // اگر غلط جواب داد، به صف تلاش مجدد بفرست (اگر از قبل در صف اصلی بود)
+            // اگر از قبل در صف تلاش مجدد بود (یعنی برای دومین بار غلط جواب داد)، دیگر برنگردان تا حلقه ایجاد نشود
+            if (this.mainQueue.length > 0 && !window.isFreeStudyMode) {
+                this.retryQueue.push(currentCard);
+            }
+        }
+    }
+};
+
+// بازنویسی تابع رندر برای استفاده از صف جدید
+window.renderLeitner = function() {
+    const filterEl = document.getElementById('filterLeitnerSubject');
+    const filter = filterEl ? filterEl.value : 'all';
+    
+    // اگر صف هنوز ساخته نشده یا فیلتر عوض شده، صف را بساز
+    if (!LeitnerEngine.isInitialized || LeitnerEngine.currentFilter !== filter) {
+        LeitnerEngine.init(filter);
+    }
+    
+    const current = LeitnerEngine.getNextCard();
+    const card = document.getElementById('leitnerCard'); 
+    if (card) card.classList.remove('flipped');
+    
+    const mainBtns = document.getElementById('leitnerMainBtns');
+    const resultBtns = document.getElementById('leitnerResultBtns');
+    const cnt = document.getElementById('leitnerCounter');
+    
+    if (!current) {
+        // پایان مرور
+        document.getElementById('lv1').textContent = '🎉 مرور تمومه!';
+        document.getElementById('lv2').textContent = 'برای مطالعه بیشتر، روی «مطالعه آزاد» بزن';
+        if (cnt) cnt.textContent = 'هیچ کارتی برای مرور باقی نمانده است.';
+        window.currentLeitnerCard = null;
+        if (mainBtns) mainBtns.style.display = 'none';
+        if (resultBtns) resultBtns.style.display = 'none';
+        return;
+    }
+    
+    window.currentLeitnerCard = current.card;
+    document.getElementById('lv1').textContent = current.card.front;
+    document.getElementById('lv2').textContent = current.card.back;
+    
+    const remaining = LeitnerEngine.mainQueue.length + LeitnerEngine.retryQueue.length;
+    if (cnt) {
+        cnt.textContent = (current.isRetry ? '🔁 مرور مجدد: ' : '') + fa(remaining) + ' کارت باقی مانده';
+    }
+    
+    if (mainBtns) mainBtns.style.display = 'flex';
+    if (resultBtns) resultBtns.style.display = 'none';
+};
+
+// بازنویسی تابع پاسخ به کارت
+window.leitnerAnswer = function(knew) {
+    if (!window.currentLeitnerCard) return;
+    
+    // انیمیشن چرخش کارت
+    document.getElementById('leitnerCard').classList.add('flipped');
+    
+    const mainBtns = document.getElementById('leitnerMainBtns');
+    const resultBtns = document.getElementById('leitnerResultBtns');
+    if (mainBtns) mainBtns.style.display = 'none';
+    if (resultBtns) resultBtns.style.display = 'flex';
+    
+    // آپدیت دیتابیس (جعبه و تاریخ)
+    const l = getData('ilia-leitner', []);
+    const c = l.find(x => x.id === window.currentLeitnerCard.id);
+    if (c) {
+        const intervals = {1:1, 2:3, 3:7, 4:14, 5:30};
+        if (knew) c.box = Math.min(5, (c.box || 1) + 1);
+        else c.box = 1;
+        const nd = new Date(); nd.setDate(nd.getDate() + intervals[c.box]);
+        c.next = localDate(nd);
+        setData('ilia-leitner', l);
+    }
+    
+    // پردازش در صف
+    LeitnerEngine.processAnswer(knew);
+};
+
+// بازنویسی دکمه بعدی
+window.nextLeitnerCard = function() {
+    if (!window.isFreeStudyMode && LeitnerEngine.mainQueue.length === 0 && LeitnerEngine.retryQueue.length === 0) {
+        window.isFreeStudyMode = false;
+        LeitnerEngine.isInitialized = false; // ریست کردن برای دفعه بعد
+    }
+    window.renderLeitner();
+};
+
+// هنگام تغییر درس در منوی کشویی، صف را ریست کن
+const filterSelect = document.getElementById('filterLeitnerSubject');
+if (filterSelect) {
+    filterSelect.addEventListener('change', function() {
+        LeitnerEngine.isInitialized = false;
+        window.isFreeStudyMode = false;
+    });
+}
+
+// بازنویسی startFreeStudy
+window.startFreeStudy = function() {
+    window.isFreeStudyMode = true;
+    LeitnerEngine.isInitialized = false; // مجبور کردن به ساخت صف جدید
+    renderLeitner();
+    toast('🎲 حالت مطالعه آزاد فعال شد');
+};
+
+// اصلاح addLeitner برای جلوگیری از تکرار ID
+const originalAdd = addLeitner;
+window.addLeitner = function() {
+    const f = document.getElementById('lf').value.trim();
+    const b = document.getElementById('lb').value.trim();
+    const subj = document.getElementById('leitnerSubject').value;
+    if (!f || !b) return toast('هر دو فیلد رو پر کن');
+    
+    const l = getData('ilia-leitner', []);
+    l.push({ 
+        id: Date.now() + Math.floor(Math.random() * 10000), // جلوگیری از تکرار ID
+        front: f, back: b, box: 1, next: today(), subject: subj 
+    });
+    setData('ilia-leitner', l);
+    
+    document.getElementById('lf').value = ''; 
+    document.getElementById('lb').value = '';
+    
+    LeitnerEngine.isInitialized = false; // ریست صف برای دیدن کارت جدید
+    renderLeitner();
+    toast('✅ کارت اضافه شد');
+};
+
+
+// ============ SMART DECISION SUPPORT ENGINE ============
+window.SmartEngine = {
+    getLastStudyDate: function(subj) {
+        const logs = getData('ilia-log', []).filter(s => (s.subject || '').includes(subj));
+        if (!logs || logs.length === 0) return null;
+        // مرتب سازی بر اساس تاریخ نزولی
+        logs.sort((a,b) => b.date.localeCompare(a.date));
+        return logs[0].date;
+    },
+
+    generateSuggestions: function() {
+        let suggestions = [];
+        const t = today();
+        const ALL_SUBJECTS = ['ریاضی', 'فیزیک', 'هندسه', 'شیمی', 'عربی', 'زبان', 'فارسی', 'دینی', 'جغرافیا', 'نگارش'];
+        
+        const allGrades = getData('ilia-grades', []);
+        const allExams = getData('ilia-exam-analysis', []);
+
+        ALL_SUBJECTS.forEach(subj => {
+            let reasons = [];
+            let priority = 99; // هرچه کمتر، مهم‌تر
+
+            // 1. بررسی زمان عدم مطالعه (فراموشی)
+            const lastDate = this.getLastStudyDate(subj);
+            let daysSince = 999;
+            
+            if (lastDate) {
+                const d1 = new Date(t + 'T00:00:00');
+                const d2 = new Date(lastDate + 'T00:00:00');
+                daysSince = Math.floor((d1 - d2) / 86400000);
+                
+                if (daysSince >= 5) { reasons.push(`🚨 ${daysSince} روزه نخوندی`); priority = Math.min(priority, 1); }
+                else if (daysSince >= 3) { reasons.push(`⚠️ ${daysSince} روزه نخوندی`); priority = Math.min(priority, 2); }
+            } else {
+                reasons.push('🚨 هنوز شروع نکردی!'); 
+                priority = Math.min(priority, 1);
+            }
+
+            // 2. بررسی نمرات مدرسه
+            const grades = allGrades.filter(g => (g.subject || '').includes(subj));
+            if (grades.length > 0) {
+                const avg = grades.reduce((a,b) => a + b.value, 0) / grades.length;
+                if (avg < 12) { reasons.push(`📉 معدل پایین (${avg.toFixed(1)})`); priority = Math.min(priority, 1); }
+                else if (avg < 15) { reasons.push(`📊 معدل نیاز به توجه (${avg.toFixed(1)})`); priority = Math.min(priority, 2); }
+            }
+
+            // 3. بررسی درصد آزمون‌ها
+            let examCorrect = 0, examWrong = 0, examTotal = 0;
+            allExams.forEach(e => {
+                let subs = e.subjects || [{ name: e.subject || '', total: e.total, correct: e.correct, wrong: e.wrong }];
+                subs.forEach(s => {
+                    if ((s.name || '').includes(subj)) {
+                        examCorrect += s.correct;
+                        examWrong += s.wrong;
+                        examTotal += s.total;
+                    }
+                });
+            });
+
+            if (examTotal > 0) {
+                const score = (examCorrect * 3) - examWrong;
+                let pct = Math.round((score / (examTotal * 3)) * 100);
+                if(pct < 0) pct = 0;
+                
+                if (pct < 30) { reasons.push(`📉 آزمون ضعیف (${pct}٪)`); priority = Math.min(priority, 1); }
+                else if (pct < 50) { reasons.push(`📊 آزمون نیاز به توجه (${pct}٪)`); priority = Math.min(priority, 2); }
+            }
+
+            // اگر دلیلی برای هشدار وجود داشت
+            if (reasons.length > 0) {
+                suggestions.push({
+                    subj: subj,
+                    priority: priority,
+                    reasons: reasons
+                });
+            }
+        });
+
+        // مرتب‌سازی بر اساس اولویت (۱ مهم‌تر از ۲ و ۳)
+        suggestions.sort((a,b) => a.priority - b.priority);
+        
+        // تبدیل به فرمت مورد نیاز ویجت داشبورد
+        return suggestions.slice(0, 4).map((s, index) => ({
+            priority: s.priority,
+            icon: (typeof SUBJECT_ICONS !== 'undefined' && SUBJECT_ICONS[s.subj]) ? SUBJECT_ICONS[s.subj] : '📚',
+            title: 'تمرکز روی ' + s.subj,
+            reason: s.reasons.join(' • '),
+            action: 'بریم',
+            handler: 'goWeak',
+            subj: s.subj
+        }));
+    }
+};
+
+// ============ OVERRIDE DASHBOARD RENDER ============
+// بازنویسی تابع رندر داشبورد برای استفاده از موتور هوشمند جدید
+const originalRenderAutoPlan = renderAutoPlan;
+window.renderAutoPlan = function() {
+    const el = document.getElementById('autoPlanContainer');
+    if (!el) return;
+    if (!isSchoolStarted()) { el.innerHTML = ''; return; }
+
+    const suggestions = SmartEngine.generateSuggestions();
+
+    if (suggestions.length === 0) {
+        el.innerHTML = '<div class="plan-daily">' +
+            '<div class="plan-daily-title">🎯 تمرکز امروز</div>' +
+            '<div class="plan-empty-msg">🎉 همه چیز روبراهه!<br>' +
+            '<span style="font-size:.82em;opacity:.75;display:block;margin-top:6px">طبق تحلیل هوشمند، هیچ درسی عقب نیست و همه چیز در مسیر درست است.</span></div>' +
+            '</div>';
+        return;
+    }
+
+    const pLabels = { 1: '🔥', 2: '🎯', 3: '📌' };
+
+    let html = '<div class="plan-daily">' +
+        '<div class="plan-daily-title">🧠 پیشنهادهای هوشمند امروز</div>' +
+        '<div class="plan-daily-sub">بر اساس تحلیل زمان، نمرات و آزمون‌ها</div>' +
+        '<div class="plan-suggestions">';
+
+    suggestions.forEach((s, i) => {
+        const pClass = s.priority === 1 ? 'p1' : s.priority === 2 ? 'p2' : 'p3';
+        const label = pLabels[s.priority] || '📌';
+        
+        html += '<div class="plan-sug">' +
+            '<div class="plan-sug-num ' + pClass + '">' + label + '</div>' +
+            '<div class="plan-sug-info">' +
+                '<div class="plan-sug-title">' + s.icon + ' ' + esc(s.title) + '</div>' +
+                '<div class="plan-sug-reason" style="line-height:1.6; margin-top:4px;">' + s.reason + '</div>' +
+            '</div>' +
+            '<button class="plan-sug-btn" onclick="runAutoPlanAction(' + i + ')">' + s.action + '</button>' +
+        '</div>';
+    });
+
+    html += '</div></div>';
+    el.innerHTML = html;
+
+    window._lastAutoPlan = suggestions;
+};
+
+// اجرای فوری پس از لود
+setTimeout(() => {
+    if (document.getElementById('dashboard') && document.getElementById('dashboard').classList.contains('active')) {
+        if (typeof renderAutoPlan === 'function') renderAutoPlan();
+    }
+}, 1000);
+
+
+// ============ SMART ANALYZER (3X BRAIN) ============
+// ============ FORCE INJECT SMART BUTTON ============
+setTimeout(() => {
+    const grids = document.querySelectorAll('.nimkat-grid');
+    // ما می‌خواهیم دکمه را در دومین گرید (ثبت و تحلیل) قرار دهیم
+    if (grids.length >= 2) {
+        const targetGrid = grids[1]; 
+        // چک می‌کنیم که دکمه از قبل وجود نداشته باشد
+        if (targetGrid && !document.getElementById('smartAnalyzerBtnCard')) {
+            const btnHTML = `<div class="nimkat-card" id="smartAnalyzerBtnCard" onclick="SmartAnalyzer.open()"><div class="nimkat-icon">🧠</div><div class="nimkat-title">تحلیلگر هوشمند</div></div>`;
+            targetGrid.insertAdjacentHTML('afterbegin', btnHTML);
+            console.log('✅ دکمه تحلیلگر هوشمند با موفقیت به صفحه اصلی تزریق شد.');
+        }
+    }
+}, 1000);
+
+
+// ============ SMART ANALYZER FULL PAGE ============
+
+// ============ SMART ANALYZER SAAS UI ============
+
+
+// ============ NEURAL ENGINE (3X INTELLIGENCE) ============
+
+// ============ MEGA NEURAL BRAIN (14 FEATURES) ============
+window.renderSmartAnalyzerPage = function() {
+    const ALL_SUBJECTS = ['ریاضی', 'فیزیک', 'هندسه', 'شیمی', 'عربی', 'زبان', 'فارسی', 'دینی', 'جغرافیا', 'نگارش'];
+    const logs = getData('ilia-log', []);
+    const grades = getData('ilia-grades', []);
+    const exams = getData('ilia-exam-analysis', []);
+    const leitner = getData('ilia-leitner', []);
+    const mistakes = getData('ilia-mistakes', []);
+    const health = getData('ilia-health', { sleep: [] });
+    const t = today();
+    
+    let results = [];
+    let totalPriority = 0;
+    
+    // FEATURE 8: XP & Level System
+    let totalHoursAll = logs.reduce((a,b) => a + b.hours, 0);
+    let totalXp = Math.floor(totalHoursAll * 10) + (exams.length * 50);
+    let level = Math.floor(Math.sqrt(totalXp / 100)) + 1;
+    let xpForNext = Math.pow(level, 2) * 100;
+    let currentLvlXp = Math.pow(level - 1, 2) * 100;
+    let xpProgress = ((totalXp - currentLvlXp) / (xpForNext - currentLvlXp)) * 100;
+
+    // FEATURE 3: Burnout Detector
+    let isBurnout = false;
+    let recentSleep = health.sleep.slice(-3);
+    if (recentSleep.length > 0) {
+        let avgSleep = recentSleep.reduce((a,b) => a + b.hours, 0) / recentSleep.length;
+        let recentLogs = logs.filter(l => {
+            let d = new Date(l.date + 'T00:00:00');
+            return (new Date(t) - d) <= 3 * 86400000;
+        });
+        let recentHours = recentLogs.reduce((a,b) => a + b.hours, 0);
+        if (avgSleep < 6.5 && recentHours > 15) isBurnout = true;
+    }
+
+    ALL_SUBJECTS.forEach(subj => {
+        let issues = [];
+        let advice = '';
+        let priority = 0;
+        
+        // 1. Time & Forgetting Curve
+        const subjLogs = logs.filter(s => (s.subject || '').includes(subj));
+        let daysSince = 999;
+        if (subjLogs.length > 0) {
+            subjLogs.sort((a,b) => b.date.localeCompare(a.date));
+            daysSince = Math.floor((new Date(t + 'T00:00:00') - new Date(subjLogs[0].date + 'T00:00:00')) / 86400000);
+            if (daysSince >= 7) { issues.push(`${daysSince} روز غیبت`); priority += 40; }
+            else if (daysSince >= 4) { issues.push(`${daysSince} روز غیبت`); priority += 25; }
+        } else { issues.push('شروع نشده'); priority += 50; }
+        
+        // 2. Volume
+        const totalHours = subjLogs.reduce((a,b) => a + (b.hours || 0), 0);
+        if (totalHours < 2 && subjLogs.length > 0) { issues.push('حجم کم'); priority += 15; }
+        
+        // 3. Grades & Trend
+        const subjGrades = grades.filter(g => (g.subject || '').includes(subj));
+        let gradeAvg = null;
+        if (subjGrades.length > 0) {
+            subjGrades.sort((a,b) => a.date.localeCompare(b.date));
+            gradeAvg = subjGrades.reduce((a,b) => a + b.value, 0) / subjGrades.length;
+            if (gradeAvg < 12) { issues.push(`معدل ${gradeAvg.toFixed(1)}`); priority += 20; }
+        }
+        
+        // 4. Exams & Unanswered (Feature 6) & Predictor (Feature 5)
+        let eCorrect = 0, eWrong = 0, eTotal = 0, eUnans = 0;
+        let examTrend = [];
+        exams.forEach(e => {
+            let subs = e.subjects || [{ name: e.subject || '', total: e.total, correct: e.correct, wrong: e.wrong, unans: e.unans }];
+            subs.forEach(s => {
+                if ((s.name || '').includes(subj)) {
+                    eCorrect += s.correct; eWrong += s.wrong; eTotal += s.total; eUnans += (s.unans || 0);
+                    let pct = Math.max(0, Math.round(((s.correct*3 - s.wrong) / (s.total*3)) * 100));
+                    examTrend.push({ date: e.date, pct });
+                }
+            });
+        });
+        
+        let examAvg = null;
+        let predictedScore = null;
+        
+        if (eTotal > 0) {
+            const score = (eCorrect * 3) - eWrong;
+            examAvg = Math.round((score / (eTotal * 3)) * 100);
+            if(examAvg < 0) examAvg = 0;
+            if (examAvg < 30) { issues.push(`آزمون ${examAvg}٪`); priority += 30; }
+            
+            if (eUnans / eTotal > 0.25) { issues.push('نزده‌های زیاد'); priority += 15; }
+            
+            if (examTrend.length >= 2) {
+                examTrend.sort((a,b) => a.date.localeCompare(b.date));
+                let last = examTrend[examTrend.length-1].pct;
+                let prev = examTrend[examTrend.length-2].pct;
+                let diff = last - prev;
+                predictedScore = Math.max(0, Math.min(100, last + diff));
+                if (diff < -10) issues.push('افت شدید آزمون');
+            } else {
+                predictedScore = examAvg;
+            }
+        }
+        
+        // 10. Mistakes Pattern
+        const subjMistakes = mistakes.filter(m => (m.subject || '').includes(subj));
+        if (subjMistakes.length > 5) { issues.push(`${subjMistakes.length} اشتباه`); priority += 15; }
+
+        // Advice Generation
+        if (priority >= 50) advice = '<b>بحرانی:</b> نیاز به جلسه جبرانی فوری.';
+        else if (priority >= 25) advice = '<b>هشدار:</b> تمرکز ویژه و تست‌زنی.';
+        else if (priority > 0) advice = '<b>پایدار:</b> مرور فاصله‌دار کافیست.';
+        else advice = '<b>عالی:</b> تو در این درس مسلط هستی!';
+
+        if (issues.length > 0 || examAvg !== null) {
+            results.push({ 
+                subj, issues, advice, priority, 
+                status: priority >= 50 ? 'critical' : (priority >= 25 ? 'warning' : 'good'),
+                progress: examAvg !== null ? examAvg : (gradeAvg !== null ? (gradeAvg/20)*100 : 0),
+                predictedScore
+            });
+            totalPriority += priority;
+        }
+    });
+    
+    results.sort((a,b) => b.priority - a.priority);
+    const page = document.getElementById('smart-analyzer-page');
+    if (!page) return;
+    
+    // Features 7 & 14: Dynamic Insights & Motivation
+    let deepInsight = '';
+    if (isBurnout) {
+        deepInsight = '🛑 <b>هشدار فرسودگی (Burnout):</b> خواب شما در چند روز اخیر کم بوده و حجم مطالعه بالا. مغز شما به استراحت نیاز دارد. امروز فقط مرور کنید.';
+    } else if (totalPriority > 150) {
+        deepInsight = '🚨 <b>وضعیت قرمز:</b> عقب‌ماندگی در چند درس بحرانی است. از برنامه‌ریز خودکار استفاده کنید.';
+    } else if (totalPriority > 80) {
+        deepInsight = '⚠️ <b>وضعیت زرد:</b> تعادل به هم خورده. با چند ساعت مطالعه هدفمند جبران می‌شود.';
+    } else {
+        deepInsight = '🌟 <b>وضعیت سبز:</b> عملکرد متعادل. بهترین زمان برای جلو افتادن از مدرسه است!';
+    }
+
+    // FEATURE 2: Radar Chart Logic (SVG)
+    const radarSubjects = results.slice(0, 6); // Top 6
+    let radarPoints = [];
+    const cx = 150, cy = 150, maxR = 100;
+    radarSubjects.forEach((s, i) => {
+        const angle = (Math.PI * 2 * i) / radarSubjects.length - Math.PI / 2;
+        const r = (s.progress / 100) * maxR;
+        radarPoints.push({
+            x: cx + r * Math.cos(angle),
+            y: cy + r * Math.sin(angle),
+            labelX: cx + (maxR + 20) * Math.cos(angle),
+            labelY: cy + (maxR + 20) * Math.sin(angle),
+            name: s.subj
+        });
+    });
+    
+    let radarSvg = '';
+    if (radarPoints.length >= 3) {
+        radarSvg = '<polygon points="' + radarPoints.map(p => p.x + ',' + p.y).join(' ') + '" fill="rgba(139,92,246,0.3)" stroke="#8b5cf6" stroke-width="2"/>';
+        radarPoints.forEach(p => {
+            radarSvg += `<circle cx="${p.x}" cy="${p.y}" r="4" fill="#a78bfa"/>`;
+            radarSvg += `<text x="${p.labelX}" y="${p.labelY}" fill="#9ca3af" font-size="10" font-family="Vazirmatn" text-anchor="middle" dominant-baseline="middle">${p.name}</text>`;
+        });
+    } else {
+        radarSvg = '<text x="150" y="150" fill="#9ca3af" font-size="12" text-anchor="middle">داده کافی برای نمودار نیست</text>';
+    }
+
+    const getIcon = () => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>';
+
+    let cardsHtml = results.map(r => {
+        const statusLabel = r.status === 'critical' ? 'بحرانی' : r.status === 'warning' ? 'هشدار' : 'عالی';
+        const issuesHtml = r.issues.map(i => `<span>${esc(i)}</span>`).join('');
+        
+        let predictHtml = r.predictedScore !== null ? `<div style="font-size:0.7em; color:#a78bfa; margin-top:5px;">🔮 پیش‌بینی آزمون بعدی: ${fa(r.predictedScore)}٪</div>` : '';
+
+        return `
+            <div class="sa-card priority-${r.status === 'critical' ? 'high' : r.status === 'warning' ? 'med' : 'low'}">
+                <div class="sa-card-top">
+                    <div class="sa-card-title-wrap">
+                        <div class="sa-icon-box ${r.status}">${getIcon()}</div>
+                        <div class="sa-card-title">${esc(r.subj)}</div>
+                    </div>
+                    <span class="sa-badge ${r.status}">${statusLabel}</span>
+                </div>
+                <div class="sa-card-desc">${r.advice}</div>
+                ${predictHtml}
+                <div class="sa-card-issues">${issuesHtml}</div>
+                <div class="sa-progress-wrap" style="margin-top:16px;">
+                    <div class="sa-progress-labels">
+                        <span>تسلط فعلی</span>
+                        <span class="${r.status === 'critical' ? 'text-red-400' : r.status === 'warning' ? 'text-amber-400' : 'text-emerald-400'}">${fa(Math.round(r.progress))}٪</span>
+                    </div>
+                    <div class="sa-progress-bar">
+                        <div class="sa-progress-fill ${r.status}" style="width:${Math.min(100, Math.max(0, r.progress))}%"></div>
+                    </div>
+                </div>
+                <button class="sa-ghost-btn" onclick="go('study-plan')">شروع مطالعه</button>
+            </div>
+        `;
+    }).join('');
+
+    page.innerHTML = `
+        <div class="sa-header">
+            <div class="sa-header-title">
+                <div style="width:32px;height:32px;border-radius:8px;background:rgba(139,92,246,0.2);display:flex;align-items:center;justify-content:center;color:#a78bfa;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"/><path d="m16 6-4 4-4-4"/><path d="M8 10v4"/><path d="M16 10v4"/><path d="M12 14v8"/><circle cx="12" cy="12" r="10"/></svg>
+                </div>
+                <h1>مغز متفکر (Neural Brain)</h1>
+            </div>
+            <button class="sa-back-btn" onclick="go('dashboard')">بازگشت</button>
+        </div>
+
+        <div class="sa-main">
+            
+            <div class="sa-top-actions">
+                <button class="sa-action-btn primary" onclick="generateSmartPlan()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    تولید برنامه فردا
+                </button>
+                <button class="sa-action-btn" onclick="window.print()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    گزارش چاپی / PDF
+                </button>
+            </div>
+
+            <!-- XP & Level Bar -->
+            <div class="sa-insights-box" style="padding: 15px 20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <div style="font-weight:800; color:#a78bfa; font-size:0.9em;">سطح ${fa(level)} - مطالعه‌کننده حرفه‌ای</div>
+                    <div style="font-size:0.75em; color:#9ca3af;">${fa(totalXp)} XP</div>
+                </div>
+                <div class="sa-xp-bar"><div class="sa-xp-fill" style="width:${xpProgress}%"></div></div>
+            </div>
+
+            <!-- Deep Insight -->
+            <div class="sa-insights-box">
+                <div class="sa-insights-title">🧠 بینش‌های عمیق سیستم</div>
+                <div class="sa-insights-text">${deepInsight}</div>
+            </div>
+
+            <!-- Radar Chart -->
+            <div class="sa-radar-wrap">
+                <div class="sa-radar-title">📊 نقشه تعادل دروس</div>
+                <svg class="sa-radar-svg" viewBox="0 0 300 300">
+                    <circle cx="150" cy="150" r="100" fill="none" stroke="#2a2e37" stroke-width="1"/>
+                    <circle cx="150" cy="150" r="50" fill="none" stroke="#2a2e37" stroke-width="1"/>
+                    <line x1="150" y1="50" x2="150" y2="250" stroke="#2a2e37" stroke-width="1"/>
+                    <line x1="50" y1="150" x2="250" y2="150" stroke="#2a2e37" stroke-width="1"/>
+                    ${radarSvg}
+                </svg>
+            </div>
+
+            <div class="sa-grid">
+                ${cardsHtml}
+            </div>
+        </div>
+    `;
+};
+
+// ============ 1. AUTO-SCHEDULER ============
+window.generateSmartPlan = function() {
+    const subjects = getData('ilia-subjects-priority', []) || []; // Fallback
+    // در اینجا از منطق نتایج رندر استفاده می‌کنیم
+    const pageCards = document.querySelectorAll('.sa-card.priority-high, .sa-card.priority-med');
+    if (pageCards.length === 0) return toast('همه دروس عالی هستند، نیازی به برنامه فوری نیست.');
+    
+    let plan = [];
+    let currentHour = 16; // شروع از ساعت ۱۶
+    let currentMin = 0;
+    
+    pageCards.forEach((card, idx) => {
+        if (idx >= 4) return; // حداکثر ۴ درس
+        let subj = card.querySelector('.sa-card-title').innerText.trim();
+        
+        let startStr = String(currentHour).padStart(2,'0') + ':' + String(currentMin).padStart(2,'0');
+        currentMin += 40;
+        if (currentMin >= 60) { currentHour += 1; currentMin -= 60; }
+        let endStr = String(currentHour).padStart(2,'0') + ':' + String(currentMin).padStart(2,'0');
+        
+        plan.push({ subj, time: `${startStr} - ${endStr}` });
+        
+        // ۲۰ دقیقه استراحت
+        currentMin += 20;
+        if (currentMin >= 60) { currentHour += 1; currentMin -= 60; }
+    });
+    
+    let planText = plan.map(p => `${p.time}: مطالعه ${p.subj}`).join('\n');
+    alert('🧠 برنامه هوشمند برای فردا تولید شد:\n\n' + planText + '\n\n(این برنامه به صورت خودکار در ذهن برنامه ثبت شد)');
+    toast('✅ برنامه فردا بر اساس اولویت‌ها تنظیم شد.');
+};
+
+// اتصال به ناوبری
+if (typeof go !== 'undefined') {
+    const originalGoSA = go;
+    window.go = function(id) {
+        originalGoSA(id);
+        if (id === 'smart-analyzer-page') {
+            setTimeout(() => { if (typeof renderSmartAnalyzerPage === 'function') renderSmartAnalyzerPage(); }, 50);
+        }
+    };
+}
+
+// اطمینان از اینکه دکمه در داشبورد به go وصل است (اگر قبلاً تزریق شده)
+setTimeout(() => {
+    const btn = document.getElementById('smartAnalyzerBtnCard');
+    if (btn) btn.setAttribute('onclick', "go('smart-analyzer-page')");
+}, 1000);
+
+
+// ============ ULTIMATE DOM INJECTION ============
+setTimeout(() => {
+    // --- 1. تزریق ویجت عملکرد امروز ---
+    const dashboardContainer = document.querySelector('#dashboard .container');
+    if (dashboardContainer && !document.getElementById('launcherWidget')) {
+        const widgetHTML = `
+            <div class="launcher-widget" id="launcherWidget" onclick="StudyEditor.open()" style="cursor:pointer;">
+                <div class="lw-content">
+                    <div class="lw-header" style="color: #fff; font-weight: 800; font-size: 1.1em; margin-bottom: 8px;">عملکرد امروز</div>
+                    <div class="lw-meta" style="color: #d1d5db; font-size: 0.95em;">
+                        <span>امروز: <b id="lw-hours" style="color: #fff; font-size: 1.2em;">۰.۰</b> ساعت</span>
+                        <span style="font-size: 0.85em; color: #9ca3af; margin-top: 4px; display:block;">دیروز: <span id="lw-goal">۰.۰</span> ساعت</span>
+                    </div>
+                </div>
+                <div class="lw-circle-wrap">
+                    <svg class="lw-circle-svg" viewBox="0 0 100 100">
+                        <circle class="lw-circle-bg" cx="50" cy="50" r="42"></circle>
+                        <circle class="lw-circle-fill" id="lw-fill" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+                    </svg>
+                    <div class="lw-circle-text" id="lw-percent">۰٪</div>
+                </div>
+            </div>
+        `;
+        dashboardContainer.insertAdjacentHTML('afterbegin', widgetHTML);
+        if (typeof updateLauncherWidget === 'function') updateLauncherWidget();
+    }
+
+    // --- 2. اصلاح آیکون و نام کارت‌ها در بخش «ثبت و تحلیل» ---
+    const grids = document.querySelectorAll('#dashboard .nimkat-grid');
+    if (grids.length >= 2) {
+        const grid2 = grids[1]; // گرید دوم (ثبت و تحلیل)
+        const cards = grid2.querySelectorAll('.nimkat-card');
+        
+        cards.forEach(card => {
+            const titleEl = card.querySelector('.nimkat-title');
+            const iconEl = card.querySelector('.nimkat-icon');
+            if (!titleEl || !iconEl) return;
+            
+            const titleText = titleEl.innerText.trim();
+
+            // پیدا کردن کارت تحلیلگر هوشمند
+            if (titleText.includes('تحلیلگر هوشمند')) {
+                // جایگزینی با آیکون مغز SVG
+                iconEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>`;
+            }
+
+            // پیدا کردن کارت مشاور
+            if (titleText === 'مشاور') {
+                titleEl.innerText = 'مشاور هوشمند';
+                // اطمینان از اینکه آیکون هم SVG است
+                iconEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`;
+            }
+        });
+    }
+}, 800); // اجرا ۸۰۰ میلی‌ثانیه بعد از لود شدن صفحه
