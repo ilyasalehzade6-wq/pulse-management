@@ -1892,3 +1892,223 @@ body {
 .log-action-btn:hover { background: var(--border); }
 .log-action-btn.del { color: var(--danger); border-color: rgba(231,76,60,0.3); }
 .log-action-btn.del:hover { background: rgba(231,76,60,0.1); }
+
+
+/* ============ STUDY PLAN PAGE ============ */
+#study-plan {
+    background: #e0f2fe; /* پس زمینه آبی روشن شبیه عکس */
+}
+[data-theme="dark"] #study-plan { background: var(--bg); }
+
+.sp-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #fff; padding: 10px 15px; border-radius: 12px;
+    margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+[data-theme="dark"] .sp-nav { background: var(--bg-card); }
+.sp-nav-btn {
+    background: #f1f5f9; border: none; padding: 8px 15px; border-radius: 8px;
+    font-family: inherit; font-weight: 700; color: #475569; cursor: pointer;
+}
+.sp-date { font-weight: 800; font-size: 1.1em; color: #0f172a; cursor: pointer; }
+[data-theme="dark"] .sp-date { color: var(--text); }
+
+.sp-total {
+    text-align: center; font-weight: 800; color: #0369a1;
+    margin-bottom: 20px; font-size: 1.1em;
+}
+[data-theme="dark"] .sp-total { color: var(--primary); }
+
+.sp-list { display: flex; flex-direction: column; gap: 10px; }
+.sp-card {
+    background: #fff; border-radius: 12px; padding: 15px;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03); cursor: pointer; transition: transform 0.15s;
+    border: 1px solid #e2e8f0;
+}
+[data-theme="dark"] .sp-card { background: var(--bg-card); border-color: var(--border); }
+.sp-card:active { transform: scale(0.98); }
+.sp-card-info { display: flex; flex-direction: column; gap: 5px; }
+.sp-card-subj { font-weight: 800; font-size: 0.95em; color: #334155; }
+[data-theme="dark"] .sp-card-subj { color: var(--text); }
+.sp-card-desc { font-size: 0.75em; color: #64748b; }
+.sp-card-time {
+    background: #10b981; color: #fff; padding: 6px 12px; border-radius: 20px;
+    font-weight: 800; font-size: 0.85em; white-space: nowrap;
+}
+.sp-add-btn {
+    position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+    background: #0ea5e9; color: #fff; border: none; padding: 15px 30px;
+    border-radius: 50px; font-family: inherit; font-size: 1em; font-weight: 800;
+    box-shadow: 0 5px 20px rgba(14,165,233,0.4); cursor: pointer; z-index: 100;
+}
+
+/* ============ NEW MODAL STYLES ============ */
+.se-date-btn {
+    flex: 1; padding: 12px; border: 1px solid #cbd5e1; background: #fff;
+    border-radius: 8px; font-family: inherit; font-weight: 700; color: #64748b; cursor: pointer; transition: 0.2s;
+}
+.se-date-btn.active { background: #38bdf8; color: #fff; border-color: #38bdf8; }
+.se-activity-group { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.se-act-btn {
+    padding: 8px 14px; border-radius: 20px; border: 1px solid #cbd5e1;
+    background: #fff; font-family: inherit; font-size: 0.85em; font-weight: 700; color: #475569; cursor: pointer;
+}
+.se-act-btn.active { background: #14b8a6; color: #fff; border-color: #14b8a6; }
+.se-quick-times { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
+.se-quick-times button {
+    padding: 6px 12px; border-radius: 8px; border: 1px solid #cbd5e1;
+    background: #fff; font-family: inherit; font-size: 0.85em; font-weight: 700; cursor: pointer;
+}
+
+
+/* ============ SOFT MODAL THEME ============ */
+#studyEditorModal .modal-box {
+    background: var(--bg-card);
+    color: var(--text);
+}
+#studyEditorModal .modal-header {
+    background: var(--bg-card) !important;
+    border-bottom: 1px solid var(--border) !important;
+    border-radius: 20px 20px 0 0;
+    padding: 15px 20px;
+}
+#studyEditorModal .modal-header h3 {
+    color: var(--text) !important;
+}
+#studyEditorModal .modal-close {
+    background: var(--bg) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border);
+}
+#studyEditorModal .modal-footer {
+    background: var(--bg-card) !important;
+    border-top: 1px solid var(--border) !important;
+    border-radius: 0 0 20px 20px;
+}
+
+/* دکمه‌های تاریخ */
+.se-date-btn {
+    flex: 1; padding: 12px; 
+    border: 1px solid var(--border); 
+    background: var(--bg); /* ملایم */
+    border-radius: 10px; font-family: inherit; font-weight: 700; 
+    color: var(--text-light); cursor: pointer; transition: 0.2s;
+}
+.se-date-btn.active { 
+    background: var(--primary); 
+    color: #fff; 
+    border-color: var(--primary); 
+    box-shadow: 0 4px 10px rgba(0, 150, 136, 0.2);
+}
+
+/* دکمه‌های فعالیت */
+.se-act-btn {
+    padding: 8px 14px; border-radius: 20px; 
+    border: 1px solid var(--border);
+    background: var(--bg); /* ملایم */
+    font-family: inherit; font-size: 0.85em; font-weight: 700; 
+    color: var(--text-light); cursor: pointer; transition: 0.2s;
+}
+.se-act-btn.active { 
+    background: var(--primary); 
+    color: #fff; 
+    border-color: var(--primary); 
+    box-shadow: 0 4px 10px rgba(0, 150, 136, 0.2);
+}
+
+/* دکمه‌های میانبر زمان */
+.se-quick-times button {
+    padding: 6px 12px; border-radius: 8px; 
+    border: 1px solid var(--border);
+    background: var(--bg); 
+    font-family: inherit; font-size: 0.85em; font-weight: 700; 
+    color: var(--text); cursor: pointer; transition: 0.2s;
+}
+.se-quick-times button:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* فیلدهای ورودی داخل مودال */
+#studyEditorModal .inp {
+    background: var(--bg) !important;
+    border-color: var(--border) !important;
+    color: var(--text) !important;
+}
+#studyEditorModal .inp:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(0, 150, 136, 0.15) !important;
+}
+
+/* رنگ دکمه حذف */
+#seDeleteBtn {
+    background: rgba(239, 68, 68, 0.1) !important;
+    color: var(--danger) !important;
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+}
+#seDeleteBtn:hover {
+    background: var(--danger) !important;
+    color: #fff !important;
+}
+
+
+/* ============ FIX MODAL BUTTONS ============ */
+#studyEditorModal .modal-footer {
+    display: flex !important;
+    gap: 10px !important;
+    align-items: center;
+}
+
+#seSaveBtn {
+    background: var(--primary) !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 14px !important;
+    flex: 2 !important; /* دکمه ثبت کمی پهن‌تر باشد */
+    font-family: inherit !important;
+    font-size: 1rem !important;
+    font-weight: 800 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(0, 150, 136, 0.3) !important;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+#seSaveBtn:active {
+    transform: scale(0.96) !important;
+}
+
+#seCancelBtn {
+    background: transparent !important;
+    color: var(--text-light) !important;
+    border: 1.5px solid var(--border) !important;
+    padding: 14px !important;
+    flex: 1 !important;
+    font-family: inherit !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#seCancelBtn:active {
+    background: var(--bg) !important;
+}
+
+#seDeleteBtn {
+    background: rgba(239, 68, 68, 0.1) !important;
+    color: var(--danger) !important;
+    border: 1.5px solid rgba(239, 68, 68, 0.3) !important;
+    padding: 14px !important;
+    flex: 1 !important;
+    font-family: inherit !important;
+    font-size: 1rem !important;
+    font-weight: 800 !important;
+    border-radius: 12px !important;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+#seDeleteBtn:active {
+    background: var(--danger) !important;
+    color: #fff !important;
+}

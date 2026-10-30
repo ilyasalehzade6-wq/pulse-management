@@ -6747,170 +6747,7 @@ setTimeout(() => {
 // ============ JALALI MODAL & EDITOR FIX ============
 
 
-// ============ FINAL CLEAN STUDY EDITOR ============
-window.StudyEditor = {
-    open: function() {
-        document.getElementById('studyEditorModal').classList.add('active');
-        const dateInput = document.getElementById('editDate');
-        
-        if (!dateInput.dataset.gregorian) {
-            const t = today();
-            dateInput.dataset.gregorian = t;
-            const sh = getShamsi(new Date());
-            dateInput.value = sh.y + '/' + pad2(sh.m) + '/' + pad2(sh.d);
-        }
-        
-        document.getElementById('editMinutes').value = '';
-        document.getElementById('editMinutes').focus();
-        
-        this.updateNextButton(dateInput.dataset.gregorian);
-        this.renderExistingLogs();
-    },
-    
-    close: function() { 
-        document.getElementById('studyEditorModal').classList.remove('active'); 
-    },
-    
-    save: function() {
-        const dateInput = document.getElementById('editDate');
-        const date = dateInput.dataset.gregorian || today();
-        const subj = document.getElementById('editSubject').value;
-        const min = parseInt(document.getElementById('editMinutes').value);
-        
-        if (!min || min <= 0) return toast('لطفاً دقیقه معتبر وارد کنید');
-        
-        const log = getData('ilia-log', []);
-        log.push({ date, hours: min / 60, subject: subj, ts: Date.now() });
-        setData('ilia-log', log);
-        
-        const sessions = getData('ilia-sessions', []);
-        sessions.push({ id: Date.now(), date, subj, min, topic: 'ثبت سریع', pages: 0, tests: 0, ts: Date.now() });
-        setData('ilia-sessions', sessions);
-        
-        this.close();
-        toast('✅ مطالعه برای تاریخ ' + dateInput.value + ' ثبت شد');
-        
-        if (typeof refreshAppData === 'function') refreshAppData();
-        if (typeof updateLauncherWidget === 'function') updateLauncherWidget();
-        if (typeof GardenPro !== 'undefined' && GardenPro.renderGarden) GardenPro.renderGarden();
-        if (typeof renderStats === 'function') renderStats();
-        if (typeof renderSessions === 'function') renderSessions();
-    },
-    
-    changeDate: function(delta) {
-        const dateInput = document.getElementById('editDate');
-        let currentGreg = dateInput.dataset.gregorian || today();
-        let d = new Date(currentGreg + 'T00:00:00');
-        d.setDate(d.getDate() + delta);
-        
-        const todayStr = today();
-        const newGregStr = localDate(d);
-        
-        if (newGregStr > todayStr) return;
-        
-        dateInput.dataset.gregorian = newGregStr;
-        const sh = getShamsi(d);
-        dateInput.value = sh.y + '/' + pad2(sh.m) + '/' + pad2(sh.d);
-        
-        this.updateNextButton(newGregStr);
-        this.renderExistingLogs();
-    },
-    
-    updateNextButton: function(gregStr) {
-        const btn = document.getElementById('btnNextDay');
-        if (btn) {
-            if (gregStr === today()) {
-                btn.disabled = true;
-                btn.style.opacity = '0.3';
-                btn.style.cursor = 'not-allowed';
-            } else {
-                btn.disabled = false;
-                btn.style.opacity = '1';
-                btn.style.cursor = 'pointer';
-            }
-        }
-    },
-    
-    renderExistingLogs: function() {
-        const dateInput = document.getElementById('editDate');
-        const targetDate = dateInput.dataset.gregorian || today();
-        const log = getData('ilia-log', []);
-        const dayLogs = log.filter(e => e.date === targetDate);
-        const listEl = document.getElementById('existingLogsList');
-        
-        if (!listEl) return;
-
-        if (dayLogs.length === 0) {
-            listEl.innerHTML = '<div style="text-align:center; color:var(--text-light); font-size:0.8em; padding:10px;">هیچ مطالعه‌ای برای این روز ثبت نشده است.</div>';
-            return;
-        }
-
-        listEl.innerHTML = dayLogs.map(l => `
-            <div class="log-record-item">
-                <div class="log-record-info">
-                    ${(typeof SUBJECT_ICONS !== 'undefined' && SUBJECT_ICONS[l.subject]) ? SUBJECT_ICONS[l.subject] : '📚'} 
-                    ${esc(l.subject)} — ${fa(Math.round(l.hours * 60))} دقیقه
-                </div>
-                <div class="log-record-actions">
-                    <button class="log-action-btn" onclick="StudyEditor.editLog(${l.ts})" title="ویرایش">✏️</button>
-                    <button class="log-action-btn del" onclick="StudyEditor.deleteLog(${l.ts})" title="حذف">🗑</button>
-                </div>
-            </div>
-        `).join('');
-    },
-    
-    deleteLog: function(ts) {
-        if (!confirm('آیا از حذف این رکورد مطمئن هستید؟')) return;
-        
-        let log = getData('ilia-log', []);
-        log = log.filter(x => x.ts !== ts);
-        setData('ilia-log', log);
-        
-        let sessions = getData('ilia-sessions', []);
-        sessions = sessions.filter(x => x.ts !== ts);
-        setData('ilia-sessions', sessions);
-        
-        toast('🗑 رکورد حذف شد');
-        this.renderExistingLogs();
-        
-        if (typeof refreshAppData === 'function') refreshAppData();
-        if (typeof updateLauncherWidget === 'function') updateLauncherWidget();
-        if (typeof GardenPro !== 'undefined' && GardenPro.renderGarden) GardenPro.renderGarden();
-        if (typeof renderStats === 'function') renderStats();
-    },
-    
-    editLog: function(ts) {
-        let log = getData('ilia-log', []);
-        let targetLog = log.find(x => x.ts === ts);
-        if (!targetLog) return;
-
-        const currentMin = Math.round(targetLog.hours * 60);
-        const newMin = prompt('مدت زمان جدید (به دقیقه):', currentMin);
-        
-        if (newMin === null) return;
-        const parsed = parseInt(newMin);
-        if (isNaN(parsed) || parsed <= 0) return toast('عدد معتبر وارد کنید');
-
-        targetLog.hours = parsed / 60;
-        setData('ilia-log', log);
-
-        let sessions = getData('ilia-sessions', []);
-        let targetSession = sessions.find(x => x.ts === ts);
-        if (targetSession) {
-            targetSession.min = parsed;
-            setData('ilia-sessions', sessions);
-        }
-
-        toast('✅ رکورد ویرایش شد');
-        this.renderExistingLogs();
-
-        if (typeof refreshAppData === 'function') refreshAppData();
-        if (typeof updateLauncherWidget === 'function') updateLauncherWidget();
-        if (typeof GardenPro !== 'undefined' && GardenPro.renderGarden) GardenPro.renderGarden();
-        if (typeof renderStats === 'function') renderStats();
-    }
-};
-
+// StudyEditor removed and replaced by new logic
 // ============ JALALI PICKER SYNC ============
 if (typeof JalaliPicker !== 'undefined') {
     const origSelect = JalaliPicker.select;
@@ -6926,6 +6763,267 @@ if (typeof JalaliPicker !== 'undefined') {
 }
 
 // ============ BIND CLICK TO WIDGET ============
+setTimeout(() => {
+    const widget = document.getElementById('launcherWidget');
+    if (widget) {
+        widget.style.cursor = 'pointer';
+        widget.onclick = function(e) {
+            e.preventDefault();
+            if (typeof StudyEditor !== 'undefined') StudyEditor.open();
+        };
+    }
+}, 1000);
+
+
+// ============ NEW STUDY PLAN & EDITOR ============
+window.StudyPlan = {
+    currentDate: today(),
+    
+    init: function() {
+        this.currentDate = today();
+        this.render();
+    },
+    
+    changeDay: function(delta) {
+        let d = new Date(this.currentDate + 'T00:00:00');
+        d.setDate(d.getDate() + delta);
+        let newDate = localDate(d);
+        if (newDate > today()) return; // نمی‌توان به آینده رفت
+        this.currentDate = newDate;
+        this.render();
+    },
+    prevDay: function() { this.changeDay(-1); },
+    nextDay: function() { this.changeDay(1); },
+    
+    openDatePicker: function() {
+        // در صورت نیاز به تقویم کامل
+        const sh = getShamsi(new Date(this.currentDate));
+        toast('تاریخ: ' + sh.d + ' ' + sh.monthName);
+    },
+    
+    render: function() {
+        const dateEl = document.getElementById('spDate');
+        const totalEl = document.getElementById('spTotal');
+        const listEl = document.getElementById('spList');
+        if (!dateEl || !totalEl || !listEl) return;
+        
+        const sh = getShamsi(new Date(this.currentDate));
+        const dayNames = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه', 'شنبه'];
+        const dayName = dayNames[new Date(this.currentDate).getDay()];
+        
+        dateEl.textContent = dayName + ' ' + fa(sh.d) + ' ' + sh.monthName;
+        
+        const log = getData('ilia-log', []);
+        const dayLogs = log.filter(e => e.date === this.currentDate);
+        
+        let totalMin = 0;
+        dayLogs.forEach(l => totalMin += (l.hours * 60));
+        
+        const h = Math.floor(totalMin / 60);
+        const m = totalMin % 60;
+        totalEl.textContent = 'مجموع: ' + fa(pad2(h)) + ':' + fa(pad2(m));
+        
+        if (dayLogs.length === 0) {
+            listEl.innerHTML = '<div style="text-align:center; color:#64748b; padding:30px 10px; font-weight:700;">در این تاریخ مطالعه‌ای انجام نشده است!</div>';
+            return;
+        }
+        
+        // مرتب سازی بر اساس زمان ثبت
+        dayLogs.sort((a,b) => a.ts - b.ts);
+        
+        listEl.innerHTML = dayLogs.map(l => {
+            const mins = Math.round(l.hours * 60);
+            const act = l.activity || 'مطالعه';
+            const icon = (typeof SUBJECT_ICONS !== 'undefined' && SUBJECT_ICONS[l.subject]) ? SUBJECT_ICONS[l.subject] : '📚';
+            return `
+                <div class="sp-card" onclick="StudyEditor.openEdit(${l.ts})">
+                    <div class="sp-card-info">
+                        <div class="sp-card-subj">${icon} ${esc(l.subject)} (${act})</div>
+                        ${l.desc ? `<div class="sp-card-desc">${esc(l.desc)}</div>` : ''}
+                    </div>
+                    <div class="sp-card-time">${fa(mins)} دقیقه</div>
+                </div>
+            `;
+        }).join('');
+    }
+};
+
+window.StudyEditor = {
+    currentDate: today(),
+    activity: 'مطالعه',
+    editingTs: null,
+
+    open: function() {
+        this.editingTs = null;
+        this.currentDate = today();
+        this.activity = 'مطالعه';
+        
+        document.getElementById('seTitle').textContent = 'ثبت مطالعه';
+        document.getElementById('seDeleteBtn').style.display = 'none';
+        document.getElementById('seSaveBtn').textContent = 'ثبت';
+        document.getElementById('editMinutes').value = '';
+        document.getElementById('editDesc').value = '';
+        
+        // تنظیم تاریخ‌های تب
+        const t = getShamsi(new Date());
+        const y = getShamsi(new Date(Date.now() - 86400000));
+        document.getElementById('seTodayDate').textContent = t.d + '/' + t.m;
+        document.getElementById('seYestDate').textContent = y.d + '/' + y.m;
+        
+        this.setDate('today');
+        this.setActivity('مطالعه', document.querySelector('.se-act-btn'));
+        
+        document.getElementById('studyEditorModal').classList.add('active');
+        document.getElementById('editMinutes').focus();
+    },
+    
+    openEdit: function(ts) {
+        const log = getData('ilia-log', []);
+        const target = log.find(x => x.ts === ts);
+        if (!target) return;
+        
+        this.editingTs = ts;
+        this.currentDate = target.date;
+        this.activity = target.activity || 'مطالعه';
+        
+        document.getElementById('seTitle').textContent = 'ویرایش مطالعه';
+        document.getElementById('seDeleteBtn').style.display = 'block';
+        document.getElementById('seSaveBtn').textContent = 'ویرایش';
+        
+        // پر کردن فرم
+        document.getElementById('editSubject').value = target.subject;
+        document.getElementById('editMinutes').value = Math.round(target.hours * 60);
+        document.getElementById('editDesc').value = target.desc || '';
+        
+        // تنظیم تب تاریخ
+        const t = getShamsi(new Date());
+        const targetSh = getShamsi(new Date(target.date));
+        if (target.date === today()) this.setDate('today');
+        else if (target.date === localDate(new Date(Date.now() - 86400000))) this.setDate('yesterday');
+        else {
+            // اگر تاریخ دیگری بود
+            document.querySelectorAll('.se-date-btn').forEach(b => b.classList.remove('active'));
+        }
+        
+        // تنظیم فعالیت
+        document.querySelectorAll('.se-act-btn').forEach(btn => {
+            if(btn.textContent.trim() === this.activity) this.setActivity(this.activity, btn);
+        });
+        
+        document.getElementById('studyEditorModal').classList.add('active');
+    },
+    
+    close: function() {
+        document.getElementById('studyEditorModal').classList.remove('active');
+    },
+    
+    setDate: function(type) {
+        document.querySelectorAll('.se-date-btn').forEach(b => b.classList.remove('active'));
+        if (type === 'today') {
+            this.currentDate = today();
+            document.getElementById('seBtnToday').classList.add('active');
+        } else {
+            this.currentDate = localDate(new Date(Date.now() - 86400000));
+            document.getElementById('seBtnYesterday').classList.add('active');
+        }
+    },
+    
+    setActivity: function(act, btn) {
+        this.activity = act;
+        document.querySelectorAll('.se-act-btn').forEach(b => b.classList.remove('active'));
+        if(btn) btn.classList.add('active');
+    },
+    
+    setMin: function(m) {
+        document.getElementById('editMinutes').value = m;
+    },
+    
+    save: function() {
+        const subj = document.getElementById('editSubject').value;
+        const min = parseInt(document.getElementById('editMinutes').value);
+        const desc = document.getElementById('editDesc').value.trim();
+        
+        if (!min || min <= 0) return toast('لطفاً مدت زمان معتبر وارد کنید');
+        
+        let log = getData('ilia-log', []);
+        let sessions = getData('ilia-sessions', []);
+        
+        if (this.editingTs) {
+            // ویرایش
+            const logIdx = log.findIndex(x => x.ts === this.editingTs);
+            if (logIdx !== -1) {
+                log[logIdx].subject = subj;
+                log[logIdx].hours = min / 60;
+                log[logIdx].activity = this.activity;
+                log[logIdx].desc = desc;
+                log[logIdx].date = this.currentDate; // اجازه تغییر تاریخ هم بدهیم
+            }
+            
+            const sesIdx = sessions.findIndex(x => x.ts === this.editingTs);
+            if (sesIdx !== -1) {
+                sessions[sesIdx].subj = subj;
+                sessions[sesIdx].min = min;
+                sessions[sesIdx].topic = this.activity;
+                sessions[sesIdx].desc = desc;
+                sessions[sesIdx].date = this.currentDate;
+            }
+            toast('✅ مطالعه ویرایش شد');
+        } else {
+            // ثبت جدید
+            const newTs = Date.now();
+            log.push({ date: this.currentDate, hours: min / 60, subject: subj, activity: this.activity, desc: desc, ts: newTs });
+            sessions.push({ id: newTs, date: this.currentDate, subj: subj, min: min, topic: this.activity, desc: desc, pages: 0, tests: 0, ts: newTs });
+            toast('✅ مطالعه ثبت شد');
+        }
+        
+        setData('ilia-log', log);
+        setData('ilia-sessions', sessions);
+        
+        this.close();
+        
+        // آپدیت همه بخش‌ها
+        if (typeof refreshAppData === 'function') refreshAppData();
+        if (typeof updateLauncherWidget === 'function') updateLauncherWidget();
+        if (typeof GardenPro !== 'undefined' && GardenPro.renderGarden) GardenPro.renderGarden();
+        if (typeof renderStats === 'function') renderStats();
+        if (typeof StudyPlan !== 'undefined') StudyPlan.render();
+    },
+    
+    deleteCurrent: function() {
+        if (!this.editingTs) return;
+        if (!confirm('آیا از حذف این رکورد مطمئن هستید؟')) return;
+        
+        let log = getData('ilia-log', []);
+        log = log.filter(x => x.ts !== this.editingTs);
+        setData('ilia-log', log);
+        
+        let sessions = getData('ilia-sessions', []);
+        sessions = sessions.filter(x => x.ts !== this.editingTs);
+        setData('ilia-sessions', sessions);
+        
+        toast('🗑 رکورد حذف شد');
+        this.close();
+        
+        if (typeof refreshAppData === 'function') refreshAppData();
+        if (typeof updateLauncherWidget === 'function') updateLauncherWidget();
+        if (typeof GardenPro !== 'undefined' && GardenPro.renderGarden) GardenPro.renderGarden();
+        if (typeof renderStats === 'function') renderStats();
+        if (typeof StudyPlan !== 'undefined') StudyPlan.render();
+    }
+};
+
+// اتصال به go
+if (typeof go !== 'undefined') {
+    const originalGo = go;
+    window.go = function(id) {
+        originalGo(id);
+        if (id === 'study-plan') {
+            setTimeout(() => StudyPlan.init(), 50);
+        }
+    };
+}
+
+// متصل کردن کلیک ویجت به مودال جدید
 setTimeout(() => {
     const widget = document.getElementById('launcherWidget');
     if (widget) {

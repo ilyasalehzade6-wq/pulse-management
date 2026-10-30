@@ -87,7 +87,8 @@
 
     <div class="nimkat-card" onclick="go('pomodoro')"><div class="nimkat-icon">⏱</div><div class="nimkat-title">پومودورو</div></div>
     <div class="nimkat-card" onclick="startFocusMode()"><div class="nimkat-icon">🎯</div><div class="nimkat-title">حالت تمرکز</div></div>
-    <div class="nimkat-card" onclick="go('sourceguide')"><div class="nimkat-icon">📖</div><div class="nimkat-title">راهنمای منبع</div></div>
+    <div class="nimkat-card" onclick="go('study-plan')"><div class="nimkat-icon">📝</div><div class="nimkat-title">برنامه مطالعاتی</div></div>
+<div class="nimkat-card" onclick="go('sourceguide')"><div class="nimkat-icon">📖</div><div class="nimkat-title">راهنمای منبع</div></div>
     <div class="nimkat-card" onclick="go('summary')"><div class="nimkat-icon">📝</div><div class="nimkat-title">خلاصه‌نویسی</div></div>
     <div class="nimkat-card" onclick="go('sessions')"><div class="nimkat-icon">✍️</div><div class="nimkat-title">جلسات مطالعه</div></div>
 </div>
@@ -803,6 +804,29 @@
 
 
 
+
+<section id="study-plan">
+    <div class="container" style="padding-top:20px; padding-bottom:100px;">
+        <h2>📝 برنامه مطالعاتی</h2>
+        
+        <!-- ناوبری تاریخ -->
+        <div class="sp-nav">
+            <button class="sp-nav-btn" onclick="StudyPlan.prevDay()">❮ روز قبل</button>
+            <div class="sp-date" id="spDate" onclick="StudyPlan.openDatePicker()">تاریخ</div>
+            <button class="sp-nav-btn" onclick="StudyPlan.nextDay()">روز بعد ❯</button>
+        </div>
+
+        <!-- مجموع زمان -->
+        <div class="sp-total" id="spTotal">مجموع: ۰ دقیقه</div>
+
+        <!-- لیست مطالعات -->
+        <div class="sp-list" id="spList"></div>
+        
+        <!-- دکمه شناور ثبت -->
+        <button class="sp-add-btn" onclick="StudyEditor.open()">+ ثبت مطالعه</button>
+    </div>
+</section>
+
 <section id="settings">
   <h2>⚙️ تنظیمات</h2>
 
@@ -1062,7 +1086,7 @@
 <div class="toast" id="toast" aria-live="polite" aria-atomic="true"></div>
 
 <script src="db.js"></script>
-<script src="app.js?v=1793384754858"></script>
+<script src="app.js?v=1793385718525"></script>
 
     <!-- Quick Add FAB -->
     <button class="wizard-fab" id="fabBtn" onclick="WIZARD.open()" title="ثبت سریع">
@@ -1098,43 +1122,65 @@
 </div>
 
 
-<div class="modal-overlay" id="studyEditorModal">
-    <div class="modal-box">
-        <div class="modal-header">
-            <h3>📝 ثبت / ویرایش مطالعه</h3>
-            <button class="modal-close" onclick="StudyEditor.close()">✕</button>
+
+<div class="modal-overlay" id="studyEditorModal" onclick="if(event.target===this)StudyEditor.close()">
+    <div class="modal-box" style="max-width: 450px; border-radius: 20px;">
+        <div class="modal-header" class="modal-header">
+            <h3 style="margin:0;" id="seTitle">ثبت مطالعه</h3>
+            <button class="modal-close" onclick="StudyEditor.close()" class="modal-close">✕</button>
         </div>
-        <div class="modal-body">
-            
-            <label>تاریخ ثبت</label>
-            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 15px;">
-                <button type="button" class="btn btn-secondary" onclick="StudyEditor.changeDate(-1)" style="padding: 10px; font-size: 1.2em; flex: 0 0 auto; border-radius: 12px;">❮</button>
-                <input type="text" id="editDate" class="inp" readonly onclick="if(typeof JalaliPicker !== 'undefined') JalaliPicker.open(this)" placeholder="انتخاب تاریخ" style="margin-bottom: 0; text-align: center; font-weight: bold; font-size: 1.1em;">
-                <button type="button" class="btn btn-secondary" id="btnNextDay" onclick="StudyEditor.changeDate(1)" style="padding: 10px; font-size: 1.2em; flex: 0 0 auto; border-radius: 12px;">❯</button>
-            </div>
-
-            
-            <label>درس</label>
-            <select id="editSubject" class="inp">
-                <option value="ریاضی">ریاضی</option><option value="فیزیک">فیزیک</option>
-                <option value="هندسه">هندسه</option><option value="شیمی">شیمی</option>
-                <option value="عربی">عربی</option><option value="زبان">زبان</option>
-                <option value="فارسی">فارسی</option><option value="دینی">دینی</option>
-                <option value="جغرافیا">جغرافیا</option><option value="نگارش">نگارش</option>
-                <option value="مطالعه آزاد">مطالعه آزاد</option>
-            </select>
-
-            <label>مدت زمان (دقیقه)</label>
-            <input type="number" id="editMinutes" class="inp" placeholder="مثلاً ۴۵" min="1">
-            
-            
-            <div style="margin-top: 20px; border-top: 1px dashed var(--border); padding-top: 15px;">
-                <h4 style="font-size: 0.9em; margin-bottom: 10px; color: var(--primary);">📋 رکوردهای این روز (برای ویرایش یا حذف):</h4>
-                <div id="existingLogsList" style="max-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
-                    <div style="text-align:center; color:var(--text-light); font-size:0.8em; padding:10px;">در حال بارگذاری...</div>
+        
+        <div class="modal-body" style="padding: 20px;">
+            <div style="text-align:center; margin-bottom:20px;">
+                <div style="font-size:0.9em; font-weight:700; color:#555; margin-bottom:10px;">تاریخ مطالعه</div>
+                <div style="display:flex; gap:10px; justify-content:center;">
+                    <button class="se-date-btn" id="seBtnToday" onclick="StudyEditor.setDate('today')">امروز (<span id="seTodayDate"></span>)</button>
+                    <button class="se-date-btn" id="seBtnYesterday" onclick="StudyEditor.setDate('yesterday')">دیروز (<span id="seYestDate"></span>)</button>
                 </div>
             </div>
-            <button class="btn btn-primary btn-block" onclick="StudyEditor.save()" style="margin-top:15px;">💾 ثبت اطلاعات</button>
+
+            <div class="inp-group">
+                <select class="inp" id="editSubject" style="border-radius:12px; font-weight:700;">
+                    <option value="ریاضی">ریاضی</option><option value="فیزیک">فیزیک</option>
+                    <option value="هندسه">هندسه</option><option value="شیمی">شیمی</option>
+                    <option value="عربی">عربی</option><option value="زبان">زبان</option>
+                    <option value="فارسی">فارسی</option><option value="دینی">دینی</option>
+                    <option value="جغرافیا">جغرافیا</option><option value="نگارش">نگارش</option>
+                    <option value="مطالعه آزاد">مطالعه آزاد</option>
+                </select>
+            </div>
+
+            <div style="text-align:center; margin: 20px 0 10px;">
+                <div style="font-size:0.9em; font-weight:700; color:#555; margin-bottom:10px;">نوع فعالیت</div>
+                <div class="se-activity-group" id="seActivities">
+                    <button class="se-act-btn active" onclick="StudyEditor.setActivity('مطالعه', this)">مطالعه</button>
+                    <button class="se-act-btn" onclick="StudyEditor.setActivity('انجام تکلیف', this)">انجام تکلیف</button>
+                    <button class="se-act-btn" onclick="StudyEditor.setActivity('مرور', this)">مرور</button>
+                    <button class="se-act-btn" onclick="StudyEditor.setActivity('پیش مطالعه', this)">پیش مطالعه</button>
+                    <button class="se-act-btn" onclick="StudyEditor.setActivity('تست', this)">تست</button>
+                </div>
+            </div>
+
+            <div class="inp-group" style="margin-top:20px;">
+                <div style="font-size:0.9em; font-weight:700; color:#555; margin-bottom:10px; text-align:center;">مدت زمان (دقیقه)</div>
+                <input type="number" id="editMinutes" class="inp" placeholder="مدت زمان..." style="text-align:center; font-weight:800; font-size:1.2em; border-radius:12px;">
+                <div class="se-quick-times">
+                    <button onclick="StudyEditor.setMin(15)">۱۵'</button>
+                    <button onclick="StudyEditor.setMin(30)">۳۰'</button>
+                    <button onclick="StudyEditor.setMin(45)">۴۵'</button>
+                    <button onclick="StudyEditor.setMin(60)">۶۰'</button>
+                </div>
+            </div>
+
+            <div class="inp-group" style="margin-top:15px;">
+                <input type="text" id="editDesc" class="inp" placeholder="توضیحات (اختیاری)" style="border-radius:12px;">
+            </div>
+        </div>
+        
+        <div class="modal-footer" class="modal-footer">
+            <button id="seCancelBtn" onclick="StudyEditor.close()" style="background:transparent; color:var(--text-light); flex:1; font-weight:700;">انصراف</button>
+            <button id="seDeleteBtn" onclick="StudyEditor.deleteCurrent()" style="background:#fee2e2; color:#ef4444; flex:1; font-weight:800; display:none;">حذف</button>
+            <button id="seSaveBtn" onclick="StudyEditor.save()" class="btn btn-primary" style="flex:1; font-weight:800; border-radius:10px;">ثبت</button>
         </div>
     </div>
 </div>
