@@ -1,5 +1,5 @@
 // Service Worker — نسخه 6
-const CACHE_NAME = 'ilia-study-v1793376797448';
+const CACHE_NAME = 'ilia-study-v1793384754858';
 const URLS = [
   './icon.svg',
   './db.js',

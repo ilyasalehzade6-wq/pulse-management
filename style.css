@@ -1875,3 +1875,20 @@ body {
     stroke-width: 1;
     stroke-dasharray: 4;
 }
+
+
+/* ============ EXISTING LOGS LIST ============ */
+.log-record-item {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--bg); padding: 8px 12px; border-radius: 10px;
+    border: 1px solid var(--border); font-size: 0.85em;
+}
+.log-record-info { flex: 1; font-weight: 700; }
+.log-record-actions { display: flex; gap: 5px; }
+.log-action-btn {
+    background: var(--bg-card); border: 1px solid var(--border);
+    padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 1em; transition: 0.2s;
+}
+.log-action-btn:hover { background: var(--border); }
+.log-action-btn.del { color: var(--danger); border-color: rgba(231,76,60,0.3); }
+.log-action-btn.del:hover { background: rgba(231,76,60,0.1); }

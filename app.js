@@ -6745,24 +6745,32 @@ setTimeout(() => {
 
 
 // ============ JALALI MODAL & EDITOR FIX ============
+
+
+// ============ FINAL CLEAN STUDY EDITOR ============
 window.StudyEditor = {
     open: function() {
         document.getElementById('studyEditorModal').classList.add('active');
         const dateInput = document.getElementById('editDate');
-        const t = today();
-        const sh = getShamsi(new Date());
         
-        // نمایش تاریخ شمسی در فیلد
-        dateInput.value = sh.y + '/' + pad2(sh.m) + '/' + pad2(sh.d);
-        // ذخیره تاریخ میلادی در پس‌زمینه برای دیتابیس
-        dateInput.dataset.gregorian = t;
+        if (!dateInput.dataset.gregorian) {
+            const t = today();
+            dateInput.dataset.gregorian = t;
+            const sh = getShamsi(new Date());
+            dateInput.value = sh.y + '/' + pad2(sh.m) + '/' + pad2(sh.d);
+        }
         
         document.getElementById('editMinutes').value = '';
         document.getElementById('editMinutes').focus();
+        
+        this.updateNextButton(dateInput.dataset.gregorian);
+        this.renderExistingLogs();
     },
-    close: function() {
-        document.getElementById('studyEditorModal').classList.remove('active');
+    
+    close: function() { 
+        document.getElementById('studyEditorModal').classList.remove('active'); 
     },
+    
     save: function() {
         const dateInput = document.getElementById('editDate');
         const date = dateInput.dataset.gregorian || today();
@@ -6782,282 +6790,149 @@ window.StudyEditor = {
         this.close();
         toast('✅ مطالعه برای تاریخ ' + dateInput.value + ' ثبت شد');
         
-        // رفرش همه بخش‌ها
         if (typeof refreshAppData === 'function') refreshAppData();
         if (typeof updateLauncherWidget === 'function') updateLauncherWidget();
         if (typeof GardenPro !== 'undefined' && GardenPro.renderGarden) GardenPro.renderGarden();
-        if (typeof GardenPro !== 'undefined' && GardenPro.renderLeaguePage) GardenPro.renderLeaguePage();
         if (typeof renderStats === 'function') renderStats();
         if (typeof renderSessions === 'function') renderSessions();
-    }
-};
-
-// بازنویسی انتخاب تاریخ در تقویم شمسی
-window.JalaliPicker.select = function(d) {
-    const jDateStr = this.currentY + '/' + pad2(this.currentM) + '/' + pad2(d);
-    if (this.targetInput) {
-        this.targetInput.value = jDateStr;
+    },
+    
+    changeDate: function(delta) {
+        const dateInput = document.getElementById('editDate');
+        let currentGreg = dateInput.dataset.gregorian || today();
+        let d = new Date(currentGreg + 'T00:00:00');
+        d.setDate(d.getDate() + delta);
         
-        // تبدیل به میلادی برای ذخیره در دیتابیس
-        const g = jalaliToGregorian(this.currentY, this.currentM, d);
-        const gStr = g[0] + '-' + pad2(g[1]) + '-' + pad2(g[2]);
-        this.targetInput.dataset.gregorian = gStr;
-    }
-    this.close();
-};
-
-// بازنویسی رندر تقویم برای هایلایت درست روز انتخاب شده
-window.JalaliPicker.render = function() {
-    const months = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
-    document.getElementById('jpTitle').textContent = months[this.currentM - 1] + ' ' + fa(this.currentY);
-    
-    const daysInMonth = jalaliDaysInMonth(this.currentY, this.currentM);
-    const firstDayG = jalaliToGregorian(this.currentY, this.currentM, 1);
-    const firstDayDate = new Date(firstDayG[0], firstDayG[1]-1, firstDayG[2]);
-    const startDayOfWeek = (firstDayDate.getDay() + 1) % 7; 
-    
-    let html = '';
-    const wDays = ['ش','ی','د','س','چ','پ','ج'];
-    wDays.forEach(d => html += '<div class="jp-day-name">' + d + '</div>');
-    
-    for (let i = 0; i < startDayOfWeek; i++) html += '<div class="jp-day empty"></div>';
-    
-    const todaySh = getShamsi();
-    let selectedStr = this.targetInput ? this.targetInput.value : '';
-    
-    // اگر input تاریخ شمسی ندارد، از تاریخ میلادی ذخیره شده آن را تبدیل کن
-    if (this.targetInput && this.targetInput.dataset.gregorian) {
-        const gParts = this.targetInput.dataset.gregorian.split('-');
-        const sh = getShamsi(new Date(gParts[0], gParts[1]-1, gParts[2]));
-        selectedStr = sh.y + '/' + pad2(sh.m) + '/' + pad2(sh.d);
-    }
-    
-    for (let d = 1; d <= daysInMonth; d++) {
-        let cls = 'jp-day';
-        if (this.currentY === todaySh.y && this.currentM === todaySh.m && d === todaySh.d) cls += ' today';
+        const todayStr = today();
+        const newGregStr = localDate(d);
         
-        const thisDateStr = this.currentY + '/' + pad2(this.currentM) + '/' + pad2(d);
-        if (selectedStr === thisDateStr) cls += ' selected';
+        if (newGregStr > todayStr) return;
         
-        html += '<div class="' + cls + '" onclick="JalaliPicker.select(' + d + ')">' + fa(d) + '</div>';
-    }
-    document.getElementById('jpGrid').innerHTML = html;
-};
-
-
-// اضافه کردن متدهای ناوبری تاریخ به StudyEditor
-StudyEditor.changeDate = function(delta) {
-    const dateInput = document.getElementById('editDate');
-    let currentGreg = dateInput.dataset.gregorian || today();
-    
-    // تبدیل رشته میلادی به آبجکت Date
-    let d = new Date(currentGreg + 'T00:00:00');
-    d.setDate(d.getDate() + delta);
-    
-    const todayStr = today();
-    const newGregStr = localDate(d);
-    
-    // جلوگیری از رفتن به آینده
-    if (newGregStr > todayStr) {
-        return;
-    }
-    
-    // آپدیت دیتاست و UI
-    dateInput.dataset.gregorian = newGregStr;
-    const sh = getShamsi(d);
-    dateInput.value = sh.y + '/' + pad2(sh.m) + '/' + pad2(sh.d);
-    
-    // چک کردن وضعیت دکمه روز بعد
-    this.updateNextButton(newGregStr);
-};
-
-StudyEditor.updateNextButton = function(gregStr) {
-    const btn = document.getElementById('btnNextDay');
-    if (btn) {
-        if (gregStr === today()) {
-            btn.disabled = true;
-            btn.style.opacity = '0.3';
-            btn.style.cursor = 'not-allowed';
-        } else {
-            btn.disabled = false;
-            btn.style.opacity = '1';
-            btn.style.cursor = 'pointer';
-        }
-    }
-};
-
-// بازنویسی تابع open برای آپدیت اولیه دکمه‌ها
-const originalEditorOpen = StudyEditor.open;
-StudyEditor.open = function() {
-    originalEditorOpen();
-    const dateInput = document.getElementById('editDate');
-    // اگر تاریخ تنظیم نشده بود، امروز را ست کن
-    if (!dateInput.dataset.gregorian) {
-        dateInput.dataset.gregorian = today();
-        const sh = getShamsi();
+        dateInput.dataset.gregorian = newGregStr;
+        const sh = getShamsi(d);
         dateInput.value = sh.y + '/' + pad2(sh.m) + '/' + pad2(sh.d);
+        
+        this.updateNextButton(newGregStr);
+        this.renderExistingLogs();
+    },
+    
+    updateNextButton: function(gregStr) {
+        const btn = document.getElementById('btnNextDay');
+        if (btn) {
+            if (gregStr === today()) {
+                btn.disabled = true;
+                btn.style.opacity = '0.3';
+                btn.style.cursor = 'not-allowed';
+            } else {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+            }
+        }
+    },
+    
+    renderExistingLogs: function() {
+        const dateInput = document.getElementById('editDate');
+        const targetDate = dateInput.dataset.gregorian || today();
+        const log = getData('ilia-log', []);
+        const dayLogs = log.filter(e => e.date === targetDate);
+        const listEl = document.getElementById('existingLogsList');
+        
+        if (!listEl) return;
+
+        if (dayLogs.length === 0) {
+            listEl.innerHTML = '<div style="text-align:center; color:var(--text-light); font-size:0.8em; padding:10px;">هیچ مطالعه‌ای برای این روز ثبت نشده است.</div>';
+            return;
+        }
+
+        listEl.innerHTML = dayLogs.map(l => `
+            <div class="log-record-item">
+                <div class="log-record-info">
+                    ${(typeof SUBJECT_ICONS !== 'undefined' && SUBJECT_ICONS[l.subject]) ? SUBJECT_ICONS[l.subject] : '📚'} 
+                    ${esc(l.subject)} — ${fa(Math.round(l.hours * 60))} دقیقه
+                </div>
+                <div class="log-record-actions">
+                    <button class="log-action-btn" onclick="StudyEditor.editLog(${l.ts})" title="ویرایش">✏️</button>
+                    <button class="log-action-btn del" onclick="StudyEditor.deleteLog(${l.ts})" title="حذف">🗑</button>
+                </div>
+            </div>
+        `).join('');
+    },
+    
+    deleteLog: function(ts) {
+        if (!confirm('آیا از حذف این رکورد مطمئن هستید؟')) return;
+        
+        let log = getData('ilia-log', []);
+        log = log.filter(x => x.ts !== ts);
+        setData('ilia-log', log);
+        
+        let sessions = getData('ilia-sessions', []);
+        sessions = sessions.filter(x => x.ts !== ts);
+        setData('ilia-sessions', sessions);
+        
+        toast('🗑 رکورد حذف شد');
+        this.renderExistingLogs();
+        
+        if (typeof refreshAppData === 'function') refreshAppData();
+        if (typeof updateLauncherWidget === 'function') updateLauncherWidget();
+        if (typeof GardenPro !== 'undefined' && GardenPro.renderGarden) GardenPro.renderGarden();
+        if (typeof renderStats === 'function') renderStats();
+    },
+    
+    editLog: function(ts) {
+        let log = getData('ilia-log', []);
+        let targetLog = log.find(x => x.ts === ts);
+        if (!targetLog) return;
+
+        const currentMin = Math.round(targetLog.hours * 60);
+        const newMin = prompt('مدت زمان جدید (به دقیقه):', currentMin);
+        
+        if (newMin === null) return;
+        const parsed = parseInt(newMin);
+        if (isNaN(parsed) || parsed <= 0) return toast('عدد معتبر وارد کنید');
+
+        targetLog.hours = parsed / 60;
+        setData('ilia-log', log);
+
+        let sessions = getData('ilia-sessions', []);
+        let targetSession = sessions.find(x => x.ts === ts);
+        if (targetSession) {
+            targetSession.min = parsed;
+            setData('ilia-sessions', sessions);
+        }
+
+        toast('✅ رکورد ویرایش شد');
+        this.renderExistingLogs();
+
+        if (typeof refreshAppData === 'function') refreshAppData();
+        if (typeof updateLauncherWidget === 'function') updateLauncherWidget();
+        if (typeof GardenPro !== 'undefined' && GardenPro.renderGarden) GardenPro.renderGarden();
+        if (typeof renderStats === 'function') renderStats();
     }
-    this.updateNextButton(dateInput.dataset.gregorian);
 };
 
-// بازنویسی انتخاب تقویم برای آپدیت دکمه‌ها پس از انتخاب
-const originalPickerSelect = window.JalaliPicker.select;
-window.JalaliPicker.select = function(d) {
-    originalPickerSelect.call(this, d);
-    if (this.targetInput && this.targetInput.id === 'editDate') {
-        setTimeout(() => {
-            StudyEditor.updateNextButton(this.targetInput.dataset.gregorian);
-        }, 100);
-    }
-};
-
-
-// ============ GARDEN RENDER FIX ============
-// اطمینان از اینکه هر دو نام render و renderGarden کار می‌کنند
-if (typeof GardenPro !== 'undefined') {
-    GardenPro.render = function() {
-        if (typeof GardenPro.renderGarden === 'function') {
-            GardenPro.renderGarden();
+// ============ JALALI PICKER SYNC ============
+if (typeof JalaliPicker !== 'undefined') {
+    const origSelect = JalaliPicker.select;
+    JalaliPicker.select = function(d) {
+        origSelect.call(this, d);
+        if (this.targetInput && this.targetInput.id === 'editDate') {
+            setTimeout(() => {
+                StudyEditor.updateNextButton(this.targetInput.dataset.gregorian);
+                StudyEditor.renderExistingLogs();
+            }, 50);
         }
     };
 }
 
-// اطمینان از اینکه صفحه باغ همیشه به درستی باز می‌شود
-window.renderGardenPage = function() {
-    if (typeof GardenPro !== 'undefined') {
-        if (typeof GardenPro.renderGarden === 'function') {
-            GardenPro.renderGarden();
-        } else if (typeof GardenPro.render === 'function') {
-            GardenPro.render();
-        }
+// ============ BIND CLICK TO WIDGET ============
+setTimeout(() => {
+    const widget = document.getElementById('launcherWidget');
+    if (widget) {
+        widget.style.cursor = 'pointer';
+        widget.onclick = function(e) {
+            e.preventDefault();
+            if (typeof StudyEditor !== 'undefined') StudyEditor.open();
+        };
     }
-};
-
-
-// ============ EXAM CHARTS LOGIC ============
-function drawLineChart(containerId, dataPoints, color, labelY) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    
-    if (dataPoints.length === 0) {
-        container.innerHTML = '<div style="text-align:center;color:var(--text-light);font-size:0.85em;padding:20px;">داده‌ای برای نمایش وجود ندارد. حداقل ۲ آزمون ثبت کنید.</div>';
-        return;
-    }
-
-    const width = 400;
-    const height = 150;
-    const padding = { top: 20, right: 20, bottom: 30, left: 40 };
-    
-    // پیدا کردن حداقل و حداکثر برای محور Y
-    let maxY = Math.max(...dataPoints.map(d => d.value));
-    if (maxY === 0) maxY = 1;
-    if (labelY === '%' && maxY < 100) maxY = 100;
-    
-    const plotWidth = width - padding.left - padding.right;
-    const plotHeight = height - padding.top - padding.bottom;
-    
-    let svg = `<svg viewBox="0 0 ${width} ${height}" class="chart-svg" dir="ltr">`;
-    
-    // خطوط افقی و اعداد محور Y
-    for (let i = 0; i <= 4; i++) {
-        const y = padding.top + (plotHeight / 4) * i;
-        const val = maxY - (maxY / 4) * i;
-        svg += `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" class="chart-grid" />`;
-        svg += `<text x="${padding.left - 8}" y="${y + 4}" class="chart-text" text-anchor="end">${Math.round(val)}</text>`;
-    }
-    
-    // محاسبه نقاط
-    const points = dataPoints.map((d, i) => {
-        const x = padding.left + (plotWidth / (dataPoints.length - 1 || 1)) * i;
-        const y = padding.top + plotHeight - (d.value / maxY) * plotHeight;
-        return { x, y, val: d.value, label: d.label };
-    });
-
-    // رسم خط
-    let pathD = '';
-    points.forEach((p, i) => {
-        if (i === 0) pathD += `M ${p.x} ${p.y}`;
-        else pathD += ` L ${p.x} ${p.y}`;
-    });
-    
-    // افزودن سایه زیر خط
-    const areaD = pathD + ` L ${points[points.length-1].x} ${padding.top + plotHeight} L ${points[0].x} ${padding.top + plotHeight} Z`;
-    svg += `<path d="${areaD}" fill="${color}" opacity="0.1" />`;
-    svg += `<path d="${pathD}" stroke="${color}" class="chart-line" />`;
-    
-    // رسم نقاط و مقادیر
-    points.forEach(p => {
-        svg += `<circle cx="${p.x}" cy="${p.y}" r="4" stroke="${color}" class="chart-point" title="${p.val}${labelY}"><title>${p.val}${labelY}</title></circle>`;
-        // مقدار بالای نقطه
-        svg += `<text x="${p.x}" y="${p.y - 10}" class="chart-text" fill="${color}" style="font-weight:bold;font-size:11px;">${Math.round(p.val)}${labelY}</text>`;
-        // نام آزمون زیر محور X
-        svg += `<text x="${p.x}" y="${height - 10}" class="chart-text">${p.label}</text>`;
-    });
-    
-    svg += '</svg>';
-    container.innerHTML = svg;
-}
-
-window.renderExamCharts = function() {
-    const container = document.getElementById('examChartsContainer');
-    if (!container) return;
-
-    const exams = getData('ilia-log', []) && getData('EX_KEY', []) || []; 
-    const realExams = getData('ilia-exam-analysis', []);
-    const logs = getData('ilia-log', []);
-
-    if (realExams.length === 0) {
-        container.innerHTML = '';
-        return;
-    }
-
-    // مرتب‌سازی آزمون‌ها بر اساس تاریخ
-    realExams.sort((a, b) => a.date.localeCompare(b.date));
-
-    const examPcts = [];
-    const studyHours = [];
-    let prevDate = null;
-
-    realExams.forEach((e, index) => {
-        // محاسبه درصد (نمره منفی)
-        const score = (e.correct * 3) - e.wrong;
-        let pct = (score / (e.total * 3)) * 100;
-        pct = Math.max(0, pct); // درصد منفی نشون داده نشه
-
-        // اسم کوتاه برای نمودار
-        const shortTitle = e.title.length > 8 ? e.title.substring(0, 8) + '..' : e.title;
-        
-        examPcts.push({ value: pct, label: shortTitle });
-
-        // محاسبه ساعت مطالعه در بازه این آزمون تا آزمون قبلی
-        let hrs = 0;
-        if (prevDate) {
-            logs.forEach(l => {
-                if (l.date >= prevDate && l.date <= e.date) hrs += l.hours;
-            });
-        }
-        studyHours.push({ value: hrs, label: shortTitle });
-        prevDate = e.date;
-    });
-
-    container.innerHTML = `
-        <div class="chart-wrapper">
-            <div class="chart-header">📈 روند درصد آزمون‌ها</div>
-            <div id="chartPct"></div>
-        </div>
-        <div class="chart-wrapper">
-            <div class="chart-header">⏱ ساعت مطالعه بین آزمون‌ها</div>
-            <div id="chartHrs"></div>
-        </div>
-    `;
-
-    drawLineChart('chartPct', examPcts, '#667eea', '%');
-    drawLineChart('chartHrs', studyHours, '#10b981', 'س');
-};
-
-// اتصال به تابع رندر اصلی آزمون‌ها
-const originalRenderExams = renderExams;
-window.renderExams = function() {
-    originalRenderExams();
-    renderExamCharts();
-};
+}, 1000);

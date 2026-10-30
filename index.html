@@ -1062,7 +1062,7 @@
 <div class="toast" id="toast" aria-live="polite" aria-atomic="true"></div>
 
 <script src="db.js"></script>
-<script src="app.js?v=1793376484744"></script>
+<script src="app.js?v=1793384754858"></script>
 
     <!-- Quick Add FAB -->
     <button class="wizard-fab" id="fabBtn" onclick="WIZARD.open()" title="ثبت سریع">
@@ -1127,6 +1127,13 @@
             <label>مدت زمان (دقیقه)</label>
             <input type="number" id="editMinutes" class="inp" placeholder="مثلاً ۴۵" min="1">
             
+            
+            <div style="margin-top: 20px; border-top: 1px dashed var(--border); padding-top: 15px;">
+                <h4 style="font-size: 0.9em; margin-bottom: 10px; color: var(--primary);">📋 رکوردهای این روز (برای ویرایش یا حذف):</h4>
+                <div id="existingLogsList" style="max-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+                    <div style="text-align:center; color:var(--text-light); font-size:0.8em; padding:10px;">در حال بارگذاری...</div>
+                </div>
+            </div>
             <button class="btn btn-primary btn-block" onclick="StudyEditor.save()" style="margin-top:15px;">💾 ثبت اطلاعات</button>
         </div>
     </div>
